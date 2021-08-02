@@ -8,6 +8,12 @@ lazy val root = (project in file("."))
     libraryDependencies += scalaTest % Test
   )
 
+// Tests Configurations
+val numberOfTestProcessors = java.lang.Runtime.getRuntime.availableProcessors + 1
+// Run tests in parallel
+IntegrationTest / testForkedParallel := true
+concurrentRestrictions in Global := Seq(Tags.limitAll(numberOfTestProcessors))
+
 /* Plugins Configurations */
 
 // a publish job is not desired
