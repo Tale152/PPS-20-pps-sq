@@ -12,3 +12,15 @@ lazy val root = (project in file("."))
 
 // a publish job is not desired
 ThisBuild / githubWorkflowPublishTargetBranches := Seq()
+
+// scoverage plugin keys
+coverageEnabled := true
+coverageMinimum := 60 //%
+coverageFailOnMinimum := true
+coverageHighlighting := true
+
+// Add scoverage to the workflow
+ThisBuild / githubWorkflowBuildPostamble ++= List(
+  WorkflowStep.Sbt(List("coverageReport"), name = Some("Coverage"))
+)
+
