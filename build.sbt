@@ -7,3 +7,8 @@ lazy val root = (project in file("."))
     name := "PPS-20-scala-quest",
     libraryDependencies += scalaTest % Test
   )
+
+/* Plugins Configurations */
+
+// a publish job is not desired
+ThisBuild / githubWorkflowPublishTargetBranches := Seq()
