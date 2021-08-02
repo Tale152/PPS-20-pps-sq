@@ -24,3 +24,12 @@ ThisBuild / githubWorkflowBuildPostamble ++= List(
   WorkflowStep.Sbt(List("coverageReport"), name = Some("Coverage"))
 )
 
+// add scalafix settings
+addCompilerPlugin(scalafixSemanticdb)
+
+scalacOptions ++= Seq(
+  "-Ywarn-unused",
+  "-Yrangepos",
+  "-Ywarn-adapted-args"
+)
+
