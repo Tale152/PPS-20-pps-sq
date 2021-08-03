@@ -21,6 +21,13 @@ contesto più adatto al suo impiego.
 
 ### ScalaTest
 
+[ScalaTest](https://www.scalatest.org/) è lo strumento di testing più popolare di Scala e offre una profonda integrazione con numerosi tool, tra i quali troviamo JUnit, Ant, Maven e sbt.  
+Il design di ScalaTest permette di evolvere i test con l'evoluzione dell'applicazione, poiché è possibile estendere i test o comporli nel caso in cui si introducano nuove funzionalità.  
+
+ScalaTest supporta diversi stili di test, ognuno dei quali è pensato per uno scopo differente; la guida propone di sceglierne almeno due:
+- uno stile ha l'obiettivo di essere utilizzato per i test a basso livello, quindi gli unit test e i test di integrazione dei componenti. Lo stile può generico che viene proposto prende il nome di ``FlatSpec``, anche se non è l'unica alternativa prevista.
+- il secondo stile è invece quello adibito ai test di alto livello, che descrivono il funzionamento del sistema e testano che tutto il sistema, ad un certo livello di astrazione, funzioni nel modo previsto. Lo stile più adatto a questo tipo di testing si chiama ``FeatureSpec``, poiché è molto leggibile e facile da comprendere.
+
 ### ScalaStyle
 
 ScalaStyle è uno strumento per esaminare codice Scala che permette di evidenziare potenziali problemi e mettere lo
@@ -94,6 +101,9 @@ arricchire un workflow standard che si limita a
   ```
 
 ### Trello
+[Trello](https://trello.com/it) è uno strumento online per la gestione di progetti e di task, estremamente utile per organizzare il lavoro tra più membri dello stesso team.  
+Il software permette di costruire in modo molto personalizzabile una board, ovvero una lavagna sulla quale si possono segnare task e assegnarli a uno o più collaboratori. Fornisce anche numerosi supporti per la creazione di meccanismi automatizzati, di modo da non essere costretti a svolgere operazioni ripetitive.  
+Essendo molto versatile, Trello è ideale per creare un ambiente su misura per applicare anche una metodologia di lavoro agile come Scrum.
 
 ### GitHub Pages
 
