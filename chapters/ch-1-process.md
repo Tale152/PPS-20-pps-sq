@@ -30,6 +30,18 @@ configurazione ``scalastyle_config.xml`` con indicate tutte le regole autoimpost
 stesura di codice. Gli eventuali problemi verrano segnalati allo sviluppatore sotto forma di warning.
 
 ### ScalaFix
+[ScalaFix](https://github.com/scalacenter/scalafix) è uno strumento orientato al linting ed al refactor automatico del codice.\
+Il tool si basa sulla definizione di regole; quest'ultime vengono applicate a tutti i sorgenti Scala del progetto alla ricerca di segmenti di codice che le violino. Quando tali violazioni vengono individuate, viene lanciato un messaggio di warning (per segnalarne la presenza allo sviluppatore) e il sorgente viene automaticamente corretto applicando la regola.\
+Esistono possibili regole applicabili fornite nativamente dal tool, oltre che alcune definite dalla community (questo approccio favorisce la standardizzazione). È inoltre possibile definire nuove regole custom.\
+Una volta specificato il plugin sbt, è possibile lanciare una singola regola tramite il comando 
+  ```bash
+sbt scalafix [rule name]
+  ```
+Alternativamente, è possibile elencare le regole che si desidera eseguire all'interno del file ``.scalafix.conf``; una volta predisposto tale file sarà semplicemente necessario lanciare il comando
+  ```bash
+sbt scalafix
+  ```
+per eseguire tutti i comandi in sequenza.
 
 ### Scoverage
 
