@@ -1,3 +1,5 @@
+# Scala Quest
+
 ## Componenti del gruppo
 **Filaseta Angelo** (995855) -  <angelo.filaseta@studio.unibo.it>  
 **Sanchi Piero** (1001367) - <piero.sanchi@studio.unibo.it>   
