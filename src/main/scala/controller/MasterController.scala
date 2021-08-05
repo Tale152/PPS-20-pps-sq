@@ -1,6 +1,7 @@
 package controller
 
-import controller.OperationType.{OperationType}
+import controller.OperationType.{OperationType, StoryOperation}
+import util.StoryModelUtil
 
 /**
  * The Master Controller is the Main Controller of the application.
@@ -15,4 +16,26 @@ sealed trait MasterController extends Controller {
    * @param operation the OperationType
    */
   def executeOperation(operation: OperationType): Unit
+}
+
+object MasterController extends MasterController {
+
+  private val subControllersContainer: Option[SubControllersContainer] = Some(
+    SubControllersContainer(StoryModelUtil.storyModel)
+  )
+
+  override def executeOperation(op: OperationType): Unit = op match {
+    case StoryOperation => subControllersContainer.get.storyController.execute()
+  }
+
+  /**
+   * Start the Controller.
+   */
+  override def execute(): Unit = executeOperation(StoryOperation)
+
+  /**
+   * Defines the actions to do when the Controller execution is over.
+   */
+  override def close(): Unit = System.exit(0)
+
 }
