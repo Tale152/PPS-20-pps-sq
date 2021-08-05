@@ -1,19 +1,20 @@
 package model
 
 import model.characters.Player
+import model.nodes.StoryNode
 
 /**
- * Class that represents the StoryModel, the class that gives the controller all data about the model state.
- * @param player the player instance that it's playing the game.
+ * Trait that represents the StoryModel, the class that gives the controller all data about the model state.
  */
-class StoryModel(val player: Player) {
+trait StoryModel {
+  def player: Player
+  def currentStoryNode: StoryNode
+  def currentStoryNode_=(newNode: StoryNode): Unit
 }
 
 /**
- * Companion object of the StoryModel class.
+ * The case class to implement the actual Story Model.
+ * @param player is the main character of the game, it's immutable.
+ * @param currentStoryNode is the current node of the story. As the story goes on, the current node is always updated.
  */
-object StoryModel {
-  def apply(player: Player): StoryModel = new StoryModel(player)
-}
-
-
+case class StoryModelImpl (override val player: Player, override var currentStoryNode: StoryNode) extends StoryModel
