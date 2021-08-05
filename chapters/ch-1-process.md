@@ -114,4 +114,13 @@ testo scritto in markdown, un linguaggio human-readable. La documentazione è ma
 
 ### Pull Requests
 
+Le pull request sono un meccanismo offerto da Git per gestire in modo ordinato il flusso di lavoro all'interno di un repository e favorire la collaborazione tra gli sviluppatori.  
+Un developer che voglia collaborare allo sviluppo dovrà innanzitutto creare una propria fork.  
+Una fork, in poche parole, è una copia del repository originale, ma di proprietà dello sviluppatore che ha effettuato la duplicazione.  
+Il developer dunque lavora nella propria fork sviluppando una feature e, una volta terminata, effettua una pull request verso la repository originale; tale azione non ha risoluzione immediata, ma viene messa in attesa dell'approvazione da parte del mantainer della repository.  
+Una pull request offre dunque la possibilità a tutti i collaboratori di discutere della feature sviluppata, fornendo un forum dedicato e strumenti utili alla code review.  
+Il mantainer dunque potrà richiedere che il codice sottoposto subisca dei cambiamenti e, eventualmente, accettare o rifiutare la pull request.
+In caso di accettazione i cambiamenti realizzati nella fork verranno integrati nel repository originale.  
+Tutte le fork associate al repository potranno dunque sincronizzarsi ricevendo la nuova feature implementata.
+
 ---
