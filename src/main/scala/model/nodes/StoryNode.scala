@@ -26,6 +26,10 @@ object StoryNode {
   private class StoryNodeImpl(override val id: Int,
                               override val narrative: String,
                               override val pathways: Set[Pathway]) extends StoryNode {
-    require(!id.isNaN && narrative != null && narrative.trim.nonEmpty)
+    require(
+      !id.isNaN && narrative != null &&
+        narrative.trim.nonEmpty &&
+        pathways.forall(p => !pathways.exists(o => !o.eq(p) && o.destinationNode.eq(p.destinationNode)))
+    )
   }
 }
