@@ -25,6 +25,12 @@ coverageMinimum := 60 //%
 coverageFailOnMinimum := true
 coverageHighlighting := true
 
+// scoverage file exclusion
+lazy val exclusionsRegex = Seq(
+  "util", "MasterController", "SubControllersContainer"
+).map(s => ".*" + s + "*.").mkString(";")
+coverageExcludedPackages := exclusionsRegex
+
 // Add scoverage to the workflow
 ThisBuild / githubWorkflowBuildPostamble ++= List(
   WorkflowStep.Sbt(List("coverageReport"), name = Some("Coverage"))
