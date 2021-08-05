@@ -13,11 +13,9 @@ determinati standard qualitativi.
 
 ### sbt
 
-Scala Build Tool è uno strumento di compilazione open-source per progetti Scala e Java, rappresenta un'ottima
-alternativa a Gradle, sopratutto per progetti interamente o principalmente sviluppati in Scala. Si è optato per questo
-strumento in seguito alla decisione di utilizzare per quanto possibile strumenti affini al linguaggio Scala. Un'altra
-ragione che motiva tale scelta è la voglia di cimentarsi didatticamente con uno strumento nuovo, mai utilizzato e nel
-contesto più adatto al suo impiego.
+Scala Build Tool è uno strumento di compilazione open-source per progetti Scala e Java; rappresenta un'ottima alternativa a Gradle, sopratutto per progetti interamente o principalmente sviluppati in Scala.  
+
+Si è optato per questo strumento in seguito alla decisione di utilizzare per quanto possibile strumenti affini al linguaggio Scala. Un'altra ragione che motiva tale scelta è la voglia di cimentarsi didatticamente con uno strumento nuovo, mai utilizzato e nel contesto più adatto al suo impiego.
 
 ### ScalaTest
 
@@ -30,16 +28,16 @@ ScalaTest supporta diversi stili di test, ognuno dei quali è pensato per uno sc
 
 ### ScalaStyle
 
-ScalaStyle è uno strumento per esaminare codice Scala che permette di evidenziare potenziali problemi e mettere lo
-sviluppatore in grado di risolverli in modo tempestivo facendo si che non si propaghino, inoltre il suo impiego perfette
-di uniformare il codice alle convenzioni del linguaggio. Il suo funzionamento è subordinanto ad un file di
-configurazione ``scalastyle_config.xml`` con indicate tutte le regole autoimposte da seguire per standardizzare la
-stesura di codice. Gli eventuali problemi verrano segnalati allo sviluppatore sotto forma di warning.
+ScalaStyle è uno strumento per esaminare codice Scala che permette di evidenziare potenziali problemi e mettere lo sviluppatore in grado di risolverli in modo tempestivo facendo si che non si propaghino, inoltre il suo impiego perfette di uniformare il codice alle convenzioni del linguaggio.  
+
+Il suo funzionamento è subordinanto ad un file di configurazione ``scalastyle_config.xml`` con indicate tutte le regole autoimposte da seguire per standardizzare la stesura di codice.  
+Gli eventuali problemi verrano segnalati allo sviluppatore sotto forma di warning.
 
 ### ScalaFix
-[ScalaFix](https://github.com/scalacenter/scalafix) è uno strumento orientato al linting ed al refactor automatico del codice.\
-Il tool si basa sulla definizione di regole; quest'ultime vengono applicate a tutti i sorgenti Scala del progetto alla ricerca di segmenti di codice che le violino. Quando tali violazioni vengono individuate, viene lanciato un messaggio di warning (per segnalarne la presenza allo sviluppatore) e il sorgente viene automaticamente corretto applicando la regola.\
-Esistono possibili regole applicabili fornite nativamente dal tool, oltre che alcune definite dalla community (questo approccio favorisce la standardizzazione). È inoltre possibile definire nuove regole custom.\
+[ScalaFix](https://github.com/scalacenter/scalafix) è uno strumento orientato al linting ed al refactor automatico del codice.  
+Il tool si basa sulla definizione di regole; quest'ultime vengono applicate a tutti i sorgenti Scala del progetto alla ricerca di segmenti di codice che le violino. Quando tali violazioni vengono individuate, viene lanciato un messaggio di warning (per segnalarne la presenza allo sviluppatore) e il sorgente viene automaticamente corretto applicando la regola.  
+
+Esistono possibili regole applicabili fornite nativamente dal tool, oltre che alcune definite dalla community (questo approccio favorisce la standardizzazione). È inoltre possibile definire nuove regole custom.  
 Una volta specificato il plugin sbt, è possibile lanciare una singola regola tramite il comando 
   ```bash
 sbt scalafix [rule name]
@@ -52,10 +50,10 @@ per eseguire tutti i comandi in sequenza.
 
 ### Scoverage
 
-Scoverage è un software che permette di effettuare verifiche sulla coverage in ambiente Scala. Per coverage si intende
-la percentuale di codice attraversato dai test rispetto al totale della code base. Il plug-in da noi utilizzato
-è [sbt-scoverage](https://github.com/scoverage/sbt-scoverage). Per configurarlo è stato necessario impostare i seguenti
-parametri nel file di build:
+Scoverage è un software che permette di effettuare verifiche sulla coverage in ambiente Scala.  
+Per coverage si intende la percentuale di codice attraversato dai test rispetto al totale della code base.  
+
+Il plug-in da noi utilizzato è [sbt-scoverage](https://github.com/scoverage/sbt-scoverage). Per configurarlo è stato necessario impostare i seguenti parametri nel file di build:
 
   ```scala
 coverageEnabled := true
@@ -70,16 +68,17 @@ Parametro particolarmente importante è ``converageFailOnMinimum``, utilizzato a
 ### CPD (PMD)
 
 Lo strumento di tipo Copy-Paste Detection permette di verificare la presenza porzioni di codice ricorrente ed eventuali
-ripetizioni, utile nell'applicazione del principio DRY (Don't Repeat Yourself). Supponendo che i blocchi di codice
-duplicati svolgano gli stessi compiti o simili, qualsiasi refactoring, anche semplice, deve essere propagato in diverse
-porzioni di codice. Il CPD è un componente di [PMD](https://pmd.github.io/latest/pmd_userdocs_cpd.html) che verrà
-utilizzato al termine di ogni sprint (o ogni qualvolta sia necessario).
+ripetizioni, utile nell'applicazione del principio DRY (Don't Repeat Yourself).  
+Supponendo che i blocchi di codice duplicati svolgano gli stessi compiti o simili, qualsiasi refactoring, anche semplice, deve essere propagato in diverse porzioni di codice.  
+
+Il CPD è un componente di [PMD](https://pmd.github.io/latest/pmd_userdocs_cpd.html) che verrà utilizzato al termine di ogni sprint (o ogni qualvolta sia necessario).
 
 ### GitHub Actions
 
 Le GitHub Actions sono un meccaniscmo fornito da GitHub allo scopo di automatizare il workflow in continuous integration
 e deployment. Permettono di effettuare Build, Test e Deploy, oltre che code review e branch management direttamente da
 GitHub.  
+
 Per configurare il workflow è stato utilizzato un plug-in chiamato
 [sbt-github-actions](https://github.com/djspiewak/sbt-github-actions). Il plug-in permette di personalizzare e
 arricchire un workflow standard che si limita a
@@ -102,25 +101,28 @@ arricchire un workflow standard che si limita a
 
 ### Trello
 [Trello](https://trello.com/it) è uno strumento online per la gestione di progetti e di task, estremamente utile per organizzare il lavoro tra più membri dello stesso team.  
+
 Il software permette di costruire in modo molto personalizzabile una board, ovvero una lavagna sulla quale si possono segnare task e assegnarli a uno o più collaboratori. Fornisce anche numerosi supporti per la creazione di meccanismi automatizzati, di modo da non essere costretti a svolgere operazioni ripetitive.  
 Essendo molto versatile, Trello è ideale per creare un ambiente su misura per applicare anche una metodologia di lavoro agile come Scrum.
 
 ### GitHub Pages
 
 La documentazione del progetto è mantenuta tramite un processo di continuous integration grazie ad una feature proposta
-da GitHub: GitHub Pages. GitHub Pages fornisce un modo per automatizzare la pubblicazione di pagine web da semplice
-testo scritto in markdown, un linguaggio human-readable. La documentazione è mantenuta su un branch orfano denominato
-``"/docs"``.
+da GitHub: GitHub Pages.  
+GitHub Pages fornisce un modo per automatizzare la pubblicazione di pagine web da semplice testo scritto in markdown, un linguaggio human-readable. La documentazione è mantenuta su un branch orfano denominato ``"/docs"``.
 
 ### Pull Requests
 
 Le pull request sono un meccanismo offerto da Git per gestire in modo ordinato il flusso di lavoro all'interno di un repository e favorire la collaborazione tra gli sviluppatori.  
+
 Un developer che voglia collaborare allo sviluppo dovrà innanzitutto creare una propria fork.  
 Una fork, in poche parole, è una copia del repository originale, ma di proprietà dello sviluppatore che ha effettuato la duplicazione.  
 Il developer dunque lavora nella propria fork sviluppando una feature e, una volta terminata, effettua una pull request verso la repository originale; tale azione non ha risoluzione immediata, ma viene messa in attesa dell'approvazione da parte del mantainer della repository.  
+
 Una pull request offre dunque la possibilità a tutti i collaboratori di discutere della feature sviluppata, fornendo un forum dedicato e strumenti utili alla code review.  
 Il mantainer dunque potrà richiedere che il codice sottoposto subisca dei cambiamenti e, eventualmente, accettare o rifiutare la pull request.
 In caso di accettazione i cambiamenti realizzati nella fork verranno integrati nel repository originale.  
+
 Tutte le fork associate al repository potranno dunque sincronizzarsi ricevendo la nuova feature implementata.
 
 ---
