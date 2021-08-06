@@ -2,35 +2,31 @@
 
 ## Meeting e iterazioni pianificate
 #### Meeting Giornalieri
-Alcuni componenti del team hanno vincoli di orario particolarmente stringenti e non concordi. Realizzare meeting
-giornalieri non è stato dunque praticabile e si è optato per un approccio diverso.  
+Date le disponibilità orarie molto divergenti tra i componenti del team, realizzare meeting giornalieri non è stato praticabile e si è optato per un approccio diverso.  
+
 Grazie allo strumento [Trello](#trello) è stato realizzato un sistema per gestire la divisione dei task.  
-Quando un componente del gruppo desiderava essere aggiornato sullo stato del progetto non doveva fare altro che accedere
-alla dashboard di Trello per verificare quali cambiamenti fossero nel frattempo subentrati.  
+Nel caso un componente del team desiderasse essere aggiornato sullo stato del progetto poteva farlo accedendo alla dashboard di Trello per verificare quali cambiamenti fossero nel frattempo subentrati.  
 #### Meeting decadàli
-Ogni dieci giorni (ovvero alla fine di ogni Sprint), si è scelto di tenere un meeting in cui vengono definiti
-i task da includere nella fase di Sprint successiva.  
-Le interazioni tra i componenti del team si sono mantenute comunque frequenti (tramite servizi di messaggistica 
-classici) per convenire su eventuali dettagli di minore entità all’interno del progetto.
+Ogni dieci giorni (ovvero alla fine di ogni Sprint), si è scelto di tenere un meeting in cui vengono definiti i task da includere nella fase di Sprint successiva.   
+
+Le interazioni tra i componenti del team si sono mantenute comunque frequenti (tramite servizi di messaggistica istantanea) per convenire su eventuali dettagli di minore entità all’interno del progetto.
 ## Modalità di divisione in itinere dei task
 La divisione dei Task tra i componenti del gruppo è avvenuta durante il meeting che si tiene all'inizio di ogni sprint.  
+
 In ogni meeting:
  - Sono stati prima definiti i requisti e gli obiettivi di ogni sprint;
  - Sono stati creati _n_ task, possibilmente minimizzando al minimo le dipendenze;
  - Gli _n_ task sono stati divisi tra i componenti del gruppo in modo equo.
 
 È quindi stato impossibile definire a priori i task assegnati ad ogni componente del gruppo.  
-I task sono comunque stati ripartiti in modo che ogni membro fosse responsabile di una sua parte di design di dettaglio 
-e implementazione.
+I task sono comunque stati ripartiti in modo che ogni membro fosse responsabile di una sua parte di design di dettaglio e implementazione.
 ## Modalità di revisione dei task
 Alla fine di ogni sprint, ciascun componente ha descritto brevemente a tutti gli altri il suo lavoro.  
-Sulla base del risultato generale i task sono stati quindi nuovamente introdotti se non terminati ed è quindi stata
-corretta la tabella di marcia.  
+Sulla base del risultato generale i task sono stati quindi nuovamente introdotti se non terminati ed è quindi stata corretta la tabella di marcia.  
+
 Nello sviluppo del progetto sono state comunque previste diverse fasi di revisione.  
 Ciascun membro del gruppo si è occupato di revisionare e ri-fattorizzare il proprio codice in maniera autonoma.  
-Grazie al meccanismo delle [Pull Requests](#pull-requests) un componente diverso da chi ha scritto il sorgente che 
-lo ha sottoposto è stato in grado di effettuare code review e verificare che non ci fossero problemi di entità critica,
-diminuendo in questo modo anche il potenziale debito tecnico.
+Grazie al meccanismo delle [Pull Requests](#pull-requests), un componente diverso da chi ha scritto il sorgente sottoposto è stato in grado di effettuare code review e verificare che non ci fossero problemi critici, diminuendo in questo modo anche il potenziale debito tecnico.
 ## Strumenti utilizzati
 
 Segue un elenco di strumenti ausiliari adottati per svolgere il progetto più agilmente e cercare di renderlo conforme a
