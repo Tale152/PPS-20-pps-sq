@@ -18,15 +18,26 @@ trait StoryModel {
  * @param currentStoryNode is the current node of the story. As the story goes on, the current node is always updated.
  */
 case class StoryModelImpl (override val player: Player, override var currentStoryNode: StoryNode) extends StoryModel {
-  require(allNodesIdAreUnique(currentStoryNode))
 
-  private def allNodesIdAreUnique(node: StoryNode): Boolean = {
-    def noSameIdExistsInNextNodes(node: StoryNode, id: Int): Boolean = {
-      node.id != id && node.pathways.forall(p => noSameIdExistsInNextNodes (p.destinationNode, id) )
+  require(checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentStoryNode)))
+
+  private def getAllNodesStartingFromThis(node: StoryNode): Set[StoryNode] = {
+
+    def visitAllPathways(node: StoryNode): Set[Set[StoryNode]] =
+        for(pathway <- node.pathways)
+          yield getAllNodesStartingFromThis(pathway.destinationNode)
+
+    Set(node) ++ visitAllPathways(node).foldLeft[Set[StoryNode]](Set.empty[StoryNode])(_ ++ _)
+  }
+
+  private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = {
+
+    def checkLastNode(nodes: Set[StoryNode]): Boolean = {
+      val lastNode: StoryNode = nodes.last
+      val newNodes = nodes - lastNode
+      !newNodes.exists(n => n.id == lastNode.id) && checkNoDuplicateIdInNodes(newNodes)
     }
-    val descendCurrentNode: Boolean = node.pathways.forall(p => noSameIdExistsInNextNodes(p.destinationNode, node.id))
-    descendCurrentNode && node.pathways.forall(p => allNodesIdAreUnique(p.destinationNode))
+
+    nodes.isEmpty || checkLastNode(nodes)
   }
 }
-
-
