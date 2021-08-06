@@ -26,7 +26,7 @@ class StoryModelTest extends FlatSpec with Matchers {
     storyModel.currentStoryNode shouldEqual nextStoryNode
   }
 
-  it should "not contain nodes with same ID" in {
+  it should "throw IllegalArgumentException if at least two StoryNode ID are equals" in {
     val endNodeA: StoryNode = StoryNode(0, "narrative", Set.empty)
     val pathwayMidToEndA: Pathway = Pathway("description", endNodeA)
     val endNodeB: StoryNode = StoryNode(2, "narrative", Set.empty)
