@@ -2,7 +2,7 @@ package controller
 
 import controller.OperationType.{OperationType, StoryOperation}
 import model.characters.Player
-import util.{RandomStoryModelGenerator, StoryModelUtil}
+import util.RandomStoryModelGenerator
 
 /**
  * The Master Controller is the Main Controller of the application.

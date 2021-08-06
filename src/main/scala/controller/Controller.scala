@@ -8,11 +8,11 @@ trait Controller {
   /**
    * Start the Controller.
    */
-  def execute()
+  def execute(): Unit
 
   /**
    * Defines the actions to do when the Controller execution is over.
    */
-  def close()
+  def close(): Unit
 
 }

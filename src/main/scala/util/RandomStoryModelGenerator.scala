@@ -5,7 +5,6 @@ import model.characters.Player
 import model.nodes.{Pathway, StoryNode}
 
 import scala.collection.mutable.{Set => MutableSet}
-import scala.language.postfixOps
 import scala.util.Random
 
 object RandomStoryModelGenerator {
