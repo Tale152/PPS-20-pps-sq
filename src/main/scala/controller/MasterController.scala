@@ -1,7 +1,8 @@
 package controller
 
 import controller.OperationType.{OperationType, StoryOperation}
-import util.StoryModelUtil
+import model.characters.Player
+import util.{RandomStoryModelGenerator, StoryModelUtil}
 
 /**
  * The Master Controller is the Main Controller of the application.
@@ -21,7 +22,7 @@ sealed trait MasterController extends Controller {
 object MasterController extends MasterController {
 
   private val subControllersContainer: Option[SubControllersContainer] = Some(
-    SubControllersContainer(StoryModelUtil.storyModel)
+    SubControllersContainer(RandomStoryModelGenerator.generate(Player("Player")))
   )
 
   override def executeOperation(op: OperationType): Unit = op match {

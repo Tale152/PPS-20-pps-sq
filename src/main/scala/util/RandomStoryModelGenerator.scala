@@ -10,14 +10,17 @@ import scala.util.Random
 
 object RandomStoryModelGenerator {
 
+  private val MaxNodesInLayer = 5
+  private val Layers = 7
+
   private def rnd(max: Int):Int = Random.nextInt(max) + 1
 
   private def getMaxId(nodes: Seq[StoryNode]): Int = nodes.map(n => n.id).max
 
-  def generate(player: Player, layers: Int, maxNodesInLayer: Int): StoryModel = {
-    require(layers > 0)
+  def generate(player: Player): StoryModel = {
 
-    val generateLastLayer = () => for (x <- 0 until rnd(maxNodesInLayer)) yield StoryNode(x, "final node " + x, Set.empty)
+    val generateLastLayer = () =>
+      for (x <- 0 until rnd(MaxNodesInLayer)) yield StoryNode(x, "final node " + x, Set.empty)
 
     def generateLayers(depth: Int): Seq[StoryNode] = depth match {
       case 0 => generateLastLayer()
@@ -34,7 +37,7 @@ object RandomStoryModelGenerator {
     def generateIntermediateLayer(depth: Int): Seq[StoryNode] = {
       val nextLayer = generateLayers(depth - 1)
       val startingId = getMaxId(nextLayer) + 1
-      val nCurrentLayerNodes = rnd(maxNodesInLayer)
+      val nCurrentLayerNodes = rnd(MaxNodesInLayer)
       val pathwaysToNextNodes: Seq[MutableSet[Pathway]] = genPathwaysToAllNextLayerNodes(nextLayer, nCurrentLayerNodes)
       var res = Seq.empty[StoryNode]
       for(id <- startingId until startingId + nCurrentLayerNodes){
@@ -46,17 +49,18 @@ object RandomStoryModelGenerator {
             pathwaysToNode.remove(assignedPathway)
           }
         }
-        val narrative = if(newNodePathways.isEmpty) "final node " + id else "node " + id + ", remaining layers " + depth
+        val narrative =
+          if(newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
         res = res :+ StoryNode(id, narrative, newNodePathways.toSet)
       }
       res
     }
 
-    val generated = generateLayers(layers - 1)
+    val generated = generateLayers(Layers - 1)
     val pathways: Seq[Pathway] = for (node <- generated) yield Pathway("go to node " + node.id, node)
     StoryModelImpl(
       player,
-      StoryNode(getMaxId(generated) + 1, "starting node, remaining layers" + layers, pathways.toSet)
+      StoryNode(getMaxId(generated) + 1, "starting node, max remaining layers " + Layers, pathways.toSet)
     )
   }
 
