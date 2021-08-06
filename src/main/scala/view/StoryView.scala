@@ -20,19 +20,24 @@ object StoryView {
     private var _narrative: String = ""
     private var _pathways: Seq[Pathway] = Seq()
 
+    object NotValidInputStrategy {
+      //used to filter invalid input from user
+      val OnlyChoicesStrategy: String => Boolean = input =>
+            input == "" ||
+            !(input forall Character.isDigit) ||
+            input.toInt > _pathways.size ||
+            input.toInt < 1
+    }
+
     /**
      * Gets the user input and sends it to [[controller.subcontroller.StoryController]]
      */
     private def waitForUserInput(): Unit = {
-      val condition: String => Boolean = input =>
-        (input == "" || !(input forall Character.isDigit) ||
-          input.toInt > _pathways.size ||
-          input.toInt > _pathways.size ||
-          input.toInt < 1) && _pathways.nonEmpty
-      val chosenPath = InputUtility.inputAsInt(inputStrategy, condition)
       if (_pathways.nonEmpty) {
+        val chosenPath = InputUtility.inputAsInt(inputStrategy, NotValidInputStrategy.OnlyChoicesStrategy)
         storyController.choosePathWay(_pathways(chosenPath))
       } else {
+        scala.io.StdIn.readLine()
         storyController.close()
       }
     }
@@ -66,4 +71,3 @@ object StoryView {
   def apply(storyController: StoryController, inputStrategy: () => String): StoryView =
     new StoryViewImpl(storyController, inputStrategy)
 }
-
