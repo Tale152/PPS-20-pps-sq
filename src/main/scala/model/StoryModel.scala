@@ -22,22 +22,13 @@ case class StoryModelImpl (override val player: Player, override var currentStor
   require(checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentStoryNode)))
 
   private def getAllNodesStartingFromThis(node: StoryNode): Set[StoryNode] = {
-
-    def visitAllPathways(node: StoryNode): Set[Set[StoryNode]] =
-        for(pathway <- node.pathways)
-          yield getAllNodesStartingFromThis(pathway.destinationNode)
-
-    Set(node) ++ visitAllPathways(node).foldLeft[Set[StoryNode]](Set.empty[StoryNode])(_ ++ _)
-  }
-
-  private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = {
-
-    def checkLastNode(nodes: Set[StoryNode]): Boolean = {
-      val lastNode: StoryNode = nodes.last
-      val newNodes = nodes - lastNode
-      !newNodes.exists(n => n.id == lastNode.id) && checkNoDuplicateIdInNodes(newNodes)
+    def _visitAllPathways(node: StoryNode): Set[Set[StoryNode]] = {
+      for(pathway <- node.pathways)
+        yield getAllNodesStartingFromThis(pathway.destinationNode)
     }
-
-    nodes.isEmpty || checkLastNode(nodes)
+    Set(node) ++ _visitAllPathways(node).foldLeft[Set[StoryNode]](Set.empty[StoryNode])(_ ++ _)
   }
+
+  private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = nodes.size == nodes.map(n => n.id).size
+
 }
