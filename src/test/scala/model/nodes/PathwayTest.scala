@@ -14,36 +14,44 @@ class PathwayTest extends FlatSpec with Matchers {
   val emptyPathwayDescription: String = ""
   var undefinedPathwayDescription: String = _
 
-  val destinationNode: StoryNode = StoryNode(1, storyNodeNarrative, Set.empty)
-  val prerequisite: StoryModel => Boolean = m => m.player.name == playerName
-  val pathway: Pathway = Pathway(pathwayDescription, destinationNode, prerequisite)
-  val startingNode: StoryNode = StoryNode(0, storyNodeNarrative, Set(pathway))
+  val destinationNodePrerequisite: StoryNode = StoryNode(2, storyNodeNarrative, Set.empty)
+  val destinationNodeNoPrerequisite: StoryNode = StoryNode(1, storyNodeNarrative, Set.empty)
+  val prerequisite: Option[StoryModel => Boolean] = Some(m => m.player.name == playerName)
+  val pathwayPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodePrerequisite, prerequisite)
+  val pathwayNoPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodeNoPrerequisite, None)
+  val startingNode: StoryNode = StoryNode(0, storyNodeNarrative, Set(pathwayPrerequisite, pathwayNoPrerequisite))
 
   "The pathway" should "have description \"pathwayDescription\"" in {
-    pathway.description shouldEqual pathwayDescription
+    pathwayPrerequisite.description shouldEqual pathwayDescription
   }
 
   "The pathway" should "have a reference to the destination node" in {
-    pathway.destinationNode shouldEqual destinationNode
+    pathwayPrerequisite.destinationNode shouldEqual destinationNodePrerequisite
   }
 
-  "The prerequisite" should "be true if condition is met" in {
-    pathway.prerequisite(StoryModelImpl(Player(playerName), startingNode)) shouldEqual true
+  "The prerequisite" can "be empty" in {
+    pathwayNoPrerequisite.prerequisite shouldEqual None
   }
 
-  "The prerequisite" should "be false if condition isn't met" in {
-    pathway.prerequisite(StoryModelImpl(Player("should be false"), startingNode)) shouldEqual false
+  "The prerequisite" should "be true if condition is present and is met" in {
+    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
+    pathwayPrerequisite.prerequisite.get(StoryModelImpl(Player(playerName), startingNode)) shouldEqual true
+  }
+
+  "The prerequisite" should "be false if condition is present and isn't met" in {
+    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
+    pathwayPrerequisite.prerequisite.get(StoryModelImpl(Player("should be false"), startingNode)) shouldEqual false
   }
 
   it should "have a defined description" in {
     intercept[IllegalArgumentException] {
-      Pathway(undefinedPathwayDescription, destinationNode, prerequisite)
+      Pathway(undefinedPathwayDescription, destinationNodePrerequisite, prerequisite)
     }
   }
 
   it should "not have an empty description" in {
     intercept[IllegalArgumentException] {
-      Pathway(emptyPathwayDescription, destinationNode, prerequisite)
+      Pathway(emptyPathwayDescription, destinationNodePrerequisite, prerequisite)
     }
   }
 

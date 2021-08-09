@@ -11,7 +11,6 @@ object RandomStoryModelGenerator {
 
   private val MaxNodesInLayer = 5
   private val Layers = 7
-  private val AlwaysTrueCondition: StoryModel => Boolean = _ => true
 
   private def rnd(max: Int):Int = Random.nextInt(max) + 1
 
@@ -29,7 +28,7 @@ object RandomStoryModelGenerator {
 
     def genPathwaysToNextLayerNode(node: StoryNode, nCurrentLayersNodes: Int): MutableSet[Pathway] =
       (for (_ <- 0 until Random.nextInt(nCurrentLayersNodes) + 1)
-        yield Pathway("go to node " + node.id, node, AlwaysTrueCondition)).toSet.to[MutableSet]
+        yield Pathway("go to node " + node.id, node, None)).toSet.to[MutableSet]
 
     def genPathwaysToAllNextLayerNodes(nextLayer: Seq[StoryNode], nCurrentLayerNodes: Int): Seq[MutableSet[Pathway]] =
       for(node <- nextLayer) yield genPathwaysToNextLayerNode(node, nCurrentLayerNodes)
@@ -57,7 +56,7 @@ object RandomStoryModelGenerator {
     }
 
     val generated = generateLayers(Layers - 1)
-    val pathways: Seq[Pathway] = for (node <- generated) yield Pathway("go to node " + node.id, node, AlwaysTrueCondition)
+    val pathways: Seq[Pathway] = for (node <- generated) yield Pathway("go to node " + node.id, node, None)
     StoryModelImpl(
       player,
       StoryNode(getMaxId(generated) + 1, "starting node, max remaining layers " + Layers, pathways.toSet)

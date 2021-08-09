@@ -36,7 +36,9 @@ object StoryController {
       if (storyModel.currentStoryNode.pathways.isEmpty) {
         storyView.setPathways(Set())
       } else {
-        storyView.setPathways(storyModel.currentStoryNode.pathways.filter(p => p.prerequisite(storyModel)))
+        storyView.setPathways(
+          storyModel.currentStoryNode.pathways.filter(p => p.prerequisite.nonEmpty && p.prerequisite.get(storyModel))
+        )
       }
       storyView.render()
     }

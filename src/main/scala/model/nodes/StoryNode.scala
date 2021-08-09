@@ -29,7 +29,11 @@ object StoryNode {
     require(
       !id.isNaN && narrative != null &&
         narrative.trim.nonEmpty &&
-        pathways.forall(p => !pathways.exists(o => !o.eq(p) && o.destinationNode.eq(p.destinationNode)))
+        pathways.forall(p => !pathways.exists(o => !o.eq(p) && o.destinationNode.eq(p.destinationNode))) &&
+        containsOnePathwayWithNoCondition(pathways)
     )
+
+    private def containsOnePathwayWithNoCondition(pathways: Set[Pathway]): Boolean =
+      if (pathways.nonEmpty) pathways.exists(p => p.prerequisite.isEmpty) else true
   }
 }
