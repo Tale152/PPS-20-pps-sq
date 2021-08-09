@@ -9,7 +9,8 @@ class StoryControllerTest extends FlatSpec with Matchers with BeforeAndAfterEach
 
   val player: Player = Player("player")
   val destinationNode: StoryNode = StoryNode(1, "narrative", Set.empty)
-  val pathway: Pathway = Pathway("description", destinationNode)
+  val alwaysTrueCondition: StoryModel => Boolean = _ => true
+  val pathway: Pathway = Pathway("description", destinationNode, alwaysTrueCondition)
   val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathway))
 
   var storyModel: StoryModel = StoryModelImpl(player, startingNode)
@@ -24,7 +25,7 @@ class StoryControllerTest extends FlatSpec with Matchers with BeforeAndAfterEach
 
   "Choosing a Pathway that does not belong to current node" should "throw IllegalArgumentException" in {
     val incorrectNode: StoryNode = StoryNode(3, "narrative", Set.empty)
-    val incorrectPathway: Pathway = Pathway("description", incorrectNode)
+    val incorrectPathway: Pathway = Pathway("description", incorrectNode, alwaysTrueCondition)
     intercept[IllegalArgumentException] {
       storyController.choosePathWay(incorrectPathway)
     }

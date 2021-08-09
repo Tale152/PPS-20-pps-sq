@@ -49,7 +49,11 @@ class StoryNodeTest extends FlatSpec with Matchers {
 
   it should "not contain multiple Pathways with same destination StoryNode" in {
     intercept[IllegalArgumentException] {
-      StoryNode(id, storyNodeNarrative, Set(Pathway(pathwayDescription, node), Pathway(pathwayDescription, node)))
+      StoryNode(
+        id,
+        storyNodeNarrative,
+        Set(Pathway(pathwayDescription, node, _ => true), Pathway(pathwayDescription, node, _ => true))
+      )
     }
   }
 
