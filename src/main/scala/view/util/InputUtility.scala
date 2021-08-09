@@ -6,14 +6,14 @@ object InputUtility {
    *
    * @return the chosen pathway
    */
-   def inputAsInt(inputValueStrategy: () => String, notValidStrategy: String => Boolean): Int = {
+   def inputAsInt(inputValueStrategy: () => String, isNotValidStrategy: String => Boolean): Int = {
     var input: String = ""
     do {
       input = inputValueStrategy()
-      if(notValidStrategy(input)){
+      if(isNotValidStrategy(input)){
         println("Please insert a valid value.")
       }
-    } while (notValidStrategy(input))
+    } while (isNotValidStrategy(input))
     input.toInt - 1
   }
 }
