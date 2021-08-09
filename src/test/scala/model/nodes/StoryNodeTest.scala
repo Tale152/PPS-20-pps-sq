@@ -52,7 +52,17 @@ class StoryNodeTest extends FlatSpec with Matchers {
       StoryNode(
         id,
         storyNodeNarrative,
-        Set(Pathway(pathwayDescription, node, _ => true), Pathway(pathwayDescription, node, _ => true))
+        Set(Pathway(pathwayDescription, node, None), Pathway(pathwayDescription, node, None))
+      )
+    }
+  }
+
+  it should "contain at least one pathway with no condition if NOT final node" in {
+    intercept[IllegalArgumentException] {
+      StoryNode(
+        id,
+        storyNodeNarrative,
+        Set(Pathway(pathwayDescription, node, Some(_ => true)))
       )
     }
   }

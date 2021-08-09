@@ -28,11 +28,11 @@ class StoryModelTest extends FlatSpec with Matchers {
 
   it should "throw IllegalArgumentException if at least two StoryNode ID are equals" in {
     val endNodeA: StoryNode = StoryNode(0, "narrative", Set.empty)
-    val pathwayMidToEndA: Pathway = Pathway("description", endNodeA, _ => true)
+    val pathwayMidToEndA: Pathway = Pathway("description", endNodeA, None)
     val endNodeB: StoryNode = StoryNode(2, "narrative", Set.empty)
-    val pathwayMidToEndB: Pathway = Pathway("description", endNodeB, _ => true)
+    val pathwayMidToEndB: Pathway = Pathway("description", endNodeB, None)
     val midNode: StoryNode = StoryNode(1, "narrative", Set(pathwayMidToEndA, pathwayMidToEndB))
-    val pathwayStartToMid: Pathway = Pathway("description", midNode, _ => true)
+    val pathwayStartToMid: Pathway = Pathway("description", midNode, None)
     val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathwayStartToMid))
     intercept[IllegalArgumentException] {
       StoryModelImpl(mainPlayer, startingNode)
