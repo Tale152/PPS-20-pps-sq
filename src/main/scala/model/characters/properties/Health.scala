@@ -21,16 +21,17 @@ object Health {
    * @param maxPS the max amount of total PS reachable
    */
   private class HealthImpl(override val maxPS: Int) extends Health {
-    require(maxPS != 0)
+    require(maxPS > 0)
     private var _currentPS = maxPS
 
     override def currentPS: Int = _currentPS
 
-    override def currentPS_=(newCurrentPS: Int): Unit = if (newCurrentPS <= maxPS) {
-      _currentPS = newCurrentPS
-    } else {
-      _currentPS = maxPS
+    override def currentPS_=(newCurrentPS: Int): Unit = newCurrentPS match {
+      case _ if (newCurrentPS > maxPS) => _currentPS = maxPS
+      case _ if (newCurrentPS < 0) => _currentPS = 0
+      case _ => _currentPS = newCurrentPS
     }
+
   }
 
 }
