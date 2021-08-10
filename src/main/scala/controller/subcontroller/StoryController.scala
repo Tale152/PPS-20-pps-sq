@@ -26,7 +26,7 @@ object StoryController {
 
   class StoryControllerImpl(private val storyModel: StoryModel) extends StoryController {
 
-    private val storyView: StoryView = StoryView(this, () => scala.io.StdIn.readLine())
+    private val storyView: StoryView = StoryView(this)
 
     /**
      * Start the Controller.
