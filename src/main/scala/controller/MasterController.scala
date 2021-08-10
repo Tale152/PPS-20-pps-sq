@@ -1,6 +1,7 @@
 package controller
 
 import controller.OperationType.{OperationType, StoryOperation}
+import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
 import model.characters.Player
 import model.nodes.StoryNode
@@ -29,6 +30,8 @@ sealed trait MasterController extends Controller {
 }
 
 object MasterController extends MasterController {
+
+  initializeGameFolderStructure(ResourceName.RootGameDirectory)
   private var subControllersContainer: Option[SubControllersContainer] = None
 
   /**
