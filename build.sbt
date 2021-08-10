@@ -35,10 +35,10 @@ lazy val exclusionsRegex = Seq(
 coverageExcludedPackages := exclusionsRegex
 
 // Add scoverage to the workflow
-ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("coverage test"), name = Some("Test (enabled coverage)")))
-
-ThisBuild / githubWorkflowBuildPostamble ++= List(
-  WorkflowStep.Sbt(List("coverageReport"), name = Some("Coverage"))
+ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("clean", "coverage", "test"),
+                                       name = Some("Test (coverage enabled)")))
+ThisBuild / githubWorkflowBuildPostamble ++= List(WorkflowStep.Sbt(List("coverageReport"),
+                                                  name = Some("Coverage"))
 )
 
 // add scalafix settings
