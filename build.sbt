@@ -30,7 +30,7 @@ coverageHighlighting := true
 
 // scoverage file exclusion
 lazy val exclusionsRegex = Seq(
-  "util", "MasterController", "SubControllersContainer", "StoryView"
+  "MasterController", "SubControllersContainer", "StoryView"
 ).map(s => ".*" + s + "*.").mkString(";")
 coverageExcludedPackages := exclusionsRegex
 
