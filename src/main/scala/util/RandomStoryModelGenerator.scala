@@ -1,6 +1,6 @@
 package util
 
-import model.{StoryModel, StoryModelImpl}
+import model.StoryModel
 import model.characters.Player
 import model.nodes.{Pathway, StoryNode}
 
@@ -57,7 +57,7 @@ object RandomStoryModelGenerator {
 
     val generated = generateLayers(Layers - 1)
     val pathways: Seq[Pathway] = for (node <- generated) yield Pathway("go to node " + node.id, node, None)
-    StoryModelImpl(
+    StoryModel(
       player,
       StoryNode(getMaxId(generated) + 1, "starting node, max remaining layers " + Layers, pathways.toSet)
     )

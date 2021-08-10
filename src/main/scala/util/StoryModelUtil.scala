@@ -1,6 +1,6 @@
 package util
 
-import model.{StoryModel, StoryModelImpl}
+import model.StoryModel
 import model.characters.Player
 import model.nodes.{Pathway, StoryNode}
 
@@ -27,5 +27,5 @@ object StoryModelUtil {
 
   private val startingNode0: StoryNode = StoryNode(0, "start-0", Set(pathway0to1, pathway0to2, pathway0to3))
 
-  val storyModel: StoryModel = StoryModelImpl(player, startingNode0)
+  val storyModel: StoryModel = StoryModel(player, startingNode0)
 }
