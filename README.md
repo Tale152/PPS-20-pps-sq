@@ -22,6 +22,16 @@ To run all the tests use the command:
 ``` shell
 sbt test
 ```
+# Coverage
+
+To verify the coverage of the application run all the tests with coverage enabled:
+``` shell
+sbt clean coverage test
+```
+Then generate the reports:
+``` shell
+sbt coverageReport
+```
 
 # Download
 Download the latest Jar file from this repository's [releases page](https://github.com/Tale152/PPS-20-pps-sq/releases).
