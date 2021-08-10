@@ -1,8 +1,11 @@
 package controller
 
 import controller.OperationType.{OperationType, StoryOperation}
+import controller.util.ResourceName
 import model.characters.Player
-import util.RandomStoryModelGenerator
+import model.nodes.StoryNode
+import model.StoryModelImpl
+import model.nodes.util.StoryNodeSerializer.deserializeStory
 
 /**
  * The Master Controller is the Main Controller of the application.
@@ -17,26 +20,34 @@ sealed trait MasterController extends Controller {
    * @param operation the OperationType
    */
   def executeOperation(operation: OperationType): Unit
+
+  /**
+   * @param storyURI the string that represent the URI where the story file is.
+   * @return The first [[model.nodes.StoryNode]] of the story chosen.
+   */
+  def loadStory(storyURI: String): StoryNode
 }
 
 object MasterController extends MasterController {
-
-  private val subControllersContainer: Option[SubControllersContainer] = Some(
-    SubControllersContainer(RandomStoryModelGenerator.generate(Player("Player")))
-  )
-
-  override def executeOperation(op: OperationType): Unit = op match {
-    case StoryOperation => subControllersContainer.get.storyController.execute()
-  }
+  private var subControllersContainer: Option[SubControllersContainer] = None
 
   /**
    * Start the Controller.
    */
-  override def execute(): Unit = executeOperation(StoryOperation)
+  override def execute(): Unit = {
+    val deserializedStoryNode: StoryNode = loadStory(ResourceName.storyDirectoryPath() + "/random-story.ser")
+    subControllersContainer = Some(SubControllersContainer(StoryModelImpl(Player("Player"), deserializedStoryNode)))
+    executeOperation(StoryOperation)
+  }
 
   /**
    * Defines the actions to do when the Controller execution is over.
    */
   override def close(): Unit = System.exit(0)
 
+  override def executeOperation(op: OperationType): Unit = op match {
+    case StoryOperation => subControllersContainer.get.storyController.execute()
+  }
+
+  override def loadStory(storyURI: String) : StoryNode = deserializeStory(storyURI)
 }
