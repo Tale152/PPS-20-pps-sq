@@ -7,7 +7,7 @@ import model.StoryModel
  * navigate the story nodes.
  * Optionally, the possibility to choose a pathway is dictated by a prerequisite
  */
-trait Pathway {
+trait Pathway extends Serializable {
   def description: String
   def destinationNode: StoryNode
   def prerequisite: Option[StoryModel => Boolean]
