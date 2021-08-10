@@ -11,7 +11,7 @@ class StoryModelTest extends FlatSpec with Matchers {
   val storyNode: StoryNode = StoryNode(0, "narrative", Set.empty)
   val nextStoryNode: StoryNode = StoryNode(1, "nextNarrative", Set.empty)
 
-  val storyModel: StoryModel = StoryModelImpl(mainPlayer, storyNode)
+  val storyModel: StoryModel = StoryModel(mainPlayer, storyNode)
 
   "The story model" should "know who is the player" in {
     storyModel.player shouldEqual mainPlayer
@@ -35,7 +35,7 @@ class StoryModelTest extends FlatSpec with Matchers {
     val pathwayStartToMid: Pathway = Pathway("description", midNode, None)
     val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathwayStartToMid))
     intercept[IllegalArgumentException] {
-      StoryModelImpl(mainPlayer, startingNode)
+      StoryModel(mainPlayer, startingNode)
     }
   }
 
