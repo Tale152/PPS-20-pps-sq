@@ -1,7 +1,7 @@
 package model.nodes
 
 import model.characters.Player
-import model.{StoryModel, StoryModelImpl}
+import model.StoryModel
 import org.scalatest.{FlatSpec, Matchers}
 
 class PathwayTest extends FlatSpec with Matchers {
@@ -35,12 +35,12 @@ class PathwayTest extends FlatSpec with Matchers {
 
   "The prerequisite" should "be true if condition is present and is met" in {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModelImpl(Player(playerName), startingNode)) shouldEqual true
+    pathwayPrerequisite.prerequisite.get(StoryModel(Player(playerName), startingNode)) shouldEqual true
   }
 
   "The prerequisite" should "be false if condition is present and isn't met" in {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModelImpl(Player("should be false"), startingNode)) shouldEqual false
+    pathwayPrerequisite.prerequisite.get(StoryModel(Player("should be false"), startingNode)) shouldEqual false
   }
 
   it should "have a defined description" in {

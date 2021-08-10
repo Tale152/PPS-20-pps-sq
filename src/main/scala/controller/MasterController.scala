@@ -5,7 +5,7 @@ import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
 import model.characters.Player
 import model.nodes.StoryNode
-import model.StoryModelImpl
+import model.{StoryModel}
 import model.nodes.util.StoryNodeSerializer.deserializeStory
 
 /**
@@ -39,7 +39,7 @@ object MasterController extends MasterController {
    */
   override def execute(): Unit = {
     val deserializedStoryNode: StoryNode = loadStory(ResourceName.storyDirectoryPath() + "/random-story.ser")
-    subControllersContainer = Some(SubControllersContainer(StoryModelImpl(Player("Player"), deserializedStoryNode)))
+    subControllersContainer = Some(SubControllersContainer(StoryModel(Player("Player"), deserializedStoryNode)))
     executeOperation(StoryOperation)
   }
 

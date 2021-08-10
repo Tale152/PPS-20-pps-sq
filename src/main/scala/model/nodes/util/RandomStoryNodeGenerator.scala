@@ -1,7 +1,6 @@
 package model.nodes.util
 
 import model.nodes.{Pathway, StoryNode}
-
 import scala.util.Random
 import scala.collection.mutable.{Set => MutableSet}
 
@@ -55,7 +54,6 @@ object RandomStoryNodeGenerator {
       }
       res
     }
-
     val generated = generateLayers(Layers - 1)
     val pathways: Seq[Pathway] = for (node <- generated) yield Pathway("go to node " + node.id, node, None)
     StoryNode(getMaxId(generated) + 1, "starting node, max remaining layers " + Layers, pathways.toSet)
