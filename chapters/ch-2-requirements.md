@@ -2,20 +2,32 @@
 ## Requisiti di business
 
 ## Requisiti utente
+I requisiti utente esprimono i bisogni degli utenti e descrivono quali sono le azioni che l’utente deve poter effettuare interagendo con il sistema.  
+
+Al fine di esprimere in maniera concisa tali requisiti sono state impiegate le User stories e i Casi d'uso.
 
 ### User stories
 
 ### Casi d'uso
+Il primo diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimere ciò che l'utente finale può fare interagendo con il sistema allo scopo di giocare.
 
 <div align="center">
-  <img src="https://images2.imgbox.com/25/65/iS9op2mc_o.png" alt="Diagramma dei casi d'uso - lato gaming">
+  <img src="https://images2.imgbox.com/ad/48/cxZ6HHjH_o.png" alt="Diagramma dei casi d'uso - lato gaming">
   <p align="center">Diagramma dei casi d'uso - lato gaming</p>
 </div>
 
+Un aspetto di grande importanza nella progettazione del sistema è sicuramente la possibilità di aggiungere potenzialmente un numero illimitato di storie; il sistema riuscirà ad interpretare queste ultime e farà navigare l'utente all'interno di esse. È dunque fondamentale che l'utente possa aggiungere nuove storie (reperendole da fonti esterne) e navigare tra esse scegliendo quale giocare.
+
+Il diagramma successivo invece esprime una vista del sistema dalla prospettiva developer.  
+
 <div align="center">
-  <img src="https://images2.imgbox.com/ad/48/cxZ6HHjH_o.png" alt="Diagramma dei casi d'uso - lato developer">
+  <img src="https://images2.imgbox.com/25/65/iS9op2mc_o.png" alt="Diagramma dei casi d'uso - lato developer">
   <p align="center">Diagramma dei casi d'uso - lato developer</p>
 </div>
+
+Le macro-tematiche che si vogliono affrontare tramite questo UML sono due:
+- Indipendenza dallo stack tecnologico, attraverso definizione di interfacce che permettano l'applicazione di un approcco modulare;
+- Agilità nella creazione di nuovi elementi per le storie.
 
 ## Requisiti funzionali
 
