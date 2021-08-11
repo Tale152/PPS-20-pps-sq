@@ -6,9 +6,8 @@ import model.characters.properties.StatName.StatName
  * Trait that represents a stat, which is a value assigned to a specific StatName.
  * It is used to define a certain statistic of a character.
  */
-trait Stat {
+trait Stat extends StatDescriptor {
   def value(): Int
-  def statName(): StatName
 }
 
 object Stat {

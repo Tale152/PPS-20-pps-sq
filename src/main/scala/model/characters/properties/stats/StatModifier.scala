@@ -5,8 +5,7 @@ import model.characters.properties.StatName.StatName
 /**
  * Trait that represents a Stat Modifier, which is used to apply a change to a specific stat.
  */
-trait StatModifier {
-  def statName(): StatName
+trait StatModifier extends StatDescriptor {
   def modifyStrategy: Int => Int
 }
 
