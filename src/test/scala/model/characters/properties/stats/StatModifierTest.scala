@@ -1,6 +1,6 @@
-package model.characters.properties
+package model.characters.properties.stats
 
-import model.characters.properties.StatName.StatName
+import model.characters.properties.stats.StatName.StatName
 import org.scalatest.{FlatSpec, Matchers}
 
 class StatModifierTest extends FlatSpec with Matchers {

@@ -1,6 +1,6 @@
-package model.characters.properties
+package model.characters.properties.stats
 
-import model.characters.properties.StatName.StatName
+import StatName.StatName
 
 /**
  * Trait that represents a Stat Modifier, which is used to apply a change to a specific stat.

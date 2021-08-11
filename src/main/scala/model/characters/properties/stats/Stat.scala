@@ -1,6 +1,6 @@
-package model.characters.properties
+package model.characters.properties.stats
 
-import model.characters.properties.StatName.StatName
+import StatName.StatName
 
 /**
  * Trait that represents a stat, which is a value assigned to a specific StatName.
