@@ -18,8 +18,7 @@ Abbiamo deciso di produrre una versione estremamente basilare del software, intr
 
 Non è stata introdotta l'interfaccia grafica, che in questa fase era completamente trascurabile; usare delle stampe a linea di comando era più che sufficiente al fine di testare che la logica base del gioco funzionasse.
 #### Considerazioni finali
-Alla fine del primo Sprint siamo stati molto soddisfatti di vedere i progressi fatti. I task assegnati ai vari componenti del gruppo sono stati svolti in modo corretto.  
-Le riunioni giornaliere ci hanno permesso di segnalare eventuali problematiche non identificate inizialemente nella progettazione e di corregerle se necessario.
+Alla fine del primo Sprint siamo stati molto soddisfatti di vedere i progressi fatti. I task assegnati ai vari componenti del gruppo sono stati svolti in modo corretto.
 
 ### Sprint 2 (11/08/2021 - 21/08/2021)
 #### Obiettivo
