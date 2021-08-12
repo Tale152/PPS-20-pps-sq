@@ -2,11 +2,14 @@ package model.nodes
 
 import model.characters.Player
 import model.StoryModel
+import model.characters.properties.stats.{Stat, StatName}
 import org.scalatest.{FlatSpec, Matchers}
 
 class PathwayTest extends FlatSpec with Matchers {
 
   val playerName: String = "prerequisite"
+  val maxPS: Int = 100
+  val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
   val storyNodeNarrative: String = "storyNodeNarrative"
   val pathwayDescription: String = "pathwayDescription"
 
@@ -35,12 +38,13 @@ class PathwayTest extends FlatSpec with Matchers {
 
   "The prerequisite" should "be true if condition is present and is met" in {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModel(Player(playerName), startingNode)) shouldEqual true
+    pathwayPrerequisite.prerequisite.get(StoryModel(Player(playerName, maxPS, stats), startingNode)) shouldEqual true
   }
 
   "The prerequisite" should "be false if condition is present and isn't met" in {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModel(Player("should be false"), startingNode)) shouldEqual false
+    pathwayPrerequisite.prerequisite.get(StoryModel(
+      Player("should be false", maxPS, stats), startingNode)) shouldEqual false
   }
 
   it should "have a defined description" in {
