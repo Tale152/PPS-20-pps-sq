@@ -60,7 +60,7 @@ In quanto giocatore
 
  
 ### Casi d'uso
-Il primo diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimere ciò che l'utente finale può fare interagendo con il sistema allo scopo di giocare.
+Il diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimere ciò che l'utente finale può fare interagendo con il sistema allo scopo di giocare.
 
 <div align="center">
   <img src="https://images2.imgbox.com/ad/48/cxZ6HHjH_o.png" alt="Diagramma dei casi d'uso - lato gaming">
@@ -68,17 +68,6 @@ Il primo diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole es
 </div>
 
 Un aspetto di grande importanza nella progettazione del sistema è sicuramente la possibilità di aggiungere potenzialmente un numero illimitato di storie; il sistema riuscirà ad interpretare queste ultime e farà navigare l'utente all'interno di esse. È dunque fondamentale che l'utente possa aggiungere nuove storie (reperendole da fonti esterne) e navigare tra esse scegliendo quale giocare.
-
-Il diagramma successivo invece esprime una vista del sistema dalla prospettiva developer.  
-
-<div align="center">
-  <img src="https://images2.imgbox.com/25/65/iS9op2mc_o.png" alt="Diagramma dei casi d'uso - lato developer">
-  <p align="center">Diagramma dei casi d'uso - lato developer</p>
-</div>
-
-Le macro-tematiche che si vogliono affrontare tramite questo UML sono due:
-- Indipendenza dallo stack tecnologico, attraverso definizione di interfacce che permettano l'applicazione di un approcco modulare;
-- Agilità nella creazione di nuovi elementi per le storie.
 
 ## Requisiti funzionali
 
