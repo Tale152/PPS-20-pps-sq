@@ -1,6 +1,6 @@
 package view
 
-import controller.subcontroller.StoryController
+import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
 import view.util.ScalaQuestPanel
 
@@ -22,7 +22,7 @@ object StoryView {
   /**
    * Implementation of [[view.StoryView.StoryView]]
    *
-   * @param storyController the [[controller.subcontroller.StoryController]] for navigating between nodes
+   * @param storyController the [[controller.game.subcontroller.StoryController]] for navigating between nodes
    */
   class StoryViewImpl(val storyController: StoryController) extends ScalaQuestPanel
     with StoryView {

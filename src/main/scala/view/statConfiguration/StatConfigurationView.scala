@@ -1,6 +1,6 @@
 package view.statConfiguration
 
-import controller.subcontroller.StatConfigurationController
+import controller.StatConfigurationController
 import model.characters.properties.stats.Stat
 import view.statConfiguration.panels.{ButtonsPanel, InstructionPanel, RemainingPointsPanel, StatEditPanel}
 import view.{Frame, View}

@@ -12,6 +12,7 @@ object Frame {
   val minimumFrameHeight = 300
 
   val frame = new JFrame()
+  var _currentJPanel: Option[JPanel] = None
 
   def setVisible(visible: Boolean): Unit = {
     frame.setVisible(visible)
@@ -21,6 +22,10 @@ object Frame {
     frame.setTitle("ScalaQuest")
   }
 
-  def setPanel(jpanel: JPanel): Unit = frame.add(jpanel)
+  def setPanel(jPanel: JPanel): Unit = {
+    if(_currentJPanel.nonEmpty) frame.remove(_currentJPanel.get)
+    _currentJPanel = Some(jPanel)
+    frame.add(jPanel)
+  }
 
 }

@@ -1,13 +1,13 @@
-package controller.subcontroller
+package controller.game.subcontroller
 
-import controller.MasterController
+import controller.game.GameMasterController
 import model.StoryModel
 import model.nodes.Pathway
 import view.StoryView
 import view.StoryView.StoryView
 
 /**
- * The [[controller.subcontroller.SubController]] that contains the logic to update the
+ * The [[controller.game.subcontroller.SubController]] that contains the logic to update the
  * [[model.StoryModel]] current [[model.nodes.StoryNode]].
  */
 sealed trait StoryController extends SubController {
@@ -24,7 +24,8 @@ sealed trait StoryController extends SubController {
 
 object StoryController {
 
-  class StoryControllerImpl(private val storyModel: StoryModel) extends StoryController {
+  class StoryControllerImpl(private val gameMasterController: GameMasterController, private val storyModel: StoryModel)
+    extends StoryController {
 
     private val storyView: StoryView = StoryView(this)
 
@@ -48,7 +49,7 @@ object StoryController {
     /**
      * Defines the actions to do when the Controller execution is over.
      */
-    override def close(): Unit = MasterController.close()
+    override def close(): Unit = gameMasterController.close()
 
     override def choosePathWay(pathway: Pathway): Unit = {
       if (!storyModel.currentStoryNode.pathways.contains(pathway)) {
@@ -61,6 +62,7 @@ object StoryController {
     }
   }
 
-  def apply(storyModel: StoryModel): StoryController = new StoryControllerImpl(storyModel)
+  def apply(gameMasterController: GameMasterController, storyModel: StoryModel): StoryController =
+    new StoryControllerImpl(gameMasterController, storyModel)
 
 }

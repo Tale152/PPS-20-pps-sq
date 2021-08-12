@@ -1,4 +1,4 @@
-package controller.subcontroller
+package controller.game.subcontroller
 
 import model.StoryModel
 import model.characters.Player
@@ -16,12 +16,12 @@ class StoryControllerTest extends FlatSpec with Matchers with BeforeAndAfterEach
   val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathway))
 
   var storyModel: StoryModel = StoryModel(player, startingNode)
-  var storyController: StoryController = StoryController(storyModel)
+  var storyController: StoryController = StoryController(null, storyModel)
 
   override def beforeEach(): Unit = {
     super.beforeEach()
     storyModel = StoryModel(player, startingNode)
-    storyController = StoryController(storyModel)
+    storyController = StoryController(null, storyModel)
   }
 
 
