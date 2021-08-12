@@ -23,5 +23,20 @@ object StatModifier {
   private class StatModifierImpl(override val statName: StatName,
                                  override val modifyStrategy: Int => Int) extends StatModifier {
     require(statName != null && modifyStrategy != null)
+
+    def canEqual(other: Any): Boolean = other.isInstanceOf[StatModifierImpl]
+
+    override def equals(other: Any): Boolean = other match {
+      case that: StatModifierImpl =>
+        (that canEqual this) &&
+          statName == that.statName &&
+          modifyStrategy == that.modifyStrategy
+      case _ => false
+    }
+
+    override def hashCode(): Int = {
+      val state = Seq(statName, modifyStrategy)
+      state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+    }
   }
 }
