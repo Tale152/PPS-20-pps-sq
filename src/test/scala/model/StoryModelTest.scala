@@ -1,12 +1,15 @@
 package model
 
 import model.characters.Player
+import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.{Pathway, StoryNode}
 import org.scalatest.{FlatSpec, Matchers}
 
 class StoryModelTest extends FlatSpec with Matchers {
 
-  val mainPlayer: Player = Player("Jonathan")
+  val maxPS: Int = 100
+  val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
+  val mainPlayer: Player = Player("Jonathan", maxPS, stats)
 
   val storyNode: StoryNode = StoryNode(0, "narrative", Set.empty)
   val nextStoryNode: StoryNode = StoryNode(1, "nextNarrative", Set.empty)

@@ -8,6 +8,7 @@ class HealthTest extends FlatSpec with Matchers {
   val defaultPlayerMaxPS = 100
   val incorrectCurrentPS = 110
   val incorrectNegativeCurrentPs: Int = -10
+  val correctCurrentPS = 50
 
   val health: Health = Health(defaultPlayerMaxPS)
 
@@ -27,6 +28,11 @@ class HealthTest extends FlatSpec with Matchers {
   "current PS" should "take value 0 if set lower than 0" in {
     health.currentPS = incorrectNegativeCurrentPs
     health.currentPS shouldEqual 0
+  }
+
+  "current PS" should "update value" in {
+    health.currentPS = correctCurrentPS
+    health.currentPS shouldEqual correctCurrentPS
   }
 
   it should "throw IllegalArgumentException if max PS value is zero" in {

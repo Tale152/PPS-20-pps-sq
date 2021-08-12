@@ -32,6 +32,20 @@ object Health {
       case _ => _currentPS = newCurrentPS
     }
 
+    def canEqual(other: Any): Boolean = other.isInstanceOf[HealthImpl]
+
+    override def equals(other: Any): Boolean = other match {
+      case that: HealthImpl =>
+        (that canEqual this) &&
+          _currentPS == that._currentPS &&
+          maxPS == that.maxPS
+      case _ => false
+    }
+
+    override def hashCode(): Int = {
+      val state = Seq(_currentPS, maxPS)
+      state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+    }
   }
 
 }

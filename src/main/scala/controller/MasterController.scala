@@ -5,7 +5,8 @@ import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
 import model.characters.Player
 import model.nodes.StoryNode
-import model.{StoryModel}
+import model.StoryModel
+import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.util.StoryNodeSerializer.deserializeStory
 
 /**
@@ -18,6 +19,7 @@ sealed trait MasterController extends Controller {
 
   /**
    * Delegate the job to a sub-component
+   *
    * @param operation the OperationType
    */
   def executeOperation(operation: OperationType): Unit
@@ -39,7 +41,8 @@ object MasterController extends MasterController {
    */
   override def execute(): Unit = {
     val deserializedStoryNode: StoryNode = loadStory(ResourceName.storyDirectoryPath() + "/random-story.ser")
-    subControllersContainer = Some(SubControllersContainer(StoryModel(Player("Player"), deserializedStoryNode)))
+    subControllersContainer = Some(SubControllersContainer(StoryModel(
+      Player("Player", 1, Set(Stat(1, StatName.Speed))), deserializedStoryNode)))
     executeOperation(StoryOperation)
   }
 
@@ -52,5 +55,5 @@ object MasterController extends MasterController {
     case StoryOperation => subControllersContainer.get.storyController.execute()
   }
 
-  override def loadStory(storyURI: String) : StoryNode = deserializeStory(storyURI)
+  override def loadStory(storyURI: String): StoryNode = deserializeStory(storyURI)
 }

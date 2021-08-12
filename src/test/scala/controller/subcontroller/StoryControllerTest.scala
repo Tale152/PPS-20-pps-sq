@@ -2,12 +2,15 @@ package controller.subcontroller
 
 import model.StoryModel
 import model.characters.Player
+import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.{Pathway, StoryNode}
 import org.scalatest.{BeforeAndAfterEach, FlatSpec, Matchers}
 
 class StoryControllerTest extends FlatSpec with Matchers with BeforeAndAfterEach {
 
-  val player: Player = Player("player")
+  val maxPS: Int = 100
+  val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
+  val player: Player = Player("player", maxPS, stats)
   val destinationNode: StoryNode = StoryNode(1, "narrative", Set.empty)
   val pathway: Pathway = Pathway("description", destinationNode, None)
   val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathway))
