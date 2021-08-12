@@ -7,7 +7,58 @@ I requisiti utente esprimono i bisogni degli utenti e descrivono quali sono le a
 Al fine di esprimere in maniera concisa tali requisiti sono state impiegate le User stories e i Casi d'uso.
 
 ### User stories
+Le user stories sono delle specifiche informali, scritte dal punto di vista dell'utente finale, che descrivono ad alto livello le funzionalità che il sistema dovrà possedere.
 
+**WHO:**  
+In quanto giocatore
+
+1.  - **WHAT:**  
+    vorrei poter scegliere tra più storie da giocare
+    - **WHY:**  
+    per aumentare la varietà
+<br/><br/>
+2.  - **WHAT:**  
+    vorrei poter aggiungere nuove storie
+    - **WHY:**  
+    per espandere e protrarre l'esperienza di gioco
+<br/><br/>
+3.  - **WHAT**  
+    vorrei poter navigare una storia compiendo scelte
+    - **WHY**  
+    per immedesimarmi nella psicologia del personaggio da me creato
+<br/><br/>
+4.  - **WHAT**  
+    vorrei poter selezionare le caratteristiche del mio personaggio
+    - **WHY**  
+    per scegliere delle caratteristiche che avvantaggino una certo stile di gioco
+<br/><br/>
+5.  - **WHAT**  
+    vorrei che le caratteristiche del mio personaggio influenzino la storia
+    - **WHY**  
+    per poter giocare nuovamente la stessa storia prendendo scelte che prima non erano disponibili
+<br/><br/>
+6.  - **WHAT**  
+    vorrei poter consultare un riepilogo della storia giocata fino al mio attuale progresso
+    - **WHY**  
+    per poter rivisitare tutti i dettagli della mia avventura corrente
+<br/><br/>
+7.  - **WHAT**  
+    vorrei poter salvare i miei progressi in una storia
+    - **WHY**  
+    per poter riprendere a giocare dallo stesso punto in futuro 
+<br/><br/>
+8.  - **WHAT**  
+    vorrei poter sostenere delle battaglie contro dei nemici
+    - **WHY**  
+    per potermi mettere alla prova
+<br/><br/>
+8.  - **WHAT**  
+    vorrei poter gestire degli oggetti
+    - **WHY**  
+    per sbloccare nuove scelte, personalizzare il mio personaggio e ricevere aiuto in situazioni critiche dovute a combattimenti
+<br/><br/>
+
+ 
 ### Casi d'uso
 Il primo diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimere ciò che l'utente finale può fare interagendo con il sistema allo scopo di giocare.
 
