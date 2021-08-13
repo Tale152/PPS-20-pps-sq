@@ -8,10 +8,27 @@ import view.{Frame, View}
 import java.awt.Color
 import javax.swing.{BoxLayout, JPanel}
 
+/**
+ * Is a GUI that allows the user to set his stats.
+ * @see [[model.characters.properties.stats.Stat]]
+ * @see [[model.characters.properties.PropertiesContainer]]
+ * @see [[model.characters.Player]]
+ */
 trait StatConfigurationView extends View {
 
+  /**
+   * Allow to set the number of remaining points to be rendered
+   * @param points the number of remaining points
+   */
   def setRemainingPoints(points: Int): Unit
 
+  /**
+   * Allow to set the stats to be rendered; the user will be able to increase (unless the remaining points are zero)
+   * or decrease the stat value (unless the stat value is one)
+   * @param stats list of stats to render
+   * @see [[model.characters.properties.stats.Stat]]
+   * @see [[setRemainingPoints]]
+   */
   def setStats(stats: List[Stat]): Unit
 
 }
@@ -62,5 +79,4 @@ object StatConfigurationView {
 
   def apply(statConfigurationController: StatConfigurationController): StatConfigurationView =
     new StatConfigurationViewImpl(statConfigurationController)
-
 }
