@@ -1,6 +1,6 @@
 import Dependencies._
 
-ThisBuild / scalaVersion     := "2.12.8"
+ThisBuild / scalaVersion := "2.12.8"
 
 lazy val root = (project in file("."))
   .settings(
@@ -24,20 +24,21 @@ concurrentRestrictions in Global := Seq(Tags.limitAll(numberOfTestProcessors))
 ThisBuild / githubWorkflowPublishTargetBranches := Seq()
 
 // scoverage plugin keys
-coverageEnabled := true
 coverageMinimum := 60 //%
 coverageFailOnMinimum := true
 coverageHighlighting := true
 
 // scoverage file exclusion
 lazy val exclusionsRegex = Seq(
-  "util", "MasterController", "SubControllersContainer", "StoryView"
+  "util", "MasterController", "SubControllersContainer", "view"
 ).map(s => ".*" + s + "*.").mkString(";")
 coverageExcludedPackages := exclusionsRegex
 
 // Add scoverage to the workflow
-ThisBuild / githubWorkflowBuildPostamble ++= List(
-  WorkflowStep.Sbt(List("coverageReport"), name = Some("Coverage"))
+ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("clean", "coverage", "test"),
+                                       name = Some("Test (coverage enabled)")))
+ThisBuild / githubWorkflowBuildPostamble ++= List(WorkflowStep.Sbt(List("coverageReport"),
+                                                  name = Some("Coverage"))
 )
 
 // add scalafix settings

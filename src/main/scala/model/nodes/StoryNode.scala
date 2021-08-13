@@ -6,7 +6,7 @@ import scala.collection.immutable.Set
  * Trait that represents a story node, which is used to have a reference of all the current possible pathways and
  * of what is happening in the story.
  */
-trait StoryNode {
+trait StoryNode extends Serializable{
   def id: Int
   def narrative: String
   def pathways: Set[Pathway]
@@ -29,7 +29,11 @@ object StoryNode {
     require(
       !id.isNaN && narrative != null &&
         narrative.trim.nonEmpty &&
-        pathways.forall(p => !pathways.exists(o => !o.eq(p) && o.destinationNode.eq(p.destinationNode)))
+        pathways.forall(p => !pathways.exists(o => !o.eq(p) && o.destinationNode.eq(p.destinationNode))) &&
+        containsOnePathwayWithNoCondition(pathways)
     )
+
+    private def containsOnePathwayWithNoCondition(pathways: Set[Pathway]): Boolean =
+      if (pathways.nonEmpty) pathways.exists(p => p.prerequisite.isEmpty) else true
   }
 }

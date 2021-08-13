@@ -1,8 +1,8 @@
-import controller.MasterController
+import controller.ApplicationController
 
 /**
  *  The Application entry point.
  */
 object Main extends App {
-  MasterController.execute()
+  ApplicationController.execute()
 }

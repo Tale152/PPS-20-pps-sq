@@ -1,8 +1,12 @@
 package view
 
-import controller.subcontroller.StoryController
+import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
-import view.util.InputUtility
+import view.util.ScalaQuestPanel
+
+import java.awt.event.ActionEvent
+import java.awt.{BorderLayout, Color, GridLayout}
+import javax.swing.{JButton, JLabel, JPanel}
 
 object StoryView {
 
@@ -15,32 +19,24 @@ object StoryView {
     def setPathways(pathways: Set[Pathway]): Unit
   }
 
-  class StoryViewImpl(val storyController: StoryController, val inputStrategy: () => String) extends StoryView {
+  /**
+   * Implementation of [[view.StoryView.StoryView]]
+   *
+   * @param storyController the [[controller.game.subcontroller.StoryController]] for navigating between nodes
+   */
+  class StoryViewImpl(val storyController: StoryController) extends ScalaQuestPanel
+    with StoryView {
 
     private var _narrative: String = ""
     private var _pathways: Seq[Pathway] = Seq()
 
-    object NotValidInputStrategy {
-      //used to filter invalid input from user
-      val OnlyChoicesStrategy: String => Boolean = input =>
-            input == "" ||
-            !(input forall Character.isDigit) ||
-            input.toInt > _pathways.size ||
-            input.toInt < 1
-    }
+    val narrativePanel: JPanel = new JPanel()
+    val pathwaysPanel: JPanel = new JPanel()
+    pathwaysPanel.setLayout(new GridLayout(0, 2))
+    //
 
-    /**
-     * Gets the user input and sends it to [[controller.subcontroller.StoryController]]
-     */
-    private def waitForUserInput(): Unit = {
-      if (_pathways.nonEmpty) {
-        val chosenPath = InputUtility.inputAsInt(inputStrategy, NotValidInputStrategy.OnlyChoicesStrategy)
-        storyController.choosePathWay(_pathways(chosenPath))
-      } else {
-        scala.io.StdIn.readLine()
-        storyController.close()
-      }
-    }
+    narrativePanel.setOpaque(false)
+    pathwaysPanel.setOpaque(false)
 
     /**
      * Represents graphically the different pathways
@@ -48,7 +44,16 @@ object StoryView {
      * @param paths the available paths
      */
     private def printPaths(paths: Seq[Pathway]): Unit = {
-      paths.zipWithIndex.foreach(t => println(t._2 + 1 + ") " + t._1.description))
+      paths.foreach(i => {
+        val button: JButton = new JButton(i.description)
+        button.setFocusPainted(false);
+        button.setBackground(Color.LIGHT_GRAY)
+        button.addActionListener((_: ActionEvent) => {
+          storyController.choosePathWay(i)
+          render()
+        })
+        pathwaysPanel.add(button)
+      })
     }
 
     override def setNarrative(narrative: String): Unit = _narrative = narrative
@@ -56,18 +61,33 @@ object StoryView {
     override def setPathways(pathways: Set[Pathway]): Unit = _pathways = pathways.toSeq
 
     /**
-     * Renders the entire view, made by narrative, pathways and user input
+     * Removes all element from each panel
+     */
+    def clear(): Unit = {
+      pathwaysPanel.removeAll()
+      narrativePanel.removeAll()
+    }
+
+    /**
+     * Renders the entire view, made by narrative and pathways
      */
     override def render(): Unit = {
-      println(_narrative)
-      if (_pathways.nonEmpty) {
-        this.printPaths(_pathways)
-        println("Choose your way: ")
-      }
-      waitForUserInput()
+      this.clear()
+      this.updateUI()
+
+      val narrativeLabel: JLabel = new JLabel(_narrative)
+      narrativeLabel.setForeground(Color.WHITE)
+      narrativePanel.add(narrativeLabel)
+
+      this.add(narrativePanel)
+      this.printPaths(_pathways)
+      this.add(pathwaysPanel, BorderLayout.SOUTH)
+
+      Frame.setPanel(this)
+      Frame.setVisible(true)
     }
   }
 
-  def apply(storyController: StoryController, inputStrategy: () => String): StoryView =
-    new StoryViewImpl(storyController, inputStrategy)
+  def apply(storyController: StoryController): StoryView =
+    new StoryViewImpl(storyController)
 }
