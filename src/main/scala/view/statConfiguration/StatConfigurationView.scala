@@ -9,7 +9,8 @@ import java.awt.Color
 import javax.swing.{BoxLayout, JPanel}
 
 /**
- * Is a GUI that allows the user to set his stats.
+ * Is a GUI that allows the user to set his stats. Associated withe a StatConfigurationController.
+ * @see [[controller.StatConfigurationController]]
  * @see [[model.characters.properties.stats.Stat]]
  * @see [[model.characters.properties.PropertiesContainer]]
  * @see [[model.characters.Player]]
