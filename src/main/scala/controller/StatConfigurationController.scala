@@ -8,10 +8,31 @@ import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.StoryNode
 import view.statConfiguration.StatConfigurationView
 
+/**
+ * A controller that coordinates the process of user setting his stats; receives control from the ApplicationController
+ * and grants it to the GameMasterController (or back to the ApplicationController if user selects back).
+ * Coupled with a StatConfigurationView
+ * @see [[view.statConfiguration.StatConfigurationView]]
+ * @see [[GameMasterController]]
+ * @see [[ApplicationController]]
+ * @see [[model.characters.properties.stats.Stat]]
+ */
 trait StatConfigurationController extends Controller {
 
+  /**
+   * Used by the StatConfigurationView when the user modifies the value of a stat.
+   * @param stat the stat that has been modified
+   * @param value the new stat value
+   * @see [[model.characters.properties.stats.Stat]]
+   * @see [[view.statConfiguration.StatConfigurationView]]
+   */
   def setStatValue(stat: StatName, value: Int): Unit
 
+  /**
+   * Used by the StatConfigurationView when the user has finished modifying his stats.
+   * @see [[model.characters.properties.stats.Stat]]
+   * @see [[view.statConfiguration.StatConfigurationView]]
+   */
   def confirm(): Unit
 }
 
