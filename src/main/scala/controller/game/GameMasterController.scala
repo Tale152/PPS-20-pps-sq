@@ -5,10 +5,10 @@ import controller.game.OperationType.{OperationType, StoryOperation}
 import model.StoryModel
 
 /**
- * The Master Controller is the Main Controller of the application.
+ * The Game Master Controller is the main Controller regarding a game associated to a story.
  * It acts as a coordinator, using the [[GameMasterController#executeOperation(controller.OperationType)]] method
  * to specify the receiver of the delegate job.
- * The MasterController is strongly related to one or more [[controller.game.subcontroller.SubController]].
+ * The Game Master Controller is strongly related to one or more [[controller.game.subcontroller.SubController]].
  */
 sealed trait GameMasterController extends Controller {
 
