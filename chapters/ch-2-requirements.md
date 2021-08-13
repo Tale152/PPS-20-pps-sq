@@ -78,7 +78,7 @@ I requisiti di implementazione vincolano l'intera fase di realizzazione del sist
 
 I requisiti di implementazione sono i seguenti, divisi per categoria: 
 1. __Build Tool__: Il build tool utilizzato è sbt;
-2. __Linguaggio utilizzato__: Scala Quest è stato sviluppato utilizzando il Scala 2;
+2. __Linguaggio utilizzato__: Scala Quest è stato sviluppato utilizzando Scala 2;
 3. __Suite di Testing__: Il testing è avvenuto mediante la libreria ScalaTest, al fine di poter mantenere e aggiornare in modo
 semplice, esplicativo e controllato il sistema e le sue funzionalità;
 4. __Librerie__: Eventuali librerie aggiuntive sono importabile tramite l'aggiunta di dipendenze all'interno di sbt. 
