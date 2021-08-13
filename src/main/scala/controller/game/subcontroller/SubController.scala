@@ -1,7 +1,6 @@
 package controller.game.subcontroller
 
 import controller.Controller
-import controller.game.GameMasterController
 
 /**
  * A SubController is a sub-component of the GameMasterController.
