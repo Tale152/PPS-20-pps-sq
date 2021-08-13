@@ -38,20 +38,21 @@ class PropertiesContainerTest extends FlatSpec with Matchers {
   }
 
   "PropertiesContainer" should "be able to add a statModifier" in {
-    prop.addStatModifier(StatModifier(StatName.Speed, modifierStrategy))
-    prop.addStatModifier(StatModifier(StatName.Speed, modifierStrategy))
-    prop.addStatModifier(StatModifier(StatName.Wisdom, modifierStrategy))
-    prop.addStatModifier(StatModifier(StatName.Dexterity, modifierStrategy))
+    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    prop.statModifiers += StatModifier(StatName.Wisdom, modifierStrategy)
+    prop.statModifiers += StatModifier(StatName.Dexterity, modifierStrategy)
 
     prop.statModifiers shouldEqual statMods
 
   }
 
   "StatModifier with parameter statName" should "return every modifier for the specific statName" in {
-    prop.addStatModifier(StatModifier(StatName.Speed, modifierStrategy))
-    prop.addStatModifier(StatModifier(StatName.Speed, modifierStrategy))
-    prop.addStatModifier(StatModifier(StatName.Wisdom, modifierStrategy))
-    prop.addStatModifier(StatModifier(StatName.Dexterity, modifierStrategy))
+    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    prop.statModifiers += StatModifier(StatName.Wisdom, modifierStrategy)
+    prop.statModifiers += StatModifier(StatName.Dexterity, modifierStrategy)
 
     prop.statModifiers(StatName.Speed) shouldEqual Set(
       StatModifier(StatName.Speed, modifierStrategy), StatModifier(StatName.Speed, modifierStrategy))
