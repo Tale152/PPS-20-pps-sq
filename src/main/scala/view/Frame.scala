@@ -26,6 +26,7 @@ object Frame {
     if(_currentJPanel.nonEmpty) frame.remove(_currentJPanel.get)
     _currentJPanel = Some(jPanel)
     frame.add(jPanel)
+    frame.repaint()
   }
 
 }

@@ -30,11 +30,12 @@ object StoryView {
     private var _narrative: String = ""
     private var _pathways: Seq[Pathway] = Seq()
 
+    val statsPanel: JPanel = new JPanel()
     val narrativePanel: JPanel = new JPanel()
     val pathwaysPanel: JPanel = new JPanel()
     pathwaysPanel.setLayout(new GridLayout(0, 2))
-    //
 
+    statsPanel.setOpaque(false)
     narrativePanel.setOpaque(false)
     pathwaysPanel.setOpaque(false)
 
@@ -46,7 +47,7 @@ object StoryView {
     private def printPaths(paths: Seq[Pathway]): Unit = {
       paths.foreach(i => {
         val button: JButton = new JButton(i.description)
-        button.setFocusPainted(false);
+        button.setFocusPainted(false)
         button.setBackground(Color.LIGHT_GRAY)
         button.addActionListener((_: ActionEvent) => {
           storyController.choosePathWay(i)
@@ -63,7 +64,9 @@ object StoryView {
     /**
      * Removes all element from each panel
      */
-    def clear(): Unit = {
+    private def clear(): Unit = {
+      this.removeAll()
+      statsPanel.removeAll()
       pathwaysPanel.removeAll()
       narrativePanel.removeAll()
     }
@@ -75,11 +78,16 @@ object StoryView {
       this.clear()
       this.updateUI()
 
+      val statsButton: JButton = new JButton("Stats")
+      statsButton.addActionListener((_: ActionEvent) => storyController.goToStatStatus())
+      statsPanel.add(statsButton)
+
       val narrativeLabel: JLabel = new JLabel(_narrative)
       narrativeLabel.setForeground(Color.WHITE)
       narrativePanel.add(narrativeLabel)
 
-      this.add(narrativePanel)
+      this.add(statsPanel, BorderLayout.NORTH)
+      this.add(narrativePanel, BorderLayout.CENTER)
       this.printPaths(_pathways)
       this.add(pathwaysPanel, BorderLayout.SOUTH)
 
