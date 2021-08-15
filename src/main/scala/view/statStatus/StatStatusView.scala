@@ -5,7 +5,6 @@ import model.characters.properties.stats.StatName.StatName
 import view.statStatus.panels.{ControlsPanel, HealthPanel, PlayerNamePanel, StatValuePanel}
 import view.AbstractView
 
-import java.awt.Color
 import javax.swing.BoxLayout
 
 /**
@@ -38,20 +37,21 @@ trait StatStatusView extends AbstractView {
 }
 
 object StatStatusView {
-  def apply(statStatusController: StatStatusController): StatStatusView = new StatStatusViewImpl(statStatusController)
+  def apply(statStatusController: StatStatusController): StatStatusView = new StatStatusViewSwing(statStatusController)
 }
 
-private class StatStatusViewImpl(private val statStatusController: StatStatusController)
-  extends StatStatusView {
-
-  this.setBackground(Color.BLACK)
-  this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
-
+private class StatStatusViewSwing(private val statStatusController: StatStatusController) extends StatStatusView {
   private var _stats: List[(StatName, (Int, Int))] = List()
   private var _playerName: String = ""
   private var _health: (Int, Int) = (0,0)
 
+  this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
+
   override def setStats(stats: List[(StatName, (Int, Int))]): Unit = _stats = stats
+
+  override def setPlayerName(name: String): Unit = _playerName = name
+
+  override def setHealth(health: (Int, Int)): Unit = _health = health
 
   def populateView(): Unit = {
     this.add(PlayerNamePanel(_playerName))
@@ -59,8 +59,4 @@ private class StatStatusViewImpl(private val statStatusController: StatStatusCon
     for(stat <- _stats) this.add(StatValuePanel(stat))
     this.add(ControlsPanel(_ => statStatusController.close()))
   }
-
-  override def setPlayerName(name: String): Unit = _playerName = name
-
-  override def setHealth(health: (Int, Int)): Unit = _health = health
 }

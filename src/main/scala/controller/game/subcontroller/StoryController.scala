@@ -3,8 +3,7 @@ package controller.game.subcontroller
 import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
 import model.nodes.Pathway
-import view.StoryView
-import view.StoryView.StoryView
+import view.storyView.StoryView
 
 /**
  * The [[controller.game.subcontroller.SubController]] that contains the logic to update the

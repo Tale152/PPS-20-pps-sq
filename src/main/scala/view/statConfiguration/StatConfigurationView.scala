@@ -35,10 +35,10 @@ trait StatConfigurationView extends AbstractView {
 
 object StatConfigurationView {
   def apply(statConfigurationController: StatConfigurationController): StatConfigurationView =
-    new StatConfigurationViewImpl(statConfigurationController)
+    new StatConfigurationViewSwing(statConfigurationController)
 }
 
-private class StatConfigurationViewImpl(private val statConfigurationController: StatConfigurationController)
+private class StatConfigurationViewSwing(private val statConfigurationController: StatConfigurationController)
   extends StatConfigurationView {
 
   this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
