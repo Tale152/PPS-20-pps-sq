@@ -1,7 +1,6 @@
 package view.statConfiguration.panels
 
-import java.awt.event.ActionEvent
-import javax.swing.{JButton, JPanel}
+import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFlowPanel}
 
 object ButtonsPanel {
 
@@ -11,14 +10,9 @@ object ButtonsPanel {
    * @param onBack strategy to be applied on back button click
    * @param onConfirm strategy to be applied on confirm button click
    */
-  class ButtonsPanel(private val onBack: Unit => Unit, private val onConfirm: Unit => Unit) extends JPanel{
-    this.setOpaque(false)
-    private val backButton: JButton = new JButton("Back")
-    backButton.addActionListener((_: ActionEvent) => onBack())
-    private val confirmButton: JButton = new JButton("Confirm")
-    confirmButton.addActionListener((_: ActionEvent) => onConfirm())
-    this.add(backButton)
-    this.add(confirmButton)
+  class ButtonsPanel(onBack: Unit => Unit, onConfirm: Unit => Unit) extends SqSwingFlowPanel{
+    this.add(SqSwingButton("Back", _ => onBack()))
+    this.add(SqSwingButton("Confirm", _ => onConfirm()))
   }
 
   def apply(onBack: Unit => Unit, onContinue: Unit => Unit): ButtonsPanel = new ButtonsPanel(onBack, onContinue)

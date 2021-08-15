@@ -1,7 +1,6 @@
 package view.statStatus.panels
 
-import java.awt.Color
-import javax.swing.{JLabel, JPanel}
+import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
 
 object PlayerNamePanel {
 
@@ -9,11 +8,8 @@ object PlayerNamePanel {
    * Panel contained in [[view.statStatus.StatStatusView]]; renders the player's name.
    * @param name the name to render
    */
-  class PlayerNamePanel(private val name: String) extends JPanel {
-    this.setOpaque(false)
-    private val playerNameLabel: JLabel = new JLabel("Player: " + name)
-    playerNameLabel.setForeground(Color.WHITE)
-    this.add(playerNameLabel)
+  class PlayerNamePanel(name: String) extends SqSwingFlowPanel {
+    this.add(SqSwingLabel("Player: " + name))
   }
 
   def apply(name: String): PlayerNamePanel = new PlayerNamePanel(name)

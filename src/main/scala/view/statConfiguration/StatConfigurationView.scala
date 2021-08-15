@@ -3,10 +3,9 @@ package view.statConfiguration
 import controller.StatConfigurationController
 import model.characters.properties.stats.Stat
 import view.statConfiguration.panels.{ButtonsPanel, InstructionPanel, RemainingPointsPanel, StatEditPanel}
-import view.{Frame, View}
+import view.AbstractView
 
-import java.awt.Color
-import javax.swing.{BoxLayout, JPanel}
+import javax.swing.BoxLayout
 
 /**
  * Is a GUI that allows the user to set his stats. Associated withe a StatConfigurationController.
@@ -15,7 +14,7 @@ import javax.swing.{BoxLayout, JPanel}
  * @see [[model.characters.properties.PropertiesContainer]]
  * @see [[model.characters.Player]]
  */
-trait StatConfigurationView extends View {
+trait StatConfigurationView extends AbstractView {
 
   /**
    * Allow to set the number of remaining points to be rendered
@@ -35,49 +34,36 @@ trait StatConfigurationView extends View {
 }
 
 object StatConfigurationView {
-
-  class StatConfigurationViewImpl(private val statConfigurationController: StatConfigurationController)
-    extends JPanel with StatConfigurationView {
-
-    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
-    this.setBackground(Color.BLACK)
-
-    private var _stats: List[Stat] = List()
-    private var _remainingPoints: Int = 0
-
-    /**
-     * Renders the view
-     */
-    override def render(): Unit = {
-      this.updateUI()
-      populateView()
-      Frame.setPanel(this)
-      Frame.setVisible(true)
-    }
-
-    override def setStats(stats: List[Stat]): Unit = _stats = stats
-
-    override def setRemainingPoints(points: Int): Unit = _remainingPoints = points
-
-    private def populateView(): Unit = {
-      this.removeAll()
-      this.add(InstructionPanel())
-      this.add(RemainingPointsPanel(_remainingPoints))
-      for(stat <- _stats) {
-        this.add(
-          StatEditPanel(
-            stat,
-            _remainingPoints,
-            _ => statConfigurationController.setStatValue(stat.statName(), stat.value() - 1),
-            _ => statConfigurationController.setStatValue(stat.statName(), stat.value() + 1),
-          )
-        )
-      }
-      this.add(ButtonsPanel(_ => statConfigurationController.close(), _ => statConfigurationController.confirm()))
-    }
-
-  }
-
   def apply(statConfigurationController: StatConfigurationController): StatConfigurationView =
     new StatConfigurationViewImpl(statConfigurationController)
+}
+
+private class StatConfigurationViewImpl(private val statConfigurationController: StatConfigurationController)
+  extends StatConfigurationView {
+
+  this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
+
+  private var _stats: List[Stat] = List()
+  private var _remainingPoints: Int = 0
+
+  override def setStats(stats: List[Stat]): Unit = _stats = stats
+
+  override def setRemainingPoints(points: Int): Unit = _remainingPoints = points
+
+  def populateView(): Unit = {
+    this.add(InstructionPanel())
+    this.add(RemainingPointsPanel(_remainingPoints))
+    for(stat <- _stats) {
+      this.add(
+        StatEditPanel(
+          stat,
+          _remainingPoints,
+          _ => statConfigurationController.setStatValue(stat.statName(), stat.value() - 1),
+          _ => statConfigurationController.setStatValue(stat.statName(), stat.value() + 1),
+        )
+      )
+    }
+    this.add(ButtonsPanel(_ => statConfigurationController.close(), _ => statConfigurationController.confirm()))
+  }
+
 }
