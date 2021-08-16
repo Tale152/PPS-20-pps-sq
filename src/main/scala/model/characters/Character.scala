@@ -9,8 +9,6 @@ import model.characters.properties.stats.Stat
 sealed trait Character {
   val name: String
 
-  val maxPS: Int
-
   val properties: PropertiesContainer
 }
 
@@ -21,7 +19,7 @@ sealed trait Character {
  * @param maxPS the maximum number of PS with full life
  * @param stats a set of predefined stats of the player
  */
-case class Player(override val name: String, override val maxPS: Int, private val stats: Set[Stat]) extends Character {
+case class Player(override val name: String, maxPS: Int, private val stats: Set[Stat]) extends Character {
   require(name != "" && maxPS > 0 && stats.nonEmpty)
   override val properties: PropertiesContainer = PropertiesContainer(maxPS, stats)
 }
