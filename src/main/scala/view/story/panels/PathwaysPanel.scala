@@ -1,4 +1,4 @@
-package view.storyView.panels
+package view.story.panels
 
 import model.nodes.Pathway
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridPanel}

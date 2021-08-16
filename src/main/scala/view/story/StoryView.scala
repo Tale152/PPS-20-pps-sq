@@ -1,8 +1,8 @@
-package view.storyView
+package view.story
 
 import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
-import view.storyView.panels.{MenuOptionsPanel, NarrativePanel, PathwaysPanel}
+import view.story.panels.{MenuOptionsPanel, NarrativePanel, PathwaysPanel}
 import view.AbstractView
 
 import java.awt.BorderLayout
