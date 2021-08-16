@@ -9,8 +9,13 @@ object OperationType {
   trait OperationType
 
   /**
-   * Operation used by to pass control to the [[controller.subcontroller.StoryController]]
+   * Operation used to pass control to the [[controller.game.subcontroller.StoryController]]
    */
   case object StoryOperation extends OperationType
+
+  /**
+   * Operation used to pass control to the [[controller.game.subcontroller.PlayerInfoController]]
+   */
+  case object PlayerInfoOperation extends OperationType
 
 }

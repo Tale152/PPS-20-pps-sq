@@ -1,10 +1,9 @@
 package controller.game.subcontroller
 
-import controller.game.GameMasterController
+import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
 import model.nodes.Pathway
-import view.StoryView
-import view.StoryView.StoryView
+import view.story.StoryView
 
 /**
  * The [[controller.game.subcontroller.SubController]] that contains the logic to update the
@@ -20,6 +19,11 @@ sealed trait StoryController extends SubController {
    *                                  [[model.nodes.StoryNode]]
    */
   def choosePathWay(pathway: Pathway): Unit
+
+  /**
+   * Calls the GameMasterController to grant control to the StatStatusController
+   */
+  def goToStatStatus(): Unit
 }
 
 object StoryController {
@@ -60,6 +64,8 @@ object StoryController {
       storyModel.currentStoryNode = pathway.destinationNode
       this.execute()
     }
+
+    override def goToStatStatus(): Unit = gameMasterController.executeOperation(OperationType.PlayerInfoOperation)
   }
 
   def apply(gameMasterController: GameMasterController, storyModel: StoryModel): StoryController =
