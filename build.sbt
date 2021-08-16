@@ -4,8 +4,8 @@ ThisBuild / scalaVersion := "2.12.8"
 
 lazy val root = (project in file("."))
   .settings(
-      name := "PPS-20-scala-quest",
-      libraryDependencies += scalaTest % Test
+    name := "PPS-20-scala-quest",
+    libraryDependencies += scalaTest % Test
   )
 
 // System.exit calls are trapped to prevent the JVM from terminating.
@@ -29,16 +29,13 @@ coverageFailOnMinimum := true
 coverageHighlighting := true
 
 // scoverage file exclusion
-lazy val exclusionsRegex = Seq(
-  "util", "MasterController", "SubControllersContainer", "view"
-).map(s => ".*" + s + "*.").mkString(";")
-coverageExcludedPackages := exclusionsRegex
+coverageExcludedPackages := "view.*;controller.*;Main"
 
 // Add scoverage to the workflow
 ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("clean", "coverage", "test"),
-                                       name = Some("Test (coverage enabled)")))
+  name = Some("Test (coverage enabled)")))
 ThisBuild / githubWorkflowBuildPostamble ++= List(WorkflowStep.Sbt(List("coverageReport"),
-                                                  name = Some("Coverage"))
+  name = Some("Coverage"))
 )
 
 // add scalafix settings

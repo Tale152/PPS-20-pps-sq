@@ -41,4 +41,22 @@ class HealthTest extends FlatSpec with Matchers {
     }
   }
 
+  val healthEquals: Health = Health(defaultPlayerMaxPS)
+
+  "health equals" should "work properly passing equal health" in {
+    val healthRight: Health = Health(defaultPlayerMaxPS)
+    healthEquals == healthRight shouldBe true
+    healthEquals.hashCode() shouldEqual healthRight.hashCode()
+  }
+
+  "health equals" should "fail passing different health" in {
+    val healthWrong: Health = Health(incorrectCurrentPS)
+    healthEquals == healthWrong shouldBe false
+    healthEquals.hashCode() should not equal healthWrong.hashCode()
+  }
+
+  "health equals" should "fail passing different object" in {
+    healthEquals should not equal "jojo"
+  }
+
 }
