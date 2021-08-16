@@ -1,11 +1,11 @@
-package view.statConfiguration.panels
+package view.playerConfiguration.panels
 
 import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
 
 object InstructionPanel {
 
   /**
-   * Panel contained in [[view.statConfiguration.StatConfigurationView]]; renders instructions for the player
+   * Panel contained in [[view.playerConfiguration.PlayerConfigurationView]]; renders instructions for the player
    */
   class InstructionPanel() extends SqSwingFlowPanel {
     this.add(SqSwingLabel("Distribute points to set your character's stats"))

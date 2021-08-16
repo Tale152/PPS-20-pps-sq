@@ -1,20 +1,21 @@
-package view.statConfiguration
+package view.playerConfiguration
 
-import controller.StatConfigurationController
+import controller.PlayerConfigurationController
 import model.characters.properties.stats.Stat
-import view.statConfiguration.panels.{ButtonsPanel, InstructionPanel, RemainingPointsPanel, StatEditPanel}
+import view.playerConfiguration.panels.{ButtonsPanel, InstructionPanel, RemainingPointsPanel, StatEditPanel}
 import view.AbstractView
 
 import javax.swing.BoxLayout
 
 /**
- * Is a GUI that allows the user to set his stats. Associated withe a StatConfigurationController.
- * @see [[controller.StatConfigurationController]]
+ * Is a GUI that allows the user to set his properties. Associated withe a PlayerConfigurationController.
+ *
+ * @see [[controller.PlayerConfigurationController]]
  * @see [[model.characters.properties.stats.Stat]]
  * @see [[model.characters.properties.PropertiesContainer]]
  * @see [[model.characters.Player]]
  */
-trait StatConfigurationView extends AbstractView {
+trait PlayerConfigurationView extends AbstractView {
 
   /**
    * Allow to set the number of remaining points to be rendered
@@ -33,13 +34,13 @@ trait StatConfigurationView extends AbstractView {
 
 }
 
-object StatConfigurationView {
-  def apply(statConfigurationController: StatConfigurationController): StatConfigurationView =
-    new StatConfigurationViewSwing(statConfigurationController)
+object PlayerConfigurationView {
+  def apply(playerConfigurationController: PlayerConfigurationController): PlayerConfigurationView =
+    new PlayerConfigurationViewSwing(playerConfigurationController)
 }
 
-private class StatConfigurationViewSwing(private val statConfigurationController: StatConfigurationController)
-  extends StatConfigurationView {
+private class PlayerConfigurationViewSwing(private val playerConfigurationController: PlayerConfigurationController)
+  extends PlayerConfigurationView {
 
   this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
 
@@ -58,12 +59,12 @@ private class StatConfigurationViewSwing(private val statConfigurationController
         StatEditPanel(
           stat,
           _remainingPoints,
-          _ => statConfigurationController.setStatValue(stat.statName(), stat.value() - 1),
-          _ => statConfigurationController.setStatValue(stat.statName(), stat.value() + 1),
+          _ => playerConfigurationController.setStatValue(stat.statName(), stat.value() - 1),
+          _ => playerConfigurationController.setStatValue(stat.statName(), stat.value() + 1),
         )
       )
     }
-    this.add(ButtonsPanel(_ => statConfigurationController.close(), _ => statConfigurationController.confirm()))
+    this.add(ButtonsPanel(_ => playerConfigurationController.close(), _ => playerConfigurationController.confirm()))
   }
 
 }

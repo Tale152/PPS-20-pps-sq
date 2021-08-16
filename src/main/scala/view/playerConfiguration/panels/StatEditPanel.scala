@@ -1,4 +1,4 @@
-package view.statConfiguration.panels
+package view.playerConfiguration.panels
 
 import model.characters.properties.stats.Stat
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFlowPanel, SqSwingLabel}
@@ -6,10 +6,11 @@ import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFlowPanel, SqS
 object StatEditPanel {
 
   /**
-   * Panel contained in [[view.statConfiguration.StatConfigurationView]]; renders a form containing the stat name
+   * Panel contained in [[view.playerConfiguration.PlayerConfigurationView]]; renders a form containing the stat name
    * and value, alongside a minus button and a plus button.
    * When stat value equals one the minus button will be disabled; similarly when remaining points equals zero the plus
    * button will be disabled.
+   *
    * @param stat the stat which name and value will be rendered
    * @param remainingPoints the number of remaining points used for button enable/disable
    * @param onMinus strategy to apply on minus button click

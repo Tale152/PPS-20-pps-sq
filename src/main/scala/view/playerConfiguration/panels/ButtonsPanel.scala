@@ -1,12 +1,13 @@
-package view.statConfiguration.panels
+package view.playerConfiguration.panels
 
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFlowPanel}
 
 object ButtonsPanel {
 
   /**
-   * Panel contained in [[view.statConfiguration.StatConfigurationView]]; renders two button:
+   * Panel contained in [[view.playerConfiguration.PlayerConfigurationView]]; renders two button:
    * one to confirm and one to go back
+   *
    * @param onBack strategy to be applied on back button click
    * @param onConfirm strategy to be applied on confirm button click
    */
