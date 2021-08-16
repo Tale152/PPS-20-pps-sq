@@ -29,14 +29,9 @@ sealed trait PropertiesContainer {
    */
   def statModifiers(st: StatName): Set[StatModifier]
 
-  /**
-   * Method to add a [[model.characters.properties.stats.StatModifier]] to statModifiers
-   *
-   * @param m the statModifier to add
-   */
-  def addStatModifier(m: StatModifier): Unit
-
   def statModifiers: Set[StatModifier]
+
+  def statModifiers_=(statModifierSet: Set[StatModifier]): Unit
 
 }
 
@@ -57,7 +52,6 @@ object PropertiesContainer {
 
     override def statModifiers(st: StatName): Set[StatModifier] = statModifiers.filter(s => s.statName == st)
 
-    override def addStatModifier(m: StatModifier): Unit = statModifiers = statModifiers + m
   }
 
   def apply(maxPS: Int, stats: Set[Stat]): PropertiesContainer = new PropertiesContainerImpl(maxPS, stats)
