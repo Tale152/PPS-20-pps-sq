@@ -4,32 +4,26 @@ import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
 import model.characters.properties.stats.Stat
 import model.characters.properties.stats.StatName.StatName
-import view.statStatus.StatStatusView
+import view.playerInfo.PlayerInfoView
 
-sealed trait StatStatusController extends SubController
+sealed trait PlayerInfoController extends SubController
 
-object StatStatusController {
+object PlayerInfoController {
 
-  class StatStatusControllerImpl(private val gameMasterController: GameMasterController,
-                                 private val storyModel: StoryModel) extends StatStatusController {
+  class PlayerInfoControllerImpl(private val gameMasterController: GameMasterController,
+                                 private val storyModel: StoryModel) extends PlayerInfoController {
 
-    private val statStatusView: StatStatusView = StatStatusView(this)
+    private val playerInfoView: PlayerInfoView = PlayerInfoView(this)
 
-    /**
-     * Start the Controller.
-     */
     override def execute(): Unit = {
-      statStatusView.setStats(getStatStructure)
-      statStatusView.setPlayerName(storyModel.player.name)
-      statStatusView.setHealth(
+      playerInfoView.setStats(getStatStructure)
+      playerInfoView.setPlayerName(storyModel.player.name)
+      playerInfoView.setHealth(
         (storyModel.player.properties.health.currentPS, storyModel.player.properties.health.currentPS)
       )
-      statStatusView.render()
+      playerInfoView.render()
     }
 
-    /**
-     * Defines the actions to do when the Controller execution is over.
-     */
     override def close(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
 
     private def getStatStructure: List[(StatName, (Int, Int))] = {
@@ -48,6 +42,6 @@ object StatStatusController {
     }
   }
 
-  def apply(gameMasterController: GameMasterController, storyModel: StoryModel): StatStatusController =
-    new StatStatusControllerImpl(gameMasterController, storyModel)
+  def apply(gameMasterController: GameMasterController, storyModel: StoryModel): PlayerInfoController =
+    new PlayerInfoControllerImpl(gameMasterController, storyModel)
 }

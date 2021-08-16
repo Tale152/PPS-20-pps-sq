@@ -14,8 +14,8 @@ object OperationType {
   case object StoryOperation extends OperationType
 
   /**
-   * Operation used to pass control to the [[controller.game.subcontroller.StatStatusController]]
+   * Operation used to pass control to the [[controller.game.subcontroller.PlayerInfoController]]
    */
-  case object StatStatusOperation extends OperationType
+  case object PlayerInfoOperation extends OperationType
 
 }

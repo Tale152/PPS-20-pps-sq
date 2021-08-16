@@ -1,20 +1,21 @@
-package view.statStatus
+package view.playerInfo
 
-import controller.game.subcontroller.StatStatusController
+import controller.game.subcontroller.PlayerInfoController
 import model.characters.properties.stats.StatName.StatName
-import view.statStatus.panels.{ControlsPanel, HealthPanel, PlayerNamePanel, StatValuePanel}
+import view.playerInfo.panels.{ControlsPanel, HealthPanel, PlayerNamePanel, StatValuePanel}
 import view.AbstractView
 
 import javax.swing.BoxLayout
 
 /**
- * Is a GUI that allows the user to check his player's stats. Associated with a StatStatusController.
- * @see [[controller.game.subcontroller.StatStatusController]]
+ * Is a GUI that allows the user to check his player's stats. Associated with a PlayerInfoController.
+ *
+ * @see [[controller.game.subcontroller.PlayerInfoController]]
  * @see [[model.characters.properties.stats.Stat]]
  * @see [[model.characters.properties.PropertiesContainer]]
  * @see [[model.characters.Player]]
  */
-trait StatStatusView extends AbstractView {
+trait PlayerInfoView extends AbstractView {
   /**
    * Allow to set the stats to be rendered.
    * @param stats list of stats, containing a pair with the StatName
@@ -30,17 +31,17 @@ trait StatStatusView extends AbstractView {
   def setPlayerName(name: String): Unit
 
   /**
-   * Allow to set the health  of the player to be rendered.
+   * Allow to set the health of the player to be rendered.
    * @param health a pair with current health and max health
    */
   def setHealth(health: (Int, Int)): Unit
 }
 
-object StatStatusView {
-  def apply(statStatusController: StatStatusController): StatStatusView = new StatStatusViewSwing(statStatusController)
+object PlayerInfoView {
+  def apply(playerInfoController: PlayerInfoController): PlayerInfoView = new PlayerInfoViewSwing(playerInfoController)
 }
 
-private class StatStatusViewSwing(private val statStatusController: StatStatusController) extends StatStatusView {
+private class PlayerInfoViewSwing(private val playerInfoController: PlayerInfoController) extends PlayerInfoView {
   private var _stats: List[(StatName, (Int, Int))] = List()
   private var _playerName: String = ""
   private var _health: (Int, Int) = (0,0)
@@ -57,6 +58,6 @@ private class StatStatusViewSwing(private val statStatusController: StatStatusCo
     this.add(PlayerNamePanel(_playerName))
     this.add(HealthPanel(_health))
     for(stat <- _stats) this.add(StatValuePanel(stat))
-    this.add(ControlsPanel(_ => statStatusController.close()))
+    this.add(ControlsPanel(_ => playerInfoController.close()))
   }
 }

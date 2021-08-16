@@ -1,11 +1,12 @@
-package view.statStatus.panels
+package view.playerInfo.panels
 
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFlowPanel}
 
 object ControlsPanel {
 
   /**
-   * Panel contained in [[view.statStatus.StatStatusView]]; renders one button to go back.
+   * Panel contained in [[view.playerInfo.PlayerInfoView]]; renders one button to go back.
+ *
    * @param onBack strategy to be applied on back button click
    */
   class ControlsPanel(onBack: Unit => Unit) extends SqSwingFlowPanel {

@@ -65,7 +65,7 @@ object StoryController {
       this.execute()
     }
 
-    override def goToStatStatus(): Unit = gameMasterController.executeOperation(OperationType.StatStatusOperation)
+    override def goToStatStatus(): Unit = gameMasterController.executeOperation(OperationType.PlayerInfoOperation)
   }
 
   def apply(gameMasterController: GameMasterController, storyModel: StoryModel): StoryController =

@@ -1,11 +1,12 @@
-package view.statStatus.panels
+package view.playerInfo.panels
 
 import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
 
 object HealthPanel {
 
   /**
-   * Panel contained in [[view.statStatus.StatStatusView]]; renders the player's health.
+   * Panel contained in [[view.playerInfo.PlayerInfoView]]; renders the player's health.
+ *
    * @param health a pair containing current health and max health
    */
   class HealthPanel(health: (Int, Int)) extends SqSwingFlowPanel {

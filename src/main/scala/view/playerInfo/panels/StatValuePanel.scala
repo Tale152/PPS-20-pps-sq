@@ -1,4 +1,4 @@
-package view.statStatus.panels
+package view.playerInfo.panels
 
 import model.characters.properties.stats.StatName.StatName
 import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
@@ -8,9 +8,10 @@ import java.awt.Color
 object StatValuePanel {
 
   /**
-   * Panel contained int [[view.statStatus.StatStatusView]].
+   * Panel contained int [[view.playerInfo.PlayerInfoView]].
    * Renders the current stat value; if current stat value is higher than the original value it will be displayed green,
    * red if lower, white otherwise.
+ *
    * @param stat a pair with the StatName associated to a pair of original stat value and current stat value
    */
   class StatValuePanel(stat: (StatName, (Int, Int)))

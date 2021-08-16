@@ -1,6 +1,6 @@
 package controller.game
 
-import controller.game.subcontroller.{StatStatusController, StoryController}
+import controller.game.subcontroller.{PlayerInfoController, StoryController}
 import model.StoryModel
 
 /**
@@ -15,9 +15,9 @@ sealed trait SubControllersContainer {
   def storyController: StoryController
 
   /**
-   * @return the [[controller.game.subcontroller.StatStatusController]] instance in the current game.
+   * @return the [[controller.game.subcontroller.PlayerInfoController]] instance in the current game.
    */
-  def statStatusController: StatStatusController
+  def statStatusController: PlayerInfoController
 }
 
 object SubControllersContainer {
@@ -26,11 +26,11 @@ object SubControllersContainer {
                                             storyModel: StoryModel) extends SubControllersContainer {
 
     private val _storyController: StoryController = StoryController(gameMasterController, storyModel)
-    private val _statStatusController: StatStatusController = StatStatusController(gameMasterController, storyModel)
+    private val _statStatusController: PlayerInfoController = PlayerInfoController(gameMasterController, storyModel)
 
     override def storyController: StoryController = _storyController
 
-    override def statStatusController: StatStatusController = _statStatusController
+    override def statStatusController: PlayerInfoController = _statStatusController
   }
 
   def apply(gameMasterController: GameMasterController, storyModel: StoryModel): SubControllersContainer =
