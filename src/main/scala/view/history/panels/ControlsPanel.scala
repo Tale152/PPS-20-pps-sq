@@ -6,7 +6,6 @@ object ControlsPanel {
 
   /**
    * Panel contained in [[view.history.HistoryView]]; renders one button to go back.
- *
    * @param onBack strategy to be applied on back button click
    */
   class ControlsPanel(onBack: Unit => Unit) extends SqSwingFlowPanel {
