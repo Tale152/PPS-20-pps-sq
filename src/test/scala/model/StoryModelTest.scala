@@ -24,8 +24,8 @@ class StoryModelTest extends FlatSpec with Matchers {
     storyModel.currentStoryNode shouldEqual storyNode
   }
 
-  it should "update the current story node" in {
-    storyModel.currentStoryNode = nextStoryNode
+  it should "change the current story node when updating history" in {
+    storyModel.appendToHistory(nextStoryNode)
     storyModel.currentStoryNode shouldEqual nextStoryNode
   }
 

@@ -61,7 +61,7 @@ object StoryController {
           "The selected Pathway does not belong to the current StoryNode: " + pathway.toString
         )
       }
-      storyModel.currentStoryNode = pathway.destinationNode
+      storyModel.appendToHistory(pathway.destinationNode)
       this.execute()
     }
 

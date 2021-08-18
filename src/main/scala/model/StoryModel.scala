@@ -7,26 +7,61 @@ import model.nodes.StoryNode
  * Trait that represents the StoryModel, the class that gives the controller all data about the model state.
  */
 trait StoryModel {
+  /**
+   * @return the Player that is playing this story.
+   * @see [[model.characters.Player]]
+   */
   def player: Player
+
+  /**
+   * @return the story node where the player currently is.
+   * @see [[model.nodes.StoryNode]]
+   */
   def currentStoryNode: StoryNode
-  def currentStoryNode_=(newNode: StoryNode): Unit
+
+  /**
+   * @return a List of StoryNodes traversed by the Player so far.
+   * @see [[model.characters.Player]]
+   * @see [[model.nodes.StoryNode]]
+   */
+  def history: List[StoryNode]
+
+  /**
+   * Appends a new traversed StoryNode, updating the history.
+   * @param storyNode the new traversed StoryNode to append.
+   * @see [[model.nodes.StoryNode]]
+   */
+  def appendToHistory(storyNode: StoryNode): Unit
 }
 
 object StoryModel {
 
   /**
-   * The actual implementation of the StoryModel.
+   * Returns an implementation of StoryModel.
    * @param player the main player of the game.
-   * @param currentStoryNode the current node of the story the player is in. It's updated as the player goes
-   *                         on in the story.
+   * @param startingStoryNode the starting node of the story.
    * @return the StoryModel.
    */
-  def apply(player: Player, currentStoryNode : StoryNode): StoryModel = new StoryModelImpl(player, currentStoryNode)
+  def apply(player: Player, startingStoryNode: StoryNode): StoryModel =
+    new StoryModelImpl(player, List(startingStoryNode))
+
+  /**
+   * Returns an implementation of StoryModel.
+   * @param player the main player of the game.
+   * @param currentHistory the history of traversed StoryNodes so far.
+   * @return the StoryModel.
+   */
+  def apply(player: Player, currentHistory: List[StoryNode]): StoryModel = new StoryModelImpl(player, currentHistory)
 
   private class StoryModelImpl (override val player: Player,
-                                override var currentStoryNode: StoryNode) extends StoryModel {
+                                currentHistory: List[StoryNode]) extends StoryModel {
 
-    require(checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentStoryNode)))
+    require(
+      currentHistory.nonEmpty &&
+        checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentHistory.reverse.last))
+    )
+
+    private var _history: List[StoryNode] = currentHistory
 
     private def getAllNodesStartingFromThis(node: StoryNode): Set[StoryNode] = {
       def _visitAllPathways(node: StoryNode): Set[Set[StoryNode]] = {
@@ -38,5 +73,10 @@ object StoryModel {
 
     private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = nodes.size == nodes.map(n => n.id).size
 
+    override def currentStoryNode: StoryNode = _history.last
+
+    override def history: List[StoryNode] = _history
+
+    override def appendToHistory(storyNode: StoryNode): Unit = _history = _history :+ storyNode
   }
 }
