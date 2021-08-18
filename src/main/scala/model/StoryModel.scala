@@ -14,7 +14,7 @@ trait StoryModel {
   def player: Player
 
   /**
-   * @return the story node where the player currently is.
+   * @return the story node where the player currently is (last node in history)
    * @see [[model.nodes.StoryNode]]
    */
   def currentStoryNode: StoryNode
@@ -58,7 +58,8 @@ object StoryModel {
 
     require(
       currentHistory.nonEmpty &&
-        checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentHistory.reverse.last))
+        checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentHistory.head)) &&
+        validHistory(currentHistory)
     )
 
     private var _history: List[StoryNode] = currentHistory
@@ -73,10 +74,23 @@ object StoryModel {
 
     private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = nodes.size == nodes.map(n => n.id).size
 
+    private def validStoryNodeToAppend(currentNode: StoryNode, nodeToAppend: StoryNode): Boolean =
+      currentNode.pathways.count(p => p.destinationNode == nodeToAppend) == 1
+
+    private def validHistory(history: List[StoryNode]): Boolean = history.size match {
+      case 1 => true
+      case _ => history.sliding(2).forall(p => validStoryNodeToAppend(p.head, p.last))
+    }
+
     override def currentStoryNode: StoryNode = _history.last
 
     override def history: List[StoryNode] = _history
 
-    override def appendToHistory(storyNode: StoryNode): Unit = _history = _history :+ storyNode
+    override def appendToHistory(storyNode: StoryNode): Unit = {
+      if(!validStoryNodeToAppend(currentStoryNode, storyNode)) throw new IllegalArgumentException(
+        "Provided StoryNode is not reachable by any Pathway starting from the current StoryNode"
+      )
+      _history = _history :+ storyNode
+    }
   }
 }
