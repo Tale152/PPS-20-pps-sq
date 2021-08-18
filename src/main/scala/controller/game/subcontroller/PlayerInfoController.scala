@@ -10,7 +10,7 @@ sealed trait PlayerInfoController extends SubController
 
 object PlayerInfoController {
 
-  class PlayerInfoControllerImpl(private val gameMasterController: GameMasterController,
+  private class PlayerInfoControllerImpl(private val gameMasterController: GameMasterController,
                                  private val storyModel: StoryModel) extends PlayerInfoController {
 
     private val playerInfoView: PlayerInfoView = PlayerInfoView(this)
