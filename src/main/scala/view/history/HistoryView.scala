@@ -2,7 +2,9 @@ package view.history
 
 import controller.game.subcontroller.HistoryController
 import view.AbstractView
-import view.history.panels.ControlsPanel
+import view.history.panels.{ControlsPanel, PreviousChoicePanel}
+
+import javax.swing.BoxLayout
 
 /**
  * Is a GUI that allows the user to check his previous choices traversing the story.
@@ -32,6 +34,8 @@ object HistoryView {
 
 private class HistoryViewImpl(private val historyController: HistoryController) extends HistoryView {
 
+  this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
+
   private var _previousChoices: List[(String, String)] = List()
   private var _currentNodeDescription: String = ""
 
@@ -40,7 +44,7 @@ private class HistoryViewImpl(private val historyController: HistoryController) 
   override def setCurrentNodeNarrative(description: String): Unit = _currentNodeDescription = description
 
   override def populateView(): Unit = {
-    _previousChoices.foreach(c => println(c._1 + " " + c._2))
+    _previousChoices.foreach(c => this.add(PreviousChoicePanel(c._1, c._2)))
     println(_currentNodeDescription)
     this.add(ControlsPanel(_ => historyController.close()))
   }
