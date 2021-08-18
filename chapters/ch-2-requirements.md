@@ -93,6 +93,7 @@ Il sistema deve funzionare correttamente sui sistemi operativi Windows, Linux e 
 L'utente deve poter navigare all'interno del sistema attraverso un'interfaccia utente curata e di facile utilizzo.
 - **Shortcut**  
 Un utente esperto può navigare all'interno del sistema utilizzando shortcut da tastiera.
+
 ## Requisiti di implementazione
 I requisiti di implementazione vincolano l'intera fase di realizzazione del sistema, ad esempio richiedendo l'uso di uno specifico linguaggio di programmazione e/o di uno specifico tool software.  
 
