@@ -32,19 +32,19 @@ class StatTest extends FlatSpec with Matchers{
 
   val statEquals: Stat = Stat(defaultStrengthValue, StatName.Strength)
 
-  "health equals" should "work properly passing equal health" in {
+  "Stat equals" should "work properly passing equal stat" in {
     val statRight: Stat = Stat(defaultStrengthValue, StatName.Strength)
     statEquals == statRight shouldBe true
     statEquals.hashCode() shouldEqual statRight.hashCode()
   }
 
-  "health equals" should "fail passing different health" in {
+  "Stat equals" should "fail passing different sta" in {
     val statWrong: Stat = Stat(incorrectStrengthValue, StatName.Strength)
     statEquals == statWrong shouldBe false
     statEquals.hashCode() should not equal statWrong.hashCode()
   }
 
-  "health equals" should "fail passing different object" in {
+  "Stat equals" should "fail passing different object" in {
     statEquals should not equal "otherObject"
   }
 }
