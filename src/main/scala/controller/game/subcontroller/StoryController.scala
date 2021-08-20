@@ -21,9 +21,16 @@ sealed trait StoryController extends SubController {
   def choosePathWay(pathway: Pathway): Unit
 
   /**
-   * Calls the GameMasterController to grant control to the StatStatusController
+   * Calls the [[controller.game.GameMasterController]] to grant control to the
+   * [[controller.game.subcontroller.PlayerInfoController]].
    */
   def goToStatStatus(): Unit
+
+  /**
+   * Calls the [[controller.game.GameMasterController]] to grant control to the
+   * [[controller.game.subcontroller.HistoryController]].
+   */
+  def goToHistory(): Unit
 }
 
 object StoryController {
@@ -33,9 +40,6 @@ object StoryController {
 
     private val storyView: StoryView = StoryView(this)
 
-    /**
-     * Start the Controller.
-     */
     override def execute(): Unit = {
       storyView.setNarrative(storyModel.currentStoryNode.narrative)
       if (storyModel.currentStoryNode.pathways.isEmpty) {
@@ -50,9 +54,6 @@ object StoryController {
       storyView.render()
     }
 
-    /**
-     * Defines the actions to do when the Controller execution is over.
-     */
     override def close(): Unit = gameMasterController.close()
 
     override def choosePathWay(pathway: Pathway): Unit = {
@@ -66,6 +67,8 @@ object StoryController {
     }
 
     override def goToStatStatus(): Unit = gameMasterController.executeOperation(OperationType.PlayerInfoOperation)
+
+    override def goToHistory(): Unit = gameMasterController.executeOperation(OperationType.HistoryOperation)
   }
 
   def apply(gameMasterController: GameMasterController, storyModel: StoryModel): StoryController =

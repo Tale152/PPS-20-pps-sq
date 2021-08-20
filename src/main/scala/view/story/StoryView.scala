@@ -31,7 +31,13 @@ private class StoryViewSwing(private val storyController: StoryController) exten
   override def setPathways(pathways: Set[Pathway]): Unit = _pathways = pathways.toSeq
 
   override def populateView(): Unit = {
-    this.add(MenuOptionsPanel(_ => storyController.goToStatStatus()), BorderLayout.NORTH)
+    this.add(
+      MenuOptionsPanel(
+        _ => storyController.goToStatStatus(),
+        _ => storyController.goToHistory()
+      ),
+      BorderLayout.NORTH
+    )
     this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
     this.add(PathwaysPanel(_pathways, p => storyController.choosePathWay(p)), BorderLayout.SOUTH)
   }

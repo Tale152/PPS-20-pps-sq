@@ -1,7 +1,7 @@
 package controller.game
 
 import controller.{ApplicationController, Controller}
-import controller.game.OperationType.{OperationType, StoryOperation, PlayerInfoOperation}
+import controller.game.OperationType.{HistoryOperation, OperationType, PlayerInfoOperation, StoryOperation}
 import model.StoryModel
 
 /**
@@ -39,6 +39,7 @@ object GameMasterController {
     override def executeOperation(op: OperationType): Unit = op match {
       case StoryOperation => subControllersContainer.storyController.execute()
       case PlayerInfoOperation => subControllersContainer.statStatusController.execute()
+      case HistoryOperation => subControllersContainer.historyController.execute()
     }
   }
 
