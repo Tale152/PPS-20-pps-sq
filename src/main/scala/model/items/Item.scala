@@ -1,5 +1,7 @@
 package model.items
 
+import model.characters.Character
+
 /**
  * Trait that represents an Item.
  */
@@ -40,4 +42,24 @@ case class KeyItem(override val name: String,
   override def applyEffect(character: Character): Unit = { /*does nothing*/ }
 
   override def postEffect(character: Character): Unit = { /*does nothing*/ }
+}
+
+/**
+ * An item that can be consumed during the storyline.
+ * @param name the item name.
+ * @param description the item description.
+ * @param consumableStrategy the actual effect of the item when it's consumed.
+ */
+case class ConsumableItem(override val name: String,
+                          override val description: String,
+                          consumableStrategy: Character => Unit) extends AbstractItem(name, description) {
+  override def applyEffect(character: Character): Unit = consumableStrategy(character)
+
+  override def postEffect(character: Character): Unit = ???
+}
+
+case class EquipItem(override val name: String,
+                     override val description: String,
+                    ) extends AbstractItem(name, description){
+
 }
