@@ -3,9 +3,9 @@ package model.nodes
 import model.characters.Player
 import model.StoryModel
 import model.characters.properties.stats.{Stat, StatName}
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 
-class PathwayTest extends FlatSpec with Matchers {
+class PathwayTest extends FlatTestSpec {
 
   val playerName: String = "prerequisite"
   val maxPS: Int = 100

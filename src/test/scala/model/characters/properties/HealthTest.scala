@@ -1,9 +1,9 @@
 package model.characters.properties
 
 import model.characters.properties.Health.Health
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 
-class HealthTest extends FlatSpec with Matchers {
+class HealthTest extends FlatTestSpec {
 
   val defaultPlayerMaxPS = 100
   val incorrectCurrentPS = 110

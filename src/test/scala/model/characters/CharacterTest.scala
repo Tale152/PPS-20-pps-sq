@@ -1,9 +1,9 @@
 package model.characters
 
 import model.characters.properties.stats.{Stat, StatName}
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 
-class CharacterTest extends FlatSpec with Matchers {
+class CharacterTest extends FlatTestSpec {
 
   val maxPS: Int = 100
   val wrongMaxPS: Int = -3

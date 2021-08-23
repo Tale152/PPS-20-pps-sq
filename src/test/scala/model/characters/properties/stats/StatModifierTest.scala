@@ -1,9 +1,9 @@
 package model.characters.properties.stats
 
 import model.characters.properties.stats.StatName.StatName
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 
-class StatModifierTest extends FlatSpec with Matchers {
+class StatModifierTest extends FlatTestSpec {
 
   val defenceValue: Int = 10
 

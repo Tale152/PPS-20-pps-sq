@@ -1,8 +1,8 @@
 package model.nodes
 
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 
-class StoryNodeTest extends FlatSpec with Matchers {
+class StoryNodeTest extends FlatTestSpec {
 
   val id: Int = 0
   var undefinedId: Int = _

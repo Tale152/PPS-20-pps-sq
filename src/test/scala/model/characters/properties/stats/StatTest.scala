@@ -1,9 +1,9 @@
 package model.characters.properties.stats
 
 import model.characters.properties.stats.StatName.StatName
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 
-class StatTest extends FlatSpec with Matchers{
+class StatTest extends FlatTestSpec {
 
   val defaultStrengthValue: Int = 10
   val incorrectStrengthValue: Int = 5

@@ -3,10 +3,9 @@ package model
 import model.characters.Player
 import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.{Pathway, StoryNode}
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 
-class StoryModelTest extends FlatSpec with Matchers {
-
+class StoryModelTest extends FlatTestSpec {
   val maxPS: Int = 100
   val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
   val mainPlayer: Player = Player("Jonathan", maxPS, stats)

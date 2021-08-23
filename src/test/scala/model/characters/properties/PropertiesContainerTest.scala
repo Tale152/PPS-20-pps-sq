@@ -1,9 +1,9 @@
 package model.characters.properties
 
 import model.characters.properties.stats.{Stat, StatModifier, StatName}
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 
-class PropertiesContainerTest extends FlatSpec with Matchers {
+class PropertiesContainerTest extends FlatTestSpec {
 
   val maximumPS = 100
   val stats: Set[Stat] = Set(

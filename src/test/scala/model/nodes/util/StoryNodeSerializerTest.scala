@@ -3,12 +3,12 @@ package model.nodes.util
 import controller.util.ResourceName
 import model.nodes.util.StoryNodeSerializer.{deserializeStory, serializeStory}
 import model.nodes.{Pathway, StoryNode}
-import org.scalatest.{FlatSpec, Matchers}
+import specs.FlatTestSpec
 import util.TestUtil.deleteFolder
 
 import java.io.{File, FileNotFoundException}
 
-class StoryNodeSerializerTest  extends FlatSpec with Matchers {
+class StoryNodeSerializerTest extends FlatTestSpec {
   private val serializationFileNameTest =  "serializationTest"
   private val serializationPathTest: String = ResourceName.TempDirectory + "/" + serializationFileNameTest
 

@@ -5,9 +5,10 @@ import model.StoryModel
 import model.characters.Player
 import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.{Pathway, StoryNode}
-import org.scalatest.{BeforeAndAfterEach, FlatSpec, Matchers}
+import org.scalatest.BeforeAndAfterEach
+import specs.FlatTestSpec
 
-class StoryControllerTest extends FlatSpec with Matchers with BeforeAndAfterEach {
+class StoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
 
   val maxPS: Int = 100
   val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
@@ -35,11 +36,5 @@ class StoryControllerTest extends FlatSpec with Matchers with BeforeAndAfterEach
       storyController.choosePathWay(incorrectPathway)
     }
   }
-
-  //TODO: adapt to bypass user input
-  //"Choosing a Pathway" should "lead to the correct StoryNode" in {
-  // storyController.choosePathWay(pathway)
-  //  storyModel.currentStoryNode shouldEqual destinationNode
-  //}
 
 }
