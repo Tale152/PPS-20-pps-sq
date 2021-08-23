@@ -1,20 +1,36 @@
 package model.progress
 
-import model.characters.Player
 import model.nodes.StoryNode
 import model.StoryModel
-import model.characters.properties.stats.{Stat, StatName}
 
 import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutputStream}
 
+/**
+ * Used to serialize / deserialize a Progress.
+ * @see [[model.progress.Progress]]
+ */
 object ProgressSerializer {
 
+  /**
+   * Serializes a Progress.
+   * @see [[model.progress.Progress]]
+   * @param progress the Progress to serialize
+   * @param fileName serialized Progress file destination
+   */
   def serializeProgress(progress: Progress, fileName:String): Unit = {
     val oos = new ObjectOutputStream(new FileOutputStream(fileName))
     oos.writeObject(progress)
     oos.close()
   }
 
+  /**
+   * Deserialize a Progress, giving back a StoryModel to resume the game
+   * @param storyNode starting StoryNode of the deserialized story
+   * @param fileUri serialized Progress file source
+   * @return a StoryModel identical to the one when the user has saved his progress
+   * @see [[model.StoryModel]]
+   * @see [[model.nodes.StoryNode]]
+   */
   def deserializeProgress(storyNode: StoryNode, fileUri: String): StoryModel = {
     val ois = new ObjectInputStream(new FileInputStream(fileUri))
     val progress = ois.readObject.asInstanceOf[Progress]

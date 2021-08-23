@@ -1,6 +1,16 @@
 package model.progress
 
+/**
+ * Used to serialize the history.
+ * @see [[model.StoryModel]]
+ * @see [[model.nodes.StoryNode]]
+ */
 sealed trait SerializableHistory extends Serializable {
+  /**
+   * @return a list containing all visited nodes id, in order of traversal
+   * @see [[model.StoryModel]]
+   * @see [[model.nodes.StoryNode]]
+   */
   def visitedNodesId: List[Int]
 }
 

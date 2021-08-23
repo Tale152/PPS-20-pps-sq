@@ -2,6 +2,12 @@ package model.progress
 
 import model.characters.Player
 
+/**
+ * Represents the progress in a story. Contains everything that needs to be saved to resume a game.
+ * Used to save the progress or load previous progress.
+ * @see [[model.progress.SerializableHistory]]
+ * @see [[model.characters.Player]]
+ */
 trait Progress extends Serializable {
   def serializableHistory: SerializableHistory
 
