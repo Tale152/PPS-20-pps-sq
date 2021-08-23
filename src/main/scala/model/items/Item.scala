@@ -28,8 +28,8 @@ abstract class AbstractItem(override val name: String,
     postEffect(character)
   }
 
-  abstract def applyEffect(character: Character): Unit
-  abstract def postEffect(character: Character): Unit
+  def applyEffect(character: Character): Unit
+  def postEffect(character: Character): Unit
 }
 
 /**
@@ -59,7 +59,8 @@ case class ConsumableItem(override val name: String,
 }
 
 case class EquipItem(override val name: String,
-                     override val description: String,
-                    ) extends AbstractItem(name, description){
+                     override val description: String) extends AbstractItem(name, description){
+  override def applyEffect(character: Character): Unit = ???
 
+  override def postEffect(character: Character): Unit = ???
 }
