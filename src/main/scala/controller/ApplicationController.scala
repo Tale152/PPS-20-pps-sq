@@ -7,6 +7,8 @@ import model.nodes.util.StoryNodeSerializer
 import model.nodes.util.StoryNodeSerializer.deserializeStory
 import model.progress.ProgressSerializer
 
+import java.nio.file.{Files, Paths}
+
 /**
  * The Application Controller is the Main Controller of the application.
  * It's the entrypoint and controls the main menu.
@@ -32,11 +34,14 @@ object ApplicationController extends ApplicationController {
 
   override def execute(): Unit = {
     //in the future it will render the main menu
-    //loadStoryNewGame(ResourceName.storyDirectoryPath() + "/random-story.ser")
-    loadStoryWithProgress(
-      ResourceName.storyDirectoryPath() + "/random-story.ser",
-      ResourceName.storyDirectoryPath() + "/random-story.sqprg"
-    )
+    if(Files.exists(Paths.get(ResourceName.storyDirectoryPath() + "/random-story.sqprg"))){
+      loadStoryWithProgress(
+        ResourceName.storyDirectoryPath() + "/random-story.ser",
+        ResourceName.storyDirectoryPath() + "/random-story.sqprg"
+      )
+    } else {
+      loadStoryNewGame(ResourceName.storyDirectoryPath() + "/random-story.ser")
+    }
   }
 
   override def close(): Unit = System.exit(0)

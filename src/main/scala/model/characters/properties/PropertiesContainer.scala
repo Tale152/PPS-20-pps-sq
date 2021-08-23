@@ -7,7 +7,7 @@ import model.characters.properties.stats.{Stat, StatModifier}
 /**
  * A propertiesContainer contains every property of a specific character.
  */
-sealed trait PropertiesContainer {
+sealed trait PropertiesContainer extends Serializable {
 
   def health: Health
 

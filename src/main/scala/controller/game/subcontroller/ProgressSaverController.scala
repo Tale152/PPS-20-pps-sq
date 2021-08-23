@@ -28,17 +28,16 @@ object ProgressSaverController {
     override def saveProgress(): Unit = {
       try{
         ProgressSerializer.serializeProgress(
-          Progress(SerializableHistory(storyModel.history.map(n => n.id))),
+          Progress(SerializableHistory(storyModel.history.map(n => n.id)), storyModel.player),
           ResourceName.storyDirectoryPath() + "/random-story.sqprg"
         )
         progressSaverView.showSuccessFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
       } catch {
-        case e: Exception => {
+        case e: Exception =>
           println(e)
           progressSaverView.showFailureFeedback(
             _ => gameMasterController.executeOperation(OperationType.StoryOperation)
           )
-        }
       }
     }
 

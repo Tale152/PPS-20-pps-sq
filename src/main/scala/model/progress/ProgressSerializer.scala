@@ -19,7 +19,7 @@ object ProgressSerializer {
     val ois = new ObjectInputStream(new FileInputStream(fileUri))
     val progress = ois.readObject.asInstanceOf[Progress]
     ois.close()
-    StoryModel(Player("player", 100, Set(Stat(69, StatName.Wisdom))), rebuildHistory(storyNode, progress.serializableHistory))
+    StoryModel(progress.player, rebuildHistory(storyNode, progress.serializableHistory))
   }
 
   private def rebuildHistory(startingNode: StoryNode, serializedHistory: SerializableHistory):List[StoryNode] = {

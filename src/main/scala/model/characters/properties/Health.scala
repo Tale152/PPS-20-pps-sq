@@ -5,7 +5,7 @@ object Health {
   /**
    * Trait that represents the Health of a Character.
    */
-  sealed trait Health {
+  sealed trait Health extends Serializable {
     val maxPS: Int
 
     def currentPS: Int
