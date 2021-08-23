@@ -6,6 +6,11 @@ import view.progressSaver.panels.{ControlsPanel, InstructionPanel}
 
 import javax.swing.BoxLayout
 
+/**
+ * Is a GUI that allows the user to save his progress.
+ * Associated with a ProgressSaverController.
+ * @see [[controller.game.subcontroller.ProgressSaverController]]
+ */
 trait ProgressSaverView extends AbstractView
 
 object ProgressSaverView {
