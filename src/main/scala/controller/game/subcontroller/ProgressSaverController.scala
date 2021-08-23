@@ -23,7 +23,15 @@ object ProgressSaverController {
 
     private val progressSaverView: ProgressSaverView = ProgressSaverView(this)
 
-    override def saveProgress(): Unit = ???
+    override def saveProgress(): Unit = {
+      //TODO actually save the game
+      val success = true
+      if(success) {
+        progressSaverView.showSuccessFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
+      } else {
+        progressSaverView.showFailureFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
+      }
+    }
 
     override def execute(): Unit = progressSaverView.render()
 
