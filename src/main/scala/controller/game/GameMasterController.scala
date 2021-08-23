@@ -1,7 +1,7 @@
 package controller.game
 
 import controller.{ApplicationController, Controller}
-import controller.game.OperationType.{HistoryOperation, OperationType, PlayerInfoOperation, StoryOperation}
+import controller.game.OperationType.OperationType
 import model.StoryModel
 
 /**
@@ -29,7 +29,7 @@ object GameMasterController {
     /**
      * Start the Controller.
      */
-    override def execute(): Unit = executeOperation(StoryOperation)
+    override def execute(): Unit = executeOperation(OperationType.StoryOperation)
 
     /**
      * Defines the actions to do when the Controller execution is over.
@@ -37,9 +37,10 @@ object GameMasterController {
     override def close(): Unit = ApplicationController.execute()
 
     override def executeOperation(op: OperationType): Unit = op match {
-      case StoryOperation => subControllersContainer.storyController.execute()
-      case PlayerInfoOperation => subControllersContainer.statStatusController.execute()
-      case HistoryOperation => subControllersContainer.historyController.execute()
+      case OperationType.StoryOperation => subControllersContainer.storyController.execute()
+      case OperationType.PlayerInfoOperation => subControllersContainer.statStatusController.execute()
+      case OperationType.HistoryOperation => subControllersContainer.historyController.execute()
+      case OperationType.ProgressSaverOperation => subControllersContainer.progressSaverController.execute()
     }
   }
 
