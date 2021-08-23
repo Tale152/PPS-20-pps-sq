@@ -1,7 +1,9 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
+import controller.util.ResourceName
 import model.StoryModel
+import model.progress.{Progress, ProgressSerializer, SerializableHistory}
 import view.progressSaver.ProgressSaverView
 
 
@@ -24,12 +26,19 @@ object ProgressSaverController {
     private val progressSaverView: ProgressSaverView = ProgressSaverView(this)
 
     override def saveProgress(): Unit = {
-      //TODO actually save the game
-      val success = true
-      if(success) {
+      try{
+        ProgressSerializer.serializeProgress(
+          Progress(SerializableHistory(storyModel.history.map(n => n.id))),
+          ResourceName.storyDirectoryPath() + "/random-story.sqprg"
+        )
         progressSaverView.showSuccessFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
-      } else {
-        progressSaverView.showFailureFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
+      } catch {
+        case e: Exception => {
+          println(e)
+          progressSaverView.showFailureFeedback(
+            _ => gameMasterController.executeOperation(OperationType.StoryOperation)
+          )
+        }
       }
     }
 
