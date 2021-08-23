@@ -2,6 +2,7 @@ package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
+import view.progressSaver.ProgressSaverView
 
 
 /**
@@ -19,9 +20,12 @@ object ProgressSaverController {
 
   private class ProgressSaverControllerImpl(private val gameMasterController: GameMasterController,
                                             private val storyModel: StoryModel) extends ProgressSaverController {
+
+    private val progressSaverView: ProgressSaverView = ProgressSaverView(this)
+
     override def saveProgress(): Unit = ???
 
-    override def execute(): Unit = ???
+    override def execute(): Unit = progressSaverView.render()
 
     override def close(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
   }
