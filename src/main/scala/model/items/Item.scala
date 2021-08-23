@@ -16,7 +16,6 @@ trait Item {
  */
 abstract class AbstractItem(override val name: String,
                             override val description: String) extends Item {
-
   /**
    * Template method that use [[model.items.AbstractItem#applyEffect(java.lang.Character)]]
    * and [[model.items.AbstractItem#postEffect(java.lang.Character)]].
@@ -29,4 +28,16 @@ abstract class AbstractItem(override val name: String,
 
   abstract def applyEffect(character: Character): Unit
   abstract def postEffect(character: Character): Unit
+}
+
+/**
+ * An item that can't be used, it may be useful in the storyline.
+ * @param name the item name.
+ * @param description the item description.
+ */
+case class KeyItem(override val name: String,
+                   override val description: String) extends AbstractItem(name, description) {
+  override def applyEffect(character: Character): Unit = { /*does nothing*/ }
+
+  override def postEffect(character: Character): Unit = { /*does nothing*/ }
 }
