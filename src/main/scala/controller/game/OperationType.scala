@@ -22,4 +22,9 @@ object OperationType {
    * Operation used to pass control to the [[controller.game.subcontroller.HistoryController]]
    */
   case object HistoryOperation extends OperationType
+
+  /**
+   * Operation used to pass control to the [[controller.game.subcontroller.ProgressSaverController]]
+   */
+  case object ProgressSaverOperation extends OperationType
 }
