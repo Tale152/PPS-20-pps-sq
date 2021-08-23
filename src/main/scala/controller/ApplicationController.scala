@@ -1,8 +1,11 @@
 package controller
 
+import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
+import model.nodes.util.StoryNodeSerializer
 import model.nodes.util.StoryNodeSerializer.deserializeStory
+import model.progress.ProgressSerializer
 
 /**
  * The Application Controller is the Main Controller of the application.
@@ -19,25 +22,31 @@ sealed trait ApplicationController extends Controller {
    * @see [[model.characters.properties.stats.Stat]]
    */
   def loadStoryNewGame(storyUri: String): Unit
+
+  def loadStoryWithProgress(storyUri: String, progressUri: String): Unit
 }
 
 object ApplicationController extends ApplicationController {
 
   initializeGameFolderStructure(ResourceName.RootGameDirectory)
 
-  /**
-   * Start the Controller.
-   */
   override def execute(): Unit = {
     //in the future it will render the main menu
-    loadStoryNewGame(ResourceName.storyDirectoryPath() + "/random-story.ser")
+    //loadStoryNewGame(ResourceName.storyDirectoryPath() + "/random-story.ser")
+    loadStoryWithProgress(
+      ResourceName.storyDirectoryPath() + "/random-story.ser",
+      ResourceName.storyDirectoryPath() + "/random-story.sqprg"
+    )
   }
 
-  /**
-   * Defines the actions to do when the Controller execution is over.
-   */
   override def close(): Unit = System.exit(0)
 
   override def loadStoryNewGame(storyURI: String): Unit =
     PlayerConfigurationController(deserializeStory(storyURI)).execute()
+
+  override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit = {
+    GameMasterController(
+      ProgressSerializer.deserializeProgress(StoryNodeSerializer.deserializeStory(storyUri), progressUri)
+    ).execute()
+  }
 }
