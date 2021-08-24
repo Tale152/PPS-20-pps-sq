@@ -8,22 +8,20 @@ import javax.swing.{JFrame, JPanel, WindowConstants}
  */
 object Frame {
 
-  val minimumFrameWidth = 500
-  val minimumFrameHeight = 300
+  val minimumFrameDimension = 400
 
   val frame = new JFrame()
   var _currentJPanel: Option[JPanel] = None
 
   def setVisible(visible: Boolean): Unit = {
     frame.setVisible(visible)
-    frame.setMinimumSize(new Dimension(minimumFrameWidth, minimumFrameHeight))
-    frame.pack()
+    frame.setMinimumSize(new Dimension(minimumFrameDimension, minimumFrameDimension))
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
     frame.setTitle("ScalaQuest")
   }
 
   def setPanel(jPanel: JPanel): Unit = {
-    if(_currentJPanel.nonEmpty) frame.remove(_currentJPanel.get)
+    if (_currentJPanel.nonEmpty) frame.remove(_currentJPanel.get)
     _currentJPanel = Some(jPanel)
     frame.add(jPanel)
     frame.repaint()
