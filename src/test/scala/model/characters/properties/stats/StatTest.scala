@@ -40,13 +40,13 @@ class StatTest extends FlatTestSpec with SerializableSpec {
     statEquals.hashCode() shouldEqual statRight.hashCode()
   }
 
-  "Stat equals" should "fail passing different sta" in {
+  it should "fail passing different stat" in {
     val statWrong: Stat = Stat(incorrectStrengthValue, StatName.Strength)
     statEquals == statWrong shouldBe false
     statEquals.hashCode() should not equal statWrong.hashCode()
   }
 
-  "Stat equals" should "fail passing different object" in {
+  it should "fail passing different object" in {
     statEquals should not equal "otherObject"
   }
 }

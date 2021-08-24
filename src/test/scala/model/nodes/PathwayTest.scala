@@ -28,34 +28,19 @@ class PathwayTest extends FlatTestSpec with SerializableSpec {
     pathwayPrerequisite.description shouldEqual pathwayDescription
   }
 
-  "The pathway" should "have a reference to the destination node" in {
+  it should "have a reference to the destination node" in {
     pathwayPrerequisite.destinationNode shouldEqual destinationNodePrerequisite
-  }
-
-  "The prerequisite" can "be empty" in {
-    pathwayNoPrerequisite.prerequisite shouldEqual None
-  }
-
-  "The prerequisite" should "be true if condition is present and is met" in {
-    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModel(Player(playerName, maxPS, stats), startingNode)) shouldEqual true
-  }
-
-  "The prerequisite" should "be false if condition is present and isn't met" in {
-    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModel(
-      Player("should be false", maxPS, stats), startingNode)) shouldEqual false
-  }
-
-  it should "have a defined description" in {
-    intercept[IllegalArgumentException] {
-      Pathway(undefinedPathwayDescription, destinationNodePrerequisite, prerequisite)
-    }
   }
 
   it should "not have an empty description" in {
     intercept[IllegalArgumentException] {
       Pathway(emptyPathwayDescription, destinationNodePrerequisite, prerequisite)
+    }
+  }
+
+  it should "have a defined description" in {
+    intercept[IllegalArgumentException] {
+      Pathway(undefinedPathwayDescription, destinationNodePrerequisite, prerequisite)
     }
   }
 
@@ -65,8 +50,23 @@ class PathwayTest extends FlatTestSpec with SerializableSpec {
     }
   }
 
-  "A Pathway with a Prerequisite" should behave like serializationTest(pathwayPrerequisite)
+  "The prerequisite" can "be empty" in {
+    pathwayNoPrerequisite.prerequisite shouldEqual None
+  }
 
-  "A Pathway with no Prerequisite" should behave like serializationTest(pathwayNoPrerequisite)
+  it should "be true if condition is present and is met" in {
+    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
+    pathwayPrerequisite.prerequisite.get(StoryModel(Player(playerName, maxPS, stats), startingNode)) shouldEqual true
+  }
+
+  it should "be false if condition is present and isn't met" in {
+    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
+    pathwayPrerequisite.prerequisite.get(StoryModel(
+      Player("should be false", maxPS, stats), startingNode)) shouldEqual false
+  }
+
+  it should behave like serializationTest(pathwayPrerequisite)
+
+  it should behave like serializationTest(pathwayNoPrerequisite)
 
 }
