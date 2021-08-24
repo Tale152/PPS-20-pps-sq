@@ -33,13 +33,13 @@ object ApplicationController extends ApplicationController {
 
   override def execute(): Unit = {
     //in the future it will render the main menu
-    if(Files.exists(Paths.get(ResourceName.storyDirectoryPath() + "/random-story.sqprg"))){
+    if(Files.exists(Paths.get(ResourceName.testRandomStoryProgressFileName()))){
       loadStoryWithProgress(
-        ResourceName.storyDirectoryPath() + "/random-story.ser",
-        ResourceName.storyDirectoryPath() + "/random-story.sqprg"
+        ResourceName.testRandomStoryFileName(),
+        ResourceName.testRandomStoryProgressFileName()
       )
     } else {
-      loadStoryNewGame(ResourceName.storyDirectoryPath() + "/random-story.ser")
+      loadStoryNewGame(ResourceName.testRandomStoryFileName())
     }
   }
 
