@@ -1,6 +1,6 @@
 package view.util.scalaQuestSwingComponents
 
-import java.awt.{Dimension, Font, Insets}
+import java.awt.Font
 import java.awt.event.ActionListener
 import javax.swing.JButton
 

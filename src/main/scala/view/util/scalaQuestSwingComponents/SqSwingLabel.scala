@@ -1,7 +1,6 @@
 package view.util.scalaQuestSwingComponents
 
 import view.util.scalaQuestSwingComponents.SqSwingLabel.SqSwingLabel
-
 import java.awt.Color
 import javax.swing.{JLabel, SwingConstants}
 
