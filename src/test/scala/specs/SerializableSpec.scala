@@ -2,7 +2,7 @@ package specs
 
 import controller.util.serialization.CustomObjectInputStream
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream, FileInputStream, ObjectInputStream, ObjectOutputStream}
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectOutputStream}
 
 /**
  * SerializableSpec trait used in tests of model classes to test if serialization works fine.

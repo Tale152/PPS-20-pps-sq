@@ -15,20 +15,11 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     mainPlayer.name shouldEqual "Jonathan"
   }
 
-  "The easy enemy" should "have name Yoshikage Kira" in {
-    easyEnemy.name shouldEqual "Yoshikage Kira"
-  }
+  it should behave like serializationTest(mainPlayer)
 
-  it should "throw IllegalArgumentException if the player name is left empty" in {
+  it should "throw IllegalArgumentException if the name is left empty" in {
     intercept[IllegalArgumentException] {
       Player("", maxPS, stats)
-    }
-  }
-
-
-  it should "throw IllegalArgumentException if the enemy name is left empty" in {
-    intercept[IllegalArgumentException] {
-      Enemy("", maxPS, stats)
     }
   }
 
@@ -50,8 +41,16 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     }
   }
 
-  "The MainPlayer" should behave like serializationTest(mainPlayer)
+  "The enemy" should "have name Yoshikage Kira" in {
+    easyEnemy.name shouldEqual "Yoshikage Kira"
+  }
 
-  "The Enemy" should behave like serializationTest(easyEnemy)
+  it should "throw IllegalArgumentException if the name is left empty" in {
+    intercept[IllegalArgumentException] {
+      Enemy("", maxPS, stats)
+    }
+  }
+
+  it should behave like serializationTest(easyEnemy)
 
 }
