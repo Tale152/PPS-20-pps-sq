@@ -15,7 +15,13 @@ sealed trait SerializableHistory extends Serializable {
 }
 
 object SerializableHistory {
-  private class SerializableHistoryImpl(override val visitedNodesId: List[Int]) extends SerializableHistory
+  private class SerializableHistoryImpl(override val visitedNodesId: List[Int]) extends SerializableHistory{
+    require(
+      visitedNodesId != null &&
+        visitedNodesId.nonEmpty &&
+        visitedNodesId.size == visitedNodesId.toSet.size
+    )
+  }
 
   def apply(visitedNodesId: List[Int]): SerializableHistory = new SerializableHistoryImpl(visitedNodesId)
 }
