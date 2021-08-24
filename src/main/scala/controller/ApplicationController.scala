@@ -3,7 +3,7 @@ package controller
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
-import model.progress.ProgressSerializer
+import controller.util.serialization.ProgressSerializer
 
 import java.nio.file.{Files, Paths}
 import controller.util.serialization.StoryNodeSerializer.deserializeStory

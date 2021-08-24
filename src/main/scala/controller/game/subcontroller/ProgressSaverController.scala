@@ -2,8 +2,9 @@ package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
 import controller.util.ResourceName
+import controller.util.serialization.ProgressSerializer
 import model.StoryModel
-import model.progress.{Progress, ProgressSerializer, SerializableHistory}
+import model.progress.{Progress, SerializableHistory}
 import view.progressSaver.ProgressSaverView
 
 
