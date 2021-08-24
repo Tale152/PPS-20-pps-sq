@@ -5,7 +5,7 @@ import model.characters.Character
 /**
  * Trait that represents an Item.
  */
-trait Item {
+trait Item extends Serializable {
   val name: String
   val description: String
   def use(character: Character): Unit
