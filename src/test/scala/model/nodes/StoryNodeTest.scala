@@ -1,5 +1,6 @@
 package model.nodes
 
+import model.StoryModel
 import specs.{FlatTestSpec, SerializableSpec}
 
 class StoryNodeTest extends FlatTestSpec with SerializableSpec {
@@ -15,7 +16,10 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
   val pathways: Set[Pathway] = Set.empty
   var undefinedPathways: Set[Pathway] = _
 
-  val node: StoryNode = StoryNode(id, storyNodeNarrative, pathways)
+  val events: List[StoryModel => Unit] = List()
+  val undefinedEvents: List[StoryModel => Unit] = null
+
+  val node: StoryNode = StoryNode(id, storyNodeNarrative, pathways, events)
 
   "The story node" should "have an id" in {
     node.id shouldEqual id
@@ -31,19 +35,19 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
 
   it should "have a defined narrative" in {
     intercept[IllegalArgumentException] {
-      StoryNode(id, undefinedNarrative, pathways)
+      StoryNode(id, undefinedNarrative, pathways, events)
     }
   }
 
   it should "not have a empty narrative" in {
     intercept[IllegalArgumentException] {
-      StoryNode(id, emptyNarrative, pathways)
+      StoryNode(id, emptyNarrative, pathways, events)
     }
   }
 
   it should "have a defined set of pathways" in {
     intercept[IllegalArgumentException] {
-      StoryNode(id, emptyNarrative, undefinedPathways)
+      StoryNode(id, emptyNarrative, undefinedPathways, events)
     }
   }
 
@@ -52,7 +56,8 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
       StoryNode(
         id,
         storyNodeNarrative,
-        Set(Pathway(pathwayDescription, node, None), Pathway(pathwayDescription, node, None))
+        Set(Pathway(pathwayDescription, node, None), Pathway(pathwayDescription, node, None)),
+        events
       )
     }
   }
@@ -62,8 +67,15 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
       StoryNode(
         id,
         storyNodeNarrative,
-        Set(Pathway(pathwayDescription, node, Some(_ => true)))
+        Set(Pathway(pathwayDescription, node, Some(_ => true))),
+        events
       )
+    }
+  }
+
+  it should "have a defined list of events" in {
+    intercept[IllegalArgumentException] {
+      StoryNode(id, emptyNarrative, pathways, undefinedEvents)
     }
   }
 

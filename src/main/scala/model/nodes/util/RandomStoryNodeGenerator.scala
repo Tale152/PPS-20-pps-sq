@@ -19,7 +19,7 @@ object RandomStoryNodeGenerator {
   def generate(): StoryNode = {
 
     val generateLastLayer = () =>
-      for (x <- 0 until rnd(MaxNodesInLayer)) yield StoryNode(x, "final node " + x, Set.empty)
+      for (x <- 0 until rnd(MaxNodesInLayer)) yield StoryNode(x, "final node " + x, Set.empty, List())
 
     def generateLayers(depth: Int): Seq[StoryNode] = depth match {
       case 0 => generateLastLayer()
@@ -50,13 +50,13 @@ object RandomStoryNodeGenerator {
         }
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
-        res = res :+ StoryNode(id, narrative, newNodePathways.toSet)
+        res = res :+ StoryNode(id, narrative, newNodePathways.toSet, List())
       }
       res
     }
     val generated = generateLayers(Layers - 1)
     val pathways: Seq[Pathway] = for (node <- generated) yield Pathway("go to node " + node.id, node, None)
-    StoryNode(getMaxId(generated) + 1, "starting node, max remaining layers " + Layers, pathways.toSet)
+    StoryNode(getMaxId(generated) + 1, "starting node, max remaining layers " + Layers, pathways.toSet, List())
   }
 
 }
