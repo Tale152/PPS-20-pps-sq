@@ -15,7 +15,7 @@ sealed trait Character extends Serializable {
 
   def inventory_=(itemSet: Set[Item]): Unit
 
-  def equippedItems(): Set[EquipItem]
+  def equippedItems: Set[EquipItem]
 
   def equippedItems_=(equippedItemSet: Set[EquipItem]): Unit
 }
@@ -32,10 +32,7 @@ abstract class AbstractCharacter(override val name: String, maxPS: Int, private 
   require(name != "" && maxPS > 0 && stats.nonEmpty)
   override val properties: PropertiesContainer = PropertiesContainer(maxPS, stats)
   override var inventory: Set[Item] = Set()
-
-  override def equippedItems(): Set[EquipItem] = ???
-
-  override def equippedItems_=(equippedItemSet: Set[EquipItem]): Unit = ???
+  override var equippedItems: Set[EquipItem] = Set()
 }
 
 /**
