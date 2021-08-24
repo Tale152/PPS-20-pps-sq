@@ -9,3 +9,11 @@ trait Inventory {
   def items(): Set[Item]
   def items_=(itemsSet: Set[Item]): Unit
 }
+
+object Inventory {
+  def apply(): Inventory = new InventoryImpl()
+
+  private class InventoryImpl() extends Inventory{
+    var items: Set[Item] = Set()
+  }
+}

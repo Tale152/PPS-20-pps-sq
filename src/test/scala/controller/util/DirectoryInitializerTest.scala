@@ -1,12 +1,13 @@
 package controller.util
 
 import ResourceName.{TempDirectory, gameDirectoryPath, storyDirectoryPath}
-import org.scalatest.{BeforeAndAfterEach, FlatSpec, Matchers}
+import org.scalatest.BeforeAndAfterEach
+import specs.FlatTestSpec
 import util.TestUtil.deleteFolder
 
 import java.io.File
 
-class DirectoryInitializerTest extends FlatSpec with Matchers with BeforeAndAfterEach {
+class DirectoryInitializerTest extends FlatTestSpec with BeforeAndAfterEach {
 
   val gameDirectory = new File(gameDirectoryPath(TempDirectory))
   val storiesDirectory = new File(storyDirectoryPath(TempDirectory))

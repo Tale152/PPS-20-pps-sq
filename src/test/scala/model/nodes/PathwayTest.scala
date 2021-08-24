@@ -3,9 +3,9 @@ package model.nodes
 import model.characters.Player
 import model.StoryModel
 import model.characters.properties.stats.{Stat, StatName}
-import org.scalatest.{FlatSpec, Matchers}
+import specs.{FlatTestSpec, SerializableSpec}
 
-class PathwayTest extends FlatSpec with Matchers {
+class PathwayTest extends FlatTestSpec with SerializableSpec {
 
   val playerName: String = "prerequisite"
   val maxPS: Int = 100
@@ -19,7 +19,7 @@ class PathwayTest extends FlatSpec with Matchers {
 
   val destinationNodePrerequisite: StoryNode = StoryNode(2, storyNodeNarrative, Set.empty)
   val destinationNodeNoPrerequisite: StoryNode = StoryNode(1, storyNodeNarrative, Set.empty)
-  val prerequisite: Option[StoryModel => Boolean] = Some(m => m.player.name == playerName)
+  val prerequisite: Option[StoryModel => Boolean] = Some(m => m.player.name == "prerequisite")
   val pathwayPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodePrerequisite, prerequisite)
   val pathwayNoPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodeNoPrerequisite, None)
   val startingNode: StoryNode = StoryNode(0, storyNodeNarrative, Set(pathwayPrerequisite, pathwayNoPrerequisite))
@@ -28,29 +28,8 @@ class PathwayTest extends FlatSpec with Matchers {
     pathwayPrerequisite.description shouldEqual pathwayDescription
   }
 
-  "The pathway" should "have a reference to the destination node" in {
+  it should "have a reference to the destination node" in {
     pathwayPrerequisite.destinationNode shouldEqual destinationNodePrerequisite
-  }
-
-  "The prerequisite" can "be empty" in {
-    pathwayNoPrerequisite.prerequisite shouldEqual None
-  }
-
-  "The prerequisite" should "be true if condition is present and is met" in {
-    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModel(Player(playerName, maxPS, stats), startingNode)) shouldEqual true
-  }
-
-  "The prerequisite" should "be false if condition is present and isn't met" in {
-    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModel(
-      Player("should be false", maxPS, stats), startingNode)) shouldEqual false
-  }
-
-  it should "have a defined description" in {
-    intercept[IllegalArgumentException] {
-      Pathway(undefinedPathwayDescription, destinationNodePrerequisite, prerequisite)
-    }
   }
 
   it should "not have an empty description" in {
@@ -59,10 +38,35 @@ class PathwayTest extends FlatSpec with Matchers {
     }
   }
 
+  it should "have a defined description" in {
+    intercept[IllegalArgumentException] {
+      Pathway(undefinedPathwayDescription, destinationNodePrerequisite, prerequisite)
+    }
+  }
+
   it should "have a defined destination node" in {
     intercept[IllegalArgumentException] {
       Pathway(pathwayDescription, undefinedDestinationNode, prerequisite)
     }
   }
+
+  "The prerequisite" can "be empty" in {
+    pathwayNoPrerequisite.prerequisite shouldEqual None
+  }
+
+  it should "be true if condition is present and is met" in {
+    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
+    pathwayPrerequisite.prerequisite.get(StoryModel(Player(playerName, maxPS, stats), startingNode)) shouldEqual true
+  }
+
+  it should "be false if condition is present and isn't met" in {
+    pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
+    pathwayPrerequisite.prerequisite.get(StoryModel(
+      Player("should be false", maxPS, stats), startingNode)) shouldEqual false
+  }
+
+  it should behave like serializationTest(pathwayPrerequisite)
+
+  it should behave like serializationTest(pathwayNoPrerequisite)
 
 }

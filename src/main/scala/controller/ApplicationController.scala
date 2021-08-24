@@ -3,11 +3,10 @@ package controller
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
-import model.nodes.util.StoryNodeSerializer
-import model.nodes.util.StoryNodeSerializer.deserializeStory
 import model.progress.ProgressSerializer
-
 import java.nio.file.{Files, Paths}
+import controller.util.serialization.StoryNodeSerializer.deserializeStory
+
 
 /**
  * The Application Controller is the Main Controller of the application.
@@ -51,7 +50,7 @@ object ApplicationController extends ApplicationController {
 
   override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit = {
     GameMasterController(
-      ProgressSerializer.deserializeProgress(StoryNodeSerializer.deserializeStory(storyUri), progressUri)
+      ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
     ).execute()
   }
 }
