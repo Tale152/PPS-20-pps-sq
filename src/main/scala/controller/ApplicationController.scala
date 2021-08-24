@@ -2,7 +2,7 @@ package controller
 
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
-import model.nodes.util.StoryNodeSerializer.deserializeStory
+import controller.util.serialization.StoryNodeSerializer.deserializeStory
 
 /**
  * The Application Controller is the Main Controller of the application.

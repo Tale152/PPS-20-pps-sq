@@ -1,6 +1,8 @@
 package specs
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectInputStream, ObjectOutputStream}
+import controller.util.serialization.CustomObjectInputStream
+
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream, FileInputStream, ObjectInputStream, ObjectOutputStream}
 
 /**
  * SerializableSpec trait used in tests of model classes to test if serialization works fine.
@@ -21,10 +23,12 @@ trait SerializableSpec { this: FlatTestSpec =>
         result
       }
       val bis = new ByteArrayInputStream(serialized)
-      val in = new ObjectInputStream(bis)
+      val in = new CustomObjectInputStream(bis)
       in.readObject()
       bis.close()
       in.close()
     }
   }
 }
+
+
