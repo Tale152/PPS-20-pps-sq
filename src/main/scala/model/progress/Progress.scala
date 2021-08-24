@@ -16,7 +16,9 @@ trait Progress extends Serializable {
 
 object Progress {
   private class ProgressImpl(override val serializableHistory: SerializableHistory, override val player: Player)
-    extends Progress
+    extends Progress{
+    require(serializableHistory != null && player != null)
+  }
 
   def apply(serializableHistory: SerializableHistory, player: Player): Progress =
     new ProgressImpl(serializableHistory, player)
