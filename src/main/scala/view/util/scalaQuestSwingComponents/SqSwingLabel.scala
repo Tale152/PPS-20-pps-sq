@@ -1,14 +1,18 @@
 package view.util.scalaQuestSwingComponents
 
 import view.util.scalaQuestSwingComponents.SqSwingLabel.SqSwingLabel
+
 import java.awt.Color
 import javax.swing.{JLabel, SwingConstants}
 
 object SqSwingLabel {
 
+  val lblTextSize = 15
+
   class SqSwingLabel(text: String, color: Color) extends JLabel {
     this.setText(text)
     this.setForeground(color)
+    this.setFont(SqFont(false, lblTextSize))
   }
 
   def apply(text: String): SqSwingLabel = new SqSwingLabel(text, Color.WHITE)
