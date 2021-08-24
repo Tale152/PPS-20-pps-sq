@@ -11,7 +11,7 @@ object SqSwingButton {
     this.setText(text)
     this.addActionListener(action)
     this.setEnabled(enabled)
-    this.setFont(SqFont(btnTextSize))
+    this.setFont(SqFont(true, btnTextSize))
   }
 
   def apply(text: String, action: ActionListener): SqSwingButton = new SqSwingButton(text, action, true)

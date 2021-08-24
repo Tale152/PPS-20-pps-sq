@@ -12,7 +12,7 @@ object SqSwingLabel {
   class SqSwingLabel(text: String, color: Color) extends JLabel {
     this.setText(text)
     this.setForeground(color)
-    this.setFont(SqFont(lblTextSize))
+    this.setFont(SqFont(false, lblTextSize))
   }
 
   def apply(text: String): SqSwingLabel = new SqSwingLabel(text, Color.WHITE)
