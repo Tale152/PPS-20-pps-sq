@@ -1,7 +1,7 @@
 package controller.util
 
+import controller.util.serialization.StoryNodeSerializer.serializeStory
 import model.nodes.util.RandomStoryNodeGenerator
-import model.nodes.util.StoryNodeSerializer.serializeStory
 
 import java.io.File
 

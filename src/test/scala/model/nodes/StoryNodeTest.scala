@@ -1,8 +1,8 @@
 package model.nodes
 
-import org.scalatest.{FlatSpec, Matchers}
+import specs.{FlatTestSpec, SerializableSpec}
 
-class StoryNodeTest extends FlatSpec with Matchers {
+class StoryNodeTest extends FlatTestSpec with SerializableSpec {
 
   val id: Int = 0
   var undefinedId: Int = _
@@ -66,5 +66,7 @@ class StoryNodeTest extends FlatSpec with Matchers {
       )
     }
   }
+
+  it should behave like serializationTest(node)
 
 }

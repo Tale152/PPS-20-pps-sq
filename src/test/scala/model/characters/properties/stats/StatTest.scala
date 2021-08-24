@@ -1,9 +1,9 @@
 package model.characters.properties.stats
 
 import model.characters.properties.stats.StatName.StatName
-import org.scalatest.{FlatSpec, Matchers}
+import specs.{FlatTestSpec, SerializableSpec}
 
-class StatTest extends FlatSpec with Matchers{
+class StatTest extends FlatTestSpec with SerializableSpec {
 
   val defaultStrengthValue: Int = 10
   val incorrectStrengthValue: Int = 5
@@ -24,11 +24,13 @@ class StatTest extends FlatSpec with Matchers{
     strengthStat.statName() should not equal StatName.Wisdom
   }
 
-  "The stat name" should "not be undefined" in {
+  it should "not have undefined name" in {
     intercept[IllegalArgumentException] {
       Stat(defaultStrengthValue, undefinedStatName)
     }
   }
+
+  it should behave like serializationTest(strengthStat)
 
   val statEquals: Stat = Stat(defaultStrengthValue, StatName.Strength)
 
@@ -38,13 +40,13 @@ class StatTest extends FlatSpec with Matchers{
     statEquals.hashCode() shouldEqual statRight.hashCode()
   }
 
-  "Stat equals" should "fail passing different sta" in {
+  it should "fail passing different stat" in {
     val statWrong: Stat = Stat(incorrectStrengthValue, StatName.Strength)
     statEquals == statWrong shouldBe false
     statEquals.hashCode() should not equal statWrong.hashCode()
   }
 
-  "Stat equals" should "fail passing different object" in {
+  it should "fail passing different object" in {
     statEquals should not equal "otherObject"
   }
 }

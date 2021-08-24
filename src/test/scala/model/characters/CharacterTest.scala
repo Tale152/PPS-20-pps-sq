@@ -1,9 +1,9 @@
 package model.characters
 
 import model.characters.properties.stats.{Stat, StatName}
-import org.scalatest.{FlatSpec, Matchers}
+import specs.{FlatTestSpec, SerializableSpec}
 
-class CharacterTest extends FlatSpec with Matchers {
+class CharacterTest extends FlatTestSpec with SerializableSpec {
 
   val maxPS: Int = 100
   val wrongMaxPS: Int = -3
@@ -15,20 +15,9 @@ class CharacterTest extends FlatSpec with Matchers {
     mainPlayer.name shouldEqual "Jonathan"
   }
 
-  "The easy enemy" should "have name Yoshikage Kira" in {
-    easyEnemy.name shouldEqual "Yoshikage Kira"
-  }
-
-  it should "throw IllegalArgumentException if the player name is left empty" in {
+  it should "throw IllegalArgumentException if the name is left empty" in {
     intercept[IllegalArgumentException] {
       Player("", maxPS, stats)
-    }
-  }
-
-
-  it should "throw IllegalArgumentException if the enemy name is left empty" in {
-    intercept[IllegalArgumentException] {
-      Enemy("", maxPS, stats)
     }
   }
 
@@ -49,5 +38,21 @@ class CharacterTest extends FlatSpec with Matchers {
       Player("Joseph", maxPS, Set())
     }
   }
+
+  "The enemy" should "have name Yoshikage Kira" in {
+    easyEnemy.name shouldEqual "Yoshikage Kira"
+  }
+
+  it should "throw IllegalArgumentException if the name is left empty" in {
+    intercept[IllegalArgumentException] {
+      Enemy("", maxPS, stats)
+    }
+  }
+
+  it should behave like serializationTest(mainPlayer)
+
+  it should behave like serializationTest(easyEnemy)
+
+
 
 }
