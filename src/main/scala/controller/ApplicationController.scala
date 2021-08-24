@@ -4,8 +4,11 @@ import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
 import model.progress.ProgressSerializer
+
 import java.nio.file.{Files, Paths}
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
+
+import javax.swing.JOptionPane
 
 
 /**
@@ -34,10 +37,21 @@ object ApplicationController extends ApplicationController {
   override def execute(): Unit = {
     //in the future it will render the main menu
     if(Files.exists(Paths.get(ResourceName.testRandomStoryProgressFileName()))){
-      loadStoryWithProgress(
-        ResourceName.testRandomStoryFileName(),
-        ResourceName.testRandomStoryProgressFileName()
-      )
+      val jopRes = JOptionPane
+        .showConfirmDialog(
+          null,
+          "Would you like to continue with your progresses?",
+          "start",
+          JOptionPane.YES_NO_OPTION
+        )
+      if(jopRes == JOptionPane.YES_OPTION){
+        loadStoryWithProgress(
+          ResourceName.testRandomStoryFileName(),
+          ResourceName.testRandomStoryProgressFileName()
+        )
+      } else {
+        loadStoryNewGame(ResourceName.testRandomStoryFileName())
+      }
     } else {
       loadStoryNewGame(ResourceName.testRandomStoryFileName())
     }
