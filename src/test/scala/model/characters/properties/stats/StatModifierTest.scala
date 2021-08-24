@@ -1,9 +1,9 @@
 package model.characters.properties.stats
 
 import model.characters.properties.stats.StatName.StatName
-import org.scalatest.{FlatSpec, Matchers}
+import specs.{FlatTestSpec, SerializableSpec}
 
-class StatModifierTest extends FlatSpec with Matchers {
+class StatModifierTest extends FlatTestSpec with SerializableSpec {
 
   val defenceValue: Int = 10
 
@@ -19,6 +19,12 @@ class StatModifierTest extends FlatSpec with Matchers {
   "The stat modifier" should "have a stat name it is referred to" in {
     defenceStatModifier.statName() shouldEqual defenceStatName
   }
+
+  it should "change correctly the value of the stat it is referred to" in {
+    defenceStatModifier.modifyStrategy(defenceStat.value()) shouldEqual 20
+  }
+
+  it should behave like serializationTest(defenceStatModifier)
 
   it should "not match other stat name" in {
     defenceStatModifier.statName() should not equal StatName.Constitution
@@ -36,10 +42,6 @@ class StatModifierTest extends FlatSpec with Matchers {
     }
   }
 
-  "The stat modifier" should "change correctly the value of the stat it is referred to" in {
-    defenceStatModifier.modifyStrategy(defenceStat.value()) shouldEqual 20
-  }
-
   val dexterityValue: Int = 10
   var dexterityStatName: StatName = StatName.Dexterity
   val dexterityModifierStrategy: Int => Int = value => value * 2
@@ -53,13 +55,13 @@ class StatModifierTest extends FlatSpec with Matchers {
     dexterityStatModifier.hashCode() shouldEqual rightDexterityStatModifier.hashCode()
   }
 
-  "The stat modifier equals" should "fail passing different stat modifier" in {
+  it should "fail passing different stat modifier" in {
     val wrongDexterityStatModifier: StatModifier = StatModifier(defenceStatName, modifierStrategy)
     dexterityStatModifier == wrongDexterityStatModifier shouldBe false
     dexterityStatModifier.hashCode() should not equal wrongDexterityStatModifier.hashCode()
   }
 
-  "The stat modifier equals" should "fail passing different object" in {
+  it should "fail passing different object" in {
     dexterityStatModifier should not equal "otherObject"
   }
 }

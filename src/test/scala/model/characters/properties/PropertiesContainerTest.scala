@@ -1,9 +1,9 @@
 package model.characters.properties
 
 import model.characters.properties.stats.{Stat, StatModifier, StatName}
-import org.scalatest.{FlatSpec, Matchers}
+import specs.{FlatTestSpec, SerializableSpec}
 
-class PropertiesContainerTest extends FlatSpec with Matchers {
+class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
 
   val maximumPS = 100
   val stats: Set[Stat] = Set(
@@ -12,7 +12,7 @@ class PropertiesContainerTest extends FlatSpec with Matchers {
     Stat(0, StatName.Strength),
     Stat(0, StatName.Charisma),
     Stat(1, StatName.Dexterity))
-  val prop: PropertiesContainer = PropertiesContainer(maximumPS, stats)
+  val propContainer: PropertiesContainer = PropertiesContainer(maximumPS, stats)
   val modifierStrategy: Int => Int = value => value * 2
   val statMods: Set[StatModifier] = Set(
     StatModifier(StatName.Speed, modifierStrategy),
@@ -21,41 +21,43 @@ class PropertiesContainerTest extends FlatSpec with Matchers {
     StatModifier(StatName.Dexterity, modifierStrategy)
   )
 
-  "Initial maxPS" should "be equal to 100" in {
-    prop.health shouldEqual Health(maximumPS)
+  "The Properties Container" should "initialize maxPS to 100" in {
+    propContainer.health shouldEqual Health(maximumPS)
   }
 
-  "Initial Stats" should "return the correct set of stats" in {
-    prop.stats shouldEqual stats
+  it should "return the correct set of stats on creation" in {
+    propContainer.stats shouldEqual stats
   }
 
-  "Stat call" should "return the stat with the specific StatName" in {
-    prop.stat(StatName.Speed) shouldEqual Stat(1, StatName.Speed)
+  it should "return the stat with the specific StatName" in {
+    propContainer.stat(StatName.Speed) shouldEqual Stat(1, StatName.Speed)
   }
 
-  "StatModifiers" should "return an empty set" in {
-    prop.statModifiers shouldEqual Set()
+  it should "return an empty set calling StatModifiers on creation" in {
+    propContainer.statModifiers shouldEqual Set()
   }
 
-  "PropertiesContainer" should "be able to add a statModifier" in {
-    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
-    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
-    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
-    prop.statModifiers += StatModifier(StatName.Wisdom, modifierStrategy)
-    prop.statModifiers += StatModifier(StatName.Dexterity, modifierStrategy)
+  it should "be able to add a statModifier" in {
+    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Wisdom, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Dexterity, modifierStrategy)
 
-    prop.statModifiers shouldEqual statMods
+    propContainer.statModifiers shouldEqual statMods
 
   }
 
-  "StatModifier with parameter statName" should "return every modifier for the specific statName" in {
-    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
-    prop.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
-    prop.statModifiers += StatModifier(StatName.Wisdom, modifierStrategy)
-    prop.statModifiers += StatModifier(StatName.Dexterity, modifierStrategy)
+  it should "return every modifier for the specific statName" in {
+    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Wisdom, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Dexterity, modifierStrategy)
 
-    prop.statModifiers(StatName.Speed) shouldEqual Set(
+    propContainer.statModifiers(StatName.Speed) shouldEqual Set(
       StatModifier(StatName.Speed, modifierStrategy), StatModifier(StatName.Speed, modifierStrategy))
   }
+
+  it should behave like serializationTest(propContainer)
 
 }

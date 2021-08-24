@@ -1,8 +1,8 @@
-package model.nodes.util
+package controller.util.serialization
 
 import model.nodes.StoryNode
 
-import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutputStream}
+import java.io._
 
 /**
  * Component that can serialize (to a file) and deserialize (from a file) a [[model.nodes.StoryNode]]
@@ -24,10 +24,9 @@ object StoryNodeSerializer {
    * @return a deserialized [[model.nodes.StoryNode]]
    */
   def deserializeStory(fileUri: String): StoryNode = {
-    val ois = new ObjectInputStream(new FileInputStream(fileUri))
+    val ois = new CustomObjectInputStream(new FileInputStream(fileUri))
     val storyNode = ois.readObject.asInstanceOf[StoryNode]
     ois.close()
     storyNode
   }
-
 }
