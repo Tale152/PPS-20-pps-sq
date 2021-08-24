@@ -2,18 +2,26 @@ package model.characters
 
 import model.characters.properties.PropertiesContainer
 import model.characters.properties.stats.Stat
+import model.items.{EquipItem, Item}
 
 /**
  * Trait that represents a Character.
  */
-sealed trait Character extends Serializable{
+sealed trait Character extends Serializable {
   val name: String
-
   val properties: PropertiesContainer
+
+  def inventory: Set[Item]
+
+  def inventory_=(itemSet: Set[Item]): Unit
+
+  def equippedItems(): Set[EquipItem]
+
+  def equippedItems_=(equippedItemSet: Set[EquipItem]): Unit
 }
 
 /**
- * Abstraact class that represents an AbstractCharacter.
+ * Abstract class that represents an AbstractCharacter.
  *
  * @param name  the name of the Character.
  * @param maxPS the maximum number of PS with full life
@@ -23,6 +31,11 @@ abstract class AbstractCharacter(override val name: String, maxPS: Int, private 
   extends Character {
   require(name != "" && maxPS > 0 && stats.nonEmpty)
   override val properties: PropertiesContainer = PropertiesContainer(maxPS, stats)
+  override var inventory: Set[Item] = Set()
+
+  override def equippedItems(): Set[EquipItem] = ???
+
+  override def equippedItems_=(equippedItemSet: Set[EquipItem]): Unit = ???
 }
 
 /**

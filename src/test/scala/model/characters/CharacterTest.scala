@@ -1,6 +1,7 @@
 package model.characters
 
 import model.characters.properties.stats.{Stat, StatName}
+import model.items.KeyItem
 import specs.{FlatTestSpec, SerializableSpec}
 
 class CharacterTest extends FlatTestSpec with SerializableSpec {
@@ -39,6 +40,13 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     }
   }
 
+  it should "be able to add and remove items from inventory" in {
+    val keyItem: KeyItem = KeyItem("key", "it's a key")
+    mainPlayer.inventory = Set(keyItem)
+    mainPlayer.inventory contains keyItem shouldBe true
+    mainPlayer.inventory.size shouldEqual 1
+  }
+
   "The enemy" should "have name Yoshikage Kira" in {
     easyEnemy.name shouldEqual "Yoshikage Kira"
   }
@@ -52,7 +60,5 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
   it should behave like serializationTest(mainPlayer)
 
   it should behave like serializationTest(easyEnemy)
-
-
 
 }
