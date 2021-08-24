@@ -6,7 +6,7 @@ import model.characters.properties.stats.Stat
 /**
  * Trait that represents a Character.
  */
-sealed trait Character {
+sealed trait Character extends Serializable{
   val name: String
 
   val properties: PropertiesContainer

@@ -3,9 +3,9 @@ package model.nodes
 import model.characters.Player
 import model.StoryModel
 import model.characters.properties.stats.{Stat, StatName}
-import specs.FlatTestSpec
+import specs.{FlatTestSpec, SerializableSpec}
 
-class PathwayTest extends FlatTestSpec {
+class PathwayTest extends FlatTestSpec with SerializableSpec {
 
   val playerName: String = "prerequisite"
   val maxPS: Int = 100
@@ -19,7 +19,7 @@ class PathwayTest extends FlatTestSpec {
 
   val destinationNodePrerequisite: StoryNode = StoryNode(2, storyNodeNarrative, Set.empty)
   val destinationNodeNoPrerequisite: StoryNode = StoryNode(1, storyNodeNarrative, Set.empty)
-  val prerequisite: Option[StoryModel => Boolean] = Some(m => m.player.name == playerName)
+  val prerequisite: Option[StoryModel => Boolean] = Some(m => m.player.name == "prerequisite")
   val pathwayPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodePrerequisite, prerequisite)
   val pathwayNoPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodeNoPrerequisite, None)
   val startingNode: StoryNode = StoryNode(0, storyNodeNarrative, Set(pathwayPrerequisite, pathwayNoPrerequisite))
@@ -64,5 +64,9 @@ class PathwayTest extends FlatTestSpec {
       Pathway(pathwayDescription, undefinedDestinationNode, prerequisite)
     }
   }
+
+  "A Pathway with a Prerequisite" should behave like serializationTest(pathwayPrerequisite)
+
+  "A Pathway with no Prerequisite" should behave like serializationTest(pathwayNoPrerequisite)
 
 }

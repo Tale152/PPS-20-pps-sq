@@ -1,9 +1,9 @@
 package model.characters
 
 import model.characters.properties.stats.{Stat, StatName}
-import specs.FlatTestSpec
+import specs.{FlatTestSpec, SerializableSpec}
 
-class CharacterTest extends FlatTestSpec {
+class CharacterTest extends FlatTestSpec with SerializableSpec {
 
   val maxPS: Int = 100
   val wrongMaxPS: Int = -3
@@ -49,5 +49,9 @@ class CharacterTest extends FlatTestSpec {
       Player("Joseph", maxPS, Set())
     }
   }
+
+  "The MainPlayer" should behave like serializationTest(mainPlayer)
+
+  "The Enemy" should behave like serializationTest(easyEnemy)
 
 }

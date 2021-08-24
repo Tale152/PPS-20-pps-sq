@@ -1,8 +1,8 @@
 package model.nodes
 
-import specs.FlatTestSpec
+import specs.{FlatTestSpec, SerializableSpec}
 
-class StoryNodeTest extends FlatTestSpec {
+class StoryNodeTest extends FlatTestSpec with SerializableSpec {
 
   val id: Int = 0
   var undefinedId: Int = _
@@ -66,5 +66,7 @@ class StoryNodeTest extends FlatTestSpec {
       )
     }
   }
+
+  it should behave like serializationTest(node)
 
 }
