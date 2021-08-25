@@ -7,7 +7,7 @@ import model.items.EquipItemType.EquipItemType
 /**
  * Trait that represents an Item.
  */
-trait Item extends Serializable {
+trait Item extends Serializable with Ordered[Item] {
   val name: String
   val description: String
   def use(owner: Character)(target: Character = owner): Unit
@@ -32,6 +32,23 @@ abstract class AbstractItem(override val name: String,
 
   def applyEffect(owner: Character)(target: Character = owner): Unit
   def postEffect(owner: Character)(target: Character = owner): Unit
+
+  override def compare(that: Item): Int = {
+   if(this.isInstanceOf[that.type]) {
+     this.name compare that.name //compare alphabetically
+   } else {
+     _compareByPriorityType(that)
+   }
+  }
+
+  private def _compareByPriorityType(that: Item): Int = {
+    this match {
+      case _: KeyItem => 1
+      case _: ConsumableItem => -1
+      case _: EquipItem => if (that.isInstanceOf[ConsumableItem]) 1 else -1
+      case _ => throw new IllegalArgumentException("Supplied item class does not exist")
+    }
+  }
 }
 
 /**
@@ -44,6 +61,7 @@ case class KeyItem(override val name: String,
   override def applyEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
 
   override def postEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
+
 }
 
 /**
@@ -57,7 +75,8 @@ case class ConsumableItem(override val name: String,
                           consumableStrategy: Character => Unit) extends AbstractItem(name, description) {
   override def applyEffect(owner: Character)(target: Character = owner): Unit = consumableStrategy(target)
 
-  override def postEffect(owner: Character)(target: Character = owner): Unit = owner.inventory -= this
+  override def postEffect(owner: Character)(target: Character = owner): Unit =
+    owner.inventory = owner.inventory.filter(_ != this)
 }
 
 /**

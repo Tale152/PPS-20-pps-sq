@@ -1,7 +1,7 @@
 package model.characters
 
 import model.characters.properties.stats.{Stat, StatName}
-import model.items.KeyItem
+import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class CharacterTest extends FlatTestSpec with SerializableSpec {
@@ -40,11 +40,32 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     }
   }
 
+  val keyItem: KeyItem = KeyItem("key", "it's a key")
+
   it should "be able to add and remove items from inventory" in {
-    val keyItem: KeyItem = KeyItem("key", "it's a key")
-    mainPlayer.inventory = Set(keyItem)
+    mainPlayer.inventory = List(keyItem)
     mainPlayer.inventory contains keyItem shouldBe true
     mainPlayer.inventory.size shouldEqual 1
+  }
+
+  it should "be able to add multiple equal items to the inventory" in {
+    mainPlayer.inventory = List(keyItem, keyItem)
+    mainPlayer.inventory contains keyItem shouldBe true
+    mainPlayer.inventory.size shouldEqual 2
+  }
+
+  it should "have a ordered inventory" in {
+    val equipItem: EquipItem = EquipItem("sword", "it's a sword", Set(), EquipItemType.Socks)
+    val consumableItem: ConsumableItem = ConsumableItem("potion",
+      "it's a potion",
+      c => c.properties.health.currentPS += 10)
+    val consumableItemSuper: ConsumableItem = ConsumableItem("super potion",
+      "it's a super potion",
+      c => c.properties.health.currentPS += 50)
+
+    mainPlayer.inventory = List(consumableItemSuper, consumableItem, keyItem, equipItem)
+    mainPlayer.inventory.size shouldEqual 4
+    mainPlayer.inventory shouldEqual List(consumableItem, consumableItemSuper, equipItem, keyItem)
   }
 
   "The enemy" should "have name Yoshikage Kira" in {

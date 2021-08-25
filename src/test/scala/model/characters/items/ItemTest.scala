@@ -6,6 +6,7 @@ import model.items.EquipItemType.EquipItemType
 import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 
+
 class ItemTest extends FlatTestSpec with SerializableSpec {
 
   val maxPs = 100
@@ -94,9 +95,23 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "disappear from the inventory after use" in {
-    character.inventory += consumableItem
+    character.inventory = consumableItem :: character.inventory
     consumableItem.use(character)()
     character.inventory should not contain consumableItem
+  }
+
+  it should "be removed from inventory preserving other items" in {
+    val secondConsumableItem : ConsumableItem = ConsumableItem(
+      consumableItemName,
+      consumableItemDescription,
+      c => c.properties.health.currentPS += 10
+    )
+    character.inventory = consumableItem :: character.inventory
+    character.inventory = secondConsumableItem :: character.inventory
+    character.inventory should have size 2
+    consumableItem.use(character)()
+    character.inventory should have size 1
+    character.inventory should contain (secondConsumableItem)
   }
 
   it should behave like serializationTest(consumableItem)
