@@ -52,14 +52,21 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
 
   it should "be equipped to the target" in {
     character.equippedItems should not contain equipItem
-    equipItem.applyEffect(character)
+    equipItem.use(character)()
     character.equippedItems should contain (equipItem)
   }
 
-  it should "disappear from the equipped items after use" in {
-    equipItem.postEffect(character)
+  /*it should "disappear from the equipped items when used again" in {
+    equipItem.use(character)()
     character.equippedItems should not contain equipItem
-  }
+  } */
+
+  /*
+  it should "be removed from equipped items when a new item with the same type is used" in {
+    equipItem.use(character)()
+    character.equippedItems should not contain equipItem
+  }*/
+
   it should behave like serializationTest(equipItem)
 
   // Consumable Item Tests
@@ -69,7 +76,6 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
   val consumableItem : ConsumableItem = ConsumableItem(
     consumableItemName,
     consumableItemDescription,
-    character,
     c => c.properties.health.currentPS += 10
   )
 
@@ -83,13 +89,13 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
 
   it should "work on the target" in {
     character.properties.health.currentPS -= 50 // take damage => 100 - 50 == 50
-    consumableItem.applyEffect(character) // restore ps => 50 + 10 = 60
+    consumableItem.use(character)() // restore ps => 50 + 10 = 60
     character.properties.health.currentPS shouldEqual 60
   }
 
   it should "disappear from the inventory after use" in {
     character.inventory += consumableItem
-    consumableItem.postEffect(character)
+    consumableItem.use(character)()
     character.inventory should not contain consumableItem
   }
 
