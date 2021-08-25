@@ -1,7 +1,11 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
+import controller.util.ResourceName
+import controller.util.serialization.ProgressSerializer
 import model.StoryModel
+import model.progress.{Progress, SerializableHistory}
+import view.progressSaver.ProgressSaverView
 
 
 /**
@@ -19,9 +23,26 @@ object ProgressSaverController {
 
   private class ProgressSaverControllerImpl(private val gameMasterController: GameMasterController,
                                             private val storyModel: StoryModel) extends ProgressSaverController {
-    override def saveProgress(): Unit = ???
 
-    override def execute(): Unit = ???
+    private val progressSaverView: ProgressSaverView = ProgressSaverView(this)
+
+    override def saveProgress(): Unit = {
+      try{
+        ProgressSerializer.serializeProgress(
+          Progress(SerializableHistory(storyModel.history.map(n => n.id)), storyModel.player),
+          ResourceName.testRandomStoryProgressFileName()
+        )
+        progressSaverView.showSuccessFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
+      } catch {
+        case e: Exception =>
+          println(e)
+          progressSaverView.showFailureFeedback(
+            _ => gameMasterController.executeOperation(OperationType.StoryOperation)
+          )
+      }
+    }
+
+    override def execute(): Unit = progressSaverView.render()
 
     override def close(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
   }

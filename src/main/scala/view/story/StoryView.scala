@@ -34,7 +34,8 @@ private class StoryViewSwing(private val storyController: StoryController) exten
     this.add(
       MenuOptionsPanel(
         _ => storyController.goToStatStatus(),
-        _ => storyController.goToHistory()
+        _ => storyController.goToHistory(),
+        _ => storyController.goToProgressSaver()
       ),
       BorderLayout.NORTH
     )

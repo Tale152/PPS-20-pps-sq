@@ -1,8 +1,15 @@
 package controller
 
+import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName
+import controller.util.serialization.ProgressSerializer
+
+import java.nio.file.{Files, Paths}
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
+
+import javax.swing.JOptionPane
+
 
 /**
  * The Application Controller is the Main Controller of the application.
@@ -19,25 +26,45 @@ sealed trait ApplicationController extends Controller {
    * @see [[model.characters.properties.stats.Stat]]
    */
   def loadStoryNewGame(storyUri: String): Unit
+
+  def loadStoryWithProgress(storyUri: String, progressUri: String): Unit
 }
 
 object ApplicationController extends ApplicationController {
 
   initializeGameFolderStructure(ResourceName.RootGameDirectory)
 
-  /**
-   * Start the Controller.
-   */
   override def execute(): Unit = {
     //in the future it will render the main menu
-    loadStoryNewGame(ResourceName.storyDirectoryPath() + "/random-story.ser")
+    if(Files.exists(Paths.get(ResourceName.testRandomStoryProgressFileName()))){
+      val jopRes = JOptionPane
+        .showConfirmDialog(
+          null,
+          "Would you like to continue with your progresses?",
+          "start",
+          JOptionPane.YES_NO_OPTION
+        )
+      if(jopRes == JOptionPane.YES_OPTION){
+        loadStoryWithProgress(
+          ResourceName.testRandomStoryFileName(),
+          ResourceName.testRandomStoryProgressFileName()
+        )
+      } else {
+        loadStoryNewGame(ResourceName.testRandomStoryFileName())
+      }
+    } else {
+      loadStoryNewGame(ResourceName.testRandomStoryFileName())
+    }
   }
 
-  /**
-   * Defines the actions to do when the Controller execution is over.
-   */
   override def close(): Unit = System.exit(0)
 
   override def loadStoryNewGame(storyURI: String): Unit =
     PlayerConfigurationController(deserializeStory(storyURI)).execute()
+
+  override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit = {
+    GameMasterController(
+      ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
+    ).execute()
+  }
 }

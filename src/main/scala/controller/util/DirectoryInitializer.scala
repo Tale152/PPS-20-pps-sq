@@ -22,8 +22,8 @@ object DirectoryInitializer {
     }
 
     def _populateStoriesDirectory(): Unit = {
-      val deserializedStoryName: String = ResourceName.storyDirectoryPath(gameRootDirectory) + "/random-story.ser"
-      serializeStory(RandomStoryNodeGenerator.generate(), deserializedStoryName)
+      _createDirectoryIfNotPresent(ResourceName.testRandomStoryDirectoryPath(gameRootDirectory))
+      serializeStory(RandomStoryNodeGenerator.generate(), ResourceName.testRandomStoryFileName())
     }
 
     _createDirectoryIfNotPresent(ResourceName.gameDirectoryPath(gameRootDirectory))
