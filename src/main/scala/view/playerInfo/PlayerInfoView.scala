@@ -2,8 +2,9 @@ package view.playerInfo
 
 import controller.game.subcontroller.PlayerInfoController
 import model.characters.properties.stats.StatName.StatName
-import view.playerInfo.panels.{ControlsPanel, HealthPanel, PlayerNamePanel, StatValuePanel}
+import view.playerInfo.panels.{HealthPanel, PlayerNamePanel, StatValuePanel}
 import view.AbstractView
+import view.util.common.ControlsPanel
 
 import javax.swing.BoxLayout
 
@@ -58,6 +59,6 @@ private class PlayerInfoViewSwing(private val playerInfoController: PlayerInfoCo
     this.add(PlayerNamePanel(_playerName))
     this.add(HealthPanel(_health))
     for(stat <- _stats) this.add(StatValuePanel(stat))
-    this.add(ControlsPanel(_ => playerInfoController.close()))
+    this.add(ControlsPanel(List(("b", ("[B] Back" , _ => playerInfoController.close())))))
   }
 }

@@ -2,7 +2,8 @@ package view.progressSaver
 
 import controller.game.subcontroller.ProgressSaverController
 import view.{AbstractView, Frame}
-import view.progressSaver.panels.{ControlsPanel, InstructionPanel}
+import view.progressSaver.panels.InstructionPanel
+import view.util.common.ControlsPanel
 
 import javax.swing.{BoxLayout, JOptionPane}
 
@@ -29,7 +30,11 @@ private class ProgressSaverViewImpl(private val progressSaverController: Progres
 
   override def populateView(): Unit = {
     this.add(InstructionPanel())
-    this.add(ControlsPanel(_ => progressSaverController.close(), _ => progressSaverController.saveProgress()))
+    this.add(ControlsPanel(List(
+        ("b", ("[B] Back", _ => progressSaverController.close())),
+        ("s", ("[S] Save", _ => progressSaverController.saveProgress()))
+      ))
+    )
   }
 
   private def showFeedBackAndExecute(message: String, onOk: Unit => Unit): Unit = {

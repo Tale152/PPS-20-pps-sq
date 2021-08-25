@@ -2,8 +2,9 @@ package view.story
 
 import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
-import view.story.panels.{MenuOptionsPanel, NarrativePanel, PathwaysPanel}
+import view.story.panels.{NarrativePanel, PathwaysPanel}
 import view.AbstractView
+import view.util.common.ControlsPanel
 
 import java.awt.BorderLayout
 
@@ -32,10 +33,12 @@ private class StoryViewSwing(private val storyController: StoryController) exten
 
   override def populateView(): Unit = {
     this.add(
-      MenuOptionsPanel(
-        _ => storyController.goToStatStatus(),
-        _ => storyController.goToHistory(),
-        _ => storyController.goToProgressSaver()
+      ControlsPanel(
+        List(
+          ("s", ("[S] Status", _ => storyController.goToStatStatus())),
+          ("h", ("[H] History", _ => storyController.goToHistory())),
+          ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver()))
+        )
       ),
       BorderLayout.NORTH
     )
