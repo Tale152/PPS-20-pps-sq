@@ -23,6 +23,7 @@ abstract class AbstractView extends SqSwingPanel with View{
   override def render(): Unit = {
     this.updateUI()
     this.removeAll()
+    Frame.frame.getKeyListeners.foreach(k => Frame.frame.removeKeyListener(k))
     populateView()
     Frame.setPanel(this)
     Frame.setVisible(true)

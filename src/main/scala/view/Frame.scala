@@ -15,6 +15,7 @@ object Frame {
 
   def setVisible(visible: Boolean): Unit = {
     frame.setVisible(visible)
+    frame.setFocusable(true)
     frame.setMinimumSize(new Dimension(minimumFrameDimension, minimumFrameDimension))
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
     frame.setTitle("ScalaQuest")

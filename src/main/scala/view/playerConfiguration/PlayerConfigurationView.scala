@@ -2,8 +2,9 @@ package view.playerConfiguration
 
 import controller.PlayerConfigurationController
 import model.characters.properties.stats.Stat
-import view.playerConfiguration.panels.{ButtonsPanel, InstructionPanel, RemainingPointsPanel, StatEditPanel}
+import view.playerConfiguration.panels.{InstructionPanel, RemainingPointsPanel, StatEditPanel}
 import view.AbstractView
+import view.util.common.ControlsPanel
 
 import javax.swing.BoxLayout
 
@@ -64,7 +65,10 @@ private class PlayerConfigurationViewSwing(private val playerConfigurationContro
         )
       )
     }
-    this.add(ButtonsPanel(_ => playerConfigurationController.close(), _ => playerConfigurationController.confirm()))
+    this.add(ControlsPanel(List(
+      ("b", ("[B] Back", _ => playerConfigurationController.close())),
+      ("c", ("[C] Confirm", _ => playerConfigurationController.confirm()))
+    )))
   }
 
 }

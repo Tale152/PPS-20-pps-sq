@@ -2,7 +2,8 @@ package view.history
 
 import controller.game.subcontroller.HistoryController
 import view.AbstractView
-import view.history.panels.{ControlsPanel, CurrentNodePanel, PreviousChoicePanel}
+import view.history.panels.{CurrentNodePanel, PreviousChoicePanel}
+import view.util.common.ControlsPanel
 
 import javax.swing.BoxLayout
 
@@ -46,6 +47,6 @@ private class HistoryViewImpl(private val historyController: HistoryController) 
   override def populateView(): Unit = {
     _previousChoices.foreach(c => this.add(PreviousChoicePanel(c._1, c._2)))
     this.add(CurrentNodePanel(_currentNodeDescription))
-    this.add(ControlsPanel(_ => historyController.close()))
+    this.add(ControlsPanel(List(("b", ("[B] Back", _ => historyController.close())))))
   }
 }

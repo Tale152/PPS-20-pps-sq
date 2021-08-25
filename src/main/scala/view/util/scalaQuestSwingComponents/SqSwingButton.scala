@@ -11,6 +11,7 @@ object SqSwingButton {
     this.setText(text)
     this.addActionListener(action)
     this.setEnabled(enabled)
+    this.setFocusable(false)
     this.setFont(SqFont(true, btnTextSize))
   }
 
