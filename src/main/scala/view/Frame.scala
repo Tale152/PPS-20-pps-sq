@@ -8,7 +8,7 @@ import javax.swing.{JFrame, JPanel, WindowConstants}
  */
 object Frame {
 
-  val minimumFrameDimension = 400
+  val minimumFrameDimension = 600
 
   val frame = new JFrame()
   var _currentJPanel: Option[JPanel] = None
