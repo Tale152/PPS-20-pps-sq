@@ -36,7 +36,7 @@ object ApplicationController extends ApplicationController {
 
   override def execute(): Unit = {
     //in the future it will render the main menu
-    if(Files.exists(Paths.get(ResourceName.testRandomStoryProgressFileName()))){
+    if(Files.exists(Paths.get(ResourceName.randomStoryProgressFileName()))){
       val jopRes = JOptionPane
         .showConfirmDialog(
           null,
@@ -46,14 +46,14 @@ object ApplicationController extends ApplicationController {
         )
       if(jopRes == JOptionPane.YES_OPTION){
         loadStoryWithProgress(
-          ResourceName.testRandomStoryFileName(),
-          ResourceName.testRandomStoryProgressFileName()
+          ResourceName.randomStoryFileName(),
+          ResourceName.randomStoryProgressFileName()
         )
       } else {
-        loadStoryNewGame(ResourceName.testRandomStoryFileName())
+        loadStoryNewGame(ResourceName.randomStoryFileName())
       }
     } else {
-      loadStoryNewGame(ResourceName.testRandomStoryFileName())
+      loadStoryNewGame(ResourceName.randomStoryFileName())
     }
   }
 
