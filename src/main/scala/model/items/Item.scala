@@ -5,7 +5,7 @@ import model.characters.Character
 /**
  * Trait that represents an Item.
  */
-trait Item extends Serializable {
+trait Item extends Serializable with Ordered[Item] {
   val name: String
   val description: String
   def use(character: Character): Unit
@@ -30,6 +30,23 @@ abstract class AbstractItem(override val name: String,
 
   def applyEffect(character: Character): Unit
   def postEffect(character: Character): Unit
+
+  override def compare(that: Item): Int = {
+   if(this.isInstanceOf[that.type]) {
+     this.name compare that.name //compare alphabetically
+   } else {
+     _compareByPriorityType(that)
+   }
+  }
+
+  private def _compareByPriorityType(that: Item): Int = {
+    this match {
+      case _: KeyItem => 1
+      case _: ConsumableItem => -1
+      case _: EquipItem => if (that.isInstanceOf[ConsumableItem]) 1 else -1
+      case _ => throw new IllegalArgumentException("Supplied item class does not exist")
+    }
+  }
 }
 
 /**
@@ -42,6 +59,7 @@ case class KeyItem(override val name: String,
   override def applyEffect(character: Character): Unit = { /*does nothing*/ }
 
   override def postEffect(character: Character): Unit = { /*does nothing*/ }
+
 }
 
 /**
