@@ -37,7 +37,8 @@ private class StoryViewSwing(private val storyController: StoryController) exten
         List(
           ("s", ("[S] Status", _ => storyController.goToStatStatus())),
           ("h", ("[H] History", _ => storyController.goToHistory())),
-          ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver()))
+          ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
+          ("q", ("[Q] Quit", _ => storyController.close()))
         )
       ),
       BorderLayout.NORTH
