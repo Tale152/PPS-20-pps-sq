@@ -7,7 +7,7 @@ import model.characters.properties.stats.StatModifier
  * Contains the strategy to pass to StoryNode's events.
  * @see [[model.nodes.StoryNode]]
  */
-sealed trait Event {
+sealed trait Event extends Serializable {
   /**
    * Strategy of what happens in a StoryNode's event.
    * @param storyModel the StoryModel to manipulate on execution
