@@ -2,10 +2,14 @@ package model.characters.items
 
 import model.characters.Player
 import model.characters.properties.stats.{Stat, StatName}
-import model.items.{ConsumableItem, EquipItem, KeyItem}
+import model.items.EquipItemType.EquipItemType
+import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class ItemTest extends FlatTestSpec with SerializableSpec {
+
+  val maxPs = 100
+  val character : Player = Player("JoJo", maxPs , Set(Stat(1, StatName.Speed)))
 
   // Key Item tests
 
@@ -25,9 +29,10 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
 
   // Equip Item Tests
 
-  val equipItemName : String = "Sword of Iron"
-  val equipItemDescription : String = "Can cut things"
-  val equipItem : EquipItem = EquipItem(equipItemName, equipItemDescription)
+  val equipItemName: String = "Sword of Iron"
+  val equipItemDescription: String = "Can cut things"
+  val equipItemType: EquipItemType = EquipItemType.Armor
+  val equipItem: EquipItem = EquipItem(equipItemName, equipItemDescription, Set(), equipItemType)
 
   "An Equip Item" should "have a name" in {
     equipItem.name shouldEqual equipItemName
@@ -37,6 +42,24 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
     equipItem.description shouldEqual equipItemDescription
   }
 
+  it should "have a set of stat modifier" in {
+    equipItem.statModifiers shouldEqual Set()
+  }
+
+  it should "have a type" in {
+    equipItem.equipItemType shouldEqual equipItemType
+  }
+
+  it should "be equipped to the target" in {
+    character.equippedItems should not contain equipItem
+    equipItem.applyEffect(character)
+    character.equippedItems should contain (equipItem)
+  }
+
+  it should "disappear from the equipped items after use" in {
+    equipItem.postEffect(character)
+    character.equippedItems should not contain equipItem
+  }
   it should behave like serializationTest(equipItem)
 
   // Consumable Item Tests
@@ -46,12 +69,9 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
   val consumableItem : ConsumableItem = ConsumableItem(
     consumableItemName,
     consumableItemDescription,
+    character,
     c => c.properties.health.currentPS += 10
   )
-
-  val targetMaxPs = 100
-  val targetCharacter : Player = Player("JoJo", targetMaxPs , Set(Stat(1, StatName.Speed)))
-
 
   "A Consumable Item" should "have a name" in {
     consumableItem.name shouldEqual consumableItemName
@@ -62,18 +82,16 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "work on the target" in {
-    targetCharacter.properties.health.currentPS -= 50 // take damage => 100 - 50 == 50
-    consumableItem.consumableStrategy(targetCharacter) // restore ps => 50 + 10 = 60
-    targetCharacter.properties.health.currentPS shouldEqual 60
+    character.properties.health.currentPS -= 50 // take damage => 100 - 50 == 50
+    consumableItem.applyEffect(character) // restore ps => 50 + 10 = 60
+    character.properties.health.currentPS shouldEqual 60
   }
 
-  /*
   it should "disappear from the inventory after use" in {
-    //TODO add to targetCharacter inventory
-    consumableItem.consumableStrategy(targetCharacter)
-    //TODO test item has disappeared
+    character.inventory += consumableItem
+    consumableItem.postEffect(character)
+    character.inventory should not contain consumableItem
   }
-  */
 
   it should behave like serializationTest(consumableItem)
 

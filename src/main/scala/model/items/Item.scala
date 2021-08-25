@@ -4,13 +4,15 @@ import model.characters.Character
 import model.characters.properties.stats.StatModifier
 import model.items.EquipItemType.EquipItemType
 
+import scala.::
+
 /**
  * Trait that represents an Item.
  */
 trait Item extends Serializable {
   val name: String
   val description: String
-  def use(owner: Character, target: Character): Unit
+  def use(target: Character): Unit
 }
 
 /**
@@ -23,16 +25,15 @@ abstract class AbstractItem(override val name: String,
   /**
    * Template method that use [[model.items.AbstractItem#applyEffect(java.lang.Character)]]
    * and [[model.items.AbstractItem#postEffect(java.lang.Character)]].
-   * @param owner the owner of the item.
    * @param target the target of the item effect.
    */
-  override def use(owner: Character, target: Character): Unit = {
-    applyEffect(owner, target)
-    postEffect(owner, target)
+  override def use(target: Character): Unit = {
+    applyEffect(target)
+    postEffect(target)
   }
 
-  def applyEffect(owner: Character, target: Character): Unit
-  def postEffect(owner: Character, target: Character): Unit
+  def applyEffect(target: Character): Unit
+  def postEffect(target: Character): Unit
 }
 
 /**
@@ -42,9 +43,9 @@ abstract class AbstractItem(override val name: String,
  */
 case class KeyItem(override val name: String,
                    override val description: String) extends AbstractItem(name, description) {
-  override def applyEffect(owner: Character, target: Character): Unit = { /*does nothing*/ }
+  override def applyEffect(target: Character): Unit = { /*does nothing*/ }
 
-  override def postEffect(owner: Character, target: Character): Unit = { /*does nothing*/ }
+  override def postEffect(target: Character): Unit = { /*does nothing*/ }
 }
 
 /**
@@ -55,10 +56,11 @@ case class KeyItem(override val name: String,
  */
 case class ConsumableItem(override val name: String,
                           override val description: String,
+                          owner: Character,
                           consumableStrategy: Character => Unit) extends AbstractItem(name, description) {
-  override def applyEffect(owner: Character, target: Character): Unit = consumableStrategy(target)
+  override def applyEffect(target: Character): Unit = consumableStrategy(target)
 
-  override def postEffect(owner: Character, target: Character): Unit = owner.inventory - this
+  override def postEffect(target: Character): Unit = owner.inventory -= this
 }
 
 /**
@@ -72,7 +74,7 @@ case class EquipItem(override val name: String,
                      override val description: String,
                      statModifiers: Set[StatModifier],
                      equipItemType: EquipItemType) extends AbstractItem(name, description) {
-  override def applyEffect(owner: Character, target: Character): Unit = target.equippedItems + this
+  override def applyEffect(target: Character): Unit = target.equippedItems += this
 
-  override def postEffect(owner: Character, target: Character): Unit = target.equippedItems - this
+  override def postEffect(target: Character): Unit = target.equippedItems -= this
 }
