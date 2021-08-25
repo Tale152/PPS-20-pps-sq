@@ -22,8 +22,8 @@ object DirectoryInitializer {
     }
 
     def _populateStoriesDirectory(): Unit = {
-      _createDirectoryIfNotPresent(ResourceName.testRandomStoryDirectoryPath(gameRootDirectory))
-      serializeStory(RandomStoryNodeGenerator.generate(), ResourceName.testRandomStoryFileName())
+      _createDirectoryIfNotPresent(ResourceName.randomStoryDirectoryPath(gameRootDirectory))
+      serializeStory(RandomStoryNodeGenerator.generate(), ResourceName.randomStoryFileName(gameRootDirectory))
     }
 
     _createDirectoryIfNotPresent(ResourceName.gameDirectoryPath(gameRootDirectory))

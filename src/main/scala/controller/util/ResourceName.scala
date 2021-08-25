@@ -17,13 +17,14 @@ object ResourceName {
   private val randomStoryFileName: String = "random-story.sqstr"
   private val randomStoryProgressFileName: String = "random-story.sqprg"
 
-  def testRandomStoryFileName(baseDirectory: String = RootGameDirectory): String =
-    testRandomStoryDirectoryPath(baseDirectory) + "/" + randomStoryFileName
+  // random story is hardcoded for now
+  def randomStoryFileName(baseDirectory: String = RootGameDirectory): String =
+    randomStoryDirectoryPath(baseDirectory) + "/" + randomStoryFileName
 
-  def testRandomStoryProgressFileName(baseDirectory: String = RootGameDirectory): String =
-    testRandomStoryDirectoryPath(baseDirectory) + "/" + randomStoryProgressFileName
+  def randomStoryProgressFileName(baseDirectory: String = RootGameDirectory): String =
+    randomStoryDirectoryPath(baseDirectory) + "/" + randomStoryProgressFileName
 
-  def testRandomStoryDirectoryPath(baseDirectory: String = RootGameDirectory): String =
+  def randomStoryDirectoryPath(baseDirectory: String = RootGameDirectory): String =
     storyDirectoryPath(baseDirectory) + "/" + randomStory
 
   def storyDirectoryPath(baseDirectory: String = RootGameDirectory): String =
