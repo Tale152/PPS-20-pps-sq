@@ -67,7 +67,7 @@ In quanto giocatore
     - **WHY**  
     per potermi mettere alla prova
 <br/><br/>
-8.  - **WHAT**  
+9.  - **WHAT**  
     vorrei poter gestire degli oggetti
     - **WHY**  
     per sbloccare nuove scelte, personalizzare il mio personaggio e ricevere aiuto in situazioni critiche dovute a combattimenti
@@ -85,6 +85,19 @@ Il diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimer
 Un aspetto di grande importanza nella progettazione del sistema è sicuramente la possibilità di aggiungere potenzialmente un numero illimitato di storie; il sistema riuscirà ad interpretare queste ultime e farà navigare l'utente all'interno di esse. È dunque fondamentale che l'utente possa aggiungere nuove storie (reperendole da fonti esterne) e navigare tra esse scegliendo quale giocare.
 
 ## Requisiti funzionali
+I requisiti funzionali riguardano le funzionalità che il sistema deve mettere a disposizione all'utente. Per la loro definizione è necessario basarsi sui requisiti utente estratti in precedenza.  
+I requisiti funzionali che il sistema dovrà rispettare sono i seguenti:
+1. iniziare una nuova partita.
+2. caricare un partita salvata in precedenza.
+3. registrare le risposte dell'utente per muoversi in modo coerente nella storia.
+4. salvare la partita al fine di poterla riprendere in seguito.
+5. permettere l'assegnazione di punteggi che costituiscono le statistiche di un giocatore.
+6. mostrare all'utente solo le scelte che può fare in base alle statistiche attuali.
+7. possibilità di raccogliere ed equipaggiare oggetti.
+9. controllo di nemici per i combattimenti 1 vs 1.
+10. consentire all'utente di combattere in una battaglia.
+11. salvataggio di tutte le scelte intraprese dall'utente.
+12. consentire la visualizzazione di: storie presenti, eventuali salvataggi di storie già iniziate, statistiche attuali, inventario e scelte disponibili nel nodo della storia corrente.
 
 ## Requisiti non funzionali
 - **Cross-platform**  
