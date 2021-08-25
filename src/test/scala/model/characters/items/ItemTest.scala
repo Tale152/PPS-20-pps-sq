@@ -4,14 +4,20 @@ import model.characters.Player
 import model.characters.properties.stats.{Stat, StatName}
 import model.items.EquipItemType.EquipItemType
 import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
+import org.scalatest.BeforeAndAfterEach
 import specs.{FlatTestSpec, SerializableSpec}
 
 
-class ItemTest extends FlatTestSpec with SerializableSpec {
+class ItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAfterEach {
 
   val maxPs = 100
   val character : Player = Player("JoJo", maxPs , Set(Stat(1, StatName.Speed)))
 
+  override def beforeEach(): Unit = {
+    super.beforeEach()
+    character.inventory = List()
+    character.equippedItems = Set()
+  }
   // Key Item tests
 
   val keyItemName : String = "Key to Success"
@@ -33,42 +39,77 @@ class ItemTest extends FlatTestSpec with SerializableSpec {
   val equipItemName: String = "Sword of Iron"
   val equipItemDescription: String = "Can cut things"
   val equipItemType: EquipItemType = EquipItemType.Armor
-  val equipItem: EquipItem = EquipItem(equipItemName, equipItemDescription, Set(), equipItemType)
+  val firstArmorEquipItem: EquipItem = EquipItem(equipItemName, equipItemDescription, Set(), equipItemType)
 
   "An Equip Item" should "have a name" in {
-    equipItem.name shouldEqual equipItemName
+    firstArmorEquipItem.name shouldEqual equipItemName
   }
 
   it should "have a description" in {
-    equipItem.description shouldEqual equipItemDescription
+    firstArmorEquipItem.description shouldEqual equipItemDescription
   }
 
   it should "have a set of stat modifier" in {
-    equipItem.statModifiers shouldEqual Set()
+    firstArmorEquipItem.statModifiers shouldEqual Set()
   }
 
   it should "have a type" in {
-    equipItem.equipItemType shouldEqual equipItemType
+    firstArmorEquipItem.equipItemType shouldEqual equipItemType
   }
 
   it should "be equipped to the target" in {
-    character.equippedItems should not contain equipItem
-    equipItem.use(character)()
-    character.equippedItems should contain (equipItem)
+    character.inventory = firstArmorEquipItem :: character.inventory
+    character.inventory should contain (firstArmorEquipItem)
+    character.equippedItems should not contain firstArmorEquipItem
+    firstArmorEquipItem.use(character)()
+    character.equippedItems should contain (firstArmorEquipItem)
+    character.inventory should contain (firstArmorEquipItem)
   }
 
-  /*it should "disappear from the equipped items when used again" in {
-    equipItem.use(character)()
-    character.equippedItems should not contain equipItem
-  } */
+  it should "disappear from the equipped items when used again" in {
+    character.inventory = firstArmorEquipItem :: character.inventory
+    character.inventory should contain (firstArmorEquipItem)
+    firstArmorEquipItem.use(character)()
+    character.equippedItems should contain (firstArmorEquipItem)
 
-  /*
+    firstArmorEquipItem.use(character)()
+    character.equippedItems should not contain firstArmorEquipItem
+    character.inventory should contain (firstArmorEquipItem)
+  }
+
+  val glovesEquipItem: EquipItem = EquipItem(equipItemName, equipItemDescription, Set(), EquipItemType.Gloves)
+  val secondArmorEquipItem: EquipItem = EquipItem(equipItemName, equipItemDescription, Set(), equipItemType)
+
   it should "be removed from equipped items when a new item with the same type is used" in {
-    equipItem.use(character)()
-    character.equippedItems should not contain equipItem
-  }*/
+    character.inventory = secondArmorEquipItem :: character.inventory
+    character.inventory = firstArmorEquipItem :: character.inventory
+    character.inventory should contain (firstArmorEquipItem)
+    character.inventory should contain (secondArmorEquipItem)
 
-  it should behave like serializationTest(equipItem)
+    firstArmorEquipItem.use(character)()
+    character.equippedItems should contain (firstArmorEquipItem)
+
+    secondArmorEquipItem.use(character)()
+    character.equippedItems.find(i => i.equipItemType == EquipItemType.Armor).get eq firstArmorEquipItem shouldBe false
+    character.equippedItems.find(i => i.equipItemType == EquipItemType.Armor).get eq secondArmorEquipItem shouldBe true
+
+    character.inventory should contain (firstArmorEquipItem)
+    character.inventory should contain (secondArmorEquipItem)
+  }
+
+  "A new equip item" should "be equipped if it is a different type of equip item" in {
+    character.inventory = glovesEquipItem :: character.inventory
+    character.inventory = secondArmorEquipItem :: character.inventory
+
+    character.inventory should contain (glovesEquipItem)
+    secondArmorEquipItem.use(character)()
+    glovesEquipItem.use(character)()
+
+    character.equippedItems should contain (glovesEquipItem)
+    character.equippedItems should contain (secondArmorEquipItem)
+  }
+
+  it should behave like serializationTest(firstArmorEquipItem)
 
   // Consumable Item Tests
 
