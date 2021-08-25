@@ -22,8 +22,19 @@ Alla fine del primo Sprint siamo stati molto soddisfatti di vedere i progressi f
 
 ### Sprint 2 (11/08/2021 - 21/08/2021)
 #### Obiettivo
+Partendo dalla versione molto basilare sviluppata allo sprint precedente, abbiamo cominciato ad aggiungere sempre più dettagli al core dell'applicazione:
+- È stato abbandonata l'interfaccia a riga di comando e tutte le GUI sono state rimpiazzate con effettive view grafiche.
+- Il giocatore è stato arricchito con delle proprietà, in particolare con le sua statistiche ed i suoi valori vitali. È poi stata sviluppata anche la view relativa all'assegnamento delle statistiche e quella dedicata alla loro visione.
+- È stato introdotto il sistema di History e la relativa view. La History è una schermata che permette di poter controllare in un qualsiasi momento della storia quali nodi sono stati percorsi in passato.
+- Le storie sono ora reperibili da File presenti sul filesystem anzichè dal codice sorgente stesso. È stato possibile grazie alla serializzazione offerta da Scala.
+- Sono stati arricchiti i nodi della storia con delle condizioni, che permettono di limitare le strade percorribili dall'utente se quest'ultimo non rispetta determinate condizioni (per esempio possedendo un valore sufficientemente alto su una determinata statistica potrebbe sbloccarsi un percorso segreto)
+
 #### Considerazioni finali
-### Sprint 3 (date_start - date-end)
+Alla fine del primo Sprint siamo stati molto soddisfatti di vedere i progressi fatti.
+I task assegnati ai vari componenti del gruppo sono stati svolti in modo corretto.  
+È sorto un unico imprevisto non grave:
+- La serializzazione era inizialmente stata pensata in un formato differente. Si era pensato di utilizzare il linguaggio json per rappresentare la storia. Utilizzare la serializzazione di Scala si è rivelato tuttavia più semplice ed efficiente. Scala dispone di alcune libreria per la serializzazione e la deserializzazione in formato json ma tutte quante soffrono di limitazioni non facilmente risolvibili.
+### Sprint 3 (21/08/2021 - 31/08/2021)
 #### Obiettivo
 #### Considerazioni finali
 ### Sprint 4 (date_start - date-end)
