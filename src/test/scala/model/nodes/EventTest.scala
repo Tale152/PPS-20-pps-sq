@@ -4,9 +4,9 @@ import model.StoryModel
 import model.characters.Player
 import model.characters.properties.stats.{Stat, StatModifier, StatName}
 import model.nodes.StatEvent.StatEvent
-import specs.FlatTestSpec
+import specs.{FlatTestSpec, SerializableSpec}
 
-class EventTest extends FlatTestSpec {
+class EventTest extends FlatTestSpec with SerializableSpec{
 
   val statModifier: StatModifier = StatModifier(StatName.Intelligence, v => v + 1)
   val statEvent: StatEvent = StatEvent(statModifier)
@@ -17,4 +17,6 @@ class EventTest extends FlatTestSpec {
     statEvent.execute(storyModel)
     player.properties.statModifiers shouldEqual Set(statModifier)
   }
+
+  it should behave like serializationTest(statEvent)
 }
