@@ -1,7 +1,7 @@
 package model.characters
 
 import model.characters.properties.stats.{Stat, StatName}
-import model.items.{ConsumableItem, EquipItem, KeyItem}
+import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class CharacterTest extends FlatTestSpec with SerializableSpec {
@@ -55,7 +55,7 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "have a ordered inventory" in {
-    val equipItem: EquipItem = EquipItem("sword", "it's a sword")
+    val equipItem: EquipItem = EquipItem("sword", "it's a sword", Set(), EquipItemType.Socks)
     val consumableItem: ConsumableItem = ConsumableItem("potion",
       "it's a potion",
       c => c.properties.health.currentPS += 10)
