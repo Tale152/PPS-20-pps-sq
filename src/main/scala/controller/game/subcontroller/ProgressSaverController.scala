@@ -30,7 +30,7 @@ object ProgressSaverController {
       try{
         ProgressSerializer.serializeProgress(
           Progress(SerializableHistory(storyModel.history.map(n => n.id)), storyModel.player),
-          ResourceName.testRandomStoryProgressFileName()
+          ResourceName.randomStoryProgressFileName()
         )
         progressSaverView.showSuccessFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
       } catch {
