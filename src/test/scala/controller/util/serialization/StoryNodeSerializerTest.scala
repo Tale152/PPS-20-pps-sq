@@ -13,11 +13,11 @@ class StoryNodeSerializerTest extends FlatTestSpec {
   private val serializationPathTest: String = ResourceName.TempDirectory + "/" + serializationFileNameTest
   private val serializationFile = new File(serializationPathTest)
 
-  val destinationNodeCondition: StoryNode = StoryNode(2, "narrative", Set.empty)
-  val destinationNodeNoCondition: StoryNode = StoryNode(1, "narrative", Set.empty)
+  val destinationNodeCondition: StoryNode = StoryNode(2, "narrative", Set.empty, List())
+  val destinationNodeNoCondition: StoryNode = StoryNode(1, "narrative", Set.empty, List())
   val pathwayNoCondition: Pathway = Pathway("description", destinationNodeNoCondition, None)
   val pathwayCondition: Pathway = Pathway("description", destinationNodeCondition, Some(_ => true))
-  val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathwayNoCondition, pathwayCondition))
+  val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathwayNoCondition, pathwayCondition), List())
 
   "The serialization of the StoryNode" should "succeed" in {
     deleteFolder(serializationFile)

@@ -13,9 +13,9 @@ class StoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
   val maxPS: Int = 100
   val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
   val player: Player = Player("player", maxPS, stats)
-  val destinationNode: StoryNode = StoryNode(1, "narrative", Set.empty)
+  val destinationNode: StoryNode = StoryNode(1, "narrative", Set.empty, List())
   val pathway: Pathway = Pathway("description", destinationNode, None)
-  val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathway))
+  val startingNode: StoryNode = StoryNode(0, "narrative", Set(pathway), List())
 
   var storyModel: StoryModel = StoryModel(player, startingNode)
   var gameMasterController: GameMasterController = GameMasterController(storyModel)
@@ -30,7 +30,7 @@ class StoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
 
 
   "Choosing a Pathway that does not belong to current node" should "throw IllegalArgumentException" in {
-    val incorrectNode: StoryNode = StoryNode(3, "narrative", Set.empty)
+    val incorrectNode: StoryNode = StoryNode(3, "narrative", Set.empty, List())
     val incorrectPathway: Pathway = Pathway("description", incorrectNode, None)
     intercept[IllegalArgumentException] {
       storyController.choosePathWay(incorrectPathway)

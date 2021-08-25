@@ -17,12 +17,13 @@ class PathwayTest extends FlatTestSpec with SerializableSpec {
   val emptyPathwayDescription: String = ""
   var undefinedPathwayDescription: String = _
 
-  val destinationNodePrerequisite: StoryNode = StoryNode(2, storyNodeNarrative, Set.empty)
-  val destinationNodeNoPrerequisite: StoryNode = StoryNode(1, storyNodeNarrative, Set.empty)
+  val destinationNodePrerequisite: StoryNode = StoryNode(2, storyNodeNarrative, Set.empty, List())
+  val destinationNodeNoPrerequisite: StoryNode = StoryNode(1, storyNodeNarrative, Set.empty, List())
   val prerequisite: Option[StoryModel => Boolean] = Some(m => m.player.name == "prerequisite")
   val pathwayPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodePrerequisite, prerequisite)
   val pathwayNoPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodeNoPrerequisite, None)
-  val startingNode: StoryNode = StoryNode(0, storyNodeNarrative, Set(pathwayPrerequisite, pathwayNoPrerequisite))
+  val startingNode: StoryNode =
+    StoryNode(0, storyNodeNarrative, Set(pathwayPrerequisite, pathwayNoPrerequisite), List())
 
   "The pathway" should "have description \"pathwayDescription\"" in {
     pathwayPrerequisite.description shouldEqual pathwayDescription
