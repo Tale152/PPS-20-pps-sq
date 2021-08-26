@@ -20,14 +20,17 @@ trait Item extends Serializable with Ordered[Item] {
  */
 abstract class AbstractItem(override val name: String,
                             override val description: String) extends Item {
+
+  require(name != null && name.trim.nonEmpty  && description != null && description.trim.nonEmpty)
   /**
    * Template method that use [[model.items.AbstractItem#applyEffect(java.lang.Character)]]
    * and [[model.items.AbstractItem#postEffect(java.lang.Character)]].
+   * @param owner thw owner of the item.
    * @param target the target of the item effect.
    */
   override def use(owner: Character)(target: Character = owner): Unit = {
-    applyEffect(target)(owner)
-    postEffect(target)(owner)
+    applyEffect(owner)(target)
+    postEffect(owner)(target)
   }
 
   def applyEffect(owner: Character)(target: Character = owner): Unit
