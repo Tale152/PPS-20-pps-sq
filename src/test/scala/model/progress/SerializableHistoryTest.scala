@@ -5,6 +5,7 @@ import specs.{FlatTestSpec, SerializableSpec}
 class SerializableHistoryTest extends FlatTestSpec with SerializableSpec{
 
   var visitedNodesId: List[Int] = List(0,1,2)
+  var undefinedVisitedNodesList: List[Int] = _
   var serializableHistory: SerializableHistory = SerializableHistory(visitedNodesId)
 
   it should "contain the visited nodes id list" in {
@@ -13,7 +14,7 @@ class SerializableHistoryTest extends FlatTestSpec with SerializableSpec{
 
   it should "not contain a null visited nodes id list" in {
     intercept[IllegalArgumentException]{
-      SerializableHistory(null)
+      SerializableHistory(undefinedVisitedNodesList)
     }
   }
 
