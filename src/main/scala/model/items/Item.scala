@@ -92,6 +92,8 @@ case class EquipItem(override val name: String,
                      override val description: String,
                      statModifiers: Set[StatModifier],
                      equipItemType: EquipItemType) extends AbstractItem(name, description) {
+  require(equipItemType != null)
+
   override def applyEffect(owner: Character)(target: Character = owner): Unit = {
     val equippedItemToSwap : Option[EquipItem] = target.equippedItems.find(i => i.equipItemType == equipItemType)
     if(equippedItemToSwap.isDefined) {

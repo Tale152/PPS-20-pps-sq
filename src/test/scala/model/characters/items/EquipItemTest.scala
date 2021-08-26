@@ -5,8 +5,7 @@ import model.items.{EquipItem, EquipItemType}
 import org.scalatest.BeforeAndAfterEach
 import specs.{FlatTestSpec, ItemSpec, SerializableSpec}
 
-
-class ItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAfterEach with ItemSpec {
+class EquipItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAfterEach with ItemSpec {
 
   override def beforeEach(): Unit = {
     super.beforeEach()
@@ -14,19 +13,43 @@ class ItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAfterEac
     player.equippedItems = Set()
   }
 
-  // Equip Item Tests
-
   val equipItemName: String = "Sword of Iron"
   val equipItemDescription: String = "Can cut things"
   val equipItemType: EquipItemType = EquipItemType.Armor
+  var undefinedEquipItemType: EquipItemType = _
+
   val firstArmorEquipItem: EquipItem = EquipItem(equipItemName, equipItemDescription, Set(), equipItemType)
 
   "An Equip Item" should "have a name" in {
     firstArmorEquipItem.name shouldEqual equipItemName
   }
 
+  it should "not have an undefined name" in {
+    intercept[IllegalArgumentException] {
+      EquipItem(undefinedItemName, equipItemDescription, Set(), equipItemType)
+    }
+  }
+
+  it should "not have an empty name" in {
+    intercept[IllegalArgumentException] {
+      EquipItem(emptyItemName, equipItemDescription, Set(), equipItemType)
+    }
+  }
+
   it should "have a description" in {
     firstArmorEquipItem.description shouldEqual equipItemDescription
+  }
+
+  it should "not have an undefined description" in {
+    intercept[IllegalArgumentException] {
+      EquipItem(equipItemName, undefinedItemDescription, Set(), equipItemType)
+    }
+  }
+
+  it should "not have an empty description" in {
+    intercept[IllegalArgumentException] {
+      EquipItem(equipItemName, emptyItemDescription, Set(), equipItemType)
+    }
   }
 
   it should "have a set of stat modifier" in {
@@ -35,6 +58,12 @@ class ItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAfterEac
 
   it should "have a type" in {
     firstArmorEquipItem.equipItemType shouldEqual equipItemType
+  }
+
+  it should "not have an undefined type" in {
+    intercept[IllegalArgumentException] {
+      EquipItem(equipItemName, equipItemDescription, Set(), undefinedEquipItemType)
+    }
   }
 
   it should "be equipped to the target" in {
@@ -49,7 +78,6 @@ class ItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAfterEac
     insertItemInInventory(firstArmorEquipItem)
 
     firstArmorEquipItem.use(player)()
-
     player.equippedItems should contain (firstArmorEquipItem)
 
     firstArmorEquipItem.use(player)()
@@ -87,5 +115,4 @@ class ItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAfterEac
   }
 
   it should behave like serializationTest(firstArmorEquipItem)
-
 }
