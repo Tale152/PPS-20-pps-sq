@@ -17,7 +17,7 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
   var undefinedPathways: Set[Pathway] = _
 
   val events: List[StoryModel => Unit] = List()
-  val undefinedEvents: List[StoryModel => Unit] = null
+  var undefinedEvents: List[StoryModel => Unit] = _
 
   val node: StoryNode = StoryNode(id, storyNodeNarrative, pathways, events)
 
