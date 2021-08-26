@@ -2,6 +2,7 @@ package view.mainMenu.panels
 
 import controller.ApplicationController.{loadStoryNewGame, loadStoryWithProgress}
 import controller.util.ResourceName
+import view.Frame.frame
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingPanel}
 
 import java.awt.event.ActionEvent
@@ -17,7 +18,7 @@ object StoriesPanel {
     val c = new GridBagConstraints
 
     stories.foreach(i => {
-      val button = SqSwingButton(i, (_: ActionEvent) => {
+      val button = SqSwingButton("<html>" + i + "</html>", (_: ActionEvent) => {
         val storyPath = ResourceName.storyDirectoryPath() + "/" + i + "/" + i + ".sqstr"
         val progressPath = ResourceName.storyDirectoryPath() + "/" + i + "/" + i + ".sqprg"
         if (Files.exists(Paths.get(progressPath))) {
@@ -41,9 +42,7 @@ object StoriesPanel {
         }
       })
 
-      import java.awt.GridBagConstraints
-
-      val buttonHeight = 30
+      val buttonHeight = 20
       val topPadding = 10
       c.fill = GridBagConstraints.HORIZONTAL
       c.ipady = buttonHeight
@@ -51,8 +50,28 @@ object StoriesPanel {
       c.gridwidth = 3
       c.gridx = 0
       c.insets = new Insets(topPadding, 0, 0, 0) //top padding
+      val txt = button.getText
+      button.setText(getWrappedText(button, txt))
       this.add(button, c)
     })
+  }
+
+  import java.awt.font.FontRenderContext
+  import java.awt.geom.AffineTransform
+  import javax.swing.AbstractButton
+
+  private val STR_NEWLINE = "<br/>"
+  private val fontRenderContext = new FontRenderContext(new AffineTransform, true, true)
+
+  private def getWrappedText(button: AbstractButton, str: String): String = {
+    var newStr: String = str
+    if (!str.contains(STR_NEWLINE) && (frame.getWidth - 5) <
+      button.getFont.getStringBounds(str, fontRenderContext).getWidth.intValue
+    ) {
+      val strLength = (str.length / 3) * 2
+      newStr = str.substring(0, strLength) + STR_NEWLINE + str.substring(strLength)
+    }
+    newStr
   }
 
   def apply(stories: Set[String]): StoriesPanel = new StoriesPanel(stories)

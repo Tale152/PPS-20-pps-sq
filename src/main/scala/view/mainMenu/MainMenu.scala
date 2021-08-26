@@ -7,7 +7,7 @@ import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.SqSwingCenteredLabel
 
 import java.awt.{BorderLayout, Dimension}
-import javax.swing.JScrollPane
+import javax.swing.{JScrollPane, ScrollPaneConstants}
 import javax.swing.border.EmptyBorder
 
 trait MainMenu extends AbstractView {
@@ -30,7 +30,10 @@ private class MainMenuImpl(applicationController: ApplicationController) extends
 
   override def populateView(): Unit = {
     this.add(SqSwingCenteredLabel("Please select a story", size = lblSize), BorderLayout.NORTH)
-    val scrollPane: JScrollPane = new JScrollPane(StoriesPanel(_stories))
+    val scrollPane: JScrollPane = new JScrollPane(
+      StoriesPanel(_stories),
+      ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+      ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER)
     scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0))
     scrollPane.getVerticalScrollBar.setUnitIncrement(scrollIncrement)
     scrollPane.getVerticalScrollBar.setPreferredSize(new Dimension(0, 0))
