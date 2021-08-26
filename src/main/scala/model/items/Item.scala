@@ -20,14 +20,17 @@ trait Item extends Serializable with Ordered[Item] {
  */
 abstract class AbstractItem(override val name: String,
                             override val description: String) extends Item {
+
+  require(name != null && name.trim.nonEmpty  && description != null && description.trim.nonEmpty)
   /**
    * Template method that use [[model.items.AbstractItem#applyEffect(java.lang.Character)]]
    * and [[model.items.AbstractItem#postEffect(java.lang.Character)]].
+   * @param owner thw owner of the item.
    * @param target the target of the item effect.
    */
   override def use(owner: Character)(target: Character = owner): Unit = {
-    applyEffect(target)(owner)
-    postEffect(target)(owner)
+    applyEffect(owner)(target)
+    postEffect(owner)(target)
   }
 
   def applyEffect(owner: Character)(target: Character = owner): Unit
@@ -61,7 +64,6 @@ case class KeyItem(override val name: String,
   override def applyEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
 
   override def postEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
-
 }
 
 /**
@@ -90,13 +92,14 @@ case class EquipItem(override val name: String,
                      override val description: String,
                      statModifiers: Set[StatModifier],
                      equipItemType: EquipItemType) extends AbstractItem(name, description) {
+  require(equipItemType != null)
+
   override def applyEffect(owner: Character)(target: Character = owner): Unit = {
     val equippedItemToSwap : Option[EquipItem] = target.equippedItems.find(i => i.equipItemType == equipItemType)
-    if (equippedItemToSwap.isDefined){
+    if(equippedItemToSwap.isDefined) {
       target.equippedItems -= equippedItemToSwap.get
-      if (this.ne(equippedItemToSwap.get)){
+      if(this.ne(equippedItemToSwap.get)) {
         target.equippedItems += this
-        println(this.toString + " " + equippedItemToSwap.get.toString)
       }
     } else {
       target.equippedItems += this
