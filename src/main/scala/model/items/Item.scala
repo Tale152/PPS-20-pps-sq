@@ -61,7 +61,6 @@ case class KeyItem(override val name: String,
   override def applyEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
 
   override def postEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
-
 }
 
 /**
@@ -92,11 +91,10 @@ case class EquipItem(override val name: String,
                      equipItemType: EquipItemType) extends AbstractItem(name, description) {
   override def applyEffect(owner: Character)(target: Character = owner): Unit = {
     val equippedItemToSwap : Option[EquipItem] = target.equippedItems.find(i => i.equipItemType == equipItemType)
-    if (equippedItemToSwap.isDefined){
+    if(equippedItemToSwap.isDefined) {
       target.equippedItems -= equippedItemToSwap.get
-      if (this.ne(equippedItemToSwap.get)){
+      if(this.ne(equippedItemToSwap.get)) {
         target.equippedItems += this
-        println(this.toString + " " + equippedItemToSwap.get.toString)
       }
     } else {
       target.equippedItems += this
