@@ -3,8 +3,10 @@ package view
 import view.util.scalaQuestSwingComponents.SqSwingBorderPanel
 
 import java.awt._
-import javax.swing.border.EmptyBorder
+import java.io.File
+import javax.imageio.ImageIO
 import javax.swing._
+import javax.swing.border.EmptyBorder
 
 /**
  * The one and only Frame, for all the GUI's
@@ -17,6 +19,7 @@ object Frame {
   private val MinScreenSizePercentage: Double = 1.1
 
   val frame = new JFrame()
+  private val masterPanel = new MasterPanel()
   private val squarePanel = new SquarePanel()
   private val box = new Box(BoxLayout.Y_AXIS)
 
@@ -35,14 +38,16 @@ object Frame {
   }
 
   private def init(): Unit = {
+    frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
     frame.setFocusable(true)
     frame.setTitle(GameTitle)
     frame.getContentPane.setBackground(Color.BLACK)
+    frame.getContentPane.add(masterPanel)
     box.setAlignmentX(Component.CENTER_ALIGNMENT)
     box.add(Box.createVerticalGlue())
     box.add(squarePanel)
     box.add(Box.createVerticalGlue())
-    frame.add(box)
+    masterPanel.add(box)
     frame.setMinimumSize(scaleDimension(getSquareDimension, MinScreenSizePercentage))
     frame.pack()
   }
@@ -58,7 +63,7 @@ object Frame {
 
   private class SquarePanel extends SqSwingBorderPanel {
 
-    this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY))
+    this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3))
 
     override def getMinimumSize: Dimension = getSquareDimension
 
@@ -66,6 +71,32 @@ object Frame {
 
     override def getPreferredSize: Dimension = getMinimumSize
 
+  }
+
+  private class MasterPanel extends SqSwingBorderPanel {
+
+    this.setBackground(Color.BLACK)
+
+    override def paintComponent(g: Graphics): Unit = {
+      val bg = ImageIO.read(new File(getClass.getResource("/general_background.png").getPath))
+      val g2d: Graphics2D = g.create().asInstanceOf[Graphics2D]
+      var _y = 0
+      var _x = 0
+      while(_y < getHeight){
+        while(_x < getWidth){
+          g2d.drawImage(
+            bg,
+            _x,
+            _y,
+            (_: Image, _: Int, _: Int, _: Int, _: Int, _: Int) => true
+          )
+          _x = _x + bg.getWidth
+        }
+        _x = 0
+        _y = _y + bg.getHeight
+      }
+      g2d.dispose()
+    }
   }
 
 }
