@@ -2,6 +2,7 @@ package model.nodes
 
 import model.StoryModel
 import model.characters.properties.stats.StatModifier
+import model.items.Item
 
 /**
  * Contains the strategy to pass to StoryNode's events.
@@ -24,4 +25,13 @@ object StatEvent {
   }
 
   def apply(statModifier: StatModifier): StatEvent = new StatEvent(statModifier)
+}
+
+object ItemEvent {
+  class ItemEvent(item: Item) extends Event {
+    override def execute(storyModel: StoryModel): Unit =
+      storyModel.player.inventory = storyModel.player.inventory :+ item
+  }
+
+  def apply(item: Item): ItemEvent = new ItemEvent(item)
 }
