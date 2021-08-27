@@ -12,7 +12,7 @@ object SqSwingButton {
     this.addActionListener(action)
     this.setEnabled(enabled)
     this.setFocusable(false)
-    this.setFont(SqFont(true, btnTextSize))
+    this.setFont(SqFont(bold = true, btnTextSize))
   }
 
   def apply(text: String, action: ActionListener): SqSwingButton = new SqSwingButton(text, action, true)
