@@ -1,6 +1,6 @@
 package view.util.scalaQuestSwingComponents
 
-import java.awt.{BorderLayout, Color, FlowLayout, GridLayout}
+import java.awt.{BorderLayout, Color, FlowLayout, GridBagLayout, GridLayout}
 import javax.swing.{BoxLayout, JPanel}
 
 abstract class SqSwingPanel() extends JPanel {
@@ -8,7 +8,7 @@ abstract class SqSwingPanel() extends JPanel {
 }
 
 abstract class SqSwingFlowPanel() extends SqSwingPanel {
-  this.setLayout(new FlowLayout())
+  this.setLayout(new FlowLayout)
 }
 
 abstract class SqSwingBoxPanel(axis: Int) extends SqSwingPanel {
@@ -20,5 +20,9 @@ abstract class SqSwingGridPanel(rows: Int, cols: Int) extends SqSwingPanel {
 }
 
 abstract class SqSwingBorderPanel() extends SqSwingPanel {
-  this.setLayout(new BorderLayout())
+  this.setLayout(new BorderLayout)
+}
+
+abstract class SqSwingGridBagPanel() extends SqSwingPanel {
+  this.setLayout(new GridBagLayout)
 }
