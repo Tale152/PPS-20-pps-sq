@@ -1,21 +1,56 @@
 package view.util.common
 
+import view.Frame
 import view.Frame.frame
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingGridBagPanel
 
-import java.awt.{GridBagConstraints, Insets}
+import java.awt.event.{KeyEvent, KeyListener}
+import java.awt.{Color, GridBagConstraints, Insets}
 import java.awt.font.FontRenderContext
 import java.awt.geom.AffineTransform
 import javax.swing.AbstractButton
 
 case class VerticalButtons(buttons: Set[SqSwingButton]) extends SqSwingGridBagPanel {
 
+  private val buttonsList = buttons.toList
   private val buttonHeight = 20
   private val verticalPadding = 5
   private val c = new GridBagConstraints
   private val STR_NEWLINE = "<br/>"
   private val fontRenderContext = new FontRenderContext(new AffineTransform, true, true)
+
+  private var _selected = 0
+
+  if(buttonsList.nonEmpty) {
+    buttonsList(_selected).changeAppearance(Color.GREEN)
+    Frame.frame.addKeyListener(new KeyListener {
+      override def keyTyped(e: KeyEvent): Unit = { /*does nothing*/ }
+
+      override def keyPressed(e: KeyEvent): Unit = {
+        buttonsList(_selected).changeAppearance(Color.WHITE)
+        e.getExtendedKeyCode match {
+          case KeyEvent.VK_UP =>
+            if (_selected - 1 == -1) {
+              _selected = buttonsList.size - 1
+            } else {
+              _selected -= 1
+            }
+          case KeyEvent.VK_DOWN =>
+            if (_selected + 1 == buttonsList.size){
+              _selected = 0
+            } else {
+              _selected += 1
+            }
+          case KeyEvent.VK_ENTER => buttonsList(_selected).doClick
+          case _ => {/* does nothing, doesn't throw exception */}
+        }
+        buttonsList(_selected).changeAppearance(Color.GREEN)
+      }
+
+      override def keyReleased(e: KeyEvent): Unit = {/*does nothing*/}
+    })
+  }
 
   c.fill = GridBagConstraints.HORIZONTAL
   c.ipady = buttonHeight
@@ -24,7 +59,7 @@ case class VerticalButtons(buttons: Set[SqSwingButton]) extends SqSwingGridBagPa
   c.gridx = 0
   c.insets = new Insets(verticalPadding, 0, verticalPadding, 0)
 
-  buttons.foreach(b => {
+  buttonsList.foreach(b => {
     b.setText(getWrappedText(b, b.getText))
     this.add(b, c)
   })
