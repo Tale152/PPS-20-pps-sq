@@ -2,7 +2,7 @@ package view.util.scalaQuestSwingComponents
 
 import java.awt.Color
 import java.awt.event.{ActionListener, MouseAdapter, MouseEvent}
-import javax.swing.{BorderFactory, JButton}
+import javax.swing.JButton
 
 object SqSwingButton {
 

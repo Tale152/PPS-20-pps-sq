@@ -12,7 +12,7 @@ import javax.swing.AbstractButton
 case class VerticalButtons(buttons: Set[SqSwingButton]) extends SqSwingGridBagPanel {
 
   private val buttonHeight = 20
-  private val topPadding = 10
+  private val verticalPadding = 5
   private val c = new GridBagConstraints
   private val STR_NEWLINE = "<br/>"
   private val fontRenderContext = new FontRenderContext(new AffineTransform, true, true)
@@ -22,7 +22,7 @@ case class VerticalButtons(buttons: Set[SqSwingButton]) extends SqSwingGridBagPa
   c.weightx = 0.0
   c.gridwidth = 3
   c.gridx = 0
-  c.insets = new Insets(topPadding, 0, 0, 0) //top padding
+  c.insets = new Insets(verticalPadding, 0, verticalPadding, 0)
 
   buttons.foreach(b => {
     b.setText(getWrappedText(b, b.getText))
