@@ -1,7 +1,7 @@
 package model.characters
 
 import model.characters.properties.stats.{Stat, StatName}
-import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
+import model.items.{AbstractItem, ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class CharacterTest extends FlatTestSpec with SerializableSpec {
@@ -54,18 +54,29 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     mainPlayer.inventory.size shouldEqual 2
   }
 
-  it should "have a ordered inventory" in {
-    val equipItem: EquipItem = EquipItem("sword", "it's a sword", Set(), EquipItemType.Socks)
-    val consumableItem: ConsumableItem = ConsumableItem("potion",
-      "it's a potion",
-      c => c.properties.health.currentPS += 10)
-    val consumableItemSuper: ConsumableItem = ConsumableItem("super potion",
-      "it's a super potion",
-      c => c.properties.health.currentPS += 50)
+  val equipItem: EquipItem = EquipItem("sword", "it's a sword", Set(), EquipItemType.Socks)
+  val consumableItem: ConsumableItem = ConsumableItem("potion",
+    "it's a potion",
+    c => c.properties.health.currentPS += 10)
+  val consumableItemSuper: ConsumableItem = ConsumableItem("super potion",
+    "it's a super potion",
+    c => c.properties.health.currentPS += 50)
 
+
+  it should "have a ordered inventory" in {
     mainPlayer.inventory = List(consumableItemSuper, consumableItem, keyItem, equipItem)
     mainPlayer.inventory.size shouldEqual 4
     mainPlayer.inventory shouldEqual List(consumableItem, consumableItemSuper, equipItem, keyItem)
+  }
+
+  it should "throw an IllegalArgumentException trying to order Items that are not of a specific class" in {
+    val abstractItemOnTheFly = new AbstractItem("Conqueror Haki","All enemies will faint when used") {
+      override def applyEffect(owner: Character)(target: Character): Unit = {}
+      override def postEffect(owner: Character)(target: Character): Unit = {}
+    }
+    intercept[IllegalArgumentException] {
+      mainPlayer.inventory = List(consumableItemSuper, consumableItem, keyItem, equipItem, abstractItemOnTheFly)
+    }
   }
 
   "The enemy" should "have name Yoshikage Kira" in {
