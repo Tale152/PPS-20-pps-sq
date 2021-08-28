@@ -5,9 +5,9 @@ import view.AbstractView
 import view.history.panels.{CurrentNodePanel, PreviousChoicePanel}
 import view.util.common.ControlsPanel
 
-import java.awt.{BorderLayout, GridLayout}
-import javax.swing.{BoxLayout, JPanel}
-import javax.swing.border.Border
+import java.awt.{BorderLayout, Dimension, GridLayout}
+import javax.swing.{BoxLayout, JPanel, JScrollPane, ScrollPaneConstants}
+import javax.swing.border.{Border, EmptyBorder}
 
 /**
  * Is a GUI that allows the user to check his previous choices traversing the story.
@@ -39,9 +39,10 @@ object HistoryView {
 }
 
 private class HistoryViewImpl(private val historyController: HistoryController) extends HistoryView {
-
   this.setLayout(new BorderLayout())
-
+  private val storyRecap = new JPanel(new GridLayout(0, 1))
+  private val scrollPane = new JScrollPane(storyRecap, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+    ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER)
   private var _previousChoices: List[(String, String)] = List()
   private var _currentNodeDescription: String = ""
 
@@ -49,13 +50,10 @@ private class HistoryViewImpl(private val historyController: HistoryController) 
 
   override def setCurrentNodeNarrative(description: String): Unit = _currentNodeDescription = description
 
-  val storyRecap = new JPanel(new GridLayout(0,1))
-
   override def populateView(): Unit = {
     _previousChoices.foreach(c => storyRecap.add(PreviousChoicePanel(c._1, c._2)))
-
-    this.add(storyRecap,BorderLayout.NORTH)
-    this.add(CurrentNodePanel(_currentNodeDescription), BorderLayout.CENTER)
+    this.add(CurrentNodePanel(_currentNodeDescription), BorderLayout.NORTH)
+    this.add(scrollPane, BorderLayout.CENTER)
     this.add(ControlsPanel(List(("b", ("[B] Back", _ => historyController.close())))), BorderLayout.SOUTH)
   }
 }
