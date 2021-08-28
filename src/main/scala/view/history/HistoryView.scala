@@ -51,6 +51,7 @@ private class HistoryViewImpl(private val historyController: HistoryController) 
   override def setCurrentNodeNarrative(description: String): Unit = _currentNodeDescription = description
 
   override def populateView(): Unit = {
+    storyRecap.removeAll()
     _previousChoices.foreach(c => storyRecap.add(PreviousChoicePanel(c._1, c._2)))
     this.add(CurrentNodePanel(_currentNodeDescription), BorderLayout.NORTH)
     this.add(scrollPane, BorderLayout.CENTER)
