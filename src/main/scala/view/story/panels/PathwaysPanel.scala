@@ -2,7 +2,7 @@ package view.story.panels
 
 import model.nodes.Pathway
 import view.Frame
-import view.util.common.ScrollableVerticalButtons
+import view.util.common.{Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingButton}
 
@@ -13,7 +13,7 @@ import javax.swing.{BorderFactory, BoxLayout}
 case class PathwaysPanel(paths: Seq[Pathway], onPathwayChosen: Pathway => Unit)
   extends SqSwingBoxPanel(BoxLayout.X_AXIS){
   val buttons: Seq[SqSwingButton] = for(p <- paths) yield SqSwingButton(p.description, _ => onPathwayChosen(p))
-  this.add(ScrollableVerticalButtons(buttons.toSet))
+  this.add(Scrollable(VerticalButtons(buttons.toSet)))
   val border: TitledBorder =
     BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Choose a pathway")
   border.setTitleColor(Color.WHITE)

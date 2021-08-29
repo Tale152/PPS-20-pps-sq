@@ -4,7 +4,7 @@ import controller.ApplicationController
 import controller.ApplicationController.{loadStoryNewGame, loadStoryWithProgress}
 import controller.util.ResourceName
 import view.AbstractView
-import view.util.common.{ControlsPanel, ScrollableVerticalButtons}
+import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
 
@@ -32,7 +32,7 @@ private class MainMenuImpl(applicationController: ApplicationController) extends
 
   override def populateView(): Unit = {
     this.add(SqSwingCenteredLabel("Please select a story", size = lblSize), BorderLayout.NORTH)
-    this.add(ScrollableVerticalButtons(generateButtons()))
+    this.add(Scrollable(VerticalButtons(generateButtons())))
     this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => applicationController.close())))), BorderLayout.SOUTH)
   }
 
