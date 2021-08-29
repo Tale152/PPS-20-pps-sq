@@ -21,5 +21,5 @@ object SqSwingButton {
   }
 
   def apply(text: String, action: ActionListener, enabled: Boolean = true): SqSwingButton =
-    new SqSwingButton(text, action, true)
+    new SqSwingButton(text, action, enabled)
 }
