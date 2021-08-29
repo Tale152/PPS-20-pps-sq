@@ -2,7 +2,6 @@ package view.story
 
 import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
-import view.story.panels.{NarrativePanel, PathwaysPanel}
 import view.AbstractView
 import view.util.common.ControlsPanel
 
