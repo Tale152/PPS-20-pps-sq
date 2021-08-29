@@ -10,10 +10,11 @@ case class Scrollable(component: JComponent) extends JScrollPane(
   ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
   ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER
 ) {
-  private val scrollIncrement = 10
+  private val ScrollIncrement: Int = 10
+  private val ScrollbarWidth: Int = 10
 
   this.setBorder(new EmptyBorder(0, 0, 0, 0))
-  this.getVerticalScrollBar.setUnitIncrement(scrollIncrement)
+  this.getVerticalScrollBar.setUnitIncrement(ScrollIncrement)
   this.getVerticalScrollBar.setBackground(Color.BLACK)
   this.getVerticalScrollBar.setUI(
     new BasicScrollBarUI(){
@@ -32,5 +33,5 @@ case class Scrollable(component: JComponent) extends JScrollPane(
       }
     }
   )
-  this.getVerticalScrollBar.setPreferredSize(new Dimension(10, 0))
+  this.getVerticalScrollBar.setPreferredSize(new Dimension(ScrollbarWidth, 0))
 }

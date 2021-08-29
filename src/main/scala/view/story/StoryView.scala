@@ -43,7 +43,6 @@ private class StoryViewSwing(private val storyController: StoryController) exten
       BorderLayout.NORTH
     )
     this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
-    val pathwaysPanel = PathwaysPanel(_pathways, p => storyController.choosePathWay(p))
-    this.add(pathwaysPanel, BorderLayout.SOUTH)
+    this.add(PathwaysPanel(_pathways, p => storyController.choosePathWay(p)), BorderLayout.SOUTH)
   }
 }
