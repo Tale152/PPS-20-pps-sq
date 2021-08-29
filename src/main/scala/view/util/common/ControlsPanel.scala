@@ -1,7 +1,7 @@
 package view.util.common
 
 import view.Frame
-import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFlowPanel, SqSwingGridPanel}
+import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridPanel}
 
 import java.awt.event.{KeyEvent, KeyListener}
 

@@ -5,9 +5,8 @@ import view.AbstractView
 import view.history.panels.{CurrentNodePanel, PreviousChoicePanel}
 import view.util.common.ControlsPanel
 
-import java.awt.{BorderLayout, Dimension, GridLayout}
-import javax.swing.{BoxLayout, JPanel, JScrollPane, ScrollPaneConstants}
-import javax.swing.border.{Border, EmptyBorder}
+import java.awt.{BorderLayout, GridLayout}
+import javax.swing.{JPanel, JScrollPane, ScrollPaneConstants}
 
 /**
  * Is a GUI that allows the user to check his previous choices traversing the story.
