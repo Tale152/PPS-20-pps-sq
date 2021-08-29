@@ -16,9 +16,11 @@ object ControlsPanel{
   class ControlsPanel(controls: List[(String, (String, Unit => Unit))]) extends SqSwingGridPanel(0,2){
     if(controls.map(a => a._1).toSet.size != controls.size) throw new IllegalArgumentException()
     for(a <- controls){
-      this.add(SqSwingButton(a._2._1, _ => a._2._2()))
+      val btn = SqSwingButton(a._2._1, _ => a._2._2())
+      this.add(btn)
       Frame.frame.addKeyListener(new KeyListener {
-        override def keyTyped(e: KeyEvent): Unit = if (e.getKeyChar.toString.toLowerCase == a._1.toLowerCase) a._2._2()
+        override def keyTyped(e: KeyEvent): Unit =
+          if (e.getKeyChar.toString.toLowerCase == a._1.toLowerCase) btn.doClick()
 
         override def keyPressed(e: KeyEvent): Unit = {/*does nothing*/}
 

@@ -2,6 +2,7 @@ package view.util.common
 
 import view.Frame
 import view.Frame.frame
+import view.util.SoundPlayer
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingGridBagPanel
 
@@ -36,13 +37,16 @@ case class VerticalButtons(buttons: Set[SqSwingButton]) extends SqSwingGridBagPa
             } else {
               _selected -= 1
             }
+            SoundPlayer.playNavigationSound()
           case KeyEvent.VK_DOWN =>
             if (_selected + 1 == buttonsList.size){
               _selected = 0
             } else {
               _selected += 1
             }
-          case KeyEvent.VK_ENTER => buttonsList(_selected).doClick
+            SoundPlayer.playNavigationSound()
+          case KeyEvent.VK_ENTER =>
+            buttonsList(_selected).doClick()
           case _ => {/* does nothing, doesn't throw exception */}
         }
         buttonsList(_selected).changeAppearance(Color.GREEN)
