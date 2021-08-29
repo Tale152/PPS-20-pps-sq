@@ -20,8 +20,6 @@ object SqSwingButton {
     def changeAppearance(color: Color): Unit = this.setForeground(color)
   }
 
-  def apply(text: String, action: ActionListener): SqSwingButton = new SqSwingButton(text, action, true)
-
-  def apply(text: String, action: ActionListener, enabled: Boolean): SqSwingButton =
+  def apply(text: String, action: ActionListener, enabled: Boolean = true): SqSwingButton =
     new SqSwingButton(text, action, enabled)
 }
