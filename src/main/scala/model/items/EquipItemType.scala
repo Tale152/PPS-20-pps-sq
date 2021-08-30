@@ -5,7 +5,7 @@ object EquipItemType {
   /**
    * Trait used by [[model.items.EquipItem]] to specify the armor type.
    */
-  trait EquipItemType
+  sealed trait EquipItemType
 
   case object Armor extends EquipItemType
 
