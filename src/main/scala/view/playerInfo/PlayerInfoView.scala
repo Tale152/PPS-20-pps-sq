@@ -2,14 +2,14 @@ package view.playerInfo
 
 import controller.game.subcontroller.PlayerInfoController
 import model.characters.properties.stats.StatName.StatName
-import view.playerInfo.panels.{HealthPanel, PlayerNamePanel, StatValuePanel}
 import view.AbstractView
+import view.playerInfo.panels.{HealthPanel, PlayerNamePanel, StatValuePanel}
 import view.util.common.ControlsPanel
-import view.util.scalaQuestSwingComponents.{SqSwingBorderPanel, SqSwingGridPanel, SqSwingPanel}
+import view.util.scalaQuestSwingComponents.{SqSwingBorderPanel, SqSwingGridPanel}
 
-import java.awt.{BorderLayout, Color, GridLayout}
+import java.awt.{BorderLayout, Color}
+import javax.swing.BorderFactory
 import javax.swing.border.TitledBorder
-import javax.swing.{BorderFactory, BoxLayout, JPanel}
 
 /**
  * Is a GUI that allows the user to check his player's stats. Associated with a PlayerInfoController.
@@ -59,7 +59,6 @@ private class PlayerInfoViewSwing(private val playerInfoController: PlayerInfoCo
   private val statPanel = new SqSwingGridPanel(0, 2) {}
   private val centerPanel = new SqSwingBorderPanel {}
   centerPanel.setBorder(border)
-
   this.setLayout(new BorderLayout())
 
   override def setStats(stats: List[(StatName, (Int, Int))]): Unit = _stats = stats
@@ -70,9 +69,7 @@ private class PlayerInfoViewSwing(private val playerInfoController: PlayerInfoCo
 
   def populateView(): Unit = {
     this.add(PlayerNamePanel(_playerName), BorderLayout.NORTH)
-    //this.add(HealthPanel(_health))
     for (stat <- _stats) statPanel.add(StatValuePanel(stat))
-    //statPanel.add(HealthPanel(_health))
     centerPanel.add(HealthPanel(_health), BorderLayout.SOUTH)
     centerPanel.add(statPanel, BorderLayout.CENTER)
     this.add(centerPanel, BorderLayout.CENTER)
