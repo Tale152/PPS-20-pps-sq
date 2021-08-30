@@ -1,10 +1,9 @@
 package controller.util.serialization
 
+import controller.util.serialization.FileSerializer.{deserializeObject, serializeObject}
 import model.StoryModel
 import model.nodes.StoryNode
 import model.progress.{Progress, SerializableHistory}
-
-import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutputStream}
 
 /**
  * Used to serialize / deserialize a Progress.
@@ -21,9 +20,7 @@ object ProgressSerializer {
    * @param fileName serialized Progress file destination
    */
   def serializeProgress(progress: Progress, fileName: String): Unit = {
-    val oos = new ObjectOutputStream(new FileOutputStream(fileName))
-    oos.writeObject(progress)
-    oos.close()
+    serializeObject(progress, fileName)
   }
 
   /**
@@ -36,31 +33,38 @@ object ProgressSerializer {
    * @see [[model.nodes.StoryNode]]
    */
   def deserializeProgress(storyNode: StoryNode, fileUri: String): StoryModel = {
-    val ois = new ObjectInputStream(new FileInputStream(fileUri))
-    val progress = ois.readObject.asInstanceOf[Progress]
-    ois.close()
+    val progress = deserializeObject(fileUri).asInstanceOf[Progress]
     StoryModel(progress.player, rebuildHistory(storyNode, progress.serializableHistory))
   }
 
+  /**
+   * Create a ordered list of [[model.nodes.StoryNode]] from History to build the path already travelled.
+   *
+   * @param startingNode      the starting [[model.nodes.StoryNode]] of the story.
+   * @param serializedHistory the [[model.progress.SerializableHistory]].
+   * @return the ordered list of [[model.nodes.StoryNode]] travelled in the History.
+   */
   private def rebuildHistory(startingNode: StoryNode, serializedHistory: SerializableHistory): List[StoryNode] = {
     if (startingNode.id == serializedHistory.visitedNodesId.head) {
-      var _ids = serializedHistory.visitedNodesId
-      var _res: List[StoryNode] = List()
-      var _currentNode = startingNode
-      _res = _res :+ _currentNode
-      _ids = _ids.drop(1)
-      while (_ids.nonEmpty) {
-        if (_currentNode.pathways.exists(p => p.destinationNode.id == _ids.head)) {
-          _currentNode = _currentNode.pathways.filter(p => p.destinationNode.id == _ids.head).head.destinationNode
-          _res = _res :+ _currentNode
-          _ids = _ids.drop(1)
+      var alreadyVisitedIDs = serializedHistory.visitedNodesId
+      var result: List[StoryNode] = List()
+      var currentNode = startingNode
+      result = result :+ currentNode
+      alreadyVisitedIDs = alreadyVisitedIDs.drop(1)
+      while (alreadyVisitedIDs.nonEmpty) {
+        if (currentNode.pathways.exists(p => p.destinationNode.id == alreadyVisitedIDs.head)) {
+          currentNode = currentNode.pathways.filter(
+            p => p.destinationNode.id == alreadyVisitedIDs.head
+          ).head.destinationNode
+          result = result :+ currentNode
+          alreadyVisitedIDs = alreadyVisitedIDs.drop(1)
         } else {
           throw new IllegalArgumentException()
         }
       }
-      _res
+      result
     } else {
-      throw new IllegalArgumentException()
+      throw new IllegalArgumentException("The starting node and the deserialized node are not the same.")
     }
   }
 }

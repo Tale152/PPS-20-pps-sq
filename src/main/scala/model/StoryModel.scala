@@ -57,9 +57,9 @@ object StoryModel {
                                 currentHistory: List[StoryNode]) extends StoryModel {
 
     require(
-      currentHistory.nonEmpty &&
+        currentHistory.nonEmpty &&
         checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentHistory.head)) &&
-        validHistory(currentHistory)
+        isHistoryValid(currentHistory)
     )
 
     private var _history: List[StoryNode] = currentHistory
@@ -74,12 +74,12 @@ object StoryModel {
 
     private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = nodes.size == nodes.map(n => n.id).size
 
-    private def validStoryNodeToAppend(currentNode: StoryNode, nodeToAppend: StoryNode): Boolean =
+    private def isStoryNodeToAppendValid(currentNode: StoryNode, nodeToAppend: StoryNode): Boolean =
       currentNode.pathways.count(p => p.destinationNode == nodeToAppend) == 1
 
-    private def validHistory(history: List[StoryNode]): Boolean = history.size match {
+    private def isHistoryValid(history: List[StoryNode]): Boolean = history.size match {
       case 1 => true
-      case _ => history.sliding(2).forall(p => validStoryNodeToAppend(p.head, p.last))
+      case _ => history.sliding(2).forall(p => isStoryNodeToAppendValid(p.head, p.last))
     }
 
     override def currentStoryNode: StoryNode = _history.last
@@ -87,7 +87,7 @@ object StoryModel {
     override def history: List[StoryNode] = _history
 
     override def appendToHistory(storyNode: StoryNode): Unit = {
-      if(!validStoryNodeToAppend(currentStoryNode, storyNode)) throw new IllegalArgumentException(
+      if(!isStoryNodeToAppendValid(currentStoryNode, storyNode)) throw new IllegalArgumentException(
         "Provided StoryNode is not reachable by any Pathway starting from the current StoryNode"
       )
       _history = _history :+ storyNode

@@ -16,15 +16,15 @@ class EventTest extends FlatTestSpec with SerializableSpec{
 
   val player: Player = Player("player", 1, Set(Stat(1, StatName.Intelligence)))
   val storyModel: StoryModel =
-    StoryModel(player, StoryNode(0, "narrative", Set(), List(statEvent.execute, itemEvent.execute)))
+    StoryModel(player, StoryNode(0, "narrative", Set(), List(statEvent.handle, itemEvent.handle)))
 
   "The StatEvent, when executed," should "put a StatModifier into the player" in {
-    statEvent.execute(storyModel)
+    statEvent.handle(storyModel)
     player.properties.statModifiers.contains(statModifier) shouldEqual true
   }
 
   "The ItemEvent, when executed," should "put an Item into the player's inventory" in {
-    itemEvent.execute(storyModel)
+    itemEvent.handle(storyModel)
     storyModel.player.inventory.contains(item) shouldEqual true
   }
 
