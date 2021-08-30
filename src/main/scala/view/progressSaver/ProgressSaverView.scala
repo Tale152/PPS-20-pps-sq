@@ -1,11 +1,11 @@
 package view.progressSaver
 
 import controller.game.subcontroller.ProgressSaverController
-import view.{AbstractView, Frame}
-import view.progressSaver.panels.InstructionPanel
 import view.util.common.ControlsPanel
+import view.{AbstractView, Frame}
 
-import javax.swing.{BoxLayout, JOptionPane}
+import java.awt.BorderLayout
+import javax.swing.JOptionPane
 
 /**
  * Is a GUI that allows the user to save his progress.
@@ -26,14 +26,15 @@ object ProgressSaverView {
 private class ProgressSaverViewImpl(private val progressSaverController: ProgressSaverController)
   extends ProgressSaverView {
 
-  this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
+  this.setLayout(new BorderLayout())
 
   override def populateView(): Unit = {
-    this.add(InstructionPanel())
+    this.add(InstructionPanel(), BorderLayout.CENTER)
     this.add(ControlsPanel(List(
         ("b", ("[B] Back", _ => progressSaverController.close())),
         ("s", ("[S] Save", _ => progressSaverController.saveProgress()))
-      ))
+      )),
+      BorderLayout.SOUTH
     )
   }
 

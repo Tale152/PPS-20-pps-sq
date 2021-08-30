@@ -17,6 +17,10 @@ object ResourceName {
   private val randomStoryFileName: String = "random-story.sqstr"
   private val randomStoryProgressFileName: String = "random-story.sqprg"
 
+  private val soundsEffectsDirectoryName: String = "sound_effects"
+  private val interactionSoundEffectFileName: String = "interaction.wav"
+  private val navigationSoundEffectFileName: String = "navigation.wav"
+
   // random story is hardcoded for now
   def randomStoryFileName(baseDirectory: String = RootGameDirectory): String =
     randomStoryDirectoryPath(baseDirectory) + "/" + randomStoryFileName
@@ -32,4 +36,8 @@ object ResourceName {
 
   def gameDirectoryPath(baseDirectory: String = RootGameDirectory): String =
     baseDirectory + "/" + GameDirectoryName
+
+  def interactionSoundEffectPath(): String = "/" + soundsEffectsDirectoryName + "/" + interactionSoundEffectFileName
+
+  def navigationSoundEffectPath(): String = "/" + soundsEffectsDirectoryName + "/" + navigationSoundEffectFileName
 }

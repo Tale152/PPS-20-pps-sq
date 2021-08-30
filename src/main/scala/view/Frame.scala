@@ -52,7 +52,7 @@ object Frame {
     frame.pack()
   }
 
-  private def getSquareDimension: Dimension = {
+  def getSquareDimension: Dimension = {
     val screenSize = Toolkit.getDefaultToolkit.getScreenSize
     val side: Int = (Math.min(screenSize.height, screenSize.width) * SquareScreenPercentage).toInt
     new Dimension(side, side)

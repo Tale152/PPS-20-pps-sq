@@ -1,13 +1,17 @@
 package view.mainMenu
 
 import controller.ApplicationController
+import controller.ApplicationController.{loadStoryNewGame, loadStoryWithProgress}
+import controller.util.ResourceName
 import view.AbstractView
-import view.mainMenu.panels.StoriesPanel
-import view.util.common.ControlsPanel
-import view.util.scalaQuestSwingComponents.SqSwingCenteredLabel
+import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
+import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
+import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
 
 import java.awt.BorderLayout
-import javax.swing.JScrollPane
+import java.awt.event.ActionEvent
+import java.nio.file.{Files, Paths}
+import javax.swing.JOptionPane
 
 trait MainMenu extends AbstractView {
 
@@ -21,14 +25,41 @@ object MainMenu {
 
 private class MainMenuImpl(applicationController: ApplicationController) extends MainMenu {
   private var _stories: Set[String] = Set()
-
+  private val lblSize = 25
   this.setLayout(new BorderLayout())
 
   override def setStories(stories: Set[String]): Unit = _stories = stories
 
   override def populateView(): Unit = {
-    this.add(SqSwingCenteredLabel("Please select a story"), BorderLayout.NORTH)
-    this.add(new JScrollPane(StoriesPanel(_stories)))
+    this.add(SqSwingCenteredLabel("Please select a story", size = lblSize), BorderLayout.NORTH)
+    this.add(Scrollable(VerticalButtons(generateButtons())))
     this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => applicationController.close())))), BorderLayout.SOUTH)
+  }
+
+  private def generateButtons(): Set[SqSwingButton] ={
+    for(s <- _stories)
+      yield SqSwingButton("<html>" + s + "</html>", (_: ActionEvent) => {
+        val storyPath = ResourceName.storyDirectoryPath() + "/" + s + "/" + s + ".sqstr"
+        val progressPath = ResourceName.storyDirectoryPath() + "/" + s + "/" + s + ".sqprg"
+        if (Files.exists(Paths.get(progressPath))) {
+          val jopRes = JOptionPane
+            .showConfirmDialog(
+              null,
+              "Would you like to continue with your progresses?",
+              "start",
+              JOptionPane.YES_NO_OPTION
+            )
+          if (jopRes == JOptionPane.YES_OPTION) {
+            loadStoryWithProgress(
+              storyPath,
+              progressPath
+            )
+          } else {
+            loadStoryNewGame(storyPath)
+          }
+        } else {
+          loadStoryNewGame(storyPath)
+        }
+      })
   }
 }
