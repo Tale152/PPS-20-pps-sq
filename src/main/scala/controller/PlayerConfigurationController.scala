@@ -1,6 +1,5 @@
 package controller
 
-import controller.PlayerConfigurationController.PlayerConfigValues.{InitialRemainingPointsValue, InitialStatValue, PlayerMaxPs, StatSortingFunction}
 import controller.game.GameMasterController
 import model.StoryModel
 import model.characters.Player
@@ -48,6 +47,9 @@ object PlayerConfigurationController {
     val InitialRemainingPointsValue: Int = 15
     val StatSortingFunction: (Stat, Stat) => Boolean = (s1, s2) => s1.toString > s2.toString
   }
+
+  import controller.PlayerConfigurationController.PlayerConfigValues.
+  {InitialRemainingPointsValue, InitialStatValue, PlayerMaxPs, StatSortingFunction}
 
   class PlayerConfigurationControllerImpl(private val startingNode: StoryNode) extends PlayerConfigurationController {
 
