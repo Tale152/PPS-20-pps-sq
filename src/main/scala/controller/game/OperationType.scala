@@ -1,12 +1,12 @@
 package controller.game
 
-object OperationType {
+private[controller] object OperationType {
 
   /**
-   * Trait used by the [[controller.GameMasterController]] to specify who gains control,
-   * presumably a [[controller.subcontroller.SubController]]
+   * Trait used by the [[controller.game.GameMasterController]] to specify who gains control,
+   * presumably a [[controller.game.subcontroller.SubController]]
    */
-  trait OperationType
+  sealed trait OperationType
 
   /**
    * Operation used to pass control to the [[controller.game.subcontroller.StoryController]]
