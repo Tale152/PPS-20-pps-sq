@@ -1,18 +1,16 @@
 package view.progressSaver
 
-import view.util.scalaQuestSwingComponents.{SqSwingBorderPanel, SqSwingFlowPanel, SqSwingLabel}
+import view.util.scalaQuestSwingComponents.{SqFont, SqSwingGridPanel}
+import java.awt.Color
+import javax.swing.JTextArea
 
-import java.awt.{Color, Component}
-import javax.swing.{Box, BoxLayout}
-
-case class InstructionPanel() extends SqSwingBorderPanel {
-  private val InstructionFontSize: Int = 25
-  private val box = new Box(BoxLayout.Y_AXIS)
-  box.setAlignmentY(Component.CENTER_ALIGNMENT)
-  box.add(Box.createVerticalGlue())
-  box.add(new SqSwingFlowPanel {
-    this.add(SqSwingLabel("Do you want to save your progress in this story?", Color.WHITE, InstructionFontSize))
-  })
-  box.add(Box.createVerticalGlue())
-  this.add(box)
+case class InstructionPanel() extends SqSwingGridPanel(0, 1) {
+  private val instructionFontSize: Int = 25
+  private val textArea = new JTextArea("Do you want to save your progress in this story?")
+  textArea.setFont(SqFont(bold = true, instructionFontSize))
+  textArea.setBackground(Color.BLACK)
+  textArea.setForeground(Color.WHITE)
+  textArea.setLineWrap(true)
+  textArea.setWrapStyleWord(true)
+  this.add(textArea)
 }
