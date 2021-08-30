@@ -68,6 +68,7 @@ private class PlayerInfoViewSwing(private val playerInfoController: PlayerInfoCo
   override def setHealth(health: (Int, Int)): Unit = _health = health
 
   def populateView(): Unit = {
+    statPanel.removeAll()
     this.add(PlayerNamePanel(_playerName), BorderLayout.NORTH)
     for (stat <- _stats) statPanel.add(StatValuePanel(stat))
     centerPanel.add(HealthPanel(_health), BorderLayout.SOUTH)
