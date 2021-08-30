@@ -13,15 +13,15 @@ class StatTest extends FlatTestSpec with SerializableSpec {
   val strengthStat: Stat = Stat(defaultStrengthValue, StatName.Strength)
 
   "The stat" should "have a value" in {
-    strengthStat.value() shouldEqual defaultStrengthValue
+    strengthStat.value shouldEqual defaultStrengthValue
   }
 
   it should "have a stat name it is referred to" in {
-    strengthStat.statName() shouldEqual StatName.Strength
+    strengthStat.statName shouldEqual StatName.Strength
   }
 
   it should "not match other stat name" in {
-    strengthStat.statName() should not equal StatName.Wisdom
+    strengthStat.statName should not equal StatName.Wisdom
   }
 
   it should "not have undefined name" in {

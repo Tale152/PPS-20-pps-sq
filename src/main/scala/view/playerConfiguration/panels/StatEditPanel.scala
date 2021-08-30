@@ -21,9 +21,9 @@ object StatEditPanel {
    */
   class StatEditPanel(stat: Stat, remainingPoints: Int, onMinus: Unit => Unit, onPlus: Unit => Unit)
     extends SqSwingBorderPanel {
-    this.add(SqSwingButton("-", _ => onMinus(stat.value()), stat.value() != 1), BorderLayout.WEST)
-    this.add(SqSwingCenteredLabel(stat.statName().toString + " [" + stat.value().toString + "]"), BorderLayout.CENTER)
-    this.add(SqSwingButton("+", _ => onPlus(stat.value()), remainingPoints != 0), BorderLayout.EAST)
+    this.add(SqSwingButton("-", _ => onMinus(stat.value), stat.value != 1), BorderLayout.WEST)
+    this.add(SqSwingCenteredLabel(stat.statName.toString + " [" + stat.value.toString + "]"), BorderLayout.CENTER)
+    this.add(SqSwingButton("+", _ => onPlus(stat.value), remainingPoints != 0), BorderLayout.EAST)
   }
 
   def apply(stat: Stat, remainingPoints: Int, onMinus: Unit => Unit, onPlus: Unit => Unit): StatEditPanel =

@@ -70,9 +70,9 @@ object PlayerConfigurationController {
     override def close(): Unit = ApplicationController.execute()
 
     override def setStatValue(stat: StatName, value: Int): Unit = {
-      _stats = (_stats.filter(s => s.statName() != stat) :+ Stat(value, stat)).sortWith(statSorting)
+      _stats = (_stats.filter(s => s.statName != stat) :+ Stat(value, stat)).sortWith(statSorting)
       _remainingPoints =
-        InitialStatValue * _stats.size + InitialRemainingPointsValue - _stats.foldLeft[Int](0)((v, s) => v + s.value())
+        InitialStatValue * _stats.size + InitialRemainingPointsValue - _stats.foldLeft[Int](0)((v, s) => v + s.value)
       updateView()
     }
 

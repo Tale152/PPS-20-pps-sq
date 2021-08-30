@@ -7,7 +7,7 @@ import StatName.StatName
  * It is used to define a certain statistic of a character.
  */
 trait Stat extends StatDescriptor {
-  def value(): Int
+  val value: Int
 }
 
 object Stat {

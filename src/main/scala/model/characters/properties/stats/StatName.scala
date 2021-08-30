@@ -6,7 +6,7 @@ object StatName {
    * Trait used by [[Stat]] and [[StatModifier]] to
    * specify the name of the property they referred to.
    */
-  trait StatName extends Serializable
+  sealed trait StatName extends Serializable
 
   case object Strength extends StatName
 
