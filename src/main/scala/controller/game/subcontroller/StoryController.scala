@@ -48,15 +48,10 @@ object StoryController {
 
     override def execute(): Unit = {
       storyView.setNarrative(storyModel.currentStoryNode.narrative)
-      if (storyModel.currentStoryNode.pathways.isEmpty) {
-        storyView.setPathways(Set())
-      } else {
-        storyView.setPathways(
-          storyModel.currentStoryNode.pathways.filter(
-            p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel))
-          )
-        )
-      }
+      storyView.setPathways(
+        storyModel.currentStoryNode.pathways.filter(
+          p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
+      )
       storyView.render()
     }
 
