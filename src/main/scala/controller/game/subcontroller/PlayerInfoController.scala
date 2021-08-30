@@ -30,13 +30,13 @@ object PlayerInfoController {
       val currentStats =
         for(original <- storyModel.player.properties.stats)
           yield storyModel.player.properties
-            .statModifiers(original.statName())
-            .foldLeft(original)((o, m) => Stat(m.modifyStrategy(o.value()), o.statName()))
+            .statModifiers(original.statName)
+            .foldLeft(original)((o, m) => Stat(m.modifyStrategy(o.value), o.statName))
       val statViewStructure =
         for(original <- storyModel.player.properties.stats)
           yield (
-            original.statName(),
-            (original.value(), currentStats.filter(s => s.statName() == original.statName()).last.value())
+            original.statName,
+            (original.value, currentStats.filter(s => s.statName == original.statName).last.value)
           )
       statViewStructure.toList
     }

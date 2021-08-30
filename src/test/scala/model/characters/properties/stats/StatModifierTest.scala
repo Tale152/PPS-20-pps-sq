@@ -17,17 +17,17 @@ class StatModifierTest extends FlatTestSpec with SerializableSpec {
   val defenceStatModifier: StatModifier = StatModifier(defenceStatName, modifierStrategy)
 
   "The stat modifier" should "have a stat name it is referred to" in {
-    defenceStatModifier.statName() shouldEqual defenceStatName
+    defenceStatModifier.statName shouldEqual defenceStatName
   }
 
   it should "change correctly the value of the stat it is referred to" in {
-    defenceStatModifier.modifyStrategy(defenceStat.value()) shouldEqual 20
+    defenceStatModifier.modifyStrategy(defenceStat.value) shouldEqual 20
   }
 
   it should behave like serializationTest(defenceStatModifier)
 
   it should "not match other stat name" in {
-    defenceStatModifier.statName() should not equal StatName.Constitution
+    defenceStatModifier.statName should not equal StatName.Constitution
   }
 
   "The stat name" should "not be undefined" in {

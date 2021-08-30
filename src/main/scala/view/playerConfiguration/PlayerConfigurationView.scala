@@ -60,8 +60,8 @@ private class PlayerConfigurationViewSwing(private val playerConfigurationContro
         StatEditPanel(
           stat,
           _remainingPoints,
-          _ => playerConfigurationController.setStatValue(stat.statName(), stat.value() - 1),
-          _ => playerConfigurationController.setStatValue(stat.statName(), stat.value() + 1),
+          _ => playerConfigurationController.setStatValue(stat.statName, stat.value - 1),
+          _ => playerConfigurationController.setStatValue(stat.statName, stat.value + 1),
         )
       )
     }
