@@ -13,21 +13,23 @@ private object LabelValues {
 
 object SqSwingLabel {
 
-  class SqSwingLabel(text: String, color: Color, size: Int) extends JLabel {
+  class SqSwingLabel(text: String, color: Color, size: Int, bold: Boolean) extends JLabel {
     this.setText(text)
     this.setForeground(color)
-    this.setFont(SqFont(bold = false, size))
+    this.setFont(SqFont(bold, size))
   }
 
-  def apply(text: String, color: Color = DefaultColor, size: Int = LblTextSize): SqSwingLabel =
-    new SqSwingLabel(text, color, size)
+  def apply(text: String, color: Color = DefaultColor, size: Int = LblTextSize, bold: Boolean = false): SqSwingLabel =
+    new SqSwingLabel(text, color, size, bold)
 }
 
 object SqSwingCenteredLabel {
-  class SqSwingCenteredLabel(text: String, color: Color, size: Int) extends SqSwingLabel(text, color, size) {
+  class SqSwingCenteredLabel(text: String, color: Color, size: Int, bold: Boolean)
+    extends SqSwingLabel(text, color, size, bold) {
     this.setHorizontalAlignment(SwingConstants.CENTER)
   }
 
-  def apply(text: String, color: Color = DefaultColor, size: Int = LblTextSize): SqSwingCenteredLabel =
-    new SqSwingCenteredLabel(text, color, size)
+  def apply(text: String, color: Color = DefaultColor, size: Int = LblTextSize,
+            bold: Boolean = false): SqSwingCenteredLabel =
+    new SqSwingCenteredLabel(text, color, size, bold)
 }
