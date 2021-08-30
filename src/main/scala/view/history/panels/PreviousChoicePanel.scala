@@ -1,22 +1,24 @@
 package view.history.panels
 
-import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingLabel}
+import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqTextArea}
 
-import javax.swing.BoxLayout
+import java.awt.Color
+import javax.swing.{BorderFactory, BoxLayout}
 
-object PreviousChoicePanel {
+/**
+ * Panel contained in [[view.history.HistoryView]]; renders a previous choice taken by the player.
+ * @param nodeNarrative the narrative of the node associated with this choice
+ * @param chosenPathwayDescription the description of the pathway chosen by the player
+ */
+case class PreviousChoicePanel(nodeNarrative: String, chosenPathwayDescription: String = "")
+  extends SqSwingBoxPanel(BoxLayout.Y_AXIS){
 
-  /**
-   * Panel contained in [[view.history.HistoryView]]; renders a previous choice taken by the player.
-   * @param nodeNarrative the narrative of the node associated with this choice
-   * @param chosenPathwayDescription the description of the pathway chosen by the player
-   */
-  class PreviousChoicePanel(nodeNarrative: String, chosenPathwayDescription: String)
-    extends SqSwingBoxPanel(BoxLayout.Y_AXIS){
-    this.add(SqSwingLabel(nodeNarrative))
-    this.add(SqSwingLabel("=> " + chosenPathwayDescription))
-  }
+  private val Borders: Int = 5
+  private val RightBorder: Int = 15
 
-  def apply(nodeNarrative: String, choiceDescription: String): PreviousChoicePanel =
-    new PreviousChoicePanel(nodeNarrative, choiceDescription)
+  this.add(SqTextArea(nodeNarrative))
+  val chosenPathway: SqTextArea = SqTextArea(chosenPathwayDescription)
+  chosenPathway.setForeground(Color.BLUE)
+  this.add(chosenPathway)
+  this.setBorder(BorderFactory.createEmptyBorder(Borders, Borders, Borders, RightBorder))
 }

@@ -13,6 +13,7 @@ case class Scrollable(component: JComponent) extends JScrollPane(
   private val ScrollIncrement: Int = 10
   private val ScrollbarWidth: Int = 10
 
+  this.setBackground(Color.BLACK)
   this.setBorder(new EmptyBorder(0, 0, 0, 0))
   this.getVerticalScrollBar.setUnitIncrement(ScrollIncrement)
   this.getVerticalScrollBar.setBackground(Color.BLACK)
