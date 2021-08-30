@@ -25,7 +25,7 @@ object StatValuePanel {
       if (stat._2._2 > stat._2._1) {
         statColor = Color.GREEN
       } else if (stat._2._2 < stat._2._1) {
-        Color.RED
+        statColor = Color.RED
       }
       this.add(SqSwingLabel(stat._2._2.toString, statColor, fontSize))
     }
