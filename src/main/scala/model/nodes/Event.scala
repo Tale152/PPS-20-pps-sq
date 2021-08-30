@@ -15,23 +15,23 @@ sealed trait Event extends Serializable {
    * @see [[model.StoryModel]]
    * @see [[model.nodes.StoryNode]]
    */
-  def execute(storyModel: StoryModel): Unit
+  def handle(storyModel: StoryModel): Unit
 }
 
-object StatEvent {
-  class StatEvent(statModifier: StatModifier) extends Event {
-    override def execute(storyModel: StoryModel): Unit =
-      storyModel.player.properties.statModifiers = storyModel.player.properties.statModifiers + statModifier
-  }
-
-  def apply(statModifier: StatModifier): StatEvent = new StatEvent(statModifier)
+/**
+ * [[model.nodes.Event]] that contains a [[model.characters.properties.stats.StatModifier]].
+ * @param statModifier the [[model.characters.properties.stats.StatModifier]] contained in the event.
+ */
+case class StatEvent (statModifier: StatModifier) extends Event {
+  override def handle(storyModel: StoryModel): Unit =
+    storyModel.player.properties.statModifiers = storyModel.player.properties.statModifiers + statModifier
 }
 
-object ItemEvent {
-  class ItemEvent(item: Item) extends Event {
-    override def execute(storyModel: StoryModel): Unit =
-      storyModel.player.inventory = storyModel.player.inventory :+ item
-  }
-
-  def apply(item: Item): ItemEvent = new ItemEvent(item)
+/**
+ * [[model.nodes.Event]] that contains a [[model.items.Item]].
+ * @param item the [[model.items.Item]] contained in the event.
+ */
+case class ItemEvent(item: Item) extends Event {
+  override def handle(storyModel: StoryModel): Unit =
+    storyModel.player.inventory = storyModel.player.inventory :+ item
 }
