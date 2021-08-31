@@ -1,9 +1,9 @@
 package suites
 
 import controller.ApplicationControllerTest
-import controller.util.DirectoryInitializer.FolderUtil.{createFolderIfNotPresent, deleteFolder}
 import controller.util.DirectoryInitializerTest
 import controller.util.ResourceName.MainDirectory.TempDirectory
+import controller.util.serialization.FolderUtil.{createFolderIfNotPresent, deleteFolder}
 import org.scalatest.{BeforeAndAfterAll, Suites}
 
 /**

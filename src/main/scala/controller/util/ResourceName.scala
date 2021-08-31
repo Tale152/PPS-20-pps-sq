@@ -30,9 +30,7 @@ object ResourceName {
     val TempDirectory: String = System.getProperty("java.io.tmpdir") + "/" + ScalaQuestTestFolderName
   }
 
-
-
-  val randomStoryName: String = "random-story"
+  val testRandomStoryName: String = "test-random-story"
 
   import controller.util.ResourceName.DirectoryNames._
   import controller.util.ResourceName.MainDirectory.RootGameDirectory

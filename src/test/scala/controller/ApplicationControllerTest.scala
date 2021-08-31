@@ -1,9 +1,10 @@
 package controller
 
-import controller.util.DirectoryInitializer.FolderUtil.createFolderIfNotPresent
+import controller.util.DirectoryInitializer.StoryPopulationStrategy.TestStoryPopulation
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName.MainDirectory.TempDirectory
-import controller.util.ResourceName.{gameDirectoryPath, randomStoryName, storyDirectoryPath, storyProgressPath}
+import controller.util.ResourceName.{gameDirectoryPath, storyDirectoryPath, storyProgressPath, testRandomStoryName}
+import controller.util.serialization.FolderUtil.createFolderIfNotPresent
 import org.scalatest.{BeforeAndAfterAll, DoNotDiscover}
 import specs.FlatTestSpec
 
@@ -22,17 +23,17 @@ class ApplicationControllerTest extends FlatTestSpec with BeforeAndAfterAll {
   override def beforeAll(): Unit = {
     super.beforeAll()
     createFolderIfNotPresent(applicationControllerTestDirectory)
-    initializeGameFolderStructure(applicationControllerTestDirectory)
+    initializeGameFolderStructure(applicationControllerTestDirectory, TestStoryPopulation())
   }
 
   "If no progress is available, false" should "be returned" in {
-    ApplicationController.isProgressAvailable(randomStoryName, applicationControllerTestDirectory) shouldBe false
+    ApplicationController.isProgressAvailable(testRandomStoryName, applicationControllerTestDirectory) shouldBe false
   }
 
   "If progress is available, true" should "be returned" in {
-    val progressTestFile = new File(storyProgressPath(randomStoryName, applicationControllerTestDirectory))
+    val progressTestFile = new File(storyProgressPath(testRandomStoryName, applicationControllerTestDirectory))
     progressTestFile.createNewFile()
-    ApplicationController.isProgressAvailable(randomStoryName, applicationControllerTestDirectory) shouldBe true
+    ApplicationController.isProgressAvailable(testRandomStoryName, applicationControllerTestDirectory) shouldBe true
   }
 
 

@@ -1,9 +1,10 @@
 package controller.util
 
 import ResourceName.{gameDirectoryPath, storyDirectoryPath}
-import controller.util.DirectoryInitializer.FolderUtil.createFolderIfNotPresent
+import controller.util.DirectoryInitializer.StoryPopulationStrategy.TestStoryPopulation
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName.MainDirectory.TempDirectory
+import controller.util.serialization.FolderUtil.createFolderIfNotPresent
 import org.scalatest.DoNotDiscover
 import specs.FlatTestSpec
 
@@ -23,7 +24,7 @@ class DirectoryInitializerTest extends FlatTestSpec {
     createFolderIfNotPresent(initializerTestDirectory)
     gameDirectory.exists() shouldBe false
     storiesDirectory.exists() shouldBe false
-    initializeGameFolderStructure(initializerTestDirectory)
+    initializeGameFolderStructure(initializerTestDirectory, TestStoryPopulation())
     gameDirectory.isDirectory shouldBe true
     storiesDirectory.isDirectory shouldBe true
   }
