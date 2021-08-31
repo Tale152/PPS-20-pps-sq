@@ -29,8 +29,7 @@ Ciascun membro del gruppo si è occupato di revisionare e ri-fattorizzare il pro
 Grazie al meccanismo delle [Pull Requests](#pull-requests), un componente diverso da chi ha scritto il sorgente sottoposto è stato in grado di effettuare code review e verificare che non ci fossero problemi critici, diminuendo in questo modo anche il potenziale debito tecnico.
 ## Strumenti utilizzati
 
-Segue un elenco di strumenti ausiliari adottati per svolgere il progetto più agilmente e cercare di renderlo conforme a
-determinati standard qualitativi.
+Segue un elenco di strumenti ausiliari adottati per svolgere il progetto più agilmente e cercare di renderlo conforme a determinati standard qualitativi.
 
 ### sbt
 
@@ -41,15 +40,15 @@ Si è optato per questo strumento in seguito alla decisione di utilizzare per qu
 ### ScalaTest
 
 [ScalaTest](https://www.scalatest.org/) è lo strumento di testing più popolare di Scala e offre una profonda integrazione con numerosi tool, tra i quali troviamo JUnit, Ant, Maven e sbt.  
-Il design di ScalaTest permette di evolvere i test con l'evoluzione dell'applicazione, poiché è possibile estendere i test o comporli nel caso in cui si introducano nuove funzionalità.  
+Il design di ScalaTest permette di evolvere i test di pari passo con l'applicazione, poiché è possibile estendere i test o comporli nel caso in cui si introducano nuove funzionalità.  
 
 ScalaTest supporta diversi stili di test, ognuno dei quali è pensato per uno scopo differente; la guida propone di sceglierne almeno due:
-- uno stile ha l'obiettivo di essere utilizzato per i test a basso livello, quindi gli unit test e i test di integrazione dei componenti. Lo stile può generico che viene proposto prende il nome di ``FlatSpec``, anche se non è l'unica alternativa prevista.
+- uno stile ha l'obiettivo di essere utilizzato per i test a basso livello, quindi gli unit test e i test di integrazione dei componenti. Lo stile più generico che viene proposto prende il nome di ``FlatSpec``, anche se non è l'unica alternativa prevista.
 - il secondo stile è invece quello adibito ai test di alto livello, che descrivono il funzionamento del sistema e testano che tutto il sistema, ad un certo livello di astrazione, funzioni nel modo previsto. Lo stile più adatto a questo tipo di testing si chiama ``FeatureSpec``, poiché è molto leggibile e facile da comprendere.
 
 ### ScalaStyle
 
-ScalaStyle è uno strumento per esaminare codice Scala che permette di evidenziare potenziali problemi e mettere lo sviluppatore in grado di risolverli in modo tempestivo facendo si che non si propaghino, inoltre il suo impiego perfette di uniformare il codice alle convenzioni del linguaggio.  
+ScalaStyle è uno strumento per esaminare codice Scala che permette di evidenziare potenziali problemi e mettere lo sviluppatore in grado di risolverli in modo tempestivo facendo si che non si propaghino, inoltre il suo impiego permette di uniformare il codice alle convenzioni del linguaggio.  
 
 Il suo funzionamento è subordinanto ad un file di configurazione ``scalastyle_config.xml`` con indicate tutte le regole autoimposte da seguire per standardizzare la stesura di codice.  
 Gli eventuali problemi verrano segnalati allo sviluppatore sotto forma di warning.
@@ -88,29 +87,26 @@ Parametro particolarmente importante è ``converageFailOnMinimum``, utilizzato a
 
 ### CPD (PMD)
 
-Lo strumento di tipo Copy-Paste Detection permette di verificare la presenza porzioni di codice ricorrente ed eventuali
-ripetizioni, utile nell'applicazione del principio DRY (Don't Repeat Yourself).  
+Lo strumento di tipo Copy-Paste Detection permette di verificare la presenza porzioni di codice ricorrente ed eventuali ripetizioni, utile nell'applicazione del principio DRY (Don't Repeat Yourself).  
 Supponendo che i blocchi di codice duplicati svolgano gli stessi compiti o simili, qualsiasi refactoring, anche semplice, deve essere propagato in diverse porzioni di codice.  
 
 Il CPD è un componente di [PMD](https://pmd.github.io/latest/pmd_userdocs_cpd.html) che verrà utilizzato al termine di ogni sprint (o ogni qualvolta sia necessario).
 
 ### GitHub Actions
 
-Le GitHub Actions sono un meccaniscmo fornito da GitHub allo scopo di automatizare il workflow in continuous integration
+Le GitHub Actions sono un meccanismo fornito da GitHub allo scopo di automatizare il workflow in continuous integration
 e deployment. Permettono di effettuare Build, Test e Deploy, oltre che code review e branch management direttamente da
 GitHub.  
 
 Per configurare il workflow è stato utilizzato un plug-in chiamato
 [sbt-github-actions](https://github.com/djspiewak/sbt-github-actions). Il plug-in permette di personalizzare e
-arricchire un workflow standard che si limita a
-
+arricchire un workflow standard che si limita a:
 - predisporre una macchina virtuale Linux (ubuntu-latest)
 - scricare ed installare ambienti Java e Scala
 - fare il checkout del progetto
 - eseguire la build del progetto e relativi test
-- se i test hanno esito positivo e ci si trova su master github actions gestisce anche le release. Il plug-in è stato da
-  noi configurato in modo da rimuovere il processo di release ed introducendo nuovi controlli come la copertura minima
-  di [Scoverage](#scoverage).
+- se i test hanno esito positivo e ci si trova su master github actions gestisce anche le release. Il plug-in è stato da noi configurato in modo da rimuovere il processo di release ed introducendo nuovi controlli come la copertura minima di [Scoverage](#scoverage).  
+
   ```scala
   // a publish job is not desired  
   ThisBuild / githubWorkflowPublishTargetBranches := Seq()
@@ -123,14 +119,16 @@ arricchire un workflow standard che si limita a
 ### Trello
 [Trello](https://trello.com/it) è uno strumento online per la gestione di progetti e di task, estremamente utile per organizzare il lavoro tra più membri dello stesso team.  
 
-Il software permette di costruire in modo molto personalizzabile una board, ovvero una lavagna sulla quale si possono segnare task e assegnarli a uno o più collaboratori. Fornisce anche numerosi supporti per la creazione di meccanismi automatizzati, di modo da non essere costretti a svolgere operazioni ripetitive.  
+Il software permette di costruire in modo molto personalizzabile una board, ovvero una lavagna sulla quale si possono segnare task e assegnarli a uno o più collaboratori. Inoltre ogni task aggiunto può essere contrassegnato da una o più label, di modo da rendere immediatamente chiaro quali sono i task con maggiore priorità e a quale ambito del progetto fanno riferimento.  
+
+Trello fornisce anche numerosi supporti per la creazione di meccanismi automatizzati, di modo da non essere costretti a svolgere operazioni ripetitive. Sono stati sfruttati per esempio per ripristinare l'ambiente all'inizio di ogni sprint, spostando automaticamente tutti i task completati in una nuova colonna dedicata.  
+
 Essendo molto versatile, Trello è ideale per creare un ambiente su misura per applicare anche una metodologia di lavoro agile come Scrum.
 
 ### GitHub Pages
 
-La documentazione del progetto è mantenuta tramite un processo di continuous integration grazie ad una feature proposta
-da GitHub: GitHub Pages.  
-GitHub Pages fornisce un modo per automatizzare la pubblicazione di pagine web da semplice testo scritto in markdown, un linguaggio human-readable. La documentazione è mantenuta su un branch orfano denominato ``"/docs"``.
+La documentazione del progetto è mantenuta tramite un processo di continuous integration grazie ad una feature proposta da GitHub: GitHub Pages.  
+GitHub Pages fornisce un modo per automatizzare la pubblicazione di pagine web da semplice testo scritto in markdown a un linguaggio human-readable. La documentazione è mantenuta su un branch orfano denominato ``"/docs"``.
 
 ### Pull Requests
 
