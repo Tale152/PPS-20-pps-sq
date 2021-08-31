@@ -1,6 +1,7 @@
 package controller.util
 
-import ResourceName.{TempDirectory, gameDirectoryPath, storyDirectoryPath}
+import ResourceName.{gameDirectoryPath, storyDirectoryPath}
+import controller.util.ResourceName.MainDirectory.TempDirectory
 import org.scalatest.BeforeAndAfterEach
 import specs.FlatTestSpec
 import util.TestUtil.deleteFolder

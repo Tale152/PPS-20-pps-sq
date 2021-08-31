@@ -2,7 +2,7 @@ package controller
 
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.ResourceName
+import controller.util.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.ResourceName.storyDirectoryPath
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
@@ -45,7 +45,7 @@ object ApplicationController extends ApplicationController {
     new File(storyDirectoryPath()).list().toSet
   }
 
-  initializeGameFolderStructure(ResourceName.RootGameDirectory)
+  initializeGameFolderStructure(RootGameDirectory)
 
   override def execute(): Unit = {
     mainMenu.setStories(loadStoryNames())

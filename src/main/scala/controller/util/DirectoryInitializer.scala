@@ -1,5 +1,6 @@
 package controller.util
 
+import controller.util.ResourceName.randomStoryName
 import controller.util.serialization.StoryNodeSerializer.serializeStory
 import model.nodes.util.RandomStoryNodeGenerator
 
@@ -22,8 +23,8 @@ object DirectoryInitializer {
     }
 
     def _populateStoriesDirectory(): Unit = {
-      _createDirectoryIfNotPresent(ResourceName.randomStoryDirectoryPath(gameRootDirectory))
-      serializeStory(RandomStoryNodeGenerator.generate(), ResourceName.randomStoryFileName(gameRootDirectory))
+      _createDirectoryIfNotPresent(ResourceName.storyDirectoryPath() + "/" + randomStoryName)
+      serializeStory(RandomStoryNodeGenerator.generate(), ResourceName.storyPath(randomStoryName))
     }
 
     _createDirectoryIfNotPresent(ResourceName.gameDirectoryPath(gameRootDirectory))
