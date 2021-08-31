@@ -24,7 +24,7 @@ sealed trait Event extends Serializable {
  */
 case class StatEvent (statModifier: StatModifier) extends Event {
   override def handle(storyModel: StoryModel): Unit =
-    storyModel.player.properties.statModifiers = storyModel.player.properties.statModifiers + statModifier
+    storyModel.player.properties.statModifiers += statModifier
 }
 
 /**
