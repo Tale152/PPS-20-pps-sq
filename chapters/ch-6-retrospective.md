@@ -16,7 +16,7 @@ Abbiamo deciso di produrre una versione estremamente basilare del software, intr
 - nodo
 - controller per la navigazione dei nodi, al fine di procedere nella storia
 
-Non è stata introdotta l'interfaccia grafica, che in questa fase era completamente trascurabile; usare delle stampe a linea di comando era più che sufficiente al fine di testare che la logica base del gioco funzionasse.
+Non è stata sviluppata l'interfaccia grafica, che in questa fase era completamente trascurabile; usare delle stampe a linea di comando era più che sufficiente al fine di testare che la logica base del gioco funzionasse.
 #### Considerazioni finali
 Alla fine del primo Sprint siamo stati molto soddisfatti di vedere i progressi fatti. I task assegnati ai vari componenti del gruppo sono stati svolti in modo corretto.
 
@@ -27,13 +27,13 @@ Partendo dalla versione molto basilare sviluppata allo sprint precedente, abbiam
 - Il giocatore è stato arricchito con delle proprietà, in particolare con le sua statistiche ed i suoi valori vitali. È poi stata sviluppata anche la view relativa all'assegnamento delle statistiche e quella dedicata alla loro visione.
 - È stato introdotto il sistema di History e la relativa view. La History è una schermata che permette di poter controllare in un qualsiasi momento della storia quali nodi sono stati percorsi in passato.
 - Le storie sono ora reperibili da File presenti sul filesystem anzichè dal codice sorgente stesso. È stato possibile grazie alla serializzazione offerta da Scala.
-- Sono stati arricchiti i nodi della storia con delle condizioni, che permettono di limitare le strade percorribili dall'utente se quest'ultimo non rispetta determinate condizioni (per esempio possedendo un valore sufficientemente alto su una determinata statistica potrebbe sbloccarsi un percorso segreto)
+- Sono stati arricchiti i nodi della storia con delle condizioni, che permettono di limitare le strade percorribili dall'utente se quest'ultimo non rispetta determinate condizioni (per esempio possedendo un valore sufficientemente alto su una determinata statistica potrebbe sbloccarsi un percorso segreto).
 
 #### Considerazioni finali
-Alla fine del primo Sprint siamo stati molto soddisfatti di vedere i progressi fatti.
+Alla fine del secondo Sprint siamo stati molto soddisfatti di vedere i progressi fatti.
 I task assegnati ai vari componenti del gruppo sono stati svolti in modo corretto.  
 È sorto un unico imprevisto non grave:
-- La serializzazione era inizialmente stata pensata in un formato differente. Si era pensato di utilizzare il linguaggio json per rappresentare la storia. Utilizzare la serializzazione di Scala si è rivelato tuttavia più semplice ed efficiente. Scala dispone di alcune libreria per la serializzazione e la deserializzazione in formato json ma tutte quante soffrono di limitazioni non facilmente risolvibili.
+- La serializzazione era inizialmente stata pensata in un formato differente. Si era pensato di utilizzare il linguaggio json per rappresentare la storia. Utilizzare la serializzazione di Scala si è rivelato tuttavia più semplice ed efficiente. Scala dispone di alcune librerie per la serializzazione e la deserializzazione in formato json ma tutte quante soffrono di limitazioni non facilmente risolvibili.
 ### Sprint 3 (21/08/2021 - 31/08/2021)
 #### Obiettivo
 #### Considerazioni finali
