@@ -26,8 +26,11 @@ object ResourceName {
   object MainDirectory{
     val RootGameDirectory: String = System.getProperty("user.home")
     //use mostly for test purposes
-    val TempDirectory: String = System.getProperty("java.io.tmpdir")
+    private val ScalaQuestTestFolderName = "ScalaQuest_Test"
+    val TempDirectory: String = System.getProperty("java.io.tmpdir") + "/" + ScalaQuestTestFolderName
   }
+
+
 
   val randomStoryName: String = "random-story"
 

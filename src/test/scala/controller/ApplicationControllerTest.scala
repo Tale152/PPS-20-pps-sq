@@ -1,30 +1,28 @@
 package controller
 
-import controller.util.DirectoryInitializer.FolderUtil.{createFolderIfNotPresent, deleteFolder}
+import controller.util.DirectoryInitializer.FolderUtil.createFolderIfNotPresent
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceName.MainDirectory.TempDirectory
 import controller.util.ResourceName.{gameDirectoryPath, randomStoryName, storyDirectoryPath, storyProgressPath}
-import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach}
+import org.scalatest.{BeforeAndAfterAll, DoNotDiscover}
 import specs.FlatTestSpec
 
 import java.io.File
 
-class ApplicationControllerTest extends FlatTestSpec with BeforeAndAfterEach with BeforeAndAfterAll {
+/**
+ * Tested in [[suites.FileSystemSuite]].
+ */
+@DoNotDiscover
+class ApplicationControllerTest extends FlatTestSpec with BeforeAndAfterAll {
 
   val applicationControllerTestDirectory : String  = TempDirectory + "/applicationController"
   val gameDirectory = new File(gameDirectoryPath(applicationControllerTestDirectory))
   val storiesDirectory = new File(storyDirectoryPath(applicationControllerTestDirectory))
 
-  override def beforeEach(): Unit = {
-    super.beforeEach()
-    deleteFolder(applicationControllerTestDirectory)
+  override def beforeAll(): Unit = {
+    super.beforeAll()
     createFolderIfNotPresent(applicationControllerTestDirectory)
     initializeGameFolderStructure(applicationControllerTestDirectory)
-  }
-
-  override def afterAll(): Unit = {
-    super.afterAll()
-    deleteFolder(applicationControllerTestDirectory)
   }
 
   "If no progress is available, false" should "be returned" in {

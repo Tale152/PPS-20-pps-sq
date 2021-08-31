@@ -10,7 +10,6 @@ import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-import java.nio.file.{Files, Paths}
 import javax.swing.JOptionPane
 
 trait MainMenu extends AbstractView {
