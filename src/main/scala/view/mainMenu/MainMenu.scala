@@ -1,7 +1,7 @@
 package view.mainMenu
 
 import controller.ApplicationController
-import controller.ApplicationController.{loadStoryNewGame, loadStoryWithProgress}
+import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.ResourceName
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
@@ -44,26 +44,26 @@ private class MainMenuImpl(applicationController: ApplicationController) extends
   private def generateButtons(): Set[SqSwingButton] = {
     for (storyName <- _stories) yield SqSwingButton("<html>" + storyName + "</html>", (_: ActionEvent) => {
         val storyPath = ResourceName.storyPath(storyName)
-        val progressPath = ResourceName.storyProgressPath(storyName)
-        if (Files.exists(Paths.get(progressPath))) {
-          val jopRes = JOptionPane
-            .showConfirmDialog(
-              null,
-              "Would you like to continue with your progresses?",
-              "start",
-              JOptionPane.YES_NO_OPTION
-            )
-          if (jopRes == JOptionPane.YES_OPTION) {
-            loadStoryWithProgress(
-              storyPath,
-              progressPath
-            )
-          } else {
-            loadStoryNewGame(storyPath)
-          }
+        if (isProgressAvailable(storyName)) {
+          generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName))
         } else {
           loadStoryNewGame(storyPath)
         }
       })
+  }
+
+  private def generateOptionPane(storyPath: String, progressPath: String): Unit = {
+    val jopRes = JOptionPane
+      .showConfirmDialog(
+        null,
+        "Would you like to continue with your progresses?",
+        "start",
+        JOptionPane.YES_NO_OPTION
+      )
+    if (jopRes == JOptionPane.YES_OPTION) {
+      loadStoryWithProgress(storyPath, progressPath)
+    } else {
+      loadStoryNewGame(storyPath)
+    }
   }
 }
