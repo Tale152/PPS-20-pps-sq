@@ -119,14 +119,16 @@ arricchire un workflow standard che si limita a:
 ### Trello
 [Trello](https://trello.com/it) è uno strumento online per la gestione di progetti e di task, estremamente utile per organizzare il lavoro tra più membri dello stesso team.  
 
-Il software permette di costruire in modo molto personalizzabile una board, ovvero una lavagna sulla quale si possono segnare task e assegnarli a uno o più collaboratori. Fornisce anche numerosi supporti per la creazione di meccanismi automatizzati, di modo da non essere costretti a svolgere operazioni ripetitive.  
+Il software permette di costruire in modo molto personalizzabile una board, ovvero una lavagna sulla quale si possono segnare task e assegnarli a uno o più collaboratori. Inoltre ogni task aggiunto può essere contrassegnato da una o più label, di modo da rendere immediatamente chiaro quali sono i task con maggiore priorità e a quale ambito del progetto fanno riferimento.  
+
+Trello fornisce anche numerosi supporti per la creazione di meccanismi automatizzati, di modo da non essere costretti a svolgere operazioni ripetitive. Sono stati sfruttati per esempio per ripristinare l'ambiente all'inizio di ogni sprint, spostando automaticamente tutti i task completati in una nuova colonna dedicata.  
+
 Essendo molto versatile, Trello è ideale per creare un ambiente su misura per applicare anche una metodologia di lavoro agile come Scrum.
 
 ### GitHub Pages
 
-La documentazione del progetto è mantenuta tramite un processo di continuous integration grazie ad una feature proposta
-da GitHub: GitHub Pages.  
-GitHub Pages fornisce un modo per automatizzare la pubblicazione di pagine web da semplice testo scritto in markdown, un linguaggio human-readable. La documentazione è mantenuta su un branch orfano denominato ``"/docs"``.
+La documentazione del progetto è mantenuta tramite un processo di continuous integration grazie ad una feature proposta da GitHub: GitHub Pages.  
+GitHub Pages fornisce un modo per automatizzare la pubblicazione di pagine web da semplice testo scritto in markdown a un linguaggio human-readable. La documentazione è mantenuta su un branch orfano denominato ``"/docs"``.
 
 ### Pull Requests
 
