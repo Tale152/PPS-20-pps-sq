@@ -16,19 +16,19 @@ object ProgressSerializer {
    * Serializes a Progress.
    *
    * @see [[model.progress.Progress]]
-   * @param progress the Progress to serialize
-   * @param fileName serialized Progress file destination
+   * @param progress the Progress to serialize.
+   * @param fileName serialized Progress file destination.
    */
   def serializeProgress(progress: Progress, fileName: String): Unit = {
     serializeObject(progress, fileName)
   }
 
   /**
-   * Deserialize a Progress, giving back a StoryModel to resume the game
+   * Deserialize a Progress, giving back a StoryModel to resume the game.
    *
-   * @param storyNode starting StoryNode of the deserialized story
-   * @param fileUri   serialized Progress file source
-   * @return a StoryModel identical to the one when the user has saved his progress
+   * @param storyNode starting StoryNode of the deserialized story.
+   * @param fileUri   serialized Progress file source.
+   * @return a StoryModel identical to the one when the user has saved his progress.
    * @see [[model.StoryModel]]
    * @see [[model.nodes.StoryNode]]
    */
@@ -46,9 +46,9 @@ object ProgressSerializer {
    */
   private def rebuildHistory(startingNode: StoryNode, serializedHistory: SerializableHistory): List[StoryNode] = {
     if (startingNode.id == serializedHistory.visitedNodesId.head) {
-      var alreadyVisitedIDs = serializedHistory.visitedNodesId
+      var alreadyVisitedIDs: List[Int] = serializedHistory.visitedNodesId
       var result: List[StoryNode] = List()
-      var currentNode = startingNode
+      var currentNode: StoryNode = startingNode
       result = result :+ currentNode
       alreadyVisitedIDs = alreadyVisitedIDs.drop(1)
       while (alreadyVisitedIDs.nonEmpty) {

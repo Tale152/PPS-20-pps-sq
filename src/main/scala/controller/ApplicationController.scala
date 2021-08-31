@@ -10,7 +10,6 @@ import view.mainMenu.MainMenu
 
 import java.io.File
 
-
 /**
  * The Application Controller is the Main Controller of the application.
  * It's the entrypoint and controls the main menu.
@@ -21,7 +20,7 @@ sealed trait ApplicationController extends Controller {
    * Load a story starting a new game. Once the story is loaded the control will be granted to the
    * StatConfigurationController in order to allow the user to choose his stats.
    *
-   * @param storyUri the uri where the story that will be loaded is located
+   * @param storyUri the uri where the story that will be loaded is located.
    * @see [[PlayerConfigurationController]]
    * @see [[model.characters.properties.stats.Stat]]
    */
@@ -30,8 +29,8 @@ sealed trait ApplicationController extends Controller {
   /**
    * Resumes an already started story with previously saved data.
    *
-   * @param storyUri the uri of the story to load
-   * @param progressUri the uri of the progress to load alongside the story
+   * @param storyUri the uri of the story to load.
+   * @param progressUri the uri of the progress to load alongside the story.
    */
   def loadStoryWithProgress(storyUri: String, progressUri: String): Unit
 

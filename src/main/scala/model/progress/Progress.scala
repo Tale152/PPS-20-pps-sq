@@ -10,7 +10,6 @@ import model.characters.Player
  */
 trait Progress extends Serializable {
   def serializableHistory: SerializableHistory
-
   def player: Player
 }
 

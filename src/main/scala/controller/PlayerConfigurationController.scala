@@ -11,7 +11,7 @@ import view.playerConfiguration.PlayerConfigurationView
 /**
  * A controller that coordinates the process of user setting his stats; receives control from the ApplicationController
  * and grants it to the GameMasterController (or back to the ApplicationController if user selects back).
- * Coupled with a PlayerConfigurationView
+ * Coupled with a PlayerConfigurationView.
  *
  * @see [[view.playerConfiguration.PlayerConfigurationView]]
  * @see [[GameMasterController]]
@@ -23,8 +23,8 @@ trait PlayerConfigurationController extends Controller {
   /**
    * Used by the PlayerConfigurationView when the user modifies the value of a stat.
    *
-   * @param stat the stat that has been modified
-   * @param value the new stat value
+   * @param stat the stat that has been modified.
+   * @param value the new stat value.
    * @see [[model.characters.properties.stats.Stat]]
    * @see [[view.playerConfiguration.PlayerConfigurationView]]
    */
@@ -38,6 +38,7 @@ trait PlayerConfigurationController extends Controller {
    */
   def confirm(): Unit
 }
+
 
 object PlayerConfigurationController {
 

@@ -11,7 +11,7 @@ import model.items.Item
 sealed trait Event extends Serializable {
   /**
    * Strategy of what happens in a StoryNode's event.
-   * @param storyModel the StoryModel to manipulate on execution
+   * @param storyModel the StoryModel to manipulate on execution.
    * @see [[model.StoryModel]]
    * @see [[model.nodes.StoryNode]]
    */
@@ -24,7 +24,7 @@ sealed trait Event extends Serializable {
  */
 case class StatEvent (statModifier: StatModifier) extends Event {
   override def handle(storyModel: StoryModel): Unit =
-    storyModel.player.properties.statModifiers = storyModel.player.properties.statModifiers + statModifier
+    storyModel.player.properties.statModifiers += statModifier
 }
 
 /**

@@ -7,7 +7,7 @@ package model.progress
  */
 sealed trait SerializableHistory extends Serializable {
   /**
-   * @return a list containing all visited nodes id, in order of traversal
+   * @return a list containing all visited nodes id, in order of traversal.
    * @see [[model.StoryModel]]
    * @see [[model.nodes.StoryNode]]
    */
@@ -15,7 +15,7 @@ sealed trait SerializableHistory extends Serializable {
 }
 
 object SerializableHistory {
-  private class SerializableHistoryImpl(override val visitedNodesId: List[Int]) extends SerializableHistory{
+  private class SerializableHistoryImpl(override val visitedNodesId: List[Int]) extends SerializableHistory {
     require(
       visitedNodesId != null &&
         visitedNodesId.nonEmpty &&
