@@ -95,7 +95,7 @@ case class EquipItem(override val name: String,
   require(equipItemType != null)
 
   override def applyEffect(owner: Character)(target: Character = owner): Unit = {
-    equip(target, this)
+    equip(target)
   }
 
   override def postEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
@@ -104,23 +104,22 @@ case class EquipItem(override val name: String,
    * Used to add an item to the equipped items of a character, eventually swapping the items if the
    * [[model.items.EquipItemType.EquipItemType]] field is equal.
    * @param character the character that will equip the [[model.items.EquipItem]].
-   * @param newItem the item that the [[model.characters.Character]] will equip.
    */
-  private def equip(character: Character, newItem: EquipItem): Unit = {
-    def _equipItem(character: Character, newItem: EquipItem) : Unit = {
-      character.equippedItems += newItem
+  private def equip(character: Character): Unit = {
+    def _equipItem(): Unit = {
+      character.equippedItems += this
     }
 
-    def _swapItems(character: Character, oldItem: EquipItem ,newItem: EquipItem): Unit = {
+    def _swapItems(oldItem: EquipItem): Unit = {
       character.equippedItems -= oldItem
-      if(newItem.ne(oldItem)) _equipItem(character, newItem)
+      if(this.ne(oldItem)) _equipItem()
     }
 
     val alreadyEquippedItem : Option[EquipItem] = character.equippedItems.find(i => i.equipItemType == equipItemType)
     if(alreadyEquippedItem.isDefined) {
-      _swapItems(character, alreadyEquippedItem.get, newItem)
+      _swapItems(alreadyEquippedItem.get)
     } else {
-      _equipItem(character, newItem)
+      _equipItem()
     }
   }
 }
