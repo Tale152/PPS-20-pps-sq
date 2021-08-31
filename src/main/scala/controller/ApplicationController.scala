@@ -2,13 +2,14 @@ package controller
 
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.ResourceName
-import controller.util.ResourceName.storyDirectoryPath
+import controller.util.ResourceName.MainDirectory.RootGameDirectory
+import controller.util.ResourceName.{storyDirectoryPath, storyProgressPath}
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import view.mainMenu.MainMenu
 
 import java.io.File
+import java.nio.file.{Files, Paths}
 
 /**
  * The Application Controller is the Main Controller of the application.
@@ -34,6 +35,14 @@ sealed trait ApplicationController extends Controller {
    */
   def loadStoryWithProgress(storyUri: String, progressUri: String): Unit
 
+
+  /**
+   * Check if some progress is available for the selected story.
+   * @param storyName the name of the story.
+   * @param baseDirectory the parent directory name of the game folder.
+   * @return true if progress is available, false otherwise.
+   */
+  def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean
 }
 
 object ApplicationController extends ApplicationController {
@@ -44,7 +53,7 @@ object ApplicationController extends ApplicationController {
     new File(storyDirectoryPath()).list().toSet
   }
 
-  initializeGameFolderStructure(ResourceName.RootGameDirectory)
+  initializeGameFolderStructure(RootGameDirectory)
 
   override def execute(): Unit = {
     mainMenu.setStories(loadStoryNames())
@@ -62,5 +71,15 @@ object ApplicationController extends ApplicationController {
       ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
     ).execute()
   }
+
+  /**
+   * Check if some progress is available for the selected story.
+   *
+   * @param storyName     the name of the story.
+   * @param baseDirectory the parent directory name of the game folder.
+   * @return true if progress is available, false otherwise.
+   */
+  override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
+    Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))
 
 }
