@@ -5,7 +5,7 @@ import model.StoryModel
 /**
  * Trait that represents a pathway, which is the data structure of a possible choice that the player can make to
  * navigate the story nodes.
- * Optionally, the possibility to choose a pathway is dictated by a prerequisite
+ * Optionally, the possibility to choose a pathway is dictated by a prerequisite.
  */
 trait Pathway extends Serializable {
   val description: String

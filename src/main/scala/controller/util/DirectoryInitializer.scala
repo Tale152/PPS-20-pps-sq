@@ -8,7 +8,7 @@ import java.io.File
 object DirectoryInitializer {
 
   /**
-   * Create a the directory tree if it does not exist yet and populate the stories folder with stock stories.
+   * Create the directory tree if it does not exist yet and populate the stories folder with stock stories.
    *
    * @param gameRootDirectory the root directory where all game data are stored.
    */

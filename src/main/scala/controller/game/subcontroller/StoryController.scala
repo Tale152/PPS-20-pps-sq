@@ -14,7 +14,7 @@ sealed trait StoryController extends SubController {
   /**
    * Choose the pathway to update the [[model.StoryModel]] current [[model.nodes.StoryNode]].
    *
-   * @param pathway the chosen pathway
+   * @param pathway the chosen pathway.
    * @throws IllegalArgumentException when selecting a pathway that does not belong to the current
    *                                  [[model.nodes.StoryNode]]
    */
@@ -40,6 +40,9 @@ sealed trait StoryController extends SubController {
 }
 
 object StoryController {
+
+  def apply(gameMasterController: GameMasterController, storyModel: StoryModel): StoryController =
+    new StoryControllerImpl(gameMasterController, storyModel)
 
   class StoryControllerImpl(private val gameMasterController: GameMasterController, private val storyModel: StoryModel)
     extends StoryController {
@@ -73,8 +76,5 @@ object StoryController {
 
     override def goToProgressSaver(): Unit = gameMasterController.executeOperation(OperationType.ProgressSaverOperation)
   }
-
-  def apply(gameMasterController: GameMasterController, storyModel: StoryModel): StoryController =
-    new StoryControllerImpl(gameMasterController, storyModel)
 
 }

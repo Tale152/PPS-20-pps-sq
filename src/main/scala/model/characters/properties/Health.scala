@@ -5,7 +5,7 @@ object Health {
   /**
    * Trait that represents the Health of a Character.
    */
-  sealed trait Health extends Serializable{
+  sealed trait Health extends Serializable {
     val maxPS: Int
 
     def currentPS: Int
@@ -16,9 +16,9 @@ object Health {
   def apply(maxPS: Int): Health = new HealthImpl(maxPS: Int)
 
   /**
-   * the implementation of Health
+   * The implementation of Health.
    *
-   * @param maxPS the max amount of total PS reachable
+   * @param maxPS the max amount of total PS reachable.
    */
   private class HealthImpl(override val maxPS: Int) extends Health {
     require(maxPS > 0)

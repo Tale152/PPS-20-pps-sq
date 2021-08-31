@@ -7,7 +7,6 @@ import model.StoryModel
 import model.progress.{Progress, SerializableHistory}
 import view.progressSaver.ProgressSaverView
 
-
 /**
  * This [[controller.game.subcontroller.SubController]] contains the logic to save the progress for the current game.
  * @see [[view.progressSaver.ProgressSaverView]]
@@ -49,5 +48,4 @@ object ProgressSaverController {
 
   def apply(gameMasterController: GameMasterController, storyModel: StoryModel): ProgressSaverController =
     new ProgressSaverControllerImpl(gameMasterController, storyModel)
-
 }

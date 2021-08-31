@@ -11,7 +11,7 @@ import model.items.Item
 sealed trait Event extends Serializable {
   /**
    * Strategy of what happens in a StoryNode's event.
-   * @param storyModel the StoryModel to manipulate on execution
+   * @param storyModel the StoryModel to manipulate on execution.
    * @see [[model.StoryModel]]
    * @see [[model.nodes.StoryNode]]
    */
