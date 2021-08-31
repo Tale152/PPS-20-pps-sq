@@ -1,7 +1,6 @@
 # Requisiti
 
-Questo capitolo sarà dedicato alla descrizione dei requisiti che il progetto dovrà soddisfare. Le sezioni sottostanti
-definiranno le varie tipologie di requisiti quanto più in dettaglio.
+Questo capitolo sarà dedicato alla descrizione dei requisiti che il progetto dovrà soddisfare. Le sezioni sottostanti definiranno le varie tipologie di requisiti più in dettaglio.
 
 ## Requisiti di business
 
@@ -9,11 +8,9 @@ L'applicazione dovrà disporre delle seguenti caratteristiche:
 
 - Visualizzazione di una GUI che permetta all'utente di giocare immettendo le proprie decisioni nel sistema;
 - architettura che consenta agevolmente di spostarsi tra i vari nodi della storia in base alle decisioni prese;
-- interfaccia che permetta all'utente di scegliere la storia da intraprendere tra quelle disponibili e gestire i
-  salvataggi;
+- interfaccia che permetta all'utente di scegliere la storia da intraprendere tra quelle disponibili e gestire i salvataggi;
 - sistema che permetta al giocatore di allocare dei punti al fine di personalizzare statistiche del proprio personaggio;
-- sistema che consenta al giocatore di consultare le proprie statistiche in itinere, esse potranno infatti subire
-  variazioni dovute all'equipaggiamento di oggetti o all'accadimento di eventi;
+- sistema che consenta al giocatore di consultare le proprie statistiche in itinere. Esse potranno infatti subire variazioni dovute all'equipaggiamento di oggetti o all'accadimento di eventi;
 - battle system che proporrà scontri 1 vs 1 contro nemici controllati dal sistema.
 
 ## Requisiti utente
@@ -86,6 +83,7 @@ Un aspetto di grande importanza nella progettazione del sistema è sicuramente l
 
 ## Requisiti funzionali
 I requisiti funzionali riguardano le funzionalità che il sistema deve mettere a disposizione all'utente. Per la loro definizione è necessario basarsi sui requisiti utente estratti in precedenza.  
+
 I requisiti funzionali che il sistema dovrà rispettare sono i seguenti:
 1. iniziare una nuova partita.
 2. caricare un partita salvata in precedenza.
@@ -113,8 +111,7 @@ I requisiti di implementazione vincolano l'intera fase di realizzazione del sist
 I requisiti di implementazione sono i seguenti, divisi per categoria: 
 1. __Build Tool__: Il build tool utilizzato è sbt;
 2. __Linguaggio utilizzato__: Scala Quest è stato sviluppato utilizzando Scala 2;
-3. __Suite di Testing__: Il testing è avvenuto mediante la libreria ScalaTest, al fine di poter mantenere e aggiornare in modo
-semplice, esplicativo e controllato il sistema e le sue funzionalità;
+3. __Suite di Testing__: Il testing è avvenuto mediante la libreria ScalaTest, al fine di poter mantenere e aggiornare in modo semplice, esplicativo e controllato il sistema e le sue funzionalità;
 4. __Librerie__: Eventuali librerie aggiuntive sono importabile tramite l'aggiunta di dipendenze all'interno di sbt. 
 
 ---
