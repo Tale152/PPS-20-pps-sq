@@ -1,9 +1,9 @@
 package view.util.common
 
-import view.Frame
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridPanel}
 
-import java.awt.event.{KeyEvent, KeyListener}
+import java.awt.event.ActionEvent
+import javax.swing.{AbstractAction, JComponent, KeyStroke}
 
 /**
  * Panel containing one or more buttons with associated actions and key listeners.
@@ -15,14 +15,10 @@ case class ControlsPanel(controls: List[(String, (String, Unit => Unit))]) exten
   for(a <- controls){
     val btn = SqSwingButton(a._2._1, _ => a._2._2())
     this.add(btn)
-    Frame.frame.addKeyListener(new KeyListener {
-      override def keyTyped(e: KeyEvent): Unit =
-        if (e.getKeyChar.toString.toLowerCase == a._1.toLowerCase) btn.doClick()
-
-      override def keyPressed(e: KeyEvent): Unit = {/*does nothing*/}
-
-      override def keyReleased(e: KeyEvent): Unit = {/*does nothing*/}
+    this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+      .put(KeyStroke.getKeyStroke("control " + a._1.toUpperCase), a._1.toUpperCase)
+    this.getActionMap.put(a._1.toUpperCase, new AbstractAction() {
+      override def actionPerformed(e: ActionEvent): Unit = btn.doClick()
     })
   }
 }
-
