@@ -10,7 +10,6 @@ import view.mainMenu.MainMenu
 
 import java.io.File
 
-
 /**
  * The Application Controller is the Main Controller of the application.
  * It's the entrypoint and controls the main menu.
