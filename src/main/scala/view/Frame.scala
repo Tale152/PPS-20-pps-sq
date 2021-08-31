@@ -3,7 +3,8 @@ package view
 import view.util.scalaQuestSwingComponents.SqSwingBorderPanel
 
 import java.awt._
-import java.io.File
+import java.io.{BufferedInputStream, File, IOException, InputStream}
+import java.nio.file.{Files, Paths}
 import javax.imageio.ImageIO
 import javax.swing._
 import javax.swing.border.EmptyBorder
@@ -32,7 +33,7 @@ object Frame {
   def setPanel(jPanel: JPanel): Unit = {
     if (_currentJPanel.nonEmpty) squarePanel.remove(_currentJPanel.get)
     _currentJPanel = Some(jPanel)
-    _currentJPanel.get.setBorder(new EmptyBorder(SquarePadding, SquarePadding, SquarePadding ,SquarePadding))
+    _currentJPanel.get.setBorder(new EmptyBorder(SquarePadding, SquarePadding, SquarePadding, SquarePadding))
     squarePanel.add(jPanel, BorderLayout.CENTER)
     frame.repaint()
   }
@@ -50,6 +51,19 @@ object Frame {
     masterPanel.add(box)
     frame.setMinimumSize(scaleDimension(getSquareDimension, MinScreenSizePercentage))
     frame.pack()
+  }
+
+  def loadFont(path: String): Font = {
+    try {
+      val is: InputStream = new BufferedInputStream(
+        Files.newInputStream(Paths.get(path)))
+      val myFont = Font.createFont(Font.TRUETYPE_FONT, is)
+      myFont.deriveFont(Font.PLAIN)
+    } catch {
+      case _: Exception =>
+        println("Error on loading external Font, loading default one..")
+        Font.getFont("Arial")
+    }
   }
 
   def getSquareDimension: Dimension = {
@@ -82,8 +96,8 @@ object Frame {
       val g2d: Graphics2D = g.create().asInstanceOf[Graphics2D]
       var _y = 0
       var _x = 0
-      while(_y < getHeight){
-        while(_x < getWidth){
+      while (_y < getHeight) {
+        while (_x < getWidth) {
           g2d.drawImage(
             bg,
             _x,
