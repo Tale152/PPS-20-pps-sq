@@ -39,30 +39,31 @@ trait PlayerConfigurationController extends Controller {
   def confirm(): Unit
 }
 
+
 object PlayerConfigurationController {
 
   private object PlayerConfigValues {
-    val playerMaxPs: Int = 100
-    val initialStatValue: Int = 5
-    val initialRemainingPointsValue: Int = 15
-    val statSortingFunction: (Stat, Stat) => Boolean = (s1, s2) => s1.toString > s2.toString
+    val PlayerMaxPs: Int = 100
+    val InitialStatValue: Int = 5
+    val InitialRemainingPointsValue: Int = 15
+    val StatSortingFunction: (Stat, Stat) => Boolean = (s1, s2) => s1.toString > s2.toString
   }
 
   import controller.PlayerConfigurationController.PlayerConfigValues.
-  {initialRemainingPointsValue, initialStatValue, playerMaxPs, statSortingFunction}
+  {InitialRemainingPointsValue, InitialStatValue, PlayerMaxPs, StatSortingFunction}
 
   class PlayerConfigurationControllerImpl(private val startingNode: StoryNode) extends PlayerConfigurationController {
 
     private val statConfigurationView: PlayerConfigurationView = PlayerConfigurationView(this)
     private var _stats: List[Stat] = List(
-      Stat(initialStatValue, StatName.Wisdom),
-      Stat(initialStatValue, StatName.Dexterity),
-      Stat(initialStatValue, StatName.Strength),
-      Stat(initialStatValue, StatName.Charisma),
-      Stat(initialStatValue, StatName.Intelligence),
-      Stat(initialStatValue, StatName.Constitution)
-    ).sortWith(statSortingFunction)
-    private var _remainingPoints: Int = initialRemainingPointsValue
+      Stat(InitialStatValue, StatName.Wisdom),
+      Stat(InitialStatValue, StatName.Dexterity),
+      Stat(InitialStatValue, StatName.Strength),
+      Stat(InitialStatValue, StatName.Charisma),
+      Stat(InitialStatValue, StatName.Intelligence),
+      Stat(InitialStatValue, StatName.Constitution)
+    ).sortWith(StatSortingFunction)
+    private var _remainingPoints: Int = InitialRemainingPointsValue
 
     private def updateView(): Unit = {
       statConfigurationView.setStats(_stats)
@@ -75,14 +76,14 @@ object PlayerConfigurationController {
     override def close(): Unit = ApplicationController.execute()
 
     override def setStatValue(stat: StatName, value: Int): Unit = {
-      _stats = (_stats.filter(s => s.statName != stat) :+ Stat(value, stat)).sortWith(statSortingFunction)
+      _stats = (_stats.filter(s => s.statName != stat) :+ Stat(value, stat)).sortWith(StatSortingFunction)
       _remainingPoints =
-        initialStatValue * _stats.size + initialRemainingPointsValue - _stats.foldLeft[Int](0)((v, s) => v + s.value)
+        InitialStatValue * _stats.size + InitialRemainingPointsValue - _stats.foldLeft[Int](0)((v, s) => v + s.value)
       updateView()
     }
 
     override def confirm(): Unit =
-      GameMasterController(StoryModel(Player("player", playerMaxPs, _stats.toSet), startingNode)).execute()
+      GameMasterController(StoryModel(Player("player", PlayerMaxPs, _stats.toSet), startingNode)).execute()
 
   }
 
