@@ -16,9 +16,9 @@ object SqRetroFont {
   val DefaultFontSize = 15
   lazy val RetroFont: Font = Frame.loadFont(Paths.get(getClass.getClassLoader.getResource("retroFont.ttf")
     .toURI).toFile.getAbsolutePath)
-  val Ge: GraphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
+  private val Ge: GraphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
   Ge.registerFont(RetroFont)
-  val Fonts = new JList(Ge.getAvailableFontFamilyNames)
+  new JList(Ge.getAvailableFontFamilyNames)
 }
 
 

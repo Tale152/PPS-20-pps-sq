@@ -3,7 +3,7 @@ package view
 import view.util.scalaQuestSwingComponents.SqSwingBorderPanel
 
 import java.awt._
-import java.io.{BufferedInputStream, File, IOException, InputStream}
+import java.io.{BufferedInputStream, File, InputStream}
 import java.nio.file.{Files, Paths}
 import javax.imageio.ImageIO
 import javax.swing._
