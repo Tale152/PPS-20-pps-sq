@@ -27,13 +27,13 @@ class ApplicationControllerTest extends FlatTestSpec with BeforeAndAfterAll {
   }
 
   "If no progress is available, false" should "be returned" in {
-    ApplicationController.isProgressAvailable(testRandomStoryName, applicationControllerTestDirectory) shouldBe false
+    ApplicationController.isProgressAvailable(testRandomStoryName)(applicationControllerTestDirectory) shouldBe false
   }
 
   "If progress is available, true" should "be returned" in {
-    val progressTestFile = new File(storyProgressPath(testRandomStoryName, applicationControllerTestDirectory))
+    val progressTestFile = new File(storyProgressPath(testRandomStoryName)(applicationControllerTestDirectory))
     progressTestFile.createNewFile()
-    ApplicationController.isProgressAvailable(testRandomStoryName, applicationControllerTestDirectory) shouldBe true
+    ApplicationController.isProgressAvailable(testRandomStoryName)(applicationControllerTestDirectory) shouldBe true
   }
 
 

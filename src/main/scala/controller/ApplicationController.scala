@@ -43,7 +43,7 @@ sealed trait ApplicationController extends Controller {
    * @param baseDirectory the parent directory name of the game folder.
    * @return true if progress is available, false otherwise.
    */
-  def isProgressAvailable(storyName: String, baseDirectory: String = RootGameDirectory): Boolean
+  def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean
 }
 
 object ApplicationController extends ApplicationController {
@@ -80,7 +80,7 @@ object ApplicationController extends ApplicationController {
    * @param baseDirectory the parent directory name of the game folder.
    * @return true if progress is available, false otherwise.
    */
-  override def isProgressAvailable(storyName: String, baseDirectory: String = RootGameDirectory): Boolean =
-    Files.exists(Paths.get(storyProgressPath(storyName, baseDirectory)))
+  override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
+    Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))
 
 }

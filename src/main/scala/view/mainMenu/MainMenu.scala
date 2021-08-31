@@ -42,9 +42,9 @@ private class MainMenuImpl(applicationController: ApplicationController) extends
 
   private def generateButtons(): Set[SqSwingButton] = {
     for (storyName <- _stories) yield SqSwingButton("<html>" + storyName + "</html>", (_: ActionEvent) => {
-        val storyPath = ResourceName.storyPath(storyName)
-        if (isProgressAvailable(storyName)) {
-          generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName))
+        val storyPath = ResourceName.storyPath(storyName)()
+        if (isProgressAvailable(storyName)()) {
+          generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName)())
         } else {
           loadStoryNewGame(storyPath)
         }

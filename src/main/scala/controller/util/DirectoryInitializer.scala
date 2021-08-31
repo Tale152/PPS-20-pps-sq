@@ -29,7 +29,7 @@ object DirectoryInitializer {
       def apply(gameRootDirectory: String): Unit = {
         serializeStory(
           RandomStoryNodeGenerator.generate(),
-          ResourceName.storyPath(testRandomStoryName, gameRootDirectory)
+          ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
         )
       }
     }
@@ -40,7 +40,7 @@ object DirectoryInitializer {
         //TODO change this to the default set of story on final release.
         serializeStory(
           RandomStoryNodeGenerator.generate(),
-          ResourceName.storyPath(testRandomStoryName, gameRootDirectory)
+          ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
         )
       }
     }

@@ -41,16 +41,16 @@ object ResourceName {
   def gameDirectoryPath(baseDirectory: String = RootGameDirectory): String =
     baseDirectory + "/" + GameDirectoryName
 
-  private def storyPathWitNoExtension(storyName: String, baseDirectory: String): String =
+  private def storyPathWitNoExtension(storyName: String)(baseDirectory: String): String =
     storyDirectoryPath(baseDirectory) + "/" + storyName + "/" + storyName
 
   import controller.util.ResourceName.FileExtensions._
 
-  def storyPath(storyName: String, baseDirectory: String = RootGameDirectory): String =
-    storyPathWitNoExtension(storyName, baseDirectory) + "." + StoryFileExtension
+  def storyPath(storyName: String)(baseDirectory: String = RootGameDirectory): String =
+    storyPathWitNoExtension(storyName)(baseDirectory) + "." + StoryFileExtension
 
-  def storyProgressPath(storyName: String, baseDirectory: String = RootGameDirectory): String =
-    storyPathWitNoExtension(storyName, baseDirectory) + "." + StoryProgressFileExtension
+  def storyProgressPath(storyName: String)(baseDirectory: String = RootGameDirectory): String =
+    storyPathWitNoExtension(storyName)(baseDirectory) + "." + StoryProgressFileExtension
 
   import controller.util.ResourceName.SoundNames._
 
