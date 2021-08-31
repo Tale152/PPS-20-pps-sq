@@ -1,6 +1,7 @@
 package model.nodes.util
 
 import model.nodes.{Pathway, StoryNode}
+
 import scala.util.Random
 import scala.collection.mutable.{Set => MutableSet}
 
@@ -9,8 +10,12 @@ import scala.collection.mutable.{Set => MutableSet}
  */
 object RandomStoryNodeGenerator {
 
-  private val MaxNodesInLayer = 5
-  private val Layers = 7
+  private object RandomStoryParams{
+    val MaxNodesInLayer = 5
+    val Layers = 7
+  }
+
+  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams.{Layers, MaxNodesInLayer}
 
   private def rnd(max: Int): Int = Random.nextInt(max) + 1
 

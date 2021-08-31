@@ -13,9 +13,9 @@ import model.StoryModel
 sealed trait GameMasterController extends Controller {
 
   /**
-   * Delegate the job to a sub-component
+   * Delegate the job to a sub-component.
    *
-   * @param operation the OperationType
+   * @param operation the OperationType.
    */
   def executeOperation(operation: OperationType): Unit
 }

@@ -2,15 +2,13 @@ package model.nodes
 
 import model.StoryModel
 
-import scala.collection.immutable.Set
-
 /**
  * Trait that represents a story node, which is used to have a reference of all the current possible pathways and
  * of what is happening in the story.
  */
 trait StoryNode extends Serializable{
-  def id: Int
-  def narrative: String
+  val id: Int
+  val narrative: String
   def pathways: Set[Pathway]
   def events: List[StoryModel => Unit]
 }

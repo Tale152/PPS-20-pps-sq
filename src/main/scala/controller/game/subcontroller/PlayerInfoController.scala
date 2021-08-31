@@ -6,6 +6,10 @@ import model.characters.properties.stats.Stat
 import model.characters.properties.stats.StatName.StatName
 import view.playerInfo.PlayerInfoView
 
+/**
+ * The [[controller.game.subcontroller.SubController]] that contains the logic to
+ * set the stats of the [[model.characters.Player]].
+ */
 sealed trait PlayerInfoController extends SubController
 
 object PlayerInfoController {
@@ -19,13 +23,18 @@ object PlayerInfoController {
       playerInfoView.setStats(getStatStructure)
       playerInfoView.setPlayerName(storyModel.player.name)
       playerInfoView.setHealth(
-        (storyModel.player.properties.health.currentPS, storyModel.player.properties.health.currentPS)
+        (storyModel.player.properties.health.currentPS, storyModel.player.properties.health.maxPS)
       )
       playerInfoView.render()
     }
 
     override def close(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
 
+    /**
+     * @return A list containing tuples structured as:
+     *         (The [[model.characters.properties.stats.StatName.StatName]],
+     *         (the original stat value, the current stat value))
+     */
     private def getStatStructure: List[(StatName, (Int, Int))] = {
       val currentStats =
         for(original <- storyModel.player.properties.stats)

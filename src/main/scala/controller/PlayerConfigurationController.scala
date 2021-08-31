@@ -11,7 +11,7 @@ import view.playerConfiguration.PlayerConfigurationView
 /**
  * A controller that coordinates the process of user setting his stats; receives control from the ApplicationController
  * and grants it to the GameMasterController (or back to the ApplicationController if user selects back).
- * Coupled with a PlayerConfigurationView
+ * Coupled with a PlayerConfigurationView.
  *
  * @see [[view.playerConfiguration.PlayerConfigurationView]]
  * @see [[GameMasterController]]
@@ -23,8 +23,8 @@ trait PlayerConfigurationController extends Controller {
   /**
    * Used by the PlayerConfigurationView when the user modifies the value of a stat.
    *
-   * @param stat the stat that has been modified
-   * @param value the new stat value
+   * @param stat the stat that has been modified.
+   * @param value the new stat value.
    * @see [[model.characters.properties.stats.Stat]]
    * @see [[view.playerConfiguration.PlayerConfigurationView]]
    */
@@ -39,12 +39,18 @@ trait PlayerConfigurationController extends Controller {
   def confirm(): Unit
 }
 
+
 object PlayerConfigurationController {
 
-  private val PlayerMaxPs: Int = 100
-  private val InitialStatValue: Int = 5
-  private val InitialRemainingPointsValue: Int = 15
-  private val statSorting: (Stat, Stat) => Boolean = (s1, s2) => s1.toString > s2.toString
+  private object PlayerConfigValues {
+    val PlayerMaxPs: Int = 100
+    val InitialStatValue: Int = 5
+    val InitialRemainingPointsValue: Int = 15
+    val StatSortingFunction: (Stat, Stat) => Boolean = (s1, s2) => s1.toString > s2.toString
+  }
+
+  import controller.PlayerConfigurationController.PlayerConfigValues.
+  {InitialRemainingPointsValue, InitialStatValue, PlayerMaxPs, StatSortingFunction}
 
   class PlayerConfigurationControllerImpl(private val startingNode: StoryNode) extends PlayerConfigurationController {
 
@@ -56,7 +62,7 @@ object PlayerConfigurationController {
       Stat(InitialStatValue, StatName.Charisma),
       Stat(InitialStatValue, StatName.Intelligence),
       Stat(InitialStatValue, StatName.Constitution)
-    ).sortWith(statSorting)
+    ).sortWith(StatSortingFunction)
     private var _remainingPoints: Int = InitialRemainingPointsValue
 
     private def updateView(): Unit = {
@@ -70,7 +76,7 @@ object PlayerConfigurationController {
     override def close(): Unit = ApplicationController.execute()
 
     override def setStatValue(stat: StatName, value: Int): Unit = {
-      _stats = (_stats.filter(s => s.statName != stat) :+ Stat(value, stat)).sortWith(statSorting)
+      _stats = (_stats.filter(s => s.statName != stat) :+ Stat(value, stat)).sortWith(StatSortingFunction)
       _remainingPoints =
         InitialStatValue * _stats.size + InitialRemainingPointsValue - _stats.foldLeft[Int](0)((v, s) => v + s.value)
       updateView()

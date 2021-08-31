@@ -5,7 +5,7 @@ import model.characters.properties.stats.StatName.StatName
 import model.characters.properties.stats.{Stat, StatModifier}
 
 /**
- * A propertiesContainer contains every property of a specific character.
+ * A propertiesContainer contains all the properties of a specific character.
  */
 sealed trait PropertiesContainer extends Serializable {
 
@@ -14,20 +14,20 @@ sealed trait PropertiesContainer extends Serializable {
   def stats: Set[Stat]
 
   /**
-   * Returns a stat object by it's statName
+   * Returns a stat object by it's statName.
    *
-   * @param statName the name of the stat
-   * @return the relative stat
+   * @param statName the name of the stat.
+   * @return the relative stat.
    */
   def stat(statName: StatName): Stat
 
   /**
-   * Returns every statModifier that alters a specific stat
+   * Returns every statModifier that alters a specific stat.
    *
-   * @param st the statName of the stat
-   * @return a set of every modifier of st
+   * @param statName the statName of the stat.
+   * @return a set of every modifier of statName.
    */
-  def statModifiers(st: StatName): Set[StatModifier]
+  def statModifiers(statName: StatName): Set[StatModifier]
 
   def statModifiers: Set[StatModifier]
 
@@ -38,10 +38,10 @@ sealed trait PropertiesContainer extends Serializable {
 object PropertiesContainer {
 
   /**
-   * implementation of PropertiesContainer
+   * Implementation of PropertiesContainer.
    *
-   * @param maxPS the number of PS for character's full life
-   * @param stats the statistics of a specific Character
+   * @param maxPS the number of PS for character's full life.
+   * @param stats the statistics of a specific Character.
    */
   private class PropertiesContainerImpl(private val maxPS: Int, val stats: Set[Stat]) extends PropertiesContainer {
 
