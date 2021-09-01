@@ -48,7 +48,6 @@ object InventoryController {
     override def discard(item: Item): Unit =
       storyModel.player.inventory = storyModel.player.inventory.filter(_ != item)
 
-
     /**
      * Start the Controller.
      */

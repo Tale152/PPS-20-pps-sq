@@ -4,11 +4,10 @@ import controller.game.subcontroller.ProgressSaverController
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
-import view.{AbstractView, Frame}
+import view.AbstractView
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-import javax.swing.JOptionPane
 
 /**
  * Is a GUI that allows the user to save his progress.
@@ -23,33 +22,34 @@ trait ProgressSaverView extends AbstractView {
 }
 
 object ProgressSaverView {
+
+  private class ProgressSaverViewImpl(private val progressSaverController: ProgressSaverController)
+    extends ProgressSaverView {
+
+    this.setLayout(new BorderLayout())
+
+    override def populateView(): Unit = {
+      this.add(InstructionPanel(), BorderLayout.CENTER)
+      this.add(ControlsPanel(List(
+        ("b", ("[B] Back", _ => progressSaverController.close())),
+        ("s", ("[S] Save", _ => progressSaverController.saveProgress()))
+      )),
+        BorderLayout.SOUTH
+      )
+    }
+
+    private def showFeedBackAndExecute(message: String, onOk: Unit => Unit): Unit = {
+      SqSwingDialog("Save progress", message,
+        List(new SqSwingButton("ok", (_: ActionEvent) => onOk(), true)))
+    }
+
+    override def showSuccessFeedback(onOk: Unit => Unit): Unit =
+      showFeedBackAndExecute("Progress saved successfully", onOk)
+
+    override def showFailureFeedback(onOk: Unit => Unit): Unit =
+      showFeedBackAndExecute("An error occurred while saving progress", onOk)
+  }
+
   def apply(progressSaverController: ProgressSaverController): ProgressSaverView =
     new ProgressSaverViewImpl(progressSaverController)
-}
-
-private class ProgressSaverViewImpl(private val progressSaverController: ProgressSaverController)
-  extends ProgressSaverView {
-
-  this.setLayout(new BorderLayout())
-
-  override def populateView(): Unit = {
-    this.add(InstructionPanel(), BorderLayout.CENTER)
-    this.add(ControlsPanel(List(
-      ("b", ("[B] Back", _ => progressSaverController.close())),
-      ("s", ("[S] Save", _ => progressSaverController.saveProgress()))
-    )),
-      BorderLayout.SOUTH
-    )
-  }
-
-  private def showFeedBackAndExecute(message: String, onOk: Unit => Unit): Unit = {
-    SqSwingDialog("Save progress", message,
-      List(new SqSwingButton("ok", (_: ActionEvent) => onOk(), true)))
-  }
-
-  override def showSuccessFeedback(onOk: Unit => Unit): Unit =
-    showFeedBackAndExecute("Progress saved successfully", onOk)
-
-  override def showFailureFeedback(onOk: Unit => Unit): Unit =
-    showFeedBackAndExecute("An error occurred while saving progress", onOk)
 }
