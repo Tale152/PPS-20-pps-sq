@@ -39,6 +39,7 @@ object StoryView {
             ("s", ("[S] Status", _ => storyController.goToStatStatus())),
             ("h", ("[H] History", _ => storyController.goToHistory())),
             ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
+            ("i", ("[I] Inventory", _ => storyController.goToInventory())),
             ("q", ("[Q] Quit", _ => {
               SqSwingDialog("Exit Confirm", "Do you really want to exit the game?",
                 List(new SqSwingButton("yes", (_: ActionEvent) => storyController.close(), true),

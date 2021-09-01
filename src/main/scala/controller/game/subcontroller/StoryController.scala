@@ -37,6 +37,12 @@ sealed trait StoryController extends SubController {
    * [[controller.game.subcontroller.ProgressSaverController]].
    */
   def goToProgressSaver(): Unit
+
+  /**
+   * Calls the [[controller.game.GameMasterController]] to grant control to the
+   * [[controller.game.subcontroller.InventoryController]].
+   */
+  def goToInventory(): Unit
 }
 
 object StoryController {
@@ -75,6 +81,8 @@ object StoryController {
     override def goToHistory(): Unit = gameMasterController.executeOperation(OperationType.HistoryOperation)
 
     override def goToProgressSaver(): Unit = gameMasterController.executeOperation(OperationType.ProgressSaverOperation)
+
+    override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
   }
 
 }

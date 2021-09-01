@@ -14,13 +14,15 @@ sealed trait InventoryController extends SubController {
 
   /**
    * Use the selected item.
-   * @param item the item to use.
+   *
+   * @param item   the item to use.
    * @param target the target player for the item use.
    */
   def use(item: Item)(target: Character): Unit
 
   /**
    * Discard the selected item. Item will be lost forever.
+   *
    * @param item the item to discard.
    */
   def discard(item: Item): Unit
@@ -51,9 +53,13 @@ object InventoryController {
     /**
      * Start the Controller.
      */
-    override def execute(): Unit = inventoryView.setItems(storyModel.player.inventory); inventoryView.render()
+    override def execute(): Unit = {
+      inventoryView.setItems(storyModel.player.inventory)
+      inventoryView.render()
+    }
 
     //TODO will change for fights
+
     /**
      * Defines the actions to do when the Controller execution is over.
      */
