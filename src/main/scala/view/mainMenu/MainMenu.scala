@@ -6,12 +6,12 @@ import controller.util.ResourceName
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
+import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import java.nio.file.{Files, Paths}
-import javax.swing.JOptionPane
 
 trait MainMenu extends AbstractView {
 
@@ -36,27 +36,21 @@ private class MainMenuImpl(applicationController: ApplicationController) extends
     this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => applicationController.close())))), BorderLayout.SOUTH)
   }
 
-  private def generateButtons(): Set[SqSwingButton] ={
-    for(s <- _stories)
+  private def generateButtons(): Set[SqSwingButton] = {
+    for (s <- _stories)
       yield SqSwingButton("<html>" + s + "</html>", (_: ActionEvent) => {
         val storyPath = ResourceName.storyDirectoryPath() + "/" + s + "/" + s + ".sqstr"
         val progressPath = ResourceName.storyDirectoryPath() + "/" + s + "/" + s + ".sqprg"
         if (Files.exists(Paths.get(progressPath))) {
-          val jopRes = JOptionPane
-            .showConfirmDialog(
-              null,
-              "Would you like to continue with your progresses?",
-              "start",
-              JOptionPane.YES_NO_OPTION
-            )
-          if (jopRes == JOptionPane.YES_OPTION) {
-            loadStoryWithProgress(
-              storyPath,
-              progressPath
-            )
-          } else {
-            loadStoryNewGame(storyPath)
-          }
+          SqSwingDialog("Load progress","Would you like to continue with your progresses?",
+            List(new SqSwingButton("yes",
+              (_: ActionEvent) => loadStoryWithProgress(
+                storyPath,
+                progressPath
+              ), true), new SqSwingButton("no",
+              (_: ActionEvent) => {
+                loadStoryNewGame(storyPath)
+              }, true)))
         } else {
           loadStoryNewGame(storyPath)
         }
