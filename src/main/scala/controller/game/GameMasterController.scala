@@ -41,6 +41,7 @@ object GameMasterController {
       case OperationType.PlayerInfoOperation => subControllersContainer.statStatusController.execute()
       case OperationType.HistoryOperation => subControllersContainer.historyController.execute()
       case OperationType.ProgressSaverOperation => subControllersContainer.progressSaverController.execute()
+      case OperationType.InventoryOperation => subControllersContainer.inventoryController.execute()
     }
   }
 
