@@ -8,7 +8,7 @@ import model.StoryModel
  * Optionally, the possibility to choose a pathway is dictated by a prerequisite.
  */
 trait Pathway extends Serializable {
-  val description: String
+  def description: String
   def destinationNode: StoryNode
   def prerequisite: Option[StoryModel => Boolean]
 }
@@ -27,7 +27,32 @@ object Pathway {
 
   private class PathwayImpl(override val description: String,
                             override val destinationNode: StoryNode,
-                            override val prerequisite: Option[StoryModel => Boolean]) extends Pathway{
-    require(description != null && description.trim.nonEmpty && destinationNode != null && prerequisite != null)
+                            override val prerequisite: Option[StoryModel => Boolean]) extends Pathway {
+    ArgsChecker.check(description, destinationNode, prerequisite)
   }
+}
+
+trait MutablePathway extends Pathway {
+  var description: String
+  var destinationNode: MutableStoryNode
+  var prerequisite: Option[StoryModel => Boolean]
+}
+
+object MutablePathway {
+
+  def apply(description: String,
+            destinationNode: MutableStoryNode,
+            prerequisite: Option[StoryModel => Boolean]): MutablePathway =
+    new MutablePathwayImpl(description, destinationNode, prerequisite)
+
+  private class MutablePathwayImpl(override var description: String,
+                                   override var destinationNode: MutableStoryNode,
+                                   override var prerequisite: Option[StoryModel => Boolean]) extends MutablePathway {
+    ArgsChecker.check(description, destinationNode, prerequisite)
+  }
+}
+
+private object ArgsChecker {
+  def check(description: String, destinationNode: StoryNode, prerequisite: Option[StoryModel => Boolean]): Unit =
+    require(description != null && description.trim.nonEmpty && destinationNode != null && prerequisite != null)
 }
