@@ -50,12 +50,14 @@ object StoryController {
     private val storyView: StoryView = StoryView(this)
 
     override def execute(): Unit = {
-      storyView.setNarrative(storyModel.currentStoryNode.narrative)
-      storyView.setPathways(
-        storyModel.currentStoryNode.pathways.filter(
-          p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
-      )
-      storyView.render()
+
+        storyView.setNarrative(storyModel.currentStoryNode.narrative)
+        storyView.setPathways(
+          storyModel.currentStoryNode.pathways.filter(
+            p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
+        )
+        storyView.render()
+
     }
 
     override def close(): Unit = gameMasterController.close()
@@ -75,6 +77,8 @@ object StoryController {
     override def goToHistory(): Unit = gameMasterController.executeOperation(OperationType.HistoryOperation)
 
     override def goToProgressSaver(): Unit = gameMasterController.executeOperation(OperationType.ProgressSaverOperation)
+
+    private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
   }
 
 }

@@ -4,11 +4,10 @@ import controller.game.subcontroller.ProgressSaverController
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
-import view.{AbstractView, Frame}
+import view.AbstractView
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-import javax.swing.JOptionPane
 
 /**
  * Is a GUI that allows the user to save his progress.

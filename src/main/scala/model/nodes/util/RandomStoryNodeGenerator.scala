@@ -1,5 +1,7 @@
 package model.nodes.util
 
+import model.characters.Enemy
+import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.{Pathway, StoryNode}
 
 import scala.util.Random
@@ -62,6 +64,16 @@ object RandomStoryNodeGenerator {
     val generated = generateLayers(Layers - 1)
     val pathways: Seq[Pathway] = for (node <- generated) yield Pathway("go to node " + node.id, node, None)
     StoryNode(getMaxId(generated) + 1, "starting node, max remaining layers " + Layers, None, pathways.toSet, List())
+  }
+
+  private def setEnemy(): Option[Enemy] = {
+    val statValue: Int = 10
+    val maxPossibleHealth: Int = 100
+    val stats: Set[Stat] = Set(Stat(statValue, StatName.Speed), Stat(statValue, StatName.Defence))
+    rnd(2) match {
+      case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
+      case _ => None
+    }
   }
 
 }

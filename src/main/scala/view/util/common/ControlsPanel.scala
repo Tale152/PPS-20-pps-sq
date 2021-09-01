@@ -13,7 +13,7 @@ import javax.swing.{AbstractAction, JComponent, KeyStroke}
 case class ControlsPanel(controls: List[(String, (String, Unit => Unit))]) extends SqSwingGridPanel(0,2){
   if(controls.map(a => a._1).toSet.size != controls.size) throw new IllegalArgumentException()
   for(a <- controls){
-    val btn = SqSwingButton(a._2._1, _ => a._2._2)
+    val btn = SqSwingButton(a._2._1, _ => a._2._2())
     this.add(btn)
     this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
       .put(KeyStroke.getKeyStroke("control " + a._1.toUpperCase), a._1.toUpperCase)
