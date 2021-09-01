@@ -3,7 +3,7 @@ package controller.game.subcontroller
 import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
 import model.characters.Character
-import model.items.{EquipItem, Item}
+import model.items.{ConsumableItem, EquipItem, Item}
 import view.inventory.InventoryView
 
 /**
