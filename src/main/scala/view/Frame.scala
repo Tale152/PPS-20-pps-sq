@@ -1,5 +1,6 @@
 package view
 
+import controller.util.ResourceName.resourceAsInputStream
 import view.util.scalaQuestSwingComponents.SqSwingBorderPanel
 
 import java.awt._
@@ -89,7 +90,7 @@ object Frame {
     this.setBackground(Color.BLACK)
 
     override def paintComponent(g: Graphics): Unit = {
-      val bg = ImageIO.read(getClass.getResourceAsStream("/general_background.png"))
+      val bg = ImageIO.read(resourceAsInputStream("/general_background.png"))
       val g2d: Graphics2D = g.create().asInstanceOf[Graphics2D]
       var _y = 0
       var _x = 0
