@@ -1,13 +1,14 @@
 package view.story
 
-import controller.ApplicationController.{loadStoryNewGame, loadStoryWithProgress}
 import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
 import view.AbstractView
 import view.util.common.ControlsPanel
+import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
+import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 
 import java.awt.BorderLayout
-import javax.swing.JOptionPane
+import java.awt.event.ActionEvent
 
 /**
  * Represents the GUI for the navigation between [[model.nodes.StoryNode]]
@@ -40,16 +41,9 @@ private class StoryViewSwing(private val storyController: StoryController) exten
           ("h", ("[H] History", _ => storyController.goToHistory())),
           ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
           ("q", ("[Q] Quit", _ => {
-            val jopRes = JOptionPane
-              .showConfirmDialog(
-                null,
-                "Do you really want to exit the game?",
-                "Exit confirm",
-                JOptionPane.YES_NO_OPTION
-              )
-            if (jopRes == JOptionPane.YES_OPTION) {
-              storyController.close()
-            }
+            SqSwingDialog("Exit Confirm", "Do you really want to exit the game?",
+              List(new SqSwingButton("yes", (_: ActionEvent) => storyController.close(), true),
+                new SqSwingButton("no", (_: ActionEvent) => {}, true)))
           })))),
       BorderLayout.NORTH
     )
