@@ -1,5 +1,8 @@
 package controller.util
 
+import java.io.{BufferedInputStream, InputStream}
+import javax.sound.sampled.{AudioInputStream, AudioSystem}
+
 /**
  * Component that stores the files and directories' name.
  */
@@ -57,4 +60,14 @@ object ResourceName {
   def interactionSoundEffectPath(): String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
 
   def navigationSoundEffectPath(): String = "/" + SoundsEffectsDirectoryName + "/" + NavigationSoundEffectFileName
+
+  def resourceAsInputStream(resourceName: String): InputStream = getClass.getResourceAsStream(resourceName)
+
+  def resourceAsAudioInputStream(resourceName: String): AudioInputStream = {
+    val audioSrc : InputStream = resourceAsInputStream(resourceName)
+    //add buffer for mark/reset support
+    val bufferedIn : InputStream = new BufferedInputStream(audioSrc)
+    AudioSystem.getAudioInputStream(bufferedIn)
+  }
+
 }

@@ -1,17 +1,13 @@
 import Dependencies._
 
 ThisBuild / scalaVersion := "2.12.8"
-ThisBuild / version := "0.2.0-SNAPSHOT"
+ThisBuild / version := "0.3.0-SNAPSHOT"
 
 lazy val root = (project in file("."))
   .settings(
     name := "PPS-20-scala-quest",
     libraryDependencies += scalaTest % Test
   )
-
-// System.exit calls are trapped to prevent the JVM from terminating.
-// This is useful for executing user code that may call System.exit.
-trapExit := false
 
 // Tests Configurations
 val numberOfTestProcessors = java.lang.Runtime.getRuntime.availableProcessors + 1
