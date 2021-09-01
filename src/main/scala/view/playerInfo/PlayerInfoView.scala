@@ -45,35 +45,38 @@ trait PlayerInfoView extends AbstractView {
 }
 
 object PlayerInfoView {
-  def apply(playerInfoController: PlayerInfoController): PlayerInfoView = new PlayerInfoViewSwing(playerInfoController)
-}
 
-private class PlayerInfoViewSwing(private val playerInfoController: PlayerInfoController) extends PlayerInfoView {
-  private var _stats: List[(StatName, (Int, Int))] = List()
-  private var _playerName: String = ""
-  private var _health: (Int, Int) = (0, 0)
+  private class PlayerInfoViewSwing(private val playerInfoController: PlayerInfoController) extends PlayerInfoView {
+    private var _stats: List[(StatName, (Int, Int))] = List()
+    private var _playerName: String = ""
+    private var _health: (Int, Int) = (0, 0)
 
-  private val border: TitledBorder =
-    BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Current Health and Stats")
-  border.setTitleColor(Color.WHITE)
-  private val statPanel = new SqSwingGridPanel(0, 2) {}
-  private val centerPanel = new SqSwingBorderPanel {}
-  centerPanel.setBorder(border)
-  this.setLayout(new BorderLayout())
+    private val border: TitledBorder =
+      BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Current Health and Stats")
+    border.setTitleColor(Color.WHITE)
+    private val statPanel = new SqSwingGridPanel(0, 2) {}
+    private val centerPanel = new SqSwingBorderPanel {}
+    centerPanel.setBorder(border)
+    this.setLayout(new BorderLayout())
 
-  override def setStats(stats: List[(StatName, (Int, Int))]): Unit = _stats = stats
+    override def setStats(stats: List[(StatName, (Int, Int))]): Unit = _stats = stats
 
-  override def setPlayerName(name: String): Unit = _playerName = name
+    override def setPlayerName(name: String): Unit = _playerName = name
 
-  override def setHealth(health: (Int, Int)): Unit = _health = health
+    override def setHealth(health: (Int, Int)): Unit = _health = health
 
-  def populateView(): Unit = {
-    statPanel.removeAll()
-    this.add(PlayerNamePanel(_playerName), BorderLayout.NORTH)
-    for (stat <- _stats) statPanel.add(StatValuePanel(stat))
-    centerPanel.add(HealthPanel(_health), BorderLayout.SOUTH)
-    centerPanel.add(statPanel, BorderLayout.CENTER)
-    this.add(centerPanel, BorderLayout.CENTER)
-    this.add(ControlsPanel(List(("b", ("[B] Back", _ => playerInfoController.close())))), BorderLayout.SOUTH)
+    def populateView(): Unit = {
+      statPanel.removeAll()
+      this.add(PlayerNamePanel(_playerName), BorderLayout.NORTH)
+      for (stat <- _stats) statPanel.add(StatValuePanel(stat))
+      centerPanel.add(HealthPanel(_health), BorderLayout.SOUTH)
+      centerPanel.add(statPanel, BorderLayout.CENTER)
+      this.add(centerPanel, BorderLayout.CENTER)
+      this.add(ControlsPanel(List(("b", ("[B] Back", _ => playerInfoController.close())))), BorderLayout.SOUTH)
+    }
   }
+
+  def apply(playerInfoController: PlayerInfoController): PlayerInfoView =
+    new PlayerInfoViewSwing(playerInfoController)
+
 }

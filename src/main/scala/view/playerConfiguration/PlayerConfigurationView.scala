@@ -32,43 +32,43 @@ trait PlayerConfigurationView extends AbstractView {
    * @see [[setRemainingPoints]]
    */
   def setStats(stats: List[Stat]): Unit
-
 }
 
 object PlayerConfigurationView {
-  def apply(playerConfigurationController: PlayerConfigurationController): PlayerConfigurationView =
-    new PlayerConfigurationViewSwing(playerConfigurationController)
-}
 
-private class PlayerConfigurationViewSwing(private val playerConfigurationController: PlayerConfigurationController)
-  extends PlayerConfigurationView {
+  private class PlayerConfigurationViewSwing(private val playerConfigurationController: PlayerConfigurationController)
+    extends PlayerConfigurationView {
 
-  this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
+    this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS))
 
-  private var _stats: List[Stat] = List()
-  private var _remainingPoints: Int = 0
+    private var _stats: List[Stat] = List()
+    private var _remainingPoints: Int = 0
 
-  override def setStats(stats: List[Stat]): Unit = _stats = stats
+    override def setStats(stats: List[Stat]): Unit = _stats = stats
 
-  override def setRemainingPoints(points: Int): Unit = _remainingPoints = points
+    override def setRemainingPoints(points: Int): Unit = _remainingPoints = points
 
-  def populateView(): Unit = {
-    this.add(InstructionPanel())
-    this.add(RemainingPointsPanel(_remainingPoints))
-    for(stat <- _stats) {
-      this.add(
-        StatEditPanel(
-          stat,
-          _remainingPoints,
-          _ => playerConfigurationController.setStatValue(stat.statName, stat.value - 1),
-          _ => playerConfigurationController.setStatValue(stat.statName, stat.value + 1),
+    def populateView(): Unit = {
+      this.add(InstructionPanel())
+      this.add(RemainingPointsPanel(_remainingPoints))
+      for(stat <- _stats) {
+        this.add(
+          StatEditPanel(
+            stat,
+            _remainingPoints,
+            _ => playerConfigurationController.setStatValue(stat.statName, stat.value - 1),
+            _ => playerConfigurationController.setStatValue(stat.statName, stat.value + 1),
+          )
         )
-      )
+      }
+      this.add(ControlsPanel(List(
+        ("b", ("[B] Back", _ => playerConfigurationController.close())),
+        ("c", ("[C] Confirm", _ => playerConfigurationController.confirm()))
+      )))
     }
-    this.add(ControlsPanel(List(
-      ("b", ("[B] Back", _ => playerConfigurationController.close())),
-      ("c", ("[C] Confirm", _ => playerConfigurationController.confirm()))
-    )))
+
   }
 
+  def apply(playerConfigurationController: PlayerConfigurationController): PlayerConfigurationView =
+    new PlayerConfigurationViewSwing(playerConfigurationController)
 }
