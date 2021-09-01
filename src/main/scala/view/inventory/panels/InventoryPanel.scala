@@ -1,6 +1,6 @@
 package view.inventory.panels
 
-import model.items.{Item, KeyItem}
+import model.items.{EquipItem, Item, KeyItem}
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridPanel}
@@ -43,9 +43,17 @@ case class InventoryPanel(inventoryItems: List[Item]) extends SqSwingGridPanel(0
     )
   }
 
+  private def formattedItemName(item: Item) =
+    item.name + " [" + item.getClass.getSimpleName + {
+      item match {
+        case equipItem : EquipItem => "(" + equipItem.equipItemType.toString + ")"
+        case _ => ""
+      }
+    } + "]"
+
   inventoryItems.foreach(item => this.add(
     SqSwingButton(
-      item.name + " [" + item.getClass.getSimpleName + "]",
+      formattedItemName(item),
       _ => itemDialog(item))
   ))
 }

@@ -26,7 +26,7 @@ trait InventoryView extends AbstractView {
 
 object InventoryView {
 
-  val TitleSize = 25
+  private val TitleSize = 25
 
   private class InventoryViewImpl(inventoryController: InventoryController) extends InventoryView {
 
