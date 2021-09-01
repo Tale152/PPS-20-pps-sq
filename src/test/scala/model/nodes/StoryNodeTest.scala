@@ -1,6 +1,8 @@
 package model.nodes
 
 import model.StoryModel
+import model.characters.Enemy
+import model.characters.properties.stats.{Stat, StatName}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class StoryNodeTest extends FlatTestSpec with SerializableSpec {
@@ -13,13 +15,19 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
   val emptyNarrative: String = ""
   var undefinedNarrative: String = _
 
+  val maxPS: Int = 100
+  val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
+  val enemy: Option[Enemy] = Some(Enemy("Enemy", maxPS, stats))
+  val emptyEnemy: Option[Enemy] = None
+  var undefinedEnemy: Option[Enemy] = _
+
   val pathways: Set[Pathway] = Set.empty
   var undefinedPathways: Set[Pathway] = _
 
   val events: List[StoryModel => Unit] = List()
   var undefinedEvents: List[StoryModel => Unit] = _
 
-  val node: StoryNode = StoryNode(id, storyNodeNarrative, pathways, events)
+  val node: StoryNode = StoryNode(id, storyNodeNarrative, enemy, pathways, events)
 
   "The story node" should "have an id" in {
     node.id shouldEqual id
@@ -29,25 +37,40 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
     node.narrative shouldEqual storyNodeNarrative
   }
 
+  it should "have an optional enemy" in {
+    node.enemy shouldEqual enemy
+  }
+
+  it should "accept an empty enemy" in {
+    val nodeWithEmptyEnemy: StoryNode = StoryNode(id, storyNodeNarrative, emptyEnemy, pathways, events)
+    nodeWithEmptyEnemy.enemy shouldEqual None
+  }
+
   it should "have a pathway" in {
     node.pathways shouldEqual pathways
   }
 
   it should "have a defined narrative" in {
     intercept[IllegalArgumentException] {
-      StoryNode(id, undefinedNarrative, pathways, events)
+      StoryNode(id, undefinedNarrative, enemy, pathways, events)
     }
   }
 
   it should "not have a empty narrative" in {
     intercept[IllegalArgumentException] {
-      StoryNode(id, emptyNarrative, pathways, events)
+      StoryNode(id, emptyNarrative, enemy, pathways, events)
+    }
+  }
+
+  it should "not have an undefined enemy" in {
+    intercept[IllegalArgumentException] {
+      StoryNode(id, storyNodeNarrative, undefinedEnemy, pathways, events)
     }
   }
 
   it should "have a defined set of pathways" in {
     intercept[IllegalArgumentException] {
-      StoryNode(id, emptyNarrative, undefinedPathways, events)
+      StoryNode(id, emptyNarrative, enemy, undefinedPathways, events)
     }
   }
 
@@ -56,6 +79,7 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
       StoryNode(
         id,
         storyNodeNarrative,
+        enemy,
         Set(Pathway(pathwayDescription, node, None), Pathway(pathwayDescription, node, None)),
         events
       )
@@ -67,6 +91,7 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
       StoryNode(
         id,
         storyNodeNarrative,
+        enemy,
         Set(Pathway(pathwayDescription, node, Some(_ => true))),
         events
       )
@@ -75,7 +100,7 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
 
   it should "have a defined list of events" in {
     intercept[IllegalArgumentException] {
-      StoryNode(id, emptyNarrative, pathways, undefinedEvents)
+      StoryNode(id, emptyNarrative, enemy, pathways, undefinedEvents)
     }
   }
 
