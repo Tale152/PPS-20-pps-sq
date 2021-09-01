@@ -13,7 +13,7 @@ trait InventoryView extends AbstractView {
    * Show the items on the View.
    * @param items the items to display.
    */
-  def showItems(items: List[Item]): Unit
+  def setItems(items: List[Item]): Unit
 
 }
 
@@ -25,7 +25,7 @@ object InventoryView {
      *
      * @param items the items to display.
      */
-    override def showItems(items: List[Item]): Unit = ???
+    override def setItems(items: List[Item]): Unit = ???
 
     /**
      * Sub-portion of render() where graphical elements are added
