@@ -13,12 +13,16 @@ import javax.swing.{BorderFactory, BoxLayout}
 case class PreviousChoicePanel(nodeNarrative: String, chosenPathwayDescription: String = "")
   extends SqSwingBoxPanel(BoxLayout.Y_AXIS){
 
-  private val Borders: Int = 5
-  private val RightBorder: Int = 15
+  private object PreviousChoicePanelValues {
+    val DefaultBorder: Int = 5
+    val RightBorder: Int = 15
+  }
 
   this.add(SqTextArea(nodeNarrative))
   val chosenPathway: SqTextArea = SqTextArea(chosenPathwayDescription)
   chosenPathway.setForeground(Color.BLUE)
   this.add(chosenPathway)
-  this.setBorder(BorderFactory.createEmptyBorder(Borders, Borders, Borders, RightBorder))
+
+  import PreviousChoicePanelValues._
+  this.setBorder(BorderFactory.createEmptyBorder(DefaultBorder, DefaultBorder, DefaultBorder, RightBorder))
 }

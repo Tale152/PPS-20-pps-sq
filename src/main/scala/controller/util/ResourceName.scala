@@ -5,31 +5,35 @@ package controller.util
  */
 object ResourceName {
 
-  private val GameDirectoryName: String = ".sq"
-  private val StoryDirectoryName: String = "stories"
+  private object DirectoryNames {
+    val GameDirectoryName: String = ".sq"
+    val StoryDirectoryName: String = "stories"
+    val SoundsEffectsDirectoryName: String = "sound_effects"
+  }
 
-  val RootGameDirectory: String = System.getProperty("user.home")
+  private object FileExtensions {
+    val StoryFileExtension: String = "sqstr"
+    val StoryProgressFileExtension: String = "sqprg"
+    val WavExtension = "wav"
+  }
 
-  //use mostly for test purposes
-  val TempDirectory: String = System.getProperty("java.io.tmpdir")
+  private object SoundNames {
+    import FileExtensions.WavExtension
+    val InteractionSoundEffectFileName: String = "interaction." + WavExtension
+    val NavigationSoundEffectFileName: String = "navigation." + WavExtension
+  }
 
-  private val randomStory: String = "random-story"
-  private val randomStoryFileName: String = "random-story.sqstr"
-  private val randomStoryProgressFileName: String = "random-story.sqprg"
+  object MainDirectory{
+    val RootGameDirectory: String = System.getProperty("user.home")
+    //use mostly for test purposes
+    private val ScalaQuestTestFolderName = "ScalaQuest_Test"
+    val TempDirectory: String = System.getProperty("java.io.tmpdir") + "/" + ScalaQuestTestFolderName
+  }
 
-  private val soundsEffectsDirectoryName: String = "sound_effects"
-  private val interactionSoundEffectFileName: String = "interaction.wav"
-  private val navigationSoundEffectFileName: String = "navigation.wav"
+  val testRandomStoryName: String = "test-random-story"
 
-  // random story is hardcoded for now
-  def randomStoryFileName(baseDirectory: String = RootGameDirectory): String =
-    randomStoryDirectoryPath(baseDirectory) + "/" + randomStoryFileName
-
-  def randomStoryProgressFileName(baseDirectory: String = RootGameDirectory): String =
-    randomStoryDirectoryPath(baseDirectory) + "/" + randomStoryProgressFileName
-
-  def randomStoryDirectoryPath(baseDirectory: String = RootGameDirectory): String =
-    storyDirectoryPath(baseDirectory) + "/" + randomStory
+  import controller.util.ResourceName.DirectoryNames._
+  import controller.util.ResourceName.MainDirectory.RootGameDirectory
 
   def storyDirectoryPath(baseDirectory: String = RootGameDirectory): String =
     gameDirectoryPath(baseDirectory) + "/" + StoryDirectoryName
@@ -37,7 +41,20 @@ object ResourceName {
   def gameDirectoryPath(baseDirectory: String = RootGameDirectory): String =
     baseDirectory + "/" + GameDirectoryName
 
-  def interactionSoundEffectPath(): String = "/" + soundsEffectsDirectoryName + "/" + interactionSoundEffectFileName
+  private def storyPathWitNoExtension(storyName: String)(baseDirectory: String): String =
+    storyDirectoryPath(baseDirectory) + "/" + storyName + "/" + storyName
 
-  def navigationSoundEffectPath(): String = "/" + soundsEffectsDirectoryName + "/" + navigationSoundEffectFileName
+  import controller.util.ResourceName.FileExtensions._
+
+  def storyPath(storyName: String)(baseDirectory: String = RootGameDirectory): String =
+    storyPathWitNoExtension(storyName)(baseDirectory) + "." + StoryFileExtension
+
+  def storyProgressPath(storyName: String)(baseDirectory: String = RootGameDirectory): String =
+    storyPathWitNoExtension(storyName)(baseDirectory) + "." + StoryProgressFileExtension
+
+  import controller.util.ResourceName.SoundNames._
+
+  def interactionSoundEffectPath(): String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
+
+  def navigationSoundEffectPath(): String = "/" + SoundsEffectsDirectoryName + "/" + NavigationSoundEffectFileName
 }
