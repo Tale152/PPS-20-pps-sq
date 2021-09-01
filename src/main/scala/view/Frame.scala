@@ -1,10 +1,10 @@
 package view
 
+import controller.util.ResourceName.resourceAsInputStream
 import view.util.scalaQuestSwingComponents.SqSwingBorderPanel
 
 import java.awt._
-import java.io.{BufferedInputStream, File, InputStream}
-import java.nio.file.{Files, Paths}
+import java.io.InputStream
 import javax.imageio.ImageIO
 import javax.swing._
 import javax.swing.border.EmptyBorder
@@ -53,10 +53,8 @@ object Frame {
     frame.pack()
   }
 
-  def loadFont(path: String): Font = {
+  def loadFont(is: InputStream): Font = {
     try {
-      val is: InputStream = new BufferedInputStream(
-        Files.newInputStream(Paths.get(path)))
       val myFont = Font.createFont(Font.TRUETYPE_FONT, is)
       myFont.deriveFont(Font.PLAIN)
     } catch {
@@ -92,7 +90,7 @@ object Frame {
     this.setBackground(Color.BLACK)
 
     override def paintComponent(g: Graphics): Unit = {
-      val bg = ImageIO.read(new File(getClass.getResource("/general_background.png").getPath))
+      val bg = ImageIO.read(resourceAsInputStream("/general_background.png"))
       val g2d: Graphics2D = g.create().asInstanceOf[Graphics2D]
       var _y = 0
       var _x = 0

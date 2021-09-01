@@ -2,14 +2,18 @@ package view.progressSaver
 
 import controller.game.subcontroller.ProgressSaverController
 import view.util.common.ControlsPanel
+import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
+import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 import view.{AbstractView, Frame}
 
 import java.awt.BorderLayout
+import java.awt.event.ActionEvent
 import javax.swing.JOptionPane
 
 /**
  * Is a GUI that allows the user to save his progress.
  * Associated with a ProgressSaverController.
+ *
  * @see [[controller.game.subcontroller.ProgressSaverController]]
  */
 trait ProgressSaverView extends AbstractView {
@@ -31,16 +35,16 @@ private class ProgressSaverViewImpl(private val progressSaverController: Progres
   override def populateView(): Unit = {
     this.add(InstructionPanel(), BorderLayout.CENTER)
     this.add(ControlsPanel(List(
-        ("b", ("[B] Back", _ => progressSaverController.close())),
-        ("s", ("[S] Save", _ => progressSaverController.saveProgress()))
-      )),
+      ("b", ("[B] Back", _ => progressSaverController.close())),
+      ("s", ("[S] Save", _ => progressSaverController.saveProgress()))
+    )),
       BorderLayout.SOUTH
     )
   }
 
   private def showFeedBackAndExecute(message: String, onOk: Unit => Unit): Unit = {
-    JOptionPane.showMessageDialog(Frame.frame, message)
-    onOk()
+    SqSwingDialog("Save progress", message,
+      List(new SqSwingButton("ok", (_: ActionEvent) => onOk(), true)))
   }
 
   override def showSuccessFeedback(onOk: Unit => Unit): Unit =

@@ -1,27 +1,22 @@
 package view.util
 
-import controller.util.ResourceName
+import controller.util.ResourceName.{interactionSoundEffectPath, navigationSoundEffectPath, resourceAsAudioInputStream}
 
-import java.io.File
-import javax.sound.sampled.AudioSystem
+import javax.sound.sampled.{AudioInputStream, AudioSystem, Clip}
 
 object SoundPlayer {
 
-  private def playAudio(path: String): Unit = {
-    val clip = AudioSystem.getClip
-    clip.open(
-      AudioSystem.getAudioInputStream(
-        new File(getClass.getResource(path).getPath)
-      )
-    )
+  private def playAudio(audioInputStream: AudioInputStream): Unit = {
+    val clip : Clip = AudioSystem.getClip()
+    clip.open(audioInputStream)
     clip.start()
   }
 
   def playNavigationSound(): Unit = {
-    playAudio(ResourceName.navigationSoundEffectPath())
+    playAudio(resourceAsAudioInputStream(navigationSoundEffectPath()))
   }
 
   def playInteractionSound(): Unit = {
-    playAudio(ResourceName.interactionSoundEffectPath())
+    playAudio(resourceAsAudioInputStream(interactionSoundEffectPath()))
   }
 }
