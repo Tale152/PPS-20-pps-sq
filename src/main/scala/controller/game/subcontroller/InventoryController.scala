@@ -3,7 +3,7 @@ package controller.game.subcontroller
 import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
 import model.characters.Character
-import model.items.Item
+import model.items.{EquipItem, Item}
 import view.inventory.InventoryView
 
 /**
@@ -47,8 +47,14 @@ object InventoryController {
      *
      * @param item the item to discard.
      */
-    override def discard(item: Item): Unit =
+    override def discard(item: Item): Unit = {
+      item match {
+        case equipItem: EquipItem if storyModel.player.equippedItems.contains(equipItem) =>
+          storyModel.player.equippedItems = storyModel.player.equippedItems.filter(_ != equipItem)
+        case _ =>
+      }
       storyModel.player.inventory = storyModel.player.inventory.filter(_ != item)
+    }
 
     /**
      * Start the Controller.
@@ -59,7 +65,6 @@ object InventoryController {
     }
 
     //TODO will change for fights
-
     /**
      * Defines the actions to do when the Controller execution is over.
      */

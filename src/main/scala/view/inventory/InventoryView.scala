@@ -1,8 +1,7 @@
 package view.inventory
 
 import controller.game.subcontroller.InventoryController
-import model.characters.properties.stats.{StatModifier, StatName}
-import model.items.{ConsumableItem, EquipItem, EquipItemType, Item, KeyItem}
+import model.items.Item
 import view.AbstractView
 import view.inventory.panels.InventoryPanel
 import view.util.common.{ControlsPanel, Scrollable}

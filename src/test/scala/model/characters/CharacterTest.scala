@@ -1,6 +1,7 @@
 package model.characters
 
-import model.characters.properties.stats.{Stat, StatName}
+import mock.MockFactory
+import model.characters.properties.stats.{Stat}
 import model.items.{AbstractItem, ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 
@@ -8,7 +9,7 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
 
   val maxPS: Int = 100
   val wrongMaxPS: Int = -3
-  val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
+  val stats: Set[Stat] = MockFactory.mockSetOfStats()
   val mainPlayer: Player = Player("Jonathan", maxPS, stats)
   val easyEnemy: Enemy = Enemy("Yoshikage Kira", maxPS, stats)
 
