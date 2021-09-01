@@ -9,10 +9,6 @@ lazy val root = (project in file("."))
     libraryDependencies += scalaTest % Test
   )
 
-// System.exit calls are trapped to prevent the JVM from terminating.
-// This is useful for executing user code that may call System.exit.
-trapExit := false
-
 // Tests Configurations
 val numberOfTestProcessors = java.lang.Runtime.getRuntime.availableProcessors + 1
 // Run tests in parallel
