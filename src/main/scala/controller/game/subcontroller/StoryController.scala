@@ -67,7 +67,7 @@ object StoryController {
         )
       }
       storyModel.appendToHistory(pathway.destinationNode)
-      this.execute()
+      redirect()
     }
 
     override def goToStatStatus(): Unit = gameMasterController.executeOperation(OperationType.PlayerInfoOperation)
@@ -75,6 +75,11 @@ object StoryController {
     override def goToHistory(): Unit = gameMasterController.executeOperation(OperationType.HistoryOperation)
 
     override def goToProgressSaver(): Unit = gameMasterController.executeOperation(OperationType.ProgressSaverOperation)
+
+    private def redirect(): Unit = if (storyModel.currentStoryNode.enemy.isEmpty) this.execute() else goToBattle()
+
+    private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
+
   }
 
 }

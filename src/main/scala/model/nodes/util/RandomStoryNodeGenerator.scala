@@ -1,5 +1,7 @@
 package model.nodes.util
 
+import model.characters.Enemy
+import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.{Pathway, StoryNode}
 
 import scala.util.Random
@@ -13,9 +15,10 @@ object RandomStoryNodeGenerator {
   private object RandomStoryParams{
     val MaxNodesInLayer = 5
     val Layers = 7
+    val EnemyProbability = 5
   }
 
-  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams.{Layers, MaxNodesInLayer}
+  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams.{Layers, MaxNodesInLayer, EnemyProbability}
 
   private def rnd(max: Int): Int = Random.nextInt(max) + 1
 
@@ -55,13 +58,30 @@ object RandomStoryNodeGenerator {
         }
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
-        res = res :+ StoryNode(id, narrative, None, newNodePathways.toSet, List())
+        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet, List())
       }
       res
     }
     val generated = generateLayers(Layers - 1)
     val pathways: Seq[Pathway] = for (node <- generated) yield Pathway("go to node " + node.id, node, None)
-    StoryNode(getMaxId(generated) + 1, "starting node, max remaining layers " + Layers, None, pathways.toSet, List())
+
+    StoryNode(getMaxId(generated) + 1,
+      "starting node, max remaining layers " + Layers,
+      None,
+      pathways.toSet,
+      List())
+  }
+
+  private def setEnemy(): Option[Enemy] = {
+    val statValue: Int = 5
+    val maxPossibleHealth: Int = 100
+    val stats: Set[Stat] = Set(Stat(statValue, StatName.Speed), Stat(statValue, StatName.Defence))
+    val rand = rnd(EnemyProbability)
+    println(rand)
+    rand match {
+      case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
+      case _ => None
+    }
   }
 
 }
