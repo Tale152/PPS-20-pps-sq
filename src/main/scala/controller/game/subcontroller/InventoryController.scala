@@ -4,7 +4,7 @@ import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
 import model.characters.Character
 import model.items.EquipItemType.Socks
-import model.items.{ConsumableItem, EquipItem, Item}
+import model.items.{ConsumableItem, EquipItem, EquipItemType, Item}
 import view.inventory.InventoryView
 
 /**
@@ -27,6 +27,18 @@ sealed trait InventoryController extends SubController {
    * @param item the item to discard.
    */
   def discard(item: Item): Unit
+
+  /**
+   * @return the list of all the possible targets. The main [[model.characters.Player]] is always included.
+   */
+  def targets(): Set[Character]
+
+  /**
+   * Check if a certain [[model.items.EquipItem]] is equipped.
+   * @param equipItem the [[model.items.EquipItem]] that might be equipped.
+   * @return true if the item is equipped, false otherwise.
+   */
+  def isEquipped(equipItem: EquipItem): Boolean
 
 }
 
@@ -71,6 +83,24 @@ object InventoryController {
      */
     override def close(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
 
+    /**
+     * @return the list of all the possible targets.
+     */
+    override def targets(): Set[Character] = {
+      if(storyModel.currentStoryNode.enemy.isDefined){
+        Set(storyModel.player, storyModel.currentStoryNode.enemy.get)
+      } else {
+        Set(storyModel.player)
+      }
+    }
+
+    /**
+     * Check if a certain [[model.items.EquipItem]] is equipped.
+     *
+     * @param equipItem the [[model.items.EquipItem]] that might be equipped.
+     * @return true if the item is equipped, false otherwise.
+     */
+    override def isEquipped(equipItem: EquipItem): Boolean = storyModel.player.equippedItems.contains(equipItem)
   }
 
   def apply(gameMasterController: GameMasterController, storyModel: StoryModel): InventoryController =
