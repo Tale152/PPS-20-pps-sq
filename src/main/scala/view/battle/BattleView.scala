@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent
 
 trait BattleView extends AbstractView {
   def narrative(narrative: String): Unit
-  def playerTurn(): Unit
+  def characterTurn(): Unit
 }
 
 object BattleView {
@@ -25,8 +25,8 @@ object BattleView {
 
     override def narrative(narrative: String): Unit = _narrative = narrative
 
-    //enable actions buttons
-    override def playerTurn(): Unit = ???
+    //enable actions buttons (probably it will have a character as parameter to enable and disable buttons)
+    override def characterTurn(): Unit = println("new turn")
 
     /**
      * Sub-portion of render() where graphical elements are added

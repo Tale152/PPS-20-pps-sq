@@ -21,31 +21,37 @@ object BattleController {
 
   private class BattleControllerImpl(private val gameMasterController: GameMasterController,
                                      private val storyModel: StoryModel) extends BattleController {
-    require(storyModel.currentStoryNode.enemy.isDefined)
 
     private val battleView: BattleView = BattleView(this)
-
-    val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-    val player: Player = storyModel.player
+    private val player: Player = storyModel.player
 
     override def attack(): Unit = {
-      println("ATTACK")
-      enemy.properties.health.currentPS = enemy.properties.health.currentPS - damage(player, enemy)
+      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
+
+      println("ATTACK " + enemy.isDefined)
+
+      println(damage(player, enemy.get))
+      enemy.get.properties.health.currentPS -= damage(player, enemy.get)
+      println(enemy.get.properties.health.currentPS)
       battleView.narrative("Player has " + player.properties.health.currentPS +
-        " PS. Enemy has " + enemy.properties.health.currentPS + " PS.")
+        " PS. Enemy has " + enemy.get.properties.health.currentPS + " PS.")
+      battleView.render()
       checkBattleResult()
     }
 
     override def attemptEscape(): Unit =  {
+      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
+      val player: Player = storyModel.player
       println("Attempt escape")
       if((player.properties.stat(StatName.Speed).value +
-        player.properties.stat(StatName.Intelligence).value) > enemy.properties.stat(StatName.Speed).value) {
+        player.properties.stat(StatName.Intelligence).value) > enemy.get.properties.stat(StatName.Speed).value) {
         //battle won
         battleView.narrative("Escaped successfully")
       } else {
         //next round
         battleView.narrative("Escape failed")
       }
+      battleView.render()
     }
 
     override def useItem(user: Character, item: Item, target: Character): Unit = {
@@ -57,9 +63,10 @@ object BattleController {
      * Start the Controller.
      */
     override def execute(): Unit = {
+
       battleView.narrative(storyModel.currentStoryNode.narrative)
       //set player and enemy health
-      battleView.playerTurn()
+
       battleView.render()
 
       /*if (enemy.properties.stat(StatName.Speed).value >= player.properties.stat(StatName.Speed).value){
@@ -77,19 +84,22 @@ object BattleController {
     override def goToInventory(): Unit = ??? //gameMasterController.executeOperation(OperationType.InventoryController)
 
     private def damage(attacker: Character, target: Character): Int =
-      (attacker.properties.stat(StatName.Strength).value * attacker.properties.stat(StatName.Dexterity).value) -
-        (target.properties.stat(StatName.Defence).value * target.properties.stat(StatName.Speed).value)
+      (attacker.properties.stat(StatName.Strength).value + attacker.properties.stat(StatName.Dexterity).value) -
+        target.properties.stat(StatName.Defence).value
 
     private def checkBattleResult(): Unit = {
+      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
+      val player: Player = storyModel.player
       if (player.properties.health.currentPS == 0) {
         //the battle is lost
         battleView.narrative("Battle lost")
-      } else if (enemy.properties.health.currentPS == 0){
+      } else if (enemy.get.properties.health.currentPS == 0){
         //the battle is won
         battleView.narrative("Battle won")
       } else {
         //next round
       }
+      battleView.render()
     }
   }
 }
