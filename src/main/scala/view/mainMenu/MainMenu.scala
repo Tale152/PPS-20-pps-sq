@@ -46,6 +46,8 @@ private class MainMenuImpl(applicationController: ApplicationController) extends
       val storyPath = ResourceName.storyPath(storyName)()
       if (isProgressAvailable(storyName)()) {
         generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName)())
+      } else {
+        loadStoryNewGame(storyPath)
       }
     })
   }
