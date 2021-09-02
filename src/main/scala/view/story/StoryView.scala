@@ -4,8 +4,7 @@ import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
 import view.AbstractView
 import view.util.common.ControlsPanel
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
-import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
+import view.util.scalaQuestSwingComponents.SqSwingDialog.YesNoSqSwingDialog
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
@@ -40,12 +39,13 @@ object StoryView {
             ("h", ("[H] History", _ => storyController.goToHistory())),
             ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
             ("i", ("[I] Inventory", _ => storyController.goToInventory())),
-            ("q", ("[Q] Quit", _ => {
-              SqSwingDialog("Exit Confirm", "Do you really want to exit the game?",
-                List(new SqSwingButton("yes", (_: ActionEvent) => storyController.close(), true),
-                  new SqSwingButton("no", (_: ActionEvent) => {}, true)))
-            })))),
-        BorderLayout.NORTH
+            ("q", ("[Q] Quit", _ =>
+              YesNoSqSwingDialog(
+                "Exit Confirm",
+                "Do you really want to exit the game?",
+                (_: ActionEvent) => storyController.close()))
+            ))
+        ),BorderLayout.NORTH
       )
       this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
       this.add(PathwaysPanel(_pathways, p => storyController.choosePathWay(p)), BorderLayout.SOUTH)
