@@ -2,9 +2,9 @@ package view.progressSaver
 
 import controller.game.subcontroller.ProgressSaverController
 import view.util.common.ControlsPanel
-import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 import view.AbstractView
 import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent

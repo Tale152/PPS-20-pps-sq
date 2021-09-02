@@ -4,7 +4,7 @@ import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
 import view.AbstractView
 import view.util.common.ControlsPanel
-import view.util.scalaQuestSwingComponents.SqSwingDialog.YesNoSqSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
@@ -40,7 +40,7 @@ object StoryView {
             ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
             ("i", ("[I] Inventory", _ => storyController.goToInventory())),
             ("q", ("[Q] Quit", _ =>
-              YesNoSqSwingDialog(
+              SqYesNoSwingDialog(
                 "Exit Confirm",
                 "Do you really want to exit the game?",
                 (_: ActionEvent) => storyController.close()))

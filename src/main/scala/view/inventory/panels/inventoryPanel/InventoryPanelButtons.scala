@@ -5,7 +5,7 @@ import model.characters.Character
 import model.items.{EquipItem, Item, KeyItem}
 import view.inventory.panels.TargetChooser
 import view.util.scalaQuestSwingComponents.SqSwingButton
-import view.util.scalaQuestSwingComponents.SqSwingDialog.YesNoSqSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
 import java.awt.event.{ActionEvent, ActionListener}
 
@@ -40,7 +40,7 @@ private[inventoryPanel] object InventoryPanelButtons {
 
     def discardButton(inventoryController: InventoryController, item: Item): SqSwingButton = SqSwingButton(
       "Discard",
-      (_: ActionEvent) => YesNoSqSwingDialog("Really discard?",
+      (_: ActionEvent) => SqYesNoSwingDialog("Really discard?",
         "Do you really want to discard this Item?\n There's no coming back.",
         (_: ActionEvent) => inventoryController.discard(item)
       ))

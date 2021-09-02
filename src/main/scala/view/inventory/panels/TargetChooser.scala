@@ -4,7 +4,7 @@ import controller.game.subcontroller.InventoryController
 import model.characters.Character
 import model.items.Item
 import view.util.scalaQuestSwingComponents.SqSwingButton
-import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 import java.awt.event.ActionEvent
 
