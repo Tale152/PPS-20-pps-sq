@@ -3,6 +3,12 @@ package view.util.scalaQuestSwingComponents
 import java.awt.Color
 import javax.swing.JTextArea
 
+/**
+ * Represents a custom textArea for ScalaQuest.
+ *
+ * @param content  the text to display in the textarea.
+ * @param editable true if the textArea needs to be editable.
+ */
 case class SqTextArea(content: String, editable: Boolean = false) extends JTextArea(content) {
 
   private val FontSize = 15

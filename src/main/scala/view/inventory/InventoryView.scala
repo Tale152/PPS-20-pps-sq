@@ -6,7 +6,6 @@ import view.AbstractView
 import view.inventory.panels.inventoryPanel
 import view.util.common.{ControlsPanel, Scrollable}
 import view.util.scalaQuestSwingComponents.SqSwingLabel
-
 import java.awt.BorderLayout
 import javax.swing.{BorderFactory, SwingConstants}
 

@@ -5,16 +5,22 @@ import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, 
 import controller.util.ResourceName
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
-
+import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.SwingConstants
 
-
+/**
+ * Trait that represents the main menu of the game.
+ */
 sealed trait MainMenu extends AbstractView {
 
+  /**
+   * Method to display all the existing adventures.
+   *
+   * @param stories set of strings containing the adventures title.
+   */
   def setStories(stories: Set[String]): Unit
 
 }
@@ -25,6 +31,7 @@ object MainMenu {
     private object MainMenuValues {
       val LabelSize = 25
     }
+
     private var _stories: Set[String] = Set()
     this.setLayout(new BorderLayout())
 

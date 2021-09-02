@@ -12,8 +12,8 @@ object SqYesNoSwingDialog {
   private def yesNoButtonList(yesActionListener: ActionListener,
                               noActionListener: ActionListener): List[SqSwingButton] = {
     List(
-      SqSwingButton("yes", yesActionListener, buttonEnabled = true),
-      SqSwingButton("no", noActionListener,  buttonEnabled = true)
+      SqSwingButton("yes", yesActionListener),
+      SqSwingButton("no", noActionListener)
     )
   }
 

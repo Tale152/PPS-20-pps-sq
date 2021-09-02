@@ -3,10 +3,7 @@ package controller.game.subcontroller
 import controller.game.GameMasterController
 import mock.MockFactory.mockStoryModel
 import model.StoryModel
-import model.characters.Player
-import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.{Pathway, StoryNode}
-import org.scalatest.BeforeAndAfterEach
 import specs.FlatTestSpec
 
 class StoryControllerTest extends FlatTestSpec {

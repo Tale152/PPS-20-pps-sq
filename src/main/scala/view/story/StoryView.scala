@@ -5,7 +5,8 @@ import model.nodes.Pathway
 import view.AbstractView
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
-
+import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 
@@ -14,8 +15,25 @@ import java.awt.event.ActionEvent
  */
 sealed trait StoryView extends AbstractView {
 
+  /**
+   * Shows the user new events by creating SqSwingDialogs.
+   *
+   * @param eventsList a list containing every new event name.
+   */
+  def displayEvent(eventsList: List[String]): Unit
+
+  /**
+   * Allows the narrative to be rendered.
+   *
+   * @param narrative the narrative to display.
+   */
   def setNarrative(narrative: String): Unit
 
+  /**
+   * Allows rendering of all of the possible pathways.
+   *
+   * @param pathways the pathways to render.
+   */
   def setPathways(pathways: Set[Pathway]): Unit
 }
 
@@ -24,12 +42,23 @@ object StoryView {
   private class StoryViewSwing(private val storyController: StoryController) extends StoryView {
     private var _narrative: String = ""
     private var _pathways: Seq[Pathway] = Seq()
+    var eventsNameList: List[String] = List()
 
     this.setLayout(new BorderLayout())
 
     override def setNarrative(narrative: String): Unit = _narrative = narrative
 
     override def setPathways(pathways: Set[Pathway]): Unit = _pathways = pathways.toSeq
+
+    override def displayEvent(eventsList: List[String]): Unit = {
+      if (eventsList.nonEmpty) {
+        SqSwingDialog("New Event!", eventsList.head, List(
+          SqSwingButton("ok", (_: ActionEvent) => {
+            displayEvent(eventsNameList)
+          })), closable = false)
+        eventsNameList = eventsList.drop(1)
+      }
+    }
 
     override def populateView(): Unit = {
       this.add(
@@ -53,4 +82,5 @@ object StoryView {
   }
 
   def apply(storyController: StoryController): StoryView = new StoryViewSwing(storyController)
+
 }

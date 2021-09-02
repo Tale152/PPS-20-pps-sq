@@ -6,17 +6,23 @@ import java.awt.Color
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.JButton
 
+/**
+ * Represents a custom button for ScalaQuest.
+ *
+ * @param text          the text of the button.
+ * @param action        the action associated to the click of the button.
+ * @param buttonEnabled true if the button has to be enabled.
+ */
 case class SqSwingButton(text: String, action: ActionListener, buttonEnabled: Boolean = true) extends JButton {
-    private val btnTextSize = 20
-    this.setText(text)
-    this.changeAppearance(Color.WHITE)
-    this.setContentAreaFilled(false)
-    this.addActionListener(action)
-    this.addActionListener((_: ActionEvent) => SoundPlayer.playInteractionSound())
-    this.setEnabled(buttonEnabled)
-    this.setFocusable(false)
-    this.setFont(SqFont(bold = true, btnTextSize))
+  private val btnTextSize = 20
+  this.setText(text)
+  this.changeAppearance(Color.WHITE)
+  this.setContentAreaFilled(false)
+  this.addActionListener(action)
+  this.addActionListener((_: ActionEvent) => SoundPlayer.playInteractionSound())
+  this.setEnabled(buttonEnabled)
+  this.setFocusable(false)
+  this.setFont(SqFont(bold = true, btnTextSize))
 
-    def changeAppearance(color: Color): Unit = this.setForeground(color)
+  def changeAppearance(color: Color): Unit = this.setForeground(color)
 }
-

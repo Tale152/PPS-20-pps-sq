@@ -7,7 +7,7 @@ import java.awt.Font
 import java.awt.GraphicsEnvironment
 
 /**
- * object that represents the imported font for the game,
+ * Object that represents the imported font for the game,
  * added to the list of all predefined fonts.
  */
 private object SqRetroFont {
@@ -17,6 +17,12 @@ private object SqRetroFont {
   Ge.registerFont(RetroFont)
 }
 
+/**
+ * Represents a custom font for ScalaQuest.
+ *
+ * @param bold     true if the font needs to be bold.
+ * @param fontSize the size of the font.
+ */
 case class SqFont(bold: Boolean, fontSize: Int = DefaultFontSize) extends Font(RetroFont.getFontName, if (bold) {
   Font.BOLD
 } else {
