@@ -27,4 +27,15 @@ private[controller] object OperationType {
    * Operation used to pass control to the [[controller.game.subcontroller.ProgressSaverController]]
    */
   case object ProgressSaverOperation extends OperationType
+
+  /**
+   * Operation used to pass control to the [[controller.game.subcontroller.InventoryController]]
+   */
+  case object InventoryOperation extends OperationType
+
+  /**
+   * Operation used to pass control to the [[controller.game.subcontroller.BattleController]]
+   */
+  case object BattleOperation extends OperationType
+
 }

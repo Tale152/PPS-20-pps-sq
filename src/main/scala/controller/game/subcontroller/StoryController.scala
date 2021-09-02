@@ -2,7 +2,7 @@ package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
-import model.nodes.Pathway
+import model.nodes.{ItemEvent, Pathway, StatEvent}
 import view.story.StoryView
 
 /**
@@ -37,6 +37,12 @@ sealed trait StoryController extends SubController {
    * [[controller.game.subcontroller.ProgressSaverController]].
    */
   def goToProgressSaver(): Unit
+
+  /**
+   * Calls the [[controller.game.GameMasterController]] to grant control to the
+   * [[controller.game.subcontroller.InventoryController]].
+   */
+  def goToInventory(): Unit
 }
 
 object StoryController {
@@ -50,6 +56,7 @@ object StoryController {
     private val storyView: StoryView = StoryView(this)
 
     override def execute(): Unit = {
+      showEvent()
       storyView.setNarrative(storyModel.currentStoryNode.narrative)
       storyView.setPathways(
         storyModel.currentStoryNode.pathways.filter(
@@ -67,7 +74,7 @@ object StoryController {
         )
       }
       storyModel.appendToHistory(pathway.destinationNode)
-      this.execute()
+      redirect()
     }
 
     override def goToStatStatus(): Unit = gameMasterController.executeOperation(OperationType.PlayerInfoOperation)
@@ -75,6 +82,20 @@ object StoryController {
     override def goToHistory(): Unit = gameMasterController.executeOperation(OperationType.HistoryOperation)
 
     override def goToProgressSaver(): Unit = gameMasterController.executeOperation(OperationType.ProgressSaverOperation)
+
+    override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
+
+    private def redirect(): Unit = if (storyModel.currentStoryNode.enemy.isEmpty) this.execute() else goToBattle()
+
+    private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
+
+    private def showEvent(): Unit = {
+      storyView.displayEvent(storyModel.currentStoryNode.events.map {
+        case StatEvent(statModifier) => "Stat " + statModifier.statName + " modified"
+        case ItemEvent(item) => "New Item: " + item.name
+      })
+    }
+
   }
 
 }
