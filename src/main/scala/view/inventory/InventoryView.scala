@@ -3,7 +3,7 @@ package view.inventory
 import controller.game.subcontroller.InventoryController
 import model.items.Item
 import view.AbstractView
-import view.inventory.panels.InventoryPanel
+import view.inventory.panels.inventoryPanel
 import view.util.common.{ControlsPanel, Scrollable}
 import view.util.scalaQuestSwingComponents.SqSwingCenteredLabel
 
@@ -38,7 +38,7 @@ object InventoryView {
 
     override def populateView(): Unit = {
       this.add(SqSwingCenteredLabel("Inventory", size = TitleSize), BorderLayout.NORTH)
-      val recap = Scrollable(InventoryPanel(inventoryController, _inventoryItems))
+      val recap = Scrollable(inventoryPanel.InventoryPanel(inventoryController, _inventoryItems))
       recap.setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 0))
       this.add(recap, BorderLayout.CENTER)
       this.add(ControlsPanel(List(("b", ("[B] Back", _ => inventoryController.close())))), BorderLayout.SOUTH)
