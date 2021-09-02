@@ -54,10 +54,10 @@ object GraphBuilder {
       newEdge.setAttribute(StyleLabel, getCorrectEdgeColor(edge.isConditionalEdge, "purple", "black"))
       val newNode = graph.getNode(edge.endNodeId)
       newNode.setAttribute(LabelAttribute, getCorrectString(printNodeNarrative, edge.getEndNodeLabel, edge.endNodeId))
-      newNode.setAttribute(StyleLabel, getCorrectNodeColor(edge.isFinalNode, FinalNodeColor, MidNodeColor))
+      newNode.setAttribute(StyleLabel, getCorrectNodeShape(edge.isFinalNode, "cross", "circle"))
     }
     val rNode = graph.getNode(routeNode.id.toString)
-    rNode.setAttribute(StyleLabel, getNodeStyle(RouteNodeColor))
+    rNode.setAttribute(StyleLabel, getNodeStyle("diamond"))
     rNode.setAttribute(
       LabelAttribute,
       getCorrectString(

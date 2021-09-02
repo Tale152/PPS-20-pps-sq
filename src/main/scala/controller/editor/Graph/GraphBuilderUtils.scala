@@ -23,9 +23,10 @@ protected object GraphBuilderUtils {
       getEdgeStyle(onFalse)
     }
 
-  def getNodeStyle(color: String): String = "shape:circle;fill-color: " + color + "; text-alignment: under; size: 20px;"
+  def getNodeStyle(shape: String): String =
+    "shape:" + shape + "; text-alignment: under; size: 20px;"
 
-  def getCorrectNodeColor(active: Boolean, onTrue: String, onFalse: String): String =
+  def getCorrectNodeShape(active: Boolean, onTrue: String, onFalse: String): String =
     if (active) {
       getNodeStyle(onTrue)
     } else {
