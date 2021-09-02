@@ -20,6 +20,7 @@ trait PlayerConfigurationView extends AbstractView {
 
   /**
    * Allow to set the number of remaining points to be rendered
+   *
    * @param points the number of remaining points
    */
   def setRemainingPoints(points: Int): Unit
@@ -27,6 +28,7 @@ trait PlayerConfigurationView extends AbstractView {
   /**
    * Allow to set the stats to be rendered; the user will be able to increase (unless the remaining points are zero)
    * or decrease the stat value (unless the stat value is one)
+   *
    * @param stats list of stats to render
    * @see [[model.characters.properties.stats.Stat]]
    * @see [[setRemainingPoints]]
@@ -51,15 +53,8 @@ object PlayerConfigurationView {
     def populateView(): Unit = {
       this.add(InstructionPanel())
       this.add(RemainingPointsPanel(_remainingPoints))
-      for(stat <- _stats) {
-        this.add(
-          StatEditPanel(
-            stat,
-            _remainingPoints,
-            _ => playerConfigurationController.setStatValue(stat.statName, stat.value - 1),
-            _ => playerConfigurationController.setStatValue(stat.statName, stat.value + 1),
-          )
-        )
+      for (stat <- _stats) {
+        this.add(StatEditPanel(playerConfigurationController, stat, _remainingPoints))
       }
       this.add(ControlsPanel(List(
         ("b", ("[B] Back", _ => playerConfigurationController.close())),
