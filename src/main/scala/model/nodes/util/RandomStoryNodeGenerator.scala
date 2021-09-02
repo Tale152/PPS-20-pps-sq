@@ -4,6 +4,7 @@ import model.characters.Enemy
 import model.characters.properties.stats.{Stat, StatModifier, StatName}
 import model.items.KeyItem
 import model.nodes.{ItemEvent, Pathway, StatEvent, StoryNode}
+import model.nodes.Event
 
 import scala.util.Random
 import scala.collection.mutable.{Set => MutableSet}
@@ -17,9 +18,10 @@ object RandomStoryNodeGenerator {
     val MaxNodesInLayer = 5
     val Layers = 7
     val EnemyProbability = 5
+    val EventProbability = 5
   }
 
-  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams.{Layers, MaxNodesInLayer, EnemyProbability}
+  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams._
 
   private def rnd(max: Int): Int = Random.nextInt(max) + 1
 
@@ -59,8 +61,7 @@ object RandomStoryNodeGenerator {
         }
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
-        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet,
-          List(ItemEvent(KeyItem("sword", "it's a sword"))))
+        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet,setEvents())
       }
       res
     }
@@ -70,10 +71,20 @@ object RandomStoryNodeGenerator {
 
     StoryNode(getMaxId(generated) + 1,
       "starting node, max remaining layers " + Layers,
-      None,
+      setEnemy(),
       pathways.toSet,
-      List(ItemEvent(KeyItem("sword", "it's a sword")),
-        StatEvent(StatModifier(StatName.Strength, i => i + 5))))
+      setEvents())
+  }
+
+  private def setEvents(): List[Event] = {
+    var res: List[Event] = List()
+    if(rnd(EventProbability) == 1){
+      res = ItemEvent(KeyItem("sword", "it's a sword")) :: res
+    }
+    if(rnd(EventProbability) == 1){
+      res = StatEvent(StatModifier(StatName.Strength, i => i + 5)) :: res
+    }
+    res
   }
 
   private def setEnemy(): Option[Enemy] = {
@@ -81,7 +92,6 @@ object RandomStoryNodeGenerator {
     val maxPossibleHealth: Int = 100
     val stats: Set[Stat] = Set(Stat(statValue, StatName.Speed), Stat(statValue, StatName.Defence))
     val rand = rnd(EnemyProbability)
-    println(rand)
     rand match {
       case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
       case _ => None
