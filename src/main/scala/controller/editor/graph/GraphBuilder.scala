@@ -1,19 +1,12 @@
-package controller.editor.Graph
+package controller.editor.graph
 
-import controller.editor.Graph.EdgeInfo.EdgeInfo
-import controller.editor.Graph.GraphBuilderUtils._
+import controller.editor.graph.EdgeInfo.EdgeInfo
+import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import model.nodes.StoryNode
 import org.graphstream.graph.Graph
 import org.graphstream.graph.implementations.SingleGraph
 
 object GraphBuilder {
-
-  private val RouteNodeColor: String = "red"
-  private val MidNodeColor: String = "black"
-  private val FinalNodeColor: String = "blue"
-
-  private val LabelAttribute: String = "ui.label"
-  private val StyleLabel: String = "ui.style"
 
   def build(routeNode: StoryNode,
             printNodeNarrative: Boolean = true,
@@ -47,24 +40,21 @@ object GraphBuilder {
       (edgesResult, computedResult)
     }
 
-    for(edge <- computeNode(routeNode, Set())._1){
-      graph.addEdge(edge.getEdgeId, edge.startNodeId, edge.endNodeId)
-      val newEdge = graph.getEdge(edge.getEdgeId)
-      newEdge.setAttribute(LabelAttribute, getCorrectString(printEdgeLabel, edge.getPathwayLabel, ""))
-      newEdge.setAttribute(StyleLabel, getCorrectEdgeColor(edge.isConditionalEdge, "purple", "black"))
-      val newNode = graph.getNode(edge.endNodeId)
-      newNode.setAttribute(LabelAttribute, getCorrectString(printNodeNarrative, edge.getEndNodeLabel, edge.endNodeId))
-      newNode.setAttribute(StyleLabel, getCorrectNodeShape(edge.isFinalNode, "cross", "circle"))
+    for(edgeInfo <- computeNode(routeNode, Set())._1){
+      graph.addEdge(edgeInfo.getEdgeId, edgeInfo.startNodeId, edgeInfo.endNodeId)
+      val newEdge = graph.getEdge(edgeInfo.getEdgeId)
+      ElementLabel.putLabelOnElement(newEdge, printEdgeLabel)(edgeInfo.getPathwayLabel, "")
+      ElementStyle.decorateEdge(newEdge, edgeInfo.isConditionalEdge)
+      val newNode = graph.getNode(edgeInfo.endNodeId)
+      ElementLabel.putLabelOnElement(newNode, printNodeNarrative)(edgeInfo.getEndNodeLabel, edgeInfo.endNodeId)
+      ElementStyle.decorateNode(newNode, edgeInfo.isNodeWithEvents, edgeInfo.isNodeWithEnemy, edgeInfo.isFinalNode)
     }
+
     val rNode = graph.getNode(routeNode.id.toString)
-    rNode.setAttribute(StyleLabel, getNodeStyle("diamond"))
-    rNode.setAttribute(
-      LabelAttribute,
-      getCorrectString(
-        printNodeNarrative,
-        buildLabel(routeNode.id.toString, truncateString(routeNode.narrative)),
-        routeNode.id.toString
-      )
+    ElementStyle.decorateRouteNode(rNode, routeNode.events.nonEmpty, routeNode.enemy.nonEmpty)
+    ElementLabel.putLabelOnElement(rNode, printNodeNarrative)(
+      StringUtils.buildLabel(routeNode.id.toString, StringUtils.truncateString(routeNode.narrative)),
+      routeNode.id.toString
     )
     graph
   }

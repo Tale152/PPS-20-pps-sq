@@ -1,6 +1,6 @@
-package controller.editor.Graph
+package controller.editor.graph
 
-import controller.editor.Graph.GraphBuilderUtils.{buildLabel, truncateString}
+import controller.editor.graph.util.StringUtils.{buildLabel, truncateString}
 import model.nodes.{Pathway, StoryNode}
 
 protected object EdgeInfo {
@@ -23,6 +23,11 @@ protected object EdgeInfo {
     def getEndNodeLabel: String = buildLabel(endNodeId, endNodeNarrative)
 
     def getPathwayLabel: String = buildLabel(getEdgeId, pathwayDescription)
+
+    def isNodeWithEnemy: Boolean = pathway.destinationNode.enemy.nonEmpty
+
+    def isNodeWithEvents: Boolean = pathway.destinationNode.events.nonEmpty
+
   }
 
   def apply(startingNode: StoryNode, pathway: Pathway): EdgeInfo = new EdgeInfo(startingNode, pathway)
