@@ -8,6 +8,13 @@ import javax.swing.{JButton, JDialog}
 
 object SqSwingDialog {
 
+  /**
+   * Represents a custom dialog for ScalaQuest.
+   *
+   * @param titleText the title of the Dialog.
+   * @param phrase    a description shown to the user.
+   * @param buttons   a list of Buttons to let the user take decisions.
+   */
   case class SqSwingDialog(titleText: String, phrase: String, buttons: List[JButton]) extends JDialog(frame) {
     val phrasePanel: SqSwingFlowPanel = new SqSwingFlowPanel {}
     val buttonsPanel: SqSwingGridPanel = new SqSwingGridPanel(0, buttons.length) {}

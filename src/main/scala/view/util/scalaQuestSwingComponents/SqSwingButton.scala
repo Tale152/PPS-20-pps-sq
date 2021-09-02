@@ -10,6 +10,13 @@ object SqSwingButton {
 
   val btnTextSize = 20
 
+  /**
+   * Represents a custom button for ScalaQuest.
+   *
+   * @param text    the text of the button.
+   * @param action  the action associated to the click of the button.
+   * @param enabled true if the button has to be enabled.
+   */
   class SqSwingButton(text: String, action: ActionListener, enabled: Boolean) extends JButton {
     this.setText(text)
     this.changeAppearance(Color.WHITE)

@@ -15,8 +15,18 @@ import java.awt.event.ActionEvent
  */
 trait StoryView extends AbstractView {
 
+  /**
+   * Allows the narrative to be rendered.
+   *
+   * @param narrative the narrative to display.
+   */
   def setNarrative(narrative: String): Unit
 
+  /**
+   * Allows rendering of all of the possible pathways.
+   *
+   * @param pathways the pathways to render.
+   */
   def setPathways(pathways: Set[Pathway]): Unit
 }
 

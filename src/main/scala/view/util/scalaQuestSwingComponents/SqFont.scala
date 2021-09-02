@@ -19,7 +19,12 @@ object SqRetroFont {
   new JList(Ge.getAvailableFontFamilyNames)
 }
 
-
+/**
+ * Represents a custom font for ScalaQuest.
+ *
+ * @param bold     true if the font needs to be bold.
+ * @param fontSize the size of the font.
+ */
 case class SqFont(bold: Boolean, fontSize: Int = DefaultFontSize) extends Font(RetroFont.getFontName, if (bold) {
   Font.BOLD
 } else {
