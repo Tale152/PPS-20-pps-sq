@@ -4,15 +4,20 @@ import view.Frame.frame
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-import javax.swing.{JButton, JDialog}
+import javax.swing.{JButton, JDialog, WindowConstants}
 
 object SqSwingDialog {
 
-  case class SqSwingDialog(titleText: String, phrase: String, buttons: List[JButton]) extends JDialog(frame) {
+  case class SqSwingDialog(titleText: String, phrase: String, buttons: List[JButton], closable: Boolean = true)
+    extends JDialog(frame) {
     val phrasePanel: SqSwingFlowPanel = new SqSwingFlowPanel {}
     val buttonsPanel: SqSwingGridPanel = new SqSwingGridPanel(0, buttons.length) {}
     phrasePanel.add(SqSwingLabel(phrase))
     this.setLayout(new BorderLayout())
+    if (!closable) {
+      this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE)
+      //this.setUndecorated(true)
+    }
 
     buttons.foreach(b => {
       buttonsPanel.add(b)

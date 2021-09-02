@@ -4,6 +4,7 @@ import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
 import view.AbstractView
 import view.util.common.ControlsPanel
+import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 
@@ -15,6 +16,8 @@ import java.awt.event.ActionEvent
  */
 trait StoryView extends AbstractView {
 
+  def displayEvent(eventsList: List[String]): Unit
+
   def setNarrative(narrative: String): Unit
 
   def setPathways(pathways: Set[Pathway]): Unit
@@ -25,6 +28,7 @@ object StoryView {
   private class StoryViewSwing(private val storyController: StoryController) extends StoryView {
     private var _narrative: String = ""
     private var _pathways: Seq[Pathway] = Seq()
+    var eventsNameList: List[String] = List()
 
     this.setLayout(new BorderLayout())
 
@@ -32,6 +36,15 @@ object StoryView {
 
     override def setPathways(pathways: Set[Pathway]): Unit = _pathways = pathways.toSeq
 
+    override def displayEvent(eventsList: List[String]): Unit = {
+      if (eventsList.nonEmpty) {
+        SqSwingDialog("New Event!", eventsList.head, List(
+          SqSwingButton("ok", (_: ActionEvent) => {
+            displayEvent(eventsNameList)
+          })),closable = false)
+        eventsNameList = eventsList.drop(1)
+      }
+    }
     override def populateView(): Unit = {
       this.add(
         ControlsPanel(
@@ -53,4 +66,5 @@ object StoryView {
   }
 
   def apply(storyController: StoryController): StoryView = new StoryViewSwing(storyController)
+
 }
