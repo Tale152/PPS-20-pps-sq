@@ -2,7 +2,7 @@ package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
-import model.nodes.Pathway
+import model.nodes.{ItemEvent, Pathway, StatEvent}
 import view.story.StoryView
 
 /**
@@ -50,6 +50,7 @@ object StoryController {
     private val storyView: StoryView = StoryView(this)
 
     override def execute(): Unit = {
+      showEvent()
       storyView.setNarrative(storyModel.currentStoryNode.narrative)
       storyView.setPathways(
         storyModel.currentStoryNode.pathways.filter(
@@ -80,6 +81,12 @@ object StoryController {
 
     private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
 
+    private def showEvent(): Unit = {
+      storyView.displayEvent(storyModel.currentStoryNode.events.map {
+        case StatEvent(statModifier) => "Stat " + statModifier.statName + "modified"
+        case ItemEvent(item) => "New Item: " + item.name
+      })
+    }
   }
 
 }

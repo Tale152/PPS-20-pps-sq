@@ -1,6 +1,5 @@
 package model.nodes
 
-import model.StoryModel
 import model.characters.Enemy
 import model.characters.properties.stats.{Stat, StatName}
 import specs.{FlatTestSpec, SerializableSpec}
@@ -24,8 +23,8 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
   val pathways: Set[Pathway] = Set.empty
   var undefinedPathways: Set[Pathway] = _
 
-  val events: List[StoryModel => Unit] = List()
-  var undefinedEvents: List[StoryModel => Unit] = _
+  val events: List[Event] = List()
+  var undefinedEvents: List[Event] = _
 
   val node: StoryNode = StoryNode(id, storyNodeNarrative, enemy, pathways, events)
 

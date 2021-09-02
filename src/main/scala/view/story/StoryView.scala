@@ -4,6 +4,7 @@ import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
 import view.AbstractView
 import view.util.common.ControlsPanel
+import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 
@@ -14,6 +15,8 @@ import java.awt.event.ActionEvent
  * Represents the GUI for the navigation between [[model.nodes.StoryNode]]
  */
 trait StoryView extends AbstractView {
+  def displayEvent(eventsList: List[String]): Unit
+
   def setNarrative(narrative: String): Unit
 
   def setPathways(pathways: Set[Pathway]): Unit
@@ -33,6 +36,18 @@ private class StoryViewSwing(private val storyController: StoryController) exten
 
   override def setPathways(pathways: Set[Pathway]): Unit = _pathways = pathways.toSeq
 
+  var eventsNameList: List[String] = List()
+
+  override def displayEvent(eventsList: List[String]): Unit = {
+    if (eventsList.nonEmpty) {
+      SqSwingDialog("New Event!", eventsList.head, List(
+        SqSwingButton("ok", (_: ActionEvent) => {
+          displayEvent(eventsNameList)
+        })),closable = false)
+      eventsNameList = eventsList.drop(1)
+    }
+  }
+
   override def populateView(): Unit = {
     this.add(
       ControlsPanel(
@@ -50,4 +65,5 @@ private class StoryViewSwing(private val storyController: StoryController) exten
     this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
     this.add(PathwaysPanel(_pathways, p => storyController.choosePathWay(p)), BorderLayout.SOUTH)
   }
+
 }
