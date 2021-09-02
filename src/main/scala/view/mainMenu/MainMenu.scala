@@ -12,9 +12,16 @@ import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 
-
+/**
+ * Trait that represents the main menu of the game.
+ */
 trait MainMenu extends AbstractView {
 
+  /**
+   * Method to display all the existing adventures.
+   *
+   * @param stories set of strings containing the adventures title.
+   */
   def setStories(stories: Set[String]): Unit
 
 }
@@ -25,6 +32,7 @@ object MainMenu {
     private object MainMenuValues {
       val LabelSize = 25
     }
+
     private var _stories: Set[String] = Set()
     this.setLayout(new BorderLayout())
 

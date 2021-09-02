@@ -13,6 +13,14 @@ private object LabelValues {
 
 object SqSwingLabel {
 
+  /**
+   * Represents a custom label for ScalaQuest.
+   *
+   * @param text  the text to show in the label.
+   * @param color the foreground color of the label.
+   * @param size  the label text sixe.
+   * @param bold  true if the label's text needs to be bold.
+   */
   class SqSwingLabel(text: String, color: Color, size: Int, bold: Boolean) extends JLabel {
     this.setText(text)
     this.setForeground(color)
@@ -24,6 +32,15 @@ object SqSwingLabel {
 }
 
 object SqSwingCenteredLabel {
+
+  /**
+   * Represents a custom centered label for ScalaQuest.
+   *
+   * @param text  the text to show in the label.
+   * @param color the foreground color of the label.
+   * @param size  the label text sixe.
+   * @param bold  true if the label's text needs to be bold.
+   */
   class SqSwingCenteredLabel(text: String, color: Color, size: Int, bold: Boolean)
     extends SqSwingLabel(text, color, size, bold) {
     this.setHorizontalAlignment(SwingConstants.CENTER)

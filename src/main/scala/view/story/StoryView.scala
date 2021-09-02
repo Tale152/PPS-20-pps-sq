@@ -16,10 +16,25 @@ import java.awt.event.ActionEvent
  */
 trait StoryView extends AbstractView {
 
+  /**
+   * Shows the user new events by creating SqSwingDialogs.
+   *
+   * @param eventsList a list containing every new event name.
+   */
   def displayEvent(eventsList: List[String]): Unit
 
+  /**
+   * Allows the narrative to be rendered.
+   *
+   * @param narrative the narrative to display.
+   */
   def setNarrative(narrative: String): Unit
 
+  /**
+   * Allows rendering of all of the possible pathways.
+   *
+   * @param pathways the pathways to render.
+   */
   def setPathways(pathways: Set[Pathway]): Unit
 }
 
@@ -41,10 +56,11 @@ object StoryView {
         SqSwingDialog("New Event!", eventsList.head, List(
           SqSwingButton("ok", (_: ActionEvent) => {
             displayEvent(eventsNameList)
-          })),closable = false)
+          })), closable = false)
         eventsNameList = eventsList.drop(1)
       }
     }
+
     override def populateView(): Unit = {
       this.add(
         ControlsPanel(
