@@ -6,10 +6,11 @@ import controller.util.ResourceName
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
-import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
+import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
+import javax.swing.SwingConstants
 
 
 trait MainMenu extends AbstractView {
@@ -31,7 +32,10 @@ object MainMenu {
 
     override def populateView(): Unit = {
       import MainMenuValues._
-      this.add(SqSwingCenteredLabel("Please select a story", size = LabelSize), BorderLayout.NORTH)
+      this.add(
+        SqSwingLabel("Please select a story", labelSize = LabelSize, alignment = SwingConstants.CENTER),
+        BorderLayout.NORTH
+      )
       this.add(Scrollable(VerticalButtons(generateButtons())))
       this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => applicationController.close())))), BorderLayout.SOUTH)
     }

@@ -11,7 +11,7 @@ object PlayerNamePanel {
    */
   class PlayerNamePanel(name: String) extends SqSwingFlowPanel {
     private val fontSize = 30
-    this.add(SqSwingLabel("Player: " + name, size = fontSize, bold = true))
+    this.add(SqSwingLabel("Player: " + name, labelSize = fontSize, bold = true))
   }
 
   def apply(name: String): PlayerNamePanel = new PlayerNamePanel(name)

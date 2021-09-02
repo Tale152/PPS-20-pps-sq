@@ -16,9 +16,9 @@ object StatValuePanel {
    */
   class StatValuePanel(stat: (StatName, (Int, Int))) extends SqSwingFlowPanel {
     private val fontSize = 25
-    this.add(SqSwingLabel(stat._1.toString + "[", size = fontSize))
+    this.add(SqSwingLabel(stat._1.toString + "[", labelSize = fontSize))
     addValueLabel(stat)
-    this.add(SqSwingLabel("]", size = fontSize))
+    this.add(SqSwingLabel("]", labelSize = fontSize))
 
     private def addValueLabel(stat: (StatName, (Int, Int))): Unit = {
       var statColor: Color = Color.WHITE

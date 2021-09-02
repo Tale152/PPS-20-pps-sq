@@ -47,7 +47,7 @@ case class VerticalButtons(buttons: Set[SqSwingButton]) extends SqSwingGridBagPa
             SoundPlayer.playNavigationSound()
           case KeyEvent.VK_ENTER =>
             buttonsList(_selected).doClick()
-          case _ => {/* does nothing, doesn't throw exception */}
+          case _ => /* does nothing, doesn't throw exception */
         }
         buttonsList(_selected).changeAppearance(Color.GREEN)
       }

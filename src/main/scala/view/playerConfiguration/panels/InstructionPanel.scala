@@ -13,7 +13,7 @@ object InstructionPanel {
    * Panel contained in [[view.playerConfiguration.PlayerConfigurationView]]; renders instructions for the player
    */
   class InstructionPanel() extends SqSwingFlowPanel {
-    this.add(SqSwingLabel("Distribute points to set your character's stats", bold = true, size = TextSize))
+    this.add(SqSwingLabel("Distribute points to set your character's stats", bold = true, labelSize = TextSize))
   }
 
   def apply(): InstructionPanel = new InstructionPanel()

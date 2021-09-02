@@ -1,9 +1,10 @@
 package view.playerConfiguration.panels
 
 import model.characters.properties.stats.Stat
-import view.util.scalaQuestSwingComponents.{SqSwingBorderPanel, SqSwingButton, SqSwingCenteredLabel}
+import view.util.scalaQuestSwingComponents.{SqSwingBorderPanel, SqSwingButton, SqSwingLabel}
 
 import java.awt.BorderLayout
+import javax.swing.SwingConstants
 
 object StatEditPanel {
 
@@ -22,7 +23,10 @@ object StatEditPanel {
   class StatEditPanel(stat: Stat, remainingPoints: Int, onMinus: Unit => Unit, onPlus: Unit => Unit)
     extends SqSwingBorderPanel {
     this.add(SqSwingButton("-", _ => onMinus(stat.value), stat.value != 1), BorderLayout.WEST)
-    this.add(SqSwingCenteredLabel(stat.statName.toString + " [" + stat.value.toString + "]"), BorderLayout.CENTER)
+    this.add(SqSwingLabel(
+      stat.statName.toString + " [" + stat.value.toString + "]",
+      alignment = SwingConstants.CENTER
+    ), BorderLayout.CENTER)
     this.add(SqSwingButton("+", _ => onPlus(stat.value), remainingPoints != 0), BorderLayout.EAST)
   }
 
