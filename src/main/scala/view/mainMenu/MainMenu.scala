@@ -5,7 +5,6 @@ import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, 
 import controller.util.ResourceName
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.YesNoSqSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
 
@@ -45,7 +44,7 @@ object MainMenu {
         } else {
           loadStoryNewGame(storyPath)
         }
-      })
+      }, buttonEnabled = true)
     }
 
     private def generateOptionPane(storyPath: String, progressPath: String): Unit = {

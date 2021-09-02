@@ -3,7 +3,7 @@ package view.util.common
 import view.Frame
 import view.Frame.frame
 import view.util.SoundPlayer
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
+import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingGridBagPanel
 
 import java.awt.event.{KeyEvent, KeyListener}

@@ -1,10 +1,10 @@
 package view.inventory.panels.inventoryPanel
 
 import controller.game.subcontroller.InventoryController
-import model.characters.{Character}
+import model.characters.Character
 import model.items.{EquipItem, Item, KeyItem}
 import view.inventory.panels.TargetChooser
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
+import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.YesNoSqSwingDialog
 
 import java.awt.event.{ActionEvent, ActionListener}
@@ -30,7 +30,7 @@ private[inventoryPanel] object InventoryPanelButtons {
       }
     }
 
-    new SqSwingButton(
+    SqSwingButton(
       useButtonName,
       useButtonActionListener, item match {
         case _: KeyItem => false
@@ -38,18 +38,15 @@ private[inventoryPanel] object InventoryPanelButtons {
       })
     }
 
-    def discardButton(inventoryController: InventoryController, item: Item): SqSwingButton =
-    new SqSwingButton(
+    def discardButton(inventoryController: InventoryController, item: Item): SqSwingButton = SqSwingButton(
       "Discard",
       (_: ActionEvent) => YesNoSqSwingDialog("Really discard?",
         "Do you really want to discard this Item?\n There's no coming back.",
         (_: ActionEvent) => inventoryController.discard(item)
-      ), true)
+      ))
 
   def goBackButton(): SqSwingButton =
-    new SqSwingButton(
+    SqSwingButton(
       "Go Back",
-      (_: ActionEvent) => {},
-      true
-    )
+      (_: ActionEvent) => {})
 }

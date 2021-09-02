@@ -1,7 +1,6 @@
 package view.util.scalaQuestSwingComponents
 
 import view.Frame.frame
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 
 import java.awt.BorderLayout
 import java.awt.event.{ActionEvent, ActionListener}
@@ -35,8 +34,8 @@ object SqSwingDialog {
     private def yesNoButtonList(yesActionListener: ActionListener,
                                 noActionListener: ActionListener): List[SqSwingButton] = {
       List(
-        new SqSwingButton("yes", yesActionListener, true),
-        new SqSwingButton("no", noActionListener, true)
+        SqSwingButton("yes", yesActionListener, buttonEnabled = true),
+        SqSwingButton("no", noActionListener,  buttonEnabled = true)
       )
     }
 
