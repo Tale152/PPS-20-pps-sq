@@ -6,7 +6,7 @@ import StatName.StatName
  * Trait that represents a stat, which is a value assigned to a specific StatName.
  * It is used to define a certain statistic of a character.
  */
-trait Stat extends StatDescriptor {
+sealed trait Stat extends StatDescriptor {
   val value: Int
 }
 

@@ -13,7 +13,7 @@ import javax.swing.{BorderFactory, SwingConstants}
 /**
  * A GUI that allows the user to view, use and discard the items in his possession.
  */
-trait InventoryView extends AbstractView {
+sealed trait InventoryView extends AbstractView {
 
   /**
    * Show the items on the View.

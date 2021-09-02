@@ -16,7 +16,7 @@ import javax.swing.BoxLayout
  * @see [[model.characters.properties.PropertiesContainer]]
  * @see [[model.characters.Player]]
  */
-trait PlayerConfigurationView extends AbstractView {
+sealed trait PlayerConfigurationView extends AbstractView {
 
   /**
    * Allow to set the number of remaining points to be rendered

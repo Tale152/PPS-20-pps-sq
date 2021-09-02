@@ -18,7 +18,7 @@ import view.playerConfiguration.PlayerConfigurationView
  * @see [[ApplicationController]]
  * @see [[model.characters.properties.stats.Stat]]
  */
-trait PlayerConfigurationController extends Controller {
+sealed trait PlayerConfigurationController extends Controller {
 
   /**
    * Used by the PlayerConfigurationView when the user modifies the value of a stat.

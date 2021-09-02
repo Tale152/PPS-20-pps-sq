@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent
  *
  * @see [[controller.game.subcontroller.ProgressSaverController]]
  */
-trait ProgressSaverView extends AbstractView {
+sealed trait ProgressSaverView extends AbstractView {
   def showSuccessFeedback(onOk: Unit => Unit): Unit
 
   def showFailureFeedback(onOk: Unit => Unit): Unit

@@ -7,7 +7,7 @@ import model.items.EquipItemType.EquipItemType
 /**
  * Trait that represents an Item.
  */
-trait Item extends Serializable with Ordered[Item] {
+sealed trait Item extends Serializable with Ordered[Item] {
   val name: String
   val description: String
   def use(owner: Character)(target: Character = owner): Unit

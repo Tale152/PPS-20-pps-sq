@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent
 /**
  * Represents the GUI for the navigation between [[model.nodes.StoryNode]]
  */
-trait StoryView extends AbstractView {
+sealed trait StoryView extends AbstractView {
 
   def setNarrative(narrative: String): Unit
 

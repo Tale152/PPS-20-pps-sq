@@ -13,7 +13,7 @@ import java.awt.event.ActionEvent
 import javax.swing.SwingConstants
 
 
-trait MainMenu extends AbstractView {
+sealed trait MainMenu extends AbstractView {
 
   def setStories(stories: Set[String]): Unit
 

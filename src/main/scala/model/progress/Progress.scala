@@ -8,7 +8,7 @@ import model.characters.Player
  * @see [[model.progress.SerializableHistory]]
  * @see [[model.characters.Player]]
  */
-trait Progress extends Serializable {
+sealed trait Progress extends Serializable {
   def serializableHistory: SerializableHistory
   def player: Player
 }

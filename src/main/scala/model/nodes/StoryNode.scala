@@ -7,7 +7,7 @@ import model.characters.Enemy
  * Trait that represents a story node, which is used to have a reference of all the current possible pathways and
  * of what is happening in the story.
  */
-trait StoryNode extends Serializable{
+sealed trait StoryNode extends Serializable{
   val id: Int
   val narrative: String
   val enemy: Option[Enemy]

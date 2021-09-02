@@ -6,7 +6,7 @@ import view.util.scalaQuestSwingComponents.SqSwingPanel
  * A trait that represents a visual interface. The user interacts with the View.
  * A View is contained in a [[controller.Controller]].
  */
-trait View {
+sealed trait View {
 
   /**
    * Renders the view
