@@ -8,6 +8,8 @@ protected object EdgeInfo {
 
     def isFinalNode: Boolean = pathway.destinationNode.pathways.isEmpty
 
+    def isConditionalEdge: Boolean = pathway.prerequisite.nonEmpty
+
     def startNodeId: String = startingNode.id.toString
 
     def endNodeId: String = pathway.destinationNode.id.toString

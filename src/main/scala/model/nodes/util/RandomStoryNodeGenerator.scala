@@ -11,8 +11,8 @@ import scala.collection.mutable.{Set => MutableSet}
 object RandomStoryNodeGenerator {
 
   private object RandomStoryParams{
-    val MaxNodesInLayer = 5
-    val Layers = 7
+    val MaxNodesInLayer = 3
+    val Layers = 10
   }
 
   import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams.{Layers, MaxNodesInLayer}

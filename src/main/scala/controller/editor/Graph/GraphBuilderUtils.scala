@@ -8,15 +8,24 @@ protected object GraphBuilderUtils {
 
   def truncateString(s: String): String = {
     var maxChar = s.substring(0, Math.min(s.length(), MaxStringLength))
-    if (maxChar.contains(" ")){
-      maxChar = maxChar.substring(0, maxChar.lastIndexOf(" "))
+    if (maxChar.length < s.length && maxChar.contains(" ")){
+      maxChar = maxChar.substring(0, maxChar.lastIndexOf(" ")) + "..."
     }
-    maxChar + "..."
+    maxChar
   }
 
-  def getNodeStyle(color: String): String = "shape:circle;fill-color: " + color + "; text-alignment: under;"
+  def getEdgeStyle(color: String): String = "fill-color: " + color + ";"
 
-  def getCorrectColor(active: Boolean, onTrue: String, onFalse: String): String =
+  def getCorrectEdgeColor(active: Boolean, onTrue: String, onFalse: String): String =
+    if (active) {
+      getEdgeStyle(onTrue)
+    } else {
+      getEdgeStyle(onFalse)
+    }
+
+  def getNodeStyle(color: String): String = "shape:circle;fill-color: " + color + "; text-alignment: under; size: 20px;"
+
+  def getCorrectNodeColor(active: Boolean, onTrue: String, onFalse: String): String =
     if (active) {
       getNodeStyle(onTrue)
     } else {
@@ -25,8 +34,8 @@ protected object GraphBuilderUtils {
 
   def getCorrectString(active: Boolean, onTrue: String, onFalse: String): String =
     if (active) {
-    onTrue
-  } else {
-    onFalse
-  }
+      onTrue
+    } else {
+      onFalse
+    }
 }

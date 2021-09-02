@@ -49,12 +49,12 @@ object GraphBuilder {
 
     for(edge <- computeNode(routeNode, Set())._1){
       graph.addEdge(edge.getEdgeId, edge.startNodeId, edge.endNodeId)
-      graph
-        .getEdge(edge.getEdgeId)
-        .setAttribute(LabelAttribute, getCorrectString(printEdgeLabel, edge.getPathwayLabel, ""))
+      val newEdge = graph.getEdge(edge.getEdgeId)
+      newEdge.setAttribute(LabelAttribute, getCorrectString(printEdgeLabel, edge.getPathwayLabel, ""))
+      newEdge.setAttribute(StyleLabel, getCorrectEdgeColor(edge.isConditionalEdge, "purple", "black"))
       val newNode = graph.getNode(edge.endNodeId)
       newNode.setAttribute(LabelAttribute, getCorrectString(printNodeNarrative, edge.getEndNodeLabel, edge.endNodeId))
-      newNode.setAttribute(StyleLabel, getCorrectColor(edge.isFinalNode, FinalNodeColor, MidNodeColor))
+      newNode.setAttribute(StyleLabel, getCorrectNodeColor(edge.isFinalNode, FinalNodeColor, MidNodeColor))
     }
     val rNode = graph.getNode(routeNode.id.toString)
     rNode.setAttribute(StyleLabel, getNodeStyle(RouteNodeColor))
