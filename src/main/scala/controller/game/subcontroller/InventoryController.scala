@@ -76,11 +76,16 @@ object InventoryController {
       inventoryView.render()
     }
 
-    //TODO will change for fights
     /**
      * Defines the actions to do when the Controller execution is over.
      */
-    override def close(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
+    override def close(): Unit = {
+      if(targets().size == 1) {
+        gameMasterController.executeOperation(OperationType.StoryOperation)
+      } else {
+        gameMasterController.executeOperation(OperationType.BattleOperation)
+      }
+    }
 
     /**
      * @return the list of all the possible targets.
