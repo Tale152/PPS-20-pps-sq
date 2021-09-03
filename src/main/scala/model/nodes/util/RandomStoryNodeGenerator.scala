@@ -79,7 +79,7 @@ object RandomStoryNodeGenerator {
   private def setEnemy(): Option[Enemy] = {
     val statValue: Int = 5
     val maxPossibleHealth: Int = 100
-    val stats: Set[Stat] = Set(Stat(statValue, StatName.Speed), Stat(statValue, StatName.Defence))
+    val stats: Set[Stat] = Set(Stat(statValue, StatName.Dexterity), Stat(statValue, StatName.Constitution))
     rnd(EnemyProbability) match {
       case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
       case _ => None
