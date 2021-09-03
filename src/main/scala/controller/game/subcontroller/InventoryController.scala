@@ -47,12 +47,18 @@ object InventoryController {
 
     private val inventoryView: InventoryView = InventoryView(this)
 
+    private def updateView(): Unit = {
+      inventoryView.setItems(storyModel.player.inventory)
+      inventoryView.render()
+    }
+
     /**
      * Use the selected item.
      *
      * @param item the item to use.
      */
-    override def use(item: Item)(target: Character): Unit = item.use(storyModel.player)(target)
+    override def use(item: Item)(target: Character): Unit = item.use(storyModel.player)(target); updateView()
+
 
     /**
      * Discard the selected item. Item will be lost forever.
@@ -66,6 +72,7 @@ object InventoryController {
         case _ =>
       }
       storyModel.player.inventory = storyModel.player.inventory.filter(_ != item)
+      updateView()
     }
 
     /**
