@@ -2,7 +2,8 @@ package view.editor
 
 import controller.ApplicationController
 import controller.editor.EditorController
-import controller.util.ResourceName
+import controller.util.ResourceName
+
 import view.AbstractView
 import view.editor.forms.DeletePathway.showDeletePathwayForm
 import view.editor.forms.DeleteStoryNode.showDeleteStoryNodeForm
@@ -14,7 +15,10 @@ import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
 
-import java.awt.BorderLayout
+import java.awt.BorderLayout
+
+
+
 
 trait EditorView extends AbstractView
 
@@ -41,7 +45,7 @@ object EditorView {
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(
-        ("q", ("[Q] Quit", _ => ApplicationController.execute())),
+        ("q", ("[Q] Quit", _ => editorController.close())),
         ("s", ("[S] Save", _ => SqFileChooser.showFileSave(
           "Save story",
           editorController.save,

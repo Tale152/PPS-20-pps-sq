@@ -51,7 +51,7 @@ object EditorController {
     override def execute(): Unit = editorView.render()
 
     override def close(): Unit = {
-      graphViewer.setCloseFramePolicy(Viewer.CloseFramePolicy.HIDE_ONLY)
+      graphViewer.setCloseFramePolicy(Viewer.CloseFramePolicy.CLOSE_VIEWER)
       graphViewer.close()
       ApplicationController.execute()
     }
