@@ -5,7 +5,7 @@ import StatName.StatName
 /**
  * Trait that represents a Stat Modifier, which is used to apply a change to a specific stat.
  */
-trait StatModifier extends StatDescriptor {
+sealed trait StatModifier extends StatDescriptor {
   def modifyStrategy: Int => Int
 }
 

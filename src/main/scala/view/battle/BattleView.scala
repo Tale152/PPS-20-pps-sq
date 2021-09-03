@@ -4,8 +4,7 @@ import controller.game.subcontroller.BattleController
 import view.AbstractView
 import view.story.NarrativePanel
 import view.util.common.ControlsPanel
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
-import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
@@ -37,9 +36,8 @@ object BattleView {
           List(
             ("i", ("[I] Inventory", _ => battleController.goToInventory())),
             ("q", ("[Q] Quit", _ => {
-              SqSwingDialog("Exit Confirm", "Do you really want to exit the game?",
-                List(new SqSwingButton("yes", (_: ActionEvent) => battleController.close(), true),
-                  new SqSwingButton("no", (_: ActionEvent) => {}, true)))
+              SqYesNoSwingDialog("Exit Confirm", "Do you really want to exit the game?",
+                (_: ActionEvent) => battleController.close(), (_: ActionEvent) => {})
             })))),
             BorderLayout.NORTH
           )

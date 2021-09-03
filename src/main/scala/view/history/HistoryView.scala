@@ -17,7 +17,7 @@ import javax.swing.BorderFactory
  * @see [[model.nodes.StoryNode]]
  * @see [[model.nodes.Pathway]]
  */
-trait HistoryView extends AbstractView {
+sealed trait HistoryView extends AbstractView {
   /**
    * Allow to set the previous choices made by player to be rendered.
    *

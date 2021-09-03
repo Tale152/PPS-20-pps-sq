@@ -3,7 +3,7 @@ package view.util.common
 import view.Frame
 import view.Frame.frame
 import view.util.SoundPlayer
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
+import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingGridBagPanel
 
 import java.awt.event.{KeyEvent, KeyListener}
@@ -47,7 +47,7 @@ case class VerticalButtons(buttons: Set[SqSwingButton]) extends SqSwingGridBagPa
             SoundPlayer.playNavigationSound()
           case KeyEvent.VK_ENTER =>
             buttonsList(_selected).doClick()
-          case _ => {/* does nothing, doesn't throw exception */}
+          case _ => /* does nothing, doesn't throw exception */
         }
         buttonsList(_selected).changeAppearance(Color.GREEN)
       }

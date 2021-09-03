@@ -1,7 +1,6 @@
 package view.util.scalaQuestSwingComponents
 
 import view.Frame.frame
-
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.{JButton, JDialog, WindowConstants}
@@ -9,7 +8,7 @@ import javax.swing.{JButton, JDialog, WindowConstants}
 object SqSwingDialog {
 
   /**
-   * * Represents a custom dialog for ScalaQuest.
+   * Represents a custom dialog for ScalaQuest.
    *
    * @param titleText the title of the Dialog.
    * @param phrase    a description shown to the user.

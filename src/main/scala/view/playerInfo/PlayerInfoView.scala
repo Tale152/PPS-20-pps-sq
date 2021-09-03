@@ -19,7 +19,7 @@ import javax.swing.border.TitledBorder
  * @see [[model.characters.properties.PropertiesContainer]]
  * @see [[model.characters.Player]]
  */
-trait PlayerInfoView extends AbstractView {
+sealed trait PlayerInfoView extends AbstractView {
   /**
    * Allow to set the stats to be rendered.
    *

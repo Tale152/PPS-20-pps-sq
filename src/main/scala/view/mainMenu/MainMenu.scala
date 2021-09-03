@@ -5,17 +5,16 @@ import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, 
 import controller.util.ResourceName
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
-import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
-import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
-
+import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
+import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
+import javax.swing.SwingConstants
 
 /**
  * Trait that represents the main menu of the game.
  */
-trait MainMenu extends AbstractView {
+sealed trait MainMenu extends AbstractView {
 
   /**
    * Method to display all the existing adventures.
@@ -40,7 +39,10 @@ object MainMenu {
 
     override def populateView(): Unit = {
       import MainMenuValues._
-      this.add(SqSwingCenteredLabel("Please select a story", size = LabelSize), BorderLayout.NORTH)
+      this.add(
+        SqSwingLabel("Please select a story", labelSize = LabelSize, alignment = SwingConstants.CENTER),
+        BorderLayout.NORTH
+      )
       this.add(Scrollable(VerticalButtons(generateButtons())))
       this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => applicationController.close())))), BorderLayout.SOUTH)
     }
@@ -57,15 +59,11 @@ object MainMenu {
     }
 
     private def generateOptionPane(storyPath: String, progressPath: String): Unit = {
-      SqSwingDialog("Load progress", "Would you like to continue with your progresses?",
-        List(new SqSwingButton("yes",
-          (_: ActionEvent) => loadStoryWithProgress(
-            storyPath,
-            progressPath
-          ), true), new SqSwingButton("no",
-          (_: ActionEvent) => {
-            loadStoryNewGame(storyPath)
-          }, true)))
+      SqYesNoSwingDialog(
+        "Load progress",
+        "Would you like to continue with your progresses?",
+        (_: ActionEvent) => loadStoryWithProgress(storyPath, progressPath),
+        (_: ActionEvent) => loadStoryNewGame(storyPath))
     }
   }
 

@@ -59,7 +59,7 @@ object RandomStoryNodeGenerator {
         }
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
-        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet,
+        res = res :+ StoryNode(id, narrative, None, newNodePathways.toSet,
           List(ItemEvent(KeyItem("sword", "it's a sword"))))
       }
       res
@@ -80,9 +80,7 @@ object RandomStoryNodeGenerator {
     val statValue: Int = 5
     val maxPossibleHealth: Int = 100
     val stats: Set[Stat] = Set(Stat(statValue, StatName.Speed), Stat(statValue, StatName.Defence))
-    val rand = rnd(EnemyProbability)
-    println(rand)
-    rand match {
+    rnd(EnemyProbability) match {
       case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
       case _ => None
     }

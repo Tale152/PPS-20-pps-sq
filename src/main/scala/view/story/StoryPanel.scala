@@ -3,7 +3,6 @@ package view.story
 import model.nodes.Pathway
 import view.Frame
 import view.util.common.{Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingButton, SqTextArea}
 
 import java.awt.{Color, Dimension}
