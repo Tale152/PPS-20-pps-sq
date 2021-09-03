@@ -54,7 +54,7 @@ object PlayerConfigurationController {
 
   class PlayerConfigurationControllerImpl(private val startingNode: StoryNode) extends PlayerConfigurationController {
 
-    private val statConfigurationView: PlayerConfigurationView = PlayerConfigurationView(this)
+    private val playerConfigurationView: PlayerConfigurationView = PlayerConfigurationView(this)
     private var _stats: List[Stat] = List(
       Stat(InitialStatValue, StatName.Wisdom),
       Stat(InitialStatValue, StatName.Dexterity),
@@ -66,9 +66,9 @@ object PlayerConfigurationController {
     private var _remainingPoints: Int = InitialRemainingPointsValue
 
     private def updateView(): Unit = {
-      statConfigurationView.setStats(_stats)
-      statConfigurationView.setRemainingPoints(_remainingPoints)
-      statConfigurationView.render()
+      playerConfigurationView.setStats(_stats)
+      playerConfigurationView.setRemainingPoints(_remainingPoints)
+      playerConfigurationView.render()
     }
 
     override def execute(): Unit = updateView()
