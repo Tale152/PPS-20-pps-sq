@@ -48,7 +48,6 @@ sealed trait ApplicationController extends Controller {
 
 object ApplicationController extends ApplicationController {
 
-  ResourceLoader.loadResources()
   private val mainMenu: MainMenu = MainMenu(this)
 
   private def loadStoryNames(): Set[String] = {
