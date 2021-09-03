@@ -62,6 +62,8 @@ object ProgressSerializer {
           throw new IllegalArgumentException()
         }
       }
+      // the events on the final node (the node where to start in the progress) have already been processed
+      result.last.removeAllEvents()
       result
     } else {
       throw new IllegalArgumentException("The starting node and the deserialized node are not the same.")

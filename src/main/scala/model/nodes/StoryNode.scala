@@ -14,6 +14,8 @@ sealed trait StoryNode extends Serializable {
   def pathways: Set[Pathway]
 
   def events: List[Event]
+
+  def removeAllEvents(): Unit
 }
 
 object StoryNode {
@@ -38,17 +40,24 @@ object StoryNode {
                               override val narrative: String,
                               override val enemy: Option[Enemy],
                               override val pathways: Set[Pathway],
-                              override val events: List[Event]) extends StoryNode {
+                              eventList: List[Event]) extends StoryNode {
     require(
       !id.isNaN &&
         narrative != null && narrative.trim.nonEmpty &&
         enemy != null &&
         pathways.forall(p => !pathways.exists(o => !o.eq(p) && o.destinationNode.eq(p.destinationNode))) &&
         containsOnePathwayWithNoCondition(pathways) &&
-        events != null
+        eventList != null
     )
+
+    private var _events: List[Event] = eventList
 
     private def containsOnePathwayWithNoCondition(pathways: Set[Pathway]): Boolean =
       if (pathways.nonEmpty) pathways.exists(p => p.prerequisite.isEmpty) else true
+
+    override def events: List[Event] = _events
+
+    override def removeAllEvents(): Unit = _events = List()
+
   }
 }
