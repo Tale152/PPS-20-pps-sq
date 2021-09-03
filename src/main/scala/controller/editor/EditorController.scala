@@ -106,6 +106,8 @@ object EditorController {
       nodes._2.find(n => n.id == id).get.narrative = nodeNarrative
       if(id != nodes._1.id){
         setupNonRouteNode(id.toString)
+      } else {
+        setupRouteNode()
       }
     }
 
@@ -113,6 +115,18 @@ object EditorController {
       nodes._2.find(n => n.id == startNodeId).get
         .mutablePathways.find(p => p.destinationNode.id == endNodeId).get.description = pathwayDescription
       setupEdge(startNodeId.toString, endNodeId.toString)
+    }
+
+    private def setupRouteNode(): Unit = {
+      ElementStyle.decorateRouteNode(
+        graph.getNode(nodes._1.id.toString),
+        nodes._1.events.nonEmpty,
+        nodes._1.enemy.nonEmpty
+      )
+      ElementLabel.putLabelOnElement(graph.getNode(nodes._1.id.toString), printNodeNarrative)(
+        StringUtils.truncateString(StringUtils.buildLabel(nodes._1.id.toString, nodes._1.narrative)),
+        nodes._1.id.toString
+      )
     }
 
     private def setupNonRouteNode(nodeId: String): Unit = {
@@ -124,7 +138,8 @@ object EditorController {
         mutableStoryNode.pathways.isEmpty
       )
       ElementLabel.putLabelOnElement(graph.getNode(nodeId), printNodeNarrative)(
-        StringUtils.buildLabel(mutableStoryNode.id.toString, mutableStoryNode.narrative), mutableStoryNode.id.toString
+        StringUtils.truncateString(StringUtils.buildLabel(mutableStoryNode.id.toString, mutableStoryNode.narrative)),
+        mutableStoryNode.id.toString
       )
     }
 
@@ -145,7 +160,13 @@ object EditorController {
 
     override def changeNodesNarrativeVisibility(): Unit = {
       printNodeNarrative = !printNodeNarrative
-      graph.nodes().forEach(n => if(n.getId != nodes._1.id.toString) setupNonRouteNode(n.getId))
+      graph.nodes().forEach(n => {
+        if(n.getId != nodes._1.id.toString) {
+          setupNonRouteNode(n.getId)
+        } else {
+          setupRouteNode()
+        }
+      })
     }
 
     override def changePathwaysDescriptionVisibility(): Unit = {
