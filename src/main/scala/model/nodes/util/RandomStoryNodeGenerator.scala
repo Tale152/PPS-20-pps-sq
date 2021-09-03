@@ -59,7 +59,7 @@ object RandomStoryNodeGenerator {
         }
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
-        res = res :+ StoryNode(id, narrative, None, newNodePathways.toSet,
+        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet,
           List(ItemEvent(KeyItem("sword", "it's a sword"))))
       }
       res

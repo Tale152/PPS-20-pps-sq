@@ -1,6 +1,6 @@
 package controller.game.subcontroller
 
-import controller.game.GameMasterController
+import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
 import model.characters.properties.stats.StatName
 import model.characters.{Character, Enemy, Player}
@@ -12,6 +12,7 @@ sealed trait BattleController extends SubController {
   def attemptEscape(): Unit
   def useItem(user: Character, item: Item, target: Character): Unit
   def goToInventory(): Unit
+  def goToStory(): Unit
 }
 
 object BattleController {
@@ -81,21 +82,20 @@ object BattleController {
      */
     override def close(): Unit = gameMasterController.close()
 
-    override def goToInventory(): Unit = ??? //gameMasterController.executeOperation(OperationType.InventoryController)
+    override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
+
+    override def goToStory(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
 
     private def damage(attacker: Character, target: Character): Int =
       (attacker.properties.stat(StatName.Strength).value + attacker.properties.stat(StatName.Dexterity).value) -
         target.properties.stat(StatName.Defence).value
 
     private def checkBattleResult(): Unit = {
-      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
-      val player: Player = storyModel.player
-      if (player.properties.health.currentPS == 0) {
-        //the battle is lost
-        battleView.narrative("Battle lost")
-      } else if (enemy.get.properties.health.currentPS == 0){
-        //the battle is won
-        battleView.narrative("Battle won")
+      val enemy: Enemy = storyModel.currentStoryNode.enemy.get
+      if (storyModel.player.properties.health.currentPS == 0) {
+        battleView.battleResult(false)
+      } else if (enemy.properties.health.currentPS == 0){
+        battleView.battleResult(true)
       } else {
         //next round
       }
