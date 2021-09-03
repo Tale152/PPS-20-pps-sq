@@ -2,8 +2,9 @@ package controller
 
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.ResourceName.{storyDirectoryPath, storyProgressPath}
+import controller.util.ResourceLoader
+import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
+import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import view.mainMenu.MainMenu
@@ -47,6 +48,7 @@ sealed trait ApplicationController extends Controller {
 
 object ApplicationController extends ApplicationController {
 
+  ResourceLoader.loadResources()
   private val mainMenu: MainMenu = MainMenu(this)
 
   private def loadStoryNames(): Set[String] = {

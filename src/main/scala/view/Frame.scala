@@ -1,6 +1,6 @@
 package view
 
-import controller.util.ResourceName.resourceAsInputStream
+import controller.util.Resources.resourceAsInputStream
 import view.util.scalaQuestSwingComponents.SqSwingBorderPanel
 
 import java.awt._

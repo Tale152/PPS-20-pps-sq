@@ -2,8 +2,7 @@ package controller
 
 import controller.util.DirectoryInitializer.StoryPopulationStrategy.TestStoryPopulation
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.ResourceName.MainDirectory.TempDirectory
-import controller.util.ResourceName.{gameDirectoryPath, storyDirectoryPath, storyProgressPath, testRandomStoryName}
+import controller.util.Resources.ResourceName._
 import controller.util.serialization.FolderUtil.createFolderIfNotPresent
 import org.scalatest.{BeforeAndAfterAll, DoNotDiscover}
 import specs.FlatTestSpec
@@ -16,7 +15,7 @@ import java.io.File
 @DoNotDiscover
 class ApplicationControllerTest extends FlatTestSpec with BeforeAndAfterAll {
 
-  val applicationControllerTestDirectory : String  = TempDirectory + "/applicationController"
+  val applicationControllerTestDirectory : String  = MainDirectory.TempDirectory + "/applicationController"
   val gameDirectory = new File(gameDirectoryPath(applicationControllerTestDirectory))
   val storiesDirectory = new File(storyDirectoryPath(applicationControllerTestDirectory))
 
