@@ -40,14 +40,18 @@ object GraphBuilder {
       (edgesResult, computedResult)
     }
 
-    for(edgeInfo <- computeNode(routeNode, Set())._1){
-      graph.addEdge(edgeInfo.getEdgeId, edgeInfo.startNodeId, edgeInfo.endNodeId)
-      val newEdge = graph.getEdge(edgeInfo.getEdgeId)
-      ElementLabel.putLabelOnElement(newEdge, printEdgeLabel)(edgeInfo.getPathwayLabel, "")
-      ElementStyle.decorateEdge(newEdge, edgeInfo.isConditionalEdge)
-      val newNode = graph.getNode(edgeInfo.endNodeId)
-      ElementLabel.putLabelOnElement(newNode, printNodeNarrative)(edgeInfo.getEndNodeLabel, edgeInfo.endNodeId)
-      ElementStyle.decorateNode(newNode, edgeInfo.isNodeWithEvents, edgeInfo.isNodeWithEnemy, edgeInfo.isFinalNode)
+    if(routeNode.pathways.nonEmpty){
+      for(edgeInfo <- computeNode(routeNode, Set())._1){
+        graph.addEdge(edgeInfo.getEdgeId, edgeInfo.startNodeId, edgeInfo.endNodeId)
+        val newEdge = graph.getEdge(edgeInfo.getEdgeId)
+        ElementLabel.putLabelOnElement(newEdge, printEdgeLabel)(edgeInfo.getPathwayLabel, edgeInfo.getEdgeId)
+        ElementStyle.decorateEdge(newEdge, edgeInfo.isConditionalEdge)
+        val newNode = graph.getNode(edgeInfo.endNodeId)
+        ElementLabel.putLabelOnElement(newNode, printNodeNarrative)(edgeInfo.getEndNodeLabel, edgeInfo.endNodeId)
+        ElementStyle.decorateNode(newNode, edgeInfo.isNodeWithEvents, edgeInfo.isNodeWithEnemy, edgeInfo.isFinalNode)
+      }
+    } else {
+      graph.addNode(routeNode.id.toString)
     }
 
     val rNode = graph.getNode(routeNode.id.toString)
