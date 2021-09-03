@@ -1,7 +1,8 @@
 package model.nodes.util
 
+import model.characters.properties.stats.StatName.Strength
 import model.characters.properties.stats.{StatModifier, StatName}
-import model.items.KeyItem
+import model.items.{ConsumableItem, EquipItem, EquipItemType, Item, KeyItem}
 import model.nodes.{ItemEvent, Pathway, StatEvent, StoryNode}
 
 import scala.util.Random
@@ -59,7 +60,7 @@ object RandomStoryNodeGenerator {
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
         res = res :+ StoryNode(id, narrative, None, newNodePathways.toSet,
-          List(ItemEvent(KeyItem("sword", "it's a sword"))))
+          List(ItemEvent(randomItem())))
       }
       res
     }
@@ -71,10 +72,24 @@ object RandomStoryNodeGenerator {
       "starting node, max remaining layers " + Layers,
       None,
       pathways.toSet,
-      List(ItemEvent(KeyItem("sword", "it's a sword")),
-        StatEvent(StatModifier(StatName.Strength, i => i + 5))))
+      List(ItemEvent(randomItem()), StatEvent(StatModifier(Strength, i => i + 5))))
   }
 
-  
+  private def randomItem(): Item = {
+    rnd(3) match {
+      case 1 => KeyItem("key-item", "Key items can't be used but are useful during the story.")
+      case 2 => ConsumableItem(
+        "consumable-item",
+        "Consumable items will disappear after use.",
+        c=> c.properties.health.currentPS += 10
+      )
+      case 3 => EquipItem(
+        "equip-item",
+        "Equip items can be equipped and will boost your stats.",
+        Set(StatModifier(StatName.Strength, v => v + 1)),
+        EquipItemType.Weapon
+      )
+    }
+  }
 
 }
