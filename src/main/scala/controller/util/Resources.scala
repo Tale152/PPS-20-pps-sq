@@ -3,7 +3,9 @@ package controller.util
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{interactionSoundEffectPath, navigationSoundEffectPath}
 
+import java.awt.image.BufferedImage
 import java.io.{BufferedInputStream, InputStream}
+import javax.imageio.ImageIO
 import javax.sound.sampled.{AudioInputStream, AudioSystem, Clip}
 
 /**
@@ -17,7 +19,7 @@ object Resources {
    * @param resourceName the resource name.
    * @return a [[javax.sound.sampled.Clip]] containing the sound.
    */
-  private def loadClip(resourceName: String): Clip = {
+  private def loadAudioClip(resourceName: String): Clip = {
 
     def _resourceAsAudioInputStream(resourceName: String): AudioInputStream = {
       val audioSrc : InputStream = resourceAsInputStream(resourceName)
@@ -30,9 +32,17 @@ object Resources {
     clip
   }
 
+  /**
+   * @param resourceName the resource name.
+   * @return a [[java.awt.image.BufferedImage]]
+   */
+  def loadImage(resourceName: String): BufferedImage = {
+    ImageIO.read(resourceAsInputStream(resourceName))
+  }
+
   object AudioClip {
-    lazy val interactionSoundClip: Clip = loadClip(interactionSoundEffectPath())
-    lazy val navigationSoundClip: Clip = loadClip(navigationSoundEffectPath())
+    lazy val interactionSoundClip: Clip = loadAudioClip(interactionSoundEffectPath())
+    lazy val navigationSoundClip: Clip = loadAudioClip(navigationSoundEffectPath())
   }
 
   /**
