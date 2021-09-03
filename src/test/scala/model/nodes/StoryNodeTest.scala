@@ -2,7 +2,7 @@ package model.nodes
 
 import mock.MockFactory
 import model.characters.Enemy
-import model.characters.properties.stats.{Stat, StatName}
+import model.characters.properties.stats.Stat
 import specs.{FlatTestSpec, SerializableSpec}
 
 class StoryNodeTest extends FlatTestSpec with SerializableSpec {
