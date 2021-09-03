@@ -1,7 +1,6 @@
 package model.nodes.util
 
-import model.characters.Enemy
-import model.characters.properties.stats.{Stat, StatModifier, StatName}
+import model.characters.properties.stats.{StatModifier, StatName}
 import model.items.KeyItem
 import model.nodes.{ItemEvent, Pathway, StatEvent, StoryNode}
 
@@ -19,7 +18,7 @@ object RandomStoryNodeGenerator {
     val EnemyProbability = 5
   }
 
-  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams.{Layers, MaxNodesInLayer, EnemyProbability}
+  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams.{Layers, MaxNodesInLayer}
 
   private def rnd(max: Int): Int = Random.nextInt(max) + 1
 

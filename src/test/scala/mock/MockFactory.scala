@@ -8,7 +8,14 @@ import model.nodes.{Pathway, StoryNode}
 object MockFactory {
 
   def mockSetOfStats(): Set[Stat] = {
-    Set(Stat(1, StatName.Speed))
+    Set(
+      Stat(1, StatName.Strength),
+      Stat(1, StatName.Constitution),
+      Stat(1, StatName.Wisdom),
+      Stat(1, StatName.Charisma),
+      Stat(1, StatName.Intelligence),
+      Stat(1, StatName.Dexterity)
+    )
   }
 
   def mockPlayer(maxPS: Int): Player = {

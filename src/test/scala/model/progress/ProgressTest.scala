@@ -1,14 +1,14 @@
 package model.progress
 
+import mock.MockFactory
 import model.characters.Player
-import model.characters.properties.stats.{Stat, StatName}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class ProgressTest extends FlatTestSpec with SerializableSpec{
 
   val serializableHistory: SerializableHistory = SerializableHistory(List(0,1,2))
   var undefinedSerializableHistory: SerializableHistory = _
-  val player: Player = Player("player", 1, Set(Stat(1, StatName.Wisdom)))
+  val player: Player = Player("player", 1, MockFactory.mockSetOfStats())
   var undefinedPlayer: Player = _
   val progress: Progress = Progress(serializableHistory, player)
 
