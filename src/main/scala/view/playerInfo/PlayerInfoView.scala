@@ -57,6 +57,7 @@ object PlayerInfoView {
     private val statPanel = new SqSwingGridPanel(0, 2) {}
     private val centerPanel = new SqSwingBorderPanel {}
     centerPanel.setBorder(border)
+
     this.setLayout(new BorderLayout())
 
     override def setStats(stats: List[(StatName, (Int, Int))]): Unit = _stats = stats

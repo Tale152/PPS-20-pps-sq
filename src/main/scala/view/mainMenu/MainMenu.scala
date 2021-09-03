@@ -3,7 +3,10 @@ package view.mainMenu
 import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.ResourceName
+import controller.util.serialization.StoryNodeSerializer.deserializeStory
+import model.nodes.StoryNode
 import view.AbstractView
+import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
@@ -11,6 +14,7 @@ import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingCenteredLabel}
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
+import javax.swing.JFileChooser
 
 
 trait MainMenu extends AbstractView {
@@ -34,7 +38,26 @@ object MainMenu {
       import MainMenuValues._
       this.add(SqSwingCenteredLabel("Please select a story", size = LabelSize), BorderLayout.NORTH)
       this.add(Scrollable(VerticalButtons(generateButtons())))
-      this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => applicationController.close())))), BorderLayout.SOUTH)
+      this.add(ControlsPanel(List(
+        ("q", ("[Q] Quit", _ => applicationController.close())),
+        ("e", ("[E] Editor", _ => {
+          SqSwingDialog(
+            "ScalaQuest",
+            "Do you want to create a new story or load an existing one?",
+            List(
+              SqSwingButton("New story", _ => ApplicationController.goToEditor(
+                StoryNode(0, "start", None, Set(), List()))
+              ),
+              SqSwingButton("Load story", _ => {
+                val chooser = SqFileChooser.getFileChooser("Load story")
+                if(chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                  ApplicationController.goToEditor(deserializeStory(chooser.getSelectedFile.getPath))
+                }
+              })
+            )
+          )
+        }))
+      )), BorderLayout.SOUTH)
     }
 
     private def generateButtons(): Set[SqSwingButton] = {

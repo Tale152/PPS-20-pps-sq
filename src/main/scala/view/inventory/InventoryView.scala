@@ -1,12 +1,11 @@
 package view.inventory
 
 import controller.game.subcontroller.InventoryController
-import model.characters.properties.stats.{StatModifier, StatName}
-import model.items.{ConsumableItem, EquipItem, EquipItemType, Item, KeyItem}
+import model.items.Item
 import view.AbstractView
 import view.inventory.panels.InventoryPanel
 import view.util.common.{ControlsPanel, Scrollable}
-import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingCenteredLabel}
+import view.util.scalaQuestSwingComponents.SqSwingCenteredLabel
 
 import java.awt.BorderLayout
 import javax.swing.BorderFactory
