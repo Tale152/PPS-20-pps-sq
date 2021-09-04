@@ -52,7 +52,7 @@ jobs:
         run: sbt ++${{ matrix.scala }} githubWorkflowCheck
 
       - name: Test (coverage enabled)
-        run: sbt ++${{ matrix.scala }} clean coverage test
+        run: sbt ++${{ matrix.scala }} clean coverage 'testOnly -- -l github-action'
 
       - name: Coverage
         run: sbt ++${{ matrix.scala }} coverageReport
