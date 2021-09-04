@@ -5,15 +5,18 @@ import mock.MockFactory.mockStoryModel
 import model.StoryModel
 import model.nodes.{Pathway, StoryNode}
 import specs.FlatTestSpec
+import specs.Tags.IgnoreGitHubAction
+
 
 class StoryControllerTest extends FlatTestSpec {
 
-  val playerMaxPS : Int = 100
+  val playerMaxPS: Int = 100
   val storyModel: StoryModel = mockStoryModel(playerMaxPS)
-  var gameMasterController: GameMasterController = GameMasterController(storyModel)
-  var storyController: StoryController = StoryController(gameMasterController, storyModel)
+  val gameMasterController: GameMasterController = GameMasterController(storyModel)
+  val storyController: StoryController = StoryController(gameMasterController, storyModel)
 
-  "Choosing a Pathway that does not belong to current node" should "throw IllegalArgumentException" in {
+  "Choosing a Pathway that does not belong to current node" should "throw IllegalArgumentException" taggedAs
+    IgnoreGitHubAction in {
     val incorrectNode: StoryNode = StoryNode(3, "narrative", None, Set.empty, List())
     val incorrectPathway: Pathway = Pathway("description", incorrectNode, None)
     intercept[IllegalArgumentException] {

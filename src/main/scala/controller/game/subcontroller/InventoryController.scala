@@ -57,7 +57,10 @@ object InventoryController {
      *
      * @param item the item to use.
      */
-    override def use(item: Item)(target: Character): Unit = item.use(storyModel.player)(target); updateView()
+    override def use(item: Item)(target: Character): Unit = {
+      item.use(storyModel.player)(target)
+      updateView()
+    }
 
 
     /**
