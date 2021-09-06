@@ -34,9 +34,30 @@ Alla fine del secondo Sprint siamo stati molto soddisfatti di vedere i progressi
 I task assegnati ai vari componenti del gruppo sono stati svolti in modo corretto.  
 È sorto un unico imprevisto non grave:
 - La serializzazione era inizialmente stata pensata in un formato differente. Si era pensato di utilizzare il linguaggio json per rappresentare la storia. Utilizzare la serializzazione di Scala si è rivelato tuttavia più semplice ed efficiente. Scala dispone di alcune librerie per la serializzazione e la deserializzazione in formato json ma tutte quante soffrono di limitazioni non facilmente risolvibili.
+
 ### Sprint 3 (21/08/2021 - 31/08/2021)
 #### Obiettivo
+In questo sprint ci siamo innanzitutto concentrati sull'obiettivo di terminare lo sviluppo del model nella sua interezza, non necessariamente integrandolo nei controller.  
+Questa scelta è stata presa da due necessità:  
+- la serializzazione delle storie crea dei file che, una volta modificato il model, risultano incompatibili;
+- la creazione, prevista per il prossimo sprint, dell'editor (che andrà a manipolare ogni aspetto del model).
+
+Vi è stato poi un importante focus sulla standardizzazione di molteplici aspetti lato view.
+Tra gli obiettivi raggiunti troviamo:
+- salvataggio dei progressi di una storia tramite serializzazione;
+- creazione di un menu principale tramite il quale poter scegliere una storia da giocare tra quelle disponibili;
+- integrazione shortcut da tastiera per velocizzare la navigazione all'interno del gioco;
+- integrazione effetti sonori al fine di fornire feedback audio all'utente;
+- creazione di inventario e oggetti (model);
+- creazione dei nemici (model).
+
+È stata effettuata, a fine sprint, una revisione del codice prodotto fin ora al fine di garantire uno standard qualitativo elevato.  
+Sotto il punto di vista ingegneristico inoltre, in questo sprint è cominciato lo studio di fattibilità per la realizzazione di un modulo prolog volto all'esplorazione di tutte le strade possibili all'interno di una storia.
+
 #### Considerazioni finali
+Questo sprint è stato molto denso di contenuti, con un notevole salto quantitativo a livello di feature introdotte. Anche sta volta i task sono stati svolti nei tempi previsti.  
+Poco prima della release è sorto un bug legato al caricamento da file quando il progetto veniva lanciato da sbt piuttosto che dal run integrato in IntelliJ.  
+Tramite un meeting comune siamo stati in grado di identificare il problema velocemente e porvi rimedio.
 ### Sprint 4 (date_start - date-end)
 #### Obiettivo
 #### Considerazioni finali
