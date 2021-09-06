@@ -1,18 +1,27 @@
 package view.battle.panels
 
-import model.characters.Character
+import java.awt.Color
 
-class CharacterPanel {
+import javax.swing.{BorderFactory, BoxLayout}
+import javax.swing.border.TitledBorder
+import view.util.scalaQuestSwingComponents.SqSwingBoxPanel
 
-  class CharacterPanel(character: Character) extends SqSwingFlowPanel {
-    private val fontSize = 25
-    this.add(SqSwingLabel("Health: " + health._1, if (health._1 == health._2) {
-      Color.GREEN
-    } else {
-      Color.RED
-    }, fontSize, bold = true))
-    this.add(SqSwingLabel("/" + health._2, Color.GREEN, fontSize, bold = true))
-  }
-
-  def apply(health: (Int, Int)): CharacterHealthPanel = new CharacterHealthPanel(health)
+/**
+ * A view component used in [[view.battle.BattleView]] to show the current status of the player and the enemy.
+ * @param playerName is the player name.
+ * @param playerHealth is a tuple of the current player health and the max health.
+ * @param enemyName is the enemy name.
+ * @param enemyHealth is a tuple of the current enemy health and the max health.
+ */
+case class OpponentsPanel(playerName: String, playerHealth: (Int, Int), enemyName: String, enemyHealth: (Int, Int))
+  extends SqSwingBoxPanel(BoxLayout.Y_AXIS) {
+  val border: TitledBorder = BorderFactory.createTitledBorder(
+    BorderFactory.createLineBorder(Color.GRAY), "Battle opponents"
+  )
+  border.setTitleColor(Color.WHITE)
+  this.setBorder(border)
+  this.add(CharacterPanel("Player", playerName, playerHealth))
+  this.add(SeparatorPanel())
+  this.add(CharacterPanel("Enemy", enemyName, enemyHealth))
 }
+
