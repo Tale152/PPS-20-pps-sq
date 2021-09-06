@@ -6,12 +6,39 @@ import model.characters.properties.stats.StatName
 import model.characters.{Character, Enemy, Player}
 import view.battle.BattleView
 
+/**
+ * Controller used to handle a full battle, taking the player input and handling the enemy actions.
+ * Associated with [[view.battle.BattleView]].
+ */
 sealed trait BattleController extends SubController {
+  /**
+   * Attack action, based on the current character turn.
+   */
   def attack(): Unit
+
+  /**
+   * Try to escape from the current battle.
+   */
   def attemptEscape(): Unit
+
+  /**
+   * Inform that an item in inventory has been used.
+   */
   def useItem(): Unit
+
+  /**
+   * Set the enemy turn.
+   */
   def enemyTurn(): Unit
+
+  /**
+   * Switch control to inventory when asked by the player.
+   */
   def goToInventory(): Unit
+
+  /**
+   * Switch control to story when the battle is over.
+   */
   def goToStory(): Unit
 }
 
@@ -25,27 +52,62 @@ object BattleController {
 
     private val battleView: BattleView = BattleView(this)
     private val player: Player = storyModel.player
-    private var playerRound: Boolean = true;
+    private var roundNarrative: String = ""
 
     override def attack(): Unit = {
-      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
-
-      println(damage(player, enemy.get))
-      enemy.get.properties.health.currentPS -= damage(player, enemy.get)
-      println(enemy.get.properties.health.currentPS)
-      battleView.narrative("Player has " + player.properties.health.currentPS +
-        " PS. Enemy has " + enemy.get.properties.health.currentPS + " PS.")
+      roundNarrative = ""
+      if (isPlayerFaster){
+        playerAttack()
+        enemyAttack()
+      } else {
+        roundNarrative += "The enemy is faster than you...\n"
+        enemyAttack()
+        playerAttack()
+      }
+      setOpponentsInfo()
+      battleNarrative()
       battleView.render()
+    }
+
+    private def isPlayerFaster: Boolean = {
+      val enemy: Enemy = storyModel.currentStoryNode.enemy.get
+      storyModel.player.properties.stat(StatName.Dexterity).value > enemy.properties.stat(StatName.Dexterity).value
+    }
+
+    private def enemyAttack(): Unit = {
+      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
+      var damageInflicted: Int = 0
+      damageInflicted = damage(enemy.get, player)
+      player.properties.health.currentPS -= damageInflicted
+      roundNarrative +=  enemy.get.name + " inflicted " + damageInflicted + " damage to " + player.name + "!\n"
       checkBattleResult()
     }
 
-    override def attemptEscape(): Unit =  {
+    private def playerAttack(): Unit = {
+      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
+      var damageInflicted: Int = 0
+      damageInflicted = damage(player, enemy.get)
+      enemy.get.properties.health.currentPS -= damageInflicted
+      roundNarrative +=  player.name + " inflicted " + damageInflicted + " damage to " + enemy.get.name + "!\n"
+      checkBattleResult()
+    }
+
+    override def enemyTurn(): Unit = {
+      roundNarrative = ""
+      enemyAttack()
+      setOpponentsInfo()
+    }
+
+    private def battleNarrative(): Unit = {
+      battleView.narrative(roundNarrative)
+    }
+
+    override def attemptEscape(): Unit = {
       battleView.escapeResult(escapeCondition())
     }
 
     private def escapeCondition(): Boolean = {
       val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-
       (storyModel.player.properties.stat(StatName.Dexterity).value +
         player.properties.stat(StatName.Intelligence).value) >
         enemy.properties.stat(StatName.Dexterity).value
@@ -56,51 +118,44 @@ object BattleController {
       checkBattleResult()
     }
 
-    /**
-     * Start the Controller.
-     */
     override def execute(): Unit = {
-
-      battleView.narrative(storyModel.currentStoryNode.narrative)
-      //set player and enemy health
-
-      battleView.setPlayerName(storyModel.player.name);
-      battleView.setEnemyName(storyModel.currentStoryNode.enemy.get.name)
-
+      battleView.narrative("OH NO! There is a enemy. " +
+        "You must battle vs " + storyModel.currentStoryNode.enemy.get.name + ".")
+      setOpponentsInfo()
       battleView.render()
-      playerRound = true
-      /*if (enemy.properties.stat(StatName.Speed).value >= player.properties.stat(StatName.Speed).value){
-        //todo the enemy attacks first (set method to establish what the enemy will do)
-      } else {
-        //todo let the player decide what to do
-      }*/
     }
 
-    /**
-     * Defines the actions to do when the Controller execution is over.
-     */
     override def close(): Unit = gameMasterController.close()
 
     override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
 
     override def goToStory(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
 
-    private def damage(attacker: Character, target: Character): Int =
-      (attacker.properties.stat(StatName.Strength).value + attacker.properties.stat(StatName.Dexterity).value) -
+    private def damage(attacker: Character, target: Character): Int = {
+      val damageInflicted = (attacker.properties.stat(StatName.Strength).value +
+        attacker.properties.stat(StatName.Dexterity).value) -
         target.properties.stat(StatName.Constitution).value
+      if (damageInflicted > 0) damageInflicted else 1
+    }
 
     private def checkBattleResult(): Unit = {
       val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-      if (storyModel.player.properties.health.currentPS == 0) {
+      if (storyModel.player.properties.health.currentPS == 0){
         battleView.battleResult(false)
       } else if (enemy.properties.health.currentPS == 0){
         battleView.battleResult()
-      } else {
-        //next round
       }
+      battleView.narrative(roundNarrative)
       battleView.render()
     }
 
-    override def enemyTurn(): Unit = playerRound = false
+    private def setOpponentsInfo(): Unit = {
+      battleView.setPlayerName(storyModel.player.name)
+      battleView.setPlayerHealth((storyModel.player.properties.health.currentPS,
+        storyModel.player.properties.health.maxPS))
+      battleView.setEnemyName(storyModel.currentStoryNode.enemy.get.name)
+      battleView.setEnemyHealth((storyModel.currentStoryNode.enemy.get.properties.health.currentPS,
+        storyModel.currentStoryNode.enemy.get.properties.health.maxPS))
+    }
   }
 }
