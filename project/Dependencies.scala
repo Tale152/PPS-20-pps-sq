@@ -12,7 +12,7 @@ object Dependencies {
 
   lazy val graphStreamUiSwingVersion = "2.0"
 
-  lazy val uiBoosterVersion = "1.10.0"
+  lazy val uiBoosterVersion = "1.13.1"
 
   // Libraries
   lazy val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion

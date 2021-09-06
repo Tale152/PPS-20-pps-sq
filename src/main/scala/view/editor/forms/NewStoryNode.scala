@@ -2,12 +2,12 @@ package view.editor.forms
 
 import controller.editor.EditorController
 import de.milchreis.uibooster.UiBooster
-import de.milchreis.uibooster.model.FilledForm
+import de.milchreis.uibooster.model.Form
 
 object NewStoryNode {
 
   def showNewStoryNodeForm(editorController: EditorController): Unit = {
-    val form: FilledForm = new UiBooster()
+    val form: Form = new UiBooster()
       .createForm("Add new story node")
       .addText("Which story node is the starting node? (id)")
       .addTextArea("What description should the pathway to the new story node show?")

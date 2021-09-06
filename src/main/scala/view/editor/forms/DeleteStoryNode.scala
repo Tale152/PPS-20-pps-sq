@@ -2,12 +2,12 @@ package view.editor.forms
 
 import controller.editor.EditorController
 import de.milchreis.uibooster.UiBooster
-import de.milchreis.uibooster.model.FilledForm
+import de.milchreis.uibooster.model.Form
 
 object DeleteStoryNode {
 
   def showDeleteStoryNodeForm(editorController: EditorController): Unit = {
-    val form: FilledForm = new UiBooster()
+    val form: Form = new UiBooster()
       .createForm("Delete story node")
       .addText("Which node you want to delete? (id)")
       .show()
