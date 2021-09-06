@@ -10,10 +10,6 @@ object StatName {
 
   case object Strength extends StatName
 
-  case object Speed extends StatName
-
-  case object Defence extends StatName
-
   case object Dexterity extends StatName
 
   case object Constitution extends StatName

@@ -43,7 +43,7 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
 
   it should "throw IllegalArgumentException if stats are not enough" in {
     intercept[IllegalArgumentException] {
-      Player("Joseph", maxPS, Set(Stat(1, StatName.Speed)))
+      Player("Joseph", maxPS, Set(Stat(1, StatName.Intelligence)))
     }
   }
 

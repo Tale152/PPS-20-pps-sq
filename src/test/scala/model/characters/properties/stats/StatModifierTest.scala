@@ -5,29 +5,29 @@ import specs.{FlatTestSpec, SerializableSpec}
 
 class StatModifierTest extends FlatTestSpec with SerializableSpec {
 
-  val defenceValue: Int = 10
+  val wisdomValue: Int = 10
 
   var undefinedStatName: StatName = _
-  var defenceStatName: StatName = StatName.Defence
+  var wisdomStatName: StatName = StatName.Wisdom
 
   var undefinedModifierStrategy: Int => Int = _
   val modifierStrategy: Int => Int = value => value * 2
 
-  val defenceStat: Stat = Stat(defenceValue, defenceStatName)
-  val defenceStatModifier: StatModifier = StatModifier(defenceStatName, modifierStrategy)
+  val wisdomStat: Stat = Stat(wisdomValue, wisdomStatName)
+  val wisdomStatModifier: StatModifier = StatModifier(wisdomStatName, modifierStrategy)
 
   "The stat modifier" should "have a stat name it is referred to" in {
-    defenceStatModifier.statName shouldEqual defenceStatName
+    wisdomStatModifier.statName shouldEqual wisdomStatName
   }
 
   it should "change correctly the value of the stat it is referred to" in {
-    defenceStatModifier.modifyStrategy(defenceStat.value) shouldEqual 20
+    wisdomStatModifier.modifyStrategy(wisdomStat.value) shouldEqual 20
   }
 
-  it should behave like serializationTest(defenceStatModifier)
+  it should behave like serializationTest(wisdomStatModifier)
 
   it should "not match other stat name" in {
-    defenceStatModifier.statName should not equal StatName.Constitution
+    wisdomStatModifier.statName should not equal StatName.Constitution
   }
 
   "The stat name" should "not be undefined" in {
@@ -38,14 +38,14 @@ class StatModifierTest extends FlatTestSpec with SerializableSpec {
 
   "The modifier strategy" should "not be undefined" in {
     intercept[IllegalArgumentException]{
-      StatModifier(defenceStatName, undefinedModifierStrategy)
+      StatModifier(wisdomStatName, undefinedModifierStrategy)
     }
   }
 
   val dexterityValue: Int = 10
   var dexterityStatName: StatName = StatName.Dexterity
   val dexterityModifierStrategy: Int => Int = value => value * 2
-  val dexterityStat: Stat = Stat(defenceValue, dexterityStatName)
+  val dexterityStat: Stat = Stat(wisdomValue, dexterityStatName)
 
   val dexterityStatModifier: StatModifier = StatModifier(dexterityStatName, dexterityModifierStrategy)
 
@@ -56,7 +56,7 @@ class StatModifierTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "fail passing different stat modifier" in {
-    val wrongDexterityStatModifier: StatModifier = StatModifier(defenceStatName, modifierStrategy)
+    val wrongDexterityStatModifier: StatModifier = StatModifier(wisdomStatName, modifierStrategy)
     dexterityStatModifier == wrongDexterityStatModifier shouldBe false
     dexterityStatModifier.hashCode() should not equal wrongDexterityStatModifier.hashCode()
   }

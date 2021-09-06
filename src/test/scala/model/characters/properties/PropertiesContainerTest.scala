@@ -7,7 +7,7 @@ class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
 
   val maximumPS = 100
   val stats: Set[Stat] = Set(
-    Stat(1, StatName.Speed),
+    Stat(1, StatName.Intelligence),
     Stat(1, StatName.Wisdom),
     Stat(0, StatName.Strength),
     Stat(0, StatName.Charisma),
@@ -15,8 +15,8 @@ class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
   val propContainer: PropertiesContainer = PropertiesContainer(maximumPS, stats)
   val modifierStrategy: Int => Int = value => value * 2
   val statMods: Set[StatModifier] = Set(
-    StatModifier(StatName.Speed, modifierStrategy),
-    StatModifier(StatName.Speed, modifierStrategy),
+    StatModifier(StatName.Intelligence, modifierStrategy),
+    StatModifier(StatName.Intelligence, modifierStrategy),
     StatModifier(StatName.Wisdom, modifierStrategy),
     StatModifier(StatName.Dexterity, modifierStrategy)
   )
@@ -30,7 +30,7 @@ class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "return the stat with the specific StatName" in {
-    propContainer.stat(StatName.Speed) shouldEqual Stat(1, StatName.Speed)
+    propContainer.stat(StatName.Intelligence) shouldEqual Stat(1, StatName.Intelligence)
   }
 
   it should "return an empty set calling StatModifiers on creation" in {
@@ -38,9 +38,9 @@ class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "be able to add a statModifier" in {
-    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
-    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
-    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Intelligence, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Intelligence, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Intelligence, modifierStrategy)
     propContainer.statModifiers += StatModifier(StatName.Wisdom, modifierStrategy)
     propContainer.statModifiers += StatModifier(StatName.Dexterity, modifierStrategy)
 
@@ -49,13 +49,13 @@ class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "return every modifier for the specific statName" in {
-    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
-    propContainer.statModifiers += StatModifier(StatName.Speed, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Intelligence, modifierStrategy)
+    propContainer.statModifiers += StatModifier(StatName.Intelligence, modifierStrategy)
     propContainer.statModifiers += StatModifier(StatName.Wisdom, modifierStrategy)
     propContainer.statModifiers += StatModifier(StatName.Dexterity, modifierStrategy)
 
-    propContainer.statModifiers(StatName.Speed) shouldEqual Set(
-      StatModifier(StatName.Speed, modifierStrategy), StatModifier(StatName.Speed, modifierStrategy))
+    propContainer.statModifiers(StatName.Intelligence) shouldEqual Set(
+      StatModifier(StatName.Intelligence, modifierStrategy), StatModifier(StatName.Intelligence, modifierStrategy))
   }
 
   it should behave like serializationTest(propContainer)

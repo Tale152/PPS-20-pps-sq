@@ -4,6 +4,8 @@ import controller.game.subcontroller.BattleController
 import view.AbstractView
 import view.story.NarrativePanel
 import view.util.common.ControlsPanel
+import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
 import java.awt.BorderLayout
@@ -12,6 +14,8 @@ import java.awt.event.ActionEvent
 trait BattleView extends AbstractView {
   def narrative(narrative: String): Unit
   def characterTurn(): Unit
+  def escapeResult(escaped: Boolean = true): Unit
+  def battleResult(victory: Boolean = true): Unit
 }
 
 object BattleView {
@@ -52,6 +56,26 @@ object BattleView {
           )),
         BorderLayout.SOUTH
       )
+    }
+
+    override def battleResult(victory: Boolean): Unit = {
+      val resultText: String = if (victory) "won" else "lost"
+      SqSwingDialog("Battle " + resultText + "!" ,
+        "You " + resultText + " the battle",
+        List(SqSwingButton("ok", (_: ActionEvent) => battleController.goToStory())),
+        closable = false)
+    }
+
+    override def escapeResult(escaped: Boolean): Unit = {
+      val resultText: String = "Escape" + (if (escaped) "d successfully" else " failed") + "!"
+      val resultDescription: String = "You" +
+        (if (escaped) " escaped successfully from the battle" else "r attempt to escape failed")
+      val resultStrategy: Unit = if (escaped) battleController.goToStory() else battleController.enemyTurn()
+
+      SqSwingDialog(resultText ,
+        resultDescription,
+        List(SqSwingButton("ok", (_: ActionEvent) => resultStrategy)),
+        closable = false)
     }
   }
 }
