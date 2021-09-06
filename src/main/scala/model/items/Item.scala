@@ -61,7 +61,8 @@ abstract class AbstractItem(override val name: String,
  */
 case class KeyItem(override val name: String,
                    override val description: String) extends AbstractItem(name, description) {
-  override def applyEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
+  override def applyEffect(owner: Character)(target: Character = owner): Unit =
+    throw new UnsupportedOperationException(getClass.getSimpleName + " can't be used")
 
   override def postEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
 }

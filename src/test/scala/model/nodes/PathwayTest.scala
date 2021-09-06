@@ -1,15 +1,16 @@
 package model.nodes
 
+import mock.MockFactory
 import model.characters.Player
 import model.StoryModel
-import model.characters.properties.stats.{Stat, StatName}
+import model.characters.properties.stats.Stat
 import specs.{FlatTestSpec, SerializableSpec}
 
 class PathwayTest extends FlatTestSpec with SerializableSpec {
 
   val playerName: String = "prerequisite"
   val maxPS: Int = 100
-  val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
+  val stats: Set[Stat] = MockFactory.mockSetOfStats()
   val storyNodeNarrative: String = "storyNodeNarrative"
   val pathwayDescription: String = "pathwayDescription"
 

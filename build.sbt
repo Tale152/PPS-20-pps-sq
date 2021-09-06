@@ -3,11 +3,19 @@ import Dependencies._
 ThisBuild / scalaVersion := "2.12.8"
 ThisBuild / version := "0.3.0-SNAPSHOT"
 
+resolvers += uiBoosterResolver
+
 lazy val root = (project in file("."))
   .settings(
     name := "PPS-20-scala-quest",
     libraryDependencies += scalaTest % Test
   )
+
+libraryDependencies += graphStreamCore
+
+libraryDependencies += graphStreamUiSwing
+
+libraryDependencies += uiBooster
 
 // Tests Configurations
 val numberOfTestProcessors = java.lang.Runtime.getRuntime.availableProcessors + 1
@@ -28,7 +36,7 @@ coverageHighlighting := true
 coverageExcludedPackages := "view.*;controller.*;Main"
 
 // Add scoverage to the workflow
-ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("clean", "coverage", "test"),
+ThisBuild / githubWorkflowBuild := Seq(WorkflowStep.Sbt(List("clean", "coverage", "testOnly -- -l github-action"),
   name = Some("Test (coverage enabled)")))
 ThisBuild / githubWorkflowBuildPostamble ++= List(WorkflowStep.Sbt(List("coverageReport"),
   name = Some("Coverage"))

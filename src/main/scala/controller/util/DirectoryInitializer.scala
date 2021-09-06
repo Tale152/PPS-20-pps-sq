@@ -1,7 +1,7 @@
 package controller.util
 
 import controller.util.DirectoryInitializer.StoryPopulationStrategy.{DefaultStoryPopulation, StoryPopulationStrategy}
-import controller.util.ResourceName.{gameDirectoryPath, storyDirectoryPath, testRandomStoryName}
+import controller.util.Resources.ResourceName.{gameDirectoryPath, storyDirectoryPath, testRandomStoryName}
 import controller.util.serialization.FolderUtil.createFolderIfNotPresent
 import controller.util.serialization.StoryNodeSerializer.serializeStory
 import model.nodes.util.RandomStoryNodeGenerator

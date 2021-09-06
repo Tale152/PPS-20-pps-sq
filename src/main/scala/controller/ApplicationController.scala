@@ -1,11 +1,13 @@
 package controller
 
+import controller.editor.EditorController
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.ResourceName.{storyDirectoryPath, storyProgressPath}
+import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
+import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
+import model.nodes.StoryNode
 import view.mainMenu.MainMenu
 
 import java.io.File
@@ -16,6 +18,8 @@ import java.nio.file.{Files, Paths}
  * It's the entrypoint and controls the main menu.
  */
 sealed trait ApplicationController extends Controller {
+
+  def goToEditor(routeNode: StoryNode): Unit
 
   /**
    * Load a story starting a new game. Once the story is loaded the control will be granted to the
@@ -72,14 +76,9 @@ object ApplicationController extends ApplicationController {
     ).execute()
   }
 
-  /**
-   * Check if some progress is available for the selected story.
-   *
-   * @param storyName     the name of the story.
-   * @param baseDirectory the parent directory name of the game folder.
-   * @return true if progress is available, false otherwise.
-   */
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
     Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))
+
+  override def goToEditor(routeNode: StoryNode): Unit = EditorController(routeNode).execute()
 
 }

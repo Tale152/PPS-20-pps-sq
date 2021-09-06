@@ -1,7 +1,7 @@
 package model.characters
 
 import mock.MockFactory
-import model.characters.properties.stats.Stat
+import model.characters.properties.stats.{Stat, StatName}
 import model.items.{AbstractItem, ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 
@@ -9,9 +9,9 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
 
   val maxPS: Int = 100
   val wrongMaxPS: Int = -3
-  val stats: Set[Stat] = MockFactory.mockSetOfStats()
-  val mainPlayer: Player = Player("Jonathan", maxPS, stats)
-  val easyEnemy: Enemy = Enemy("Yoshikage Kira", maxPS, stats)
+  val correctSetOfStats: Set[Stat] = MockFactory.mockSetOfStats()
+  val mainPlayer: Player = Player("Jonathan", maxPS, correctSetOfStats)
+  val easyEnemy: Enemy = Enemy("Yoshikage Kira", maxPS, correctSetOfStats)
 
   "The player" should "have name Jonathan" in {
     mainPlayer.name shouldEqual "Jonathan"
@@ -19,25 +19,50 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
 
   it should "throw IllegalArgumentException if the name is left empty" in {
     intercept[IllegalArgumentException] {
-      Player("", maxPS, stats)
+      Player("", maxPS, correctSetOfStats)
     }
   }
 
   it should "throw IllegalArgumentException if maxPS is zero" in {
     intercept[IllegalArgumentException] {
-      Player("Jolyne", 0, stats)
+      Player("Jolyne", 0, correctSetOfStats)
     }
   }
 
   it should "throw IllegalArgumentException if maxPS is negative" in {
     intercept[IllegalArgumentException] {
-      Player("Jolyne", wrongMaxPS, stats)
+      Player("Jolyne", wrongMaxPS, correctSetOfStats)
     }
   }
 
   it should "throw IllegalArgumentException if stats are empty" in {
     intercept[IllegalArgumentException] {
       Player("Joseph", maxPS, Set())
+    }
+  }
+
+  it should "throw IllegalArgumentException if stats are not enough" in {
+    intercept[IllegalArgumentException] {
+      Player("Joseph", maxPS, Set(Stat(1, StatName.Speed)))
+    }
+  }
+
+  it should "throw IllegalArgumentException if multiple stats with same name are passed" in {
+    intercept[IllegalArgumentException] {
+      Player("Joseph", maxPS, (for (n <- 0 to 5) yield Stat(n, StatName.Charisma)).toSet)
+    }
+  }
+
+  it should "throw IllegalArgumentException if the correct number of stats is passed but now all 6 are present" in {
+    intercept[IllegalArgumentException] {
+      Player("Joseph", maxPS, Set(
+        Stat(1, StatName.Strength),
+        Stat(1, StatName.Constitution),
+        Stat(1, StatName.Wisdom),
+        Stat(1, StatName.Charisma),
+        Stat(1, StatName.Intelligence),
+        Stat(2, StatName.Intelligence)
+      ))
     }
   }
 
@@ -86,7 +111,7 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
 
   it should "throw IllegalArgumentException if the name is left empty" in {
     intercept[IllegalArgumentException] {
-      Enemy("", maxPS, stats)
+      Enemy("", maxPS, correctSetOfStats)
     }
   }
 

@@ -20,4 +20,9 @@ object StatName {
 
   case object Charisma extends StatName
 
+  /**
+   * @return a set containing all the [[model.characters.properties.stats.StatName.StatName]] that a
+   *         [[model.characters.Character]] should have.
+   */
+  def setOfValidStats(): Set[StatName] = Set(Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma)
 }

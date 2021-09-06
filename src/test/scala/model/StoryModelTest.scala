@@ -1,13 +1,14 @@
 package model
 
+import mock.MockFactory
 import model.characters.Player
-import model.characters.properties.stats.{Stat, StatName}
+import model.characters.properties.stats.Stat
 import model.nodes.{Pathway, StoryNode}
 import specs.FlatTestSpec
 
 class StoryModelTest extends FlatTestSpec {
   val maxPS: Int = 100
-  val stats: Set[Stat] = Set(Stat(1, StatName.Speed))
+  val stats: Set[Stat] = MockFactory.mockSetOfStats()
   val mainPlayer: Player = Player("Jonathan", maxPS, stats)
 
   val nextStoryNode: StoryNode = StoryNode(1, "nextNarrative", None, Set.empty, List())

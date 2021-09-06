@@ -2,8 +2,9 @@ package model.nodes.util
 
 import model.characters.Enemy
 import model.characters.properties.stats.{Stat, StatModifier, StatName}
-import model.items.KeyItem
+import model.items.{ConsumableItem, EquipItem, EquipItemType, Item, KeyItem}
 import model.nodes.{ItemEvent, Pathway, StatEvent, StoryNode}
+import model.nodes.Event
 
 import scala.util.Random
 import scala.collection.mutable.{Set => MutableSet}
@@ -17,9 +18,10 @@ object RandomStoryNodeGenerator {
     val MaxNodesInLayer = 5
     val Layers = 7
     val EnemyProbability = 5
+    val EventProbability = 5
   }
 
-  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams.{Layers, MaxNodesInLayer, EnemyProbability}
+  import model.nodes.util.RandomStoryNodeGenerator.RandomStoryParams._
 
   private def rnd(max: Int): Int = Random.nextInt(max) + 1
 
@@ -27,8 +29,7 @@ object RandomStoryNodeGenerator {
 
   def generate(): StoryNode = {
     val generateLastLayer = () =>
-      for (x <- 0 until rnd(MaxNodesInLayer)) yield StoryNode(x, "final node " + x, None,
-        Set.empty, List())
+      for (x <- 0 until rnd(MaxNodesInLayer)) yield StoryNode(x, "final node " + x, None, Set.empty, List())
 
     def generateLayers(depth: Int): Seq[StoryNode] = depth match {
       case 0 => generateLastLayer()
@@ -59,8 +60,8 @@ object RandomStoryNodeGenerator {
         }
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
-        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet,
-          List(ItemEvent(KeyItem("sword", "it's a sword"))))
+
+        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet, List(ItemEvent(randomItem())))
       }
       res
     }
@@ -72,8 +73,7 @@ object RandomStoryNodeGenerator {
       "starting node, max remaining layers " + Layers,
       None,
       pathways.toSet,
-      List(ItemEvent(KeyItem("sword", "it's a sword")),
-        StatEvent(StatModifier(StatName.Strength, i => i + 5))))
+      setEvents())
   }
 
   private def setEnemy(): Option[Enemy] = {
@@ -83,6 +83,35 @@ object RandomStoryNodeGenerator {
     rnd(EnemyProbability) match {
       case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
       case _ => None
+    }
+  }
+
+  private def setEvents(): List[Event] = {
+    var res: List[Event] = List()
+    if(rnd(EventProbability) == 1){
+      res = ItemEvent(KeyItem("sword", "it's a sword")) :: res
+    }
+    if(rnd(EventProbability) == 1){
+      res = StatEvent(StatModifier(StatName.Strength, i => i + 5)) :: res
+    }
+    res
+  }
+
+  private def randomItem(): Item = {
+    rnd(3) match {
+      case 1 => KeyItem("key-item", "Key items can't be used but are useful during the story.")
+      case 2 => ConsumableItem(
+        "consumable-item",
+        "Consumable items will disappear after use.",
+        c=> c.properties.health.currentPS += 10
+      )
+      case 3 => EquipItem(
+        "equip-item",
+        "Equip items can be equipped and will boost your stats.",
+        Set(StatModifier(StatName.Strength, v => v + 1)),
+        EquipItemType.Weapon
+      )
+
     }
   }
 
