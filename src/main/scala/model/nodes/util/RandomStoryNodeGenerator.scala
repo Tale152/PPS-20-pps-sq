@@ -81,15 +81,15 @@ object RandomStoryNodeGenerator {
     val statValue: Int = 5
     val maxPossibleHealth: Int = 100
     val stats: Set[Stat] =  Set(
-      Stat(1, StatName.Strength),
-      Stat(1, StatName.Constitution),
-      Stat(1, StatName.Wisdom),
-      Stat(1, StatName.Charisma),
-      Stat(1, StatName.Intelligence),
-      Stat(1, StatName.Dexterity)
+      Stat(statValue, StatName.Strength),
+      Stat(statValue, StatName.Constitution),
+      Stat(statValue, StatName.Wisdom),
+      Stat(statValue, StatName.Charisma),
+      Stat(statValue, StatName.Intelligence),
+      Stat(statValue, StatName.Dexterity)
     )
     rnd(EnemyProbability) match {
-      case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
+      case 1 => Some(Enemy("Giorno Giovanna", rnd(maxPossibleHealth), stats))
       case _ => None
     }
   }
