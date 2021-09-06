@@ -2,7 +2,7 @@ package view.mainMenu
 
 import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
-import controller.util.ResourceName
+import controller.util.Resources.ResourceName
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
 import view.AbstractView
@@ -10,7 +10,6 @@ import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
 import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
-
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.SwingConstants

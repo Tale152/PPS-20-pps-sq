@@ -4,7 +4,8 @@ import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
 import controller.{ApplicationController, Controller}
-import model.nodes.{MutablePathway, MutableStoryNode, StoryNode}
+import model.nodes.StoryNode.MutableStoryNode
+import model.nodes.{MutablePathway, StoryNode}
 import org.graphstream.ui.view.Viewer
 import view.editor.EditorView
 

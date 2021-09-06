@@ -7,6 +7,9 @@ import model.characters.properties.stats.{StatModifier, StatName}
 import model.items.{ConsumableItem, EquipItem, EquipItemType, Item}
 import org.scalatest.BeforeAndAfterEach
 import specs.FlatTestSpec
+import specs.Tags.IgnoreGitHubAction
+
+
 
 class InventoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
 
@@ -35,7 +38,7 @@ class InventoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
   storyModel.player.inventory = List(consumableItem, equipItem, anotherEquipItem)
   storyModel.player.properties.health.currentPS -= 50
 
-  "The Inventory Controller" should "be able to use an item" in {
+  "The Inventory Controller" should "be able to use an item" taggedAs IgnoreGitHubAction in {
     inventoryController.use(storyModel.player.inventory.head)(storyModel.player) //use potion
     storyModel.player.inventory.size shouldEqual 2
     storyModel.player.properties.health.currentPS shouldEqual 60
@@ -44,7 +47,7 @@ class InventoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
     storyModel.player.inventory.size shouldEqual 2
   }
 
-  it should "be able to discard items" in {
+  it should "be able to discard items" taggedAs IgnoreGitHubAction in {
     inventoryController.discard(storyModel.player.inventory.head)
     storyModel.player.inventory.size shouldEqual 1
     storyModel.player.equippedItems.size shouldEqual 0

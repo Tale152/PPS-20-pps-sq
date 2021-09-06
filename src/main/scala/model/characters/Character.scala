@@ -1,7 +1,7 @@
 package model.characters
 
 import model.characters.properties.PropertiesContainer
-import model.characters.properties.stats.Stat
+import model.characters.properties.stats.{Stat, StatName}
 import model.items.{EquipItem, Item}
 
 /**
@@ -29,7 +29,12 @@ sealed trait Character extends Serializable {
  */
 abstract class AbstractCharacter(override val name: String, maxPS: Int, private val stats: Set[Stat])
   extends Character {
-  require(name != "" && maxPS > 0 && stats.nonEmpty)
+  require(
+    name != ""
+    && maxPS > 0
+    && stats.size == 6
+    && StatName.setOfValidStats().subsetOf(stats.map(s => s.statName)))
+
   override val properties: PropertiesContainer = PropertiesContainer(maxPS, stats)
   override var equippedItems: Set[EquipItem] = Set()
   private var _inventory: List[Item] = List()

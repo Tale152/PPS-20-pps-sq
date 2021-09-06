@@ -1,7 +1,7 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
-import controller.util.ResourceName
+import controller.util.Resources.ResourceName
 import controller.util.serialization.ProgressSerializer
 import model.StoryModel
 import model.progress.{Progress, SerializableHistory}

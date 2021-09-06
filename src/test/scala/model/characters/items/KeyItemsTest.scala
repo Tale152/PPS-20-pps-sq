@@ -48,10 +48,11 @@ class KeyItemsTest extends FlatTestSpec with SerializableSpec with BeforeAndAfte
     }
   }
 
-  it should "remain in inventory when used" in {
+  it should "throw UsupporteOperationException when used" in {
     insertItemInInventory(keyItem)
-    keyItem.use(player)()
-    player.inventory should contain (keyItem)
+    intercept[UnsupportedOperationException] {
+      keyItem.use(player)()
+    }
   }
 
   it should behave like serializationTest(keyItem)

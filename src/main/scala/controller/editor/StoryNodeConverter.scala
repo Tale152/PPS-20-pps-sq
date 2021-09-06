@@ -1,6 +1,7 @@
 package controller.editor
 
-import model.nodes.{MutablePathway, MutableStoryNode, Pathway, StoryNode}
+import model.nodes.StoryNode.MutableStoryNode
+import model.nodes.{MutablePathway, Pathway, StoryNode}
 
 object StoryNodeConverter {
 

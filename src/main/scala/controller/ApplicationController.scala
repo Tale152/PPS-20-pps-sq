@@ -3,8 +3,8 @@ package controller
 import controller.editor.EditorController
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.ResourceName.{storyDirectoryPath, storyProgressPath}
+import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
+import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode

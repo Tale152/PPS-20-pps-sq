@@ -47,12 +47,21 @@ object InventoryController {
 
     private val inventoryView: InventoryView = InventoryView(this)
 
+    private def updateView(): Unit = {
+      inventoryView.setItems(storyModel.player.inventory)
+      inventoryView.render()
+    }
+
     /**
      * Use the selected item.
      *
      * @param item the item to use.
      */
-    override def use(item: Item)(target: Character): Unit = item.use(storyModel.player)(target)
+    override def use(item: Item)(target: Character): Unit = {
+      item.use(storyModel.player)(target)
+      updateView()
+    }
+
 
     /**
      * Discard the selected item. Item will be lost forever.
@@ -66,6 +75,7 @@ object InventoryController {
         case _ =>
       }
       storyModel.player.inventory = storyModel.player.inventory.filter(_ != item)
+      updateView()
     }
 
     /**
@@ -76,11 +86,16 @@ object InventoryController {
       inventoryView.render()
     }
 
-    //TODO will change for fights
     /**
      * Defines the actions to do when the Controller execution is over.
      */
-    override def close(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
+    override def close(): Unit = {
+      if(targets().size == 1) {
+        gameMasterController.executeOperation(OperationType.StoryOperation)
+      } else {
+        gameMasterController.executeOperation(OperationType.BattleOperation)
+      }
+    }
 
     /**
      * @return the list of all the possible targets.

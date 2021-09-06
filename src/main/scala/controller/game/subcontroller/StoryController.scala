@@ -53,14 +53,10 @@ object StoryController {
   class StoryControllerImpl(private val gameMasterController: GameMasterController, private val storyModel: StoryModel)
     extends StoryController {
 
-    private var alreadyShowed = false
     private val storyView: StoryView = StoryView(this)
 
     override def execute(): Unit = {
-      if(!alreadyShowed){
-        alreadyShowed = true
-        showEvent()
-      }
+      processEvents()
       storyView.setNarrative(storyModel.currentStoryNode.narrative)
       storyView.setPathways(
         storyModel.currentStoryNode.pathways.filter(
@@ -77,7 +73,6 @@ object StoryController {
           "The selected Pathway does not belong to the current StoryNode: " + pathway.toString
         )
       }
-      alreadyShowed = false
       storyModel.appendToHistory(pathway.destinationNode)
       redirect()
     }
@@ -94,7 +89,10 @@ object StoryController {
 
     private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
 
-    private def showEvent(): Unit = {
+    /**
+     * Process all events, then delete them from the current [[model.nodes.StoryNode]].
+     */
+    private def processEvents(): Unit = {
       storyView.displayEvent(storyModel.currentStoryNode.events.map {
         case StatEvent(statModifier) =>
           storyModel.player.properties.statModifiers += statModifier
@@ -103,6 +101,7 @@ object StoryController {
           storyModel.player.inventory = storyModel.player.inventory :+ item
           "New Item: " + item.name
       })
+      storyModel.currentStoryNode.removeAllEvents()
     }
 
   }

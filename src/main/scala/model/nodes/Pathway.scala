@@ -1,6 +1,7 @@
 package model.nodes
 
 import model.StoryModel
+import model.nodes.StoryNode.MutableStoryNode
 
 /**
  * Trait that represents a pathway, which is the data structure of a possible choice that the player can make to

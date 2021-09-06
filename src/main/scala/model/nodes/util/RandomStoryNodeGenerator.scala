@@ -1,8 +1,7 @@
 package model.nodes.util
 
-import model.characters.Enemy
-import model.characters.properties.stats.{Stat, StatModifier, StatName}
-import model.items.KeyItem
+import model.characters.properties.stats.{StatModifier, StatName}
+import model.items.{ConsumableItem, EquipItem, EquipItemType, Item, KeyItem}
 import model.nodes.{ItemEvent, Pathway, StatEvent, StoryNode}
 import model.nodes.Event
 
@@ -29,8 +28,7 @@ object RandomStoryNodeGenerator {
 
   def generate(): StoryNode = {
     val generateLastLayer = () =>
-      for (x <- 0 until rnd(MaxNodesInLayer)) yield StoryNode(x, "final node " + x, None,
-        Set.empty, List())
+      for (x <- 0 until rnd(MaxNodesInLayer)) yield StoryNode(x, "final node " + x, None, Set.empty, List())
 
     def generateLayers(depth: Int): Seq[StoryNode] = depth match {
       case 0 => generateLastLayer()
@@ -61,7 +59,7 @@ object RandomStoryNodeGenerator {
         }
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
-        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet,setEvents())
+        res = res :+ StoryNode(id, narrative, None, newNodePathways.toSet, List(ItemEvent(randomItem())))
       }
       res
     }
@@ -71,7 +69,7 @@ object RandomStoryNodeGenerator {
 
     StoryNode(getMaxId(generated) + 1,
       "starting node, max remaining layers " + Layers,
-      setEnemy(),
+      None,
       pathways.toSet,
       setEvents())
   }
@@ -87,13 +85,20 @@ object RandomStoryNodeGenerator {
     res
   }
 
-  private def setEnemy(): Option[Enemy] = {
-    val statValue: Int = 5
-    val maxPossibleHealth: Int = 100
-    val stats: Set[Stat] = Set(Stat(statValue, StatName.Speed), Stat(statValue, StatName.Defence))
-    rnd(EnemyProbability) match {
-      case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
-      case _ => None
+  private def randomItem(): Item = {
+    rnd(3) match {
+      case 1 => KeyItem("key-item", "Key items can't be used but are useful during the story.")
+      case 2 => ConsumableItem(
+        "consumable-item",
+        "Consumable items will disappear after use.",
+        c=> c.properties.health.currentPS += 10
+      )
+      case 3 => EquipItem(
+        "equip-item",
+        "Equip items can be equipped and will boost your stats.",
+        Set(StatModifier(StatName.Strength, v => v + 1)),
+        EquipItemType.Weapon
+      )
     }
   }
 
