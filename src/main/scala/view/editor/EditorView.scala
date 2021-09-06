@@ -34,7 +34,7 @@ object EditorView {
         ("p", ("[P] Pathways description", _ => editorController.changePathwaysDescriptionVisibility()))
       )), BorderLayout.NORTH)
 
-      this.add(Scrollable(VerticalButtons(Set(
+      this.add(Scrollable(VerticalButtons(List(
         SqSwingButton("Add new story node", _  => showNewStoryNodeForm(editorController)),
         SqSwingButton("Edit existing story node", _ => showEditStoryNodeForm(editorController)),
         SqSwingButton("Delete existing story node", _=> showDeleteStoryNodeForm(editorController)),

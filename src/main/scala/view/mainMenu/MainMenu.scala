@@ -70,8 +70,8 @@ object MainMenu {
       )), BorderLayout.SOUTH)
     }
 
-    private def generateButtons(): Set[SqSwingButton] = {
-      for (storyName <- _stories) yield SqSwingButton("<html>" + storyName + "</html>", (_: ActionEvent) => {
+    private def generateButtons(): List[SqSwingButton] = {
+      for (storyName <- _stories.toList) yield SqSwingButton("<html>" + storyName + "</html>", (_: ActionEvent) => {
         val storyPath = ResourceName.storyPath(storyName)()
         if (isProgressAvailable(storyName)()) {
           generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName)())
