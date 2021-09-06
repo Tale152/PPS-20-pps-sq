@@ -1,6 +1,7 @@
 package view.editor.forms
 
 import controller.editor.EditorController
+import controller.editor.util.FormBuilderUtil.BetterFormBuilder
 import de.milchreis.uibooster.UiBooster
 import de.milchreis.uibooster.model.Form
 
@@ -18,7 +19,7 @@ object EditStoryNode {
 
     val form: Form = new UiBooster()
       .createForm("Edit story node")
-      .addText("Which story node would you like to edit? (id)")
+      .addInt("Which story node would you like to edit? (id)")
       .show()
     showEditStoryNodeFormFields(
       form.getByIndex(0).asInt(),
