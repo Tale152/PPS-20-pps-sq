@@ -12,9 +12,8 @@ import java.awt.font.FontRenderContext
 import java.awt.geom.AffineTransform
 import javax.swing.AbstractButton
 
-case class VerticalButtons(buttons: Set[SqSwingButton]) extends SqSwingGridBagPanel {
+case class VerticalButtons(buttonsList: List[SqSwingButton]) extends SqSwingGridBagPanel {
 
-  private val buttonsList = buttons.toList
   private val buttonHeight = 20
   private val verticalPadding = 5
   private val c = new GridBagConstraints

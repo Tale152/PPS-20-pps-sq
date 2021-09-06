@@ -1,13 +1,14 @@
 package view.inventory
 
+import java.awt.BorderLayout
+
 import controller.game.subcontroller.InventoryController
+import javax.swing.SwingConstants
 import model.items.Item
 import view.AbstractView
 import view.inventory.panels.inventoryPanel
-import view.util.common.{ControlsPanel, Scrollable}
+import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.SqSwingLabel
-import java.awt.BorderLayout
-import javax.swing.{BorderFactory, SwingConstants}
 
 /**
  * A GUI that allows the user to view, use and discard the items in his possession.
@@ -27,6 +28,8 @@ object InventoryView {
 
   private val TitleSize = 25
 
+  def apply(inventoryController: InventoryController): InventoryView = new InventoryViewImpl(inventoryController)
+
   private class InventoryViewImpl(inventoryController: InventoryController) extends InventoryView {
 
     private var _inventoryItems: List[Item] = List()
@@ -37,13 +40,10 @@ object InventoryView {
 
     override def populateView(): Unit = {
       this.add(SqSwingLabel("Inventory", labelSize = TitleSize, alignment = SwingConstants.CENTER), BorderLayout.NORTH)
-      val recap = Scrollable(inventoryPanel.InventoryPanel(inventoryController, _inventoryItems))
-      recap.setBorder(BorderFactory.createEmptyBorder(0, 0, 1, 0))
-      this.add(recap, BorderLayout.CENTER)
+      this.add(inventoryPanel.InventoryPanel(inventoryController, _inventoryItems), BorderLayout.CENTER)
       this.add(ControlsPanel(List(("b", ("[B] Back", _ => inventoryController.close())))), BorderLayout.SOUTH)
     }
-  }
 
-  def apply(inventoryController: InventoryController): InventoryView = new InventoryViewImpl(inventoryController)
+  }
 
 }
