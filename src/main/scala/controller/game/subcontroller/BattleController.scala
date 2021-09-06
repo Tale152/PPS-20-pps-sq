@@ -64,6 +64,9 @@ object BattleController {
       battleView.narrative(storyModel.currentStoryNode.narrative)
       //set player and enemy health
 
+      battleView.setPlayerName(storyModel.player.name);
+      battleView.setEnemyName(storyModel.currentStoryNode.enemy.get.name)
+
       battleView.render()
       playerRound = true
       /*if (enemy.properties.stat(StatName.Speed).value >= player.properties.stat(StatName.Speed).value){

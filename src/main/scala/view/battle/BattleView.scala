@@ -3,6 +3,7 @@ package view.battle
 import controller.game.subcontroller.BattleController
 import view.AbstractView
 import view.story.NarrativePanel
+import view.util.characterInfo.CharacterNamePanel
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
@@ -16,6 +17,10 @@ trait BattleView extends AbstractView {
   def characterTurn(): Unit
   def escapeResult(escaped: Boolean = true): Unit
   def battleResult(victory: Boolean = true): Unit
+  def setPlayerName(name: String)
+  def setPlayerHealth(health: (Int, Int))
+  def setEnemyName(name: String)
+  def setEnemyHealth(health: (Int, Int))
 }
 
 object BattleView {
@@ -23,6 +28,10 @@ object BattleView {
 
   private class BattleViewSwing(private val battleController: BattleController) extends BattleView {
     private var _narrative: String = ""
+    private var _playerName: String = ""
+    private var _playerHealth: (Int, Int) = (0, 0)
+    private var _enemyName: String = ""
+    private var _enemyHealth: (Int, Int) = (0, 0)
 
     this.setLayout(new BorderLayout())
 
@@ -39,13 +48,16 @@ object BattleView {
         ControlsPanel(
           List(
             ("i", ("[I] Inventory", _ => battleController.goToInventory())),
-            ("q", ("[Q] Quit", _ => {
+            ("q", ("[Q] Quit", _ =>
               SqYesNoSwingDialog("Exit Confirm", "Do you really want to exit the game?",
-                (_: ActionEvent) => battleController.close(), (_: ActionEvent) => {})
-            })))),
+                (_: ActionEvent) => battleController.close(), (_: ActionEvent) => battleController.close())))
+          )),
             BorderLayout.NORTH
           )
 
+      //TODO populate a new component
+      this.add(CharacterNamePanel(_playerName), BorderLayout.EAST)
+      this.add(CharacterNamePanel(_enemyName), BorderLayout.WEST)
       this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
 
       this.add(
@@ -77,5 +89,13 @@ object BattleView {
         List(SqSwingButton("ok", (_: ActionEvent) => resultStrategy)),
         closable = false)
     }
+
+    override def setPlayerName(name: String): Unit = _playerName = name
+
+    override def setPlayerHealth(health: (Int, Int)): Unit = _playerHealth = health
+
+    override def setEnemyName(name: String): Unit = _enemyName = name
+
+    override def setEnemyHealth(health: (Int, Int)): Unit = _enemyHealth = health
   }
 }
