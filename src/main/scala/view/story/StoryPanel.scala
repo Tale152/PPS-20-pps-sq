@@ -46,7 +46,7 @@ case class PathwaysPanel(paths: Seq[Pathway], onPathwayChosen: Pathway => Unit)
   extends StoryPanel("Choose a pathway") {
 
   val buttons: Seq[SqSwingButton] = for (p <- paths) yield SqSwingButton(p.description, _ => onPathwayChosen(p))
-  this.add(Scrollable(VerticalButtons(buttons.toSet)))
+  this.add(Scrollable(VerticalButtons(buttons.toList)))
 
   override def getMinimumSize: Dimension =
     new Dimension(Frame.getSquareDimension.getWidth.toInt, (Frame.getSquareDimension.getHeight * 0.4).toInt)

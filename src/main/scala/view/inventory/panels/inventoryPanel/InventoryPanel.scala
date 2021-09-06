@@ -3,6 +3,7 @@ package view.inventory.panels.inventoryPanel
 import controller.game.subcontroller.InventoryController
 import model.items.{EquipItem, Item}
 import view.inventory.panels.inventoryPanel.InventoryPanelButtons.{discardButton, goBackButton, useButton}
+import view.util.common.{Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridPanel}
 
@@ -31,9 +32,8 @@ case class InventoryPanel(inventoryController: InventoryController, inventoryIte
       }
     } + "]"
 
-  inventoryItems.foreach(item => this.add(
-    SqSwingButton(
-      formattedItemName(item),
-      _ => itemDialog(item))
-  ))
+  this.add(Scrollable(VerticalButtons(inventoryItems.map(item =>
+    SqSwingButton(formattedItemName(item), _ => itemDialog(item)))))
+  )
+
 }

@@ -1,6 +1,7 @@
 package model.nodes.util
 
-import model.characters.properties.stats.{StatModifier, StatName}
+import model.characters.Enemy
+import model.characters.properties.stats.{Stat, StatModifier, StatName}
 import model.items.{ConsumableItem, EquipItem, EquipItemType, Item, KeyItem}
 import model.nodes.{ItemEvent, Pathway, StatEvent, StoryNode}
 import model.nodes.Event
@@ -59,7 +60,8 @@ object RandomStoryNodeGenerator {
         }
         val narrative =
           if (newNodePathways.isEmpty) "final node " + id else "node " + id + ", max remaining layers " + depth
-        res = res :+ StoryNode(id, narrative, None, newNodePathways.toSet, List(ItemEvent(randomItem())))
+
+        res = res :+ StoryNode(id, narrative, setEnemy(), newNodePathways.toSet, List(ItemEvent(randomItem())))
       }
       res
     }
@@ -72,6 +74,24 @@ object RandomStoryNodeGenerator {
       None,
       pathways.toSet,
       setEvents())
+  }
+
+  private def setEnemy(): Option[Enemy] = {
+
+    val statValue: Int = 5
+    val maxPossibleHealth: Int = 100
+    val stats: Set[Stat] =  Set(
+      Stat(1, StatName.Strength),
+      Stat(1, StatName.Constitution),
+      Stat(1, StatName.Wisdom),
+      Stat(1, StatName.Charisma),
+      Stat(1, StatName.Intelligence),
+      Stat(1, StatName.Dexterity)
+    )
+    rnd(EnemyProbability) match {
+      case 1 => Some(Enemy("jojo", rnd(maxPossibleHealth), stats))
+      case _ => None
+    }
   }
 
   private def setEvents(): List[Event] = {
