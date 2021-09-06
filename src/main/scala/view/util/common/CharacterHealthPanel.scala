@@ -1,8 +1,8 @@
-package view.util.characterInfo
-
-import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
+package view.util.common
 
 import java.awt.Color
+
+import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
 
 /**
  * Panel contained in [[view.playerInfo.PlayerInfoView]] and [[view.battle.BattleView]].

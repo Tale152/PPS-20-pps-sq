@@ -1,4 +1,4 @@
-package view.util.characterInfo
+package view.util.common
 
 import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
 
