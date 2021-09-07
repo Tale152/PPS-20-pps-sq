@@ -34,7 +34,7 @@ object ProgressSerializer {
    */
   def deserializeProgress(storyNode: StoryNode, fileUri: String): StoryModel = {
     val progress = deserializeObject(fileUri).asInstanceOf[Progress]
-    StoryModel(progress.player, rebuildHistory(storyNode, progress.serializableHistory))
+    StoryModel(extractStoryName(fileUri), progress.player, rebuildHistory(storyNode, progress.serializableHistory))
   }
 
   /**
@@ -69,4 +69,7 @@ object ProgressSerializer {
       throw new IllegalArgumentException("The starting node and the deserialized node are not the same.")
     }
   }
+
+  def extractStoryName(storyUri: String): String =
+    storyUri.split("/")(storyUri.split("/").size - 1).replace(".sqstr", "")
 }

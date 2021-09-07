@@ -52,7 +52,8 @@ object PlayerConfigurationController {
   import controller.PlayerConfigurationController.PlayerConfigValues.
   {InitialRemainingPointsValue, InitialStatValue, PlayerMaxPs, StatSortingFunction}
 
-  class PlayerConfigurationControllerImpl(private val startingNode: StoryNode) extends PlayerConfigurationController {
+  class PlayerConfigurationControllerImpl(private val storyName: String, private val startingNode: StoryNode)
+    extends PlayerConfigurationController {
 
     private val playerConfigurationView: PlayerConfigurationView = PlayerConfigurationView(this)
     private var _stats: List[Stat] = List(
@@ -83,10 +84,10 @@ object PlayerConfigurationController {
     }
 
     override def confirm(): Unit =
-      GameMasterController(StoryModel(Player("player", PlayerMaxPs, _stats.toSet), startingNode)).execute()
+      GameMasterController(StoryModel(storyName, Player("player", PlayerMaxPs, _stats.toSet), startingNode)).execute()
 
   }
 
-  def apply(startingNode: StoryNode): PlayerConfigurationController =
-    new PlayerConfigurationControllerImpl(startingNode)
+  def apply(storyName: String, startingNode: StoryNode): PlayerConfigurationController =
+    new PlayerConfigurationControllerImpl(storyName, startingNode)
 }

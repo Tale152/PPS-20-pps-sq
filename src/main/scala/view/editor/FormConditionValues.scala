@@ -1,6 +1,5 @@
 package view.editor
 
-import model.nodes.StoryNode.MutableStoryNode
 
 object FormConditionValues {
 

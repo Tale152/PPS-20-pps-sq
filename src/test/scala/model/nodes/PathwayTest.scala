@@ -58,13 +58,16 @@ class PathwayTest extends FlatTestSpec with SerializableSpec {
 
   it should "be true if condition is present and is met" in {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModel(Player(playerName, maxPS, stats), startingNode)) shouldEqual true
+    pathwayPrerequisite
+      .prerequisite
+      .get(StoryModel("s", Player(playerName, maxPS, stats), startingNode)) shouldEqual true
   }
 
   it should "be false if condition is present and isn't met" in {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    pathwayPrerequisite.prerequisite.get(StoryModel(
-      Player("should be false", maxPS, stats), startingNode)) shouldEqual false
+    pathwayPrerequisite
+      .prerequisite
+      .get(StoryModel("s", Player("should be false", maxPS, stats), startingNode)) shouldEqual false
   }
 
   it should behave like serializationTest(pathwayPrerequisite)

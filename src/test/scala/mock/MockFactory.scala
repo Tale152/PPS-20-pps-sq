@@ -29,7 +29,7 @@ object MockFactory {
   }
 
   def mockStoryModel(playerMaxPS: Int): StoryModel = {
-    StoryModel(mockPlayer(playerMaxPS), mockStoryNode())
+    StoryModel("s", mockPlayer(playerMaxPS), mockStoryNode())
   }
 
 }

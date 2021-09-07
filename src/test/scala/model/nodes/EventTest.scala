@@ -17,7 +17,7 @@ class EventTest extends FlatTestSpec with SerializableSpec{
 
   val player: Player = Player("player", 1, MockFactory.mockSetOfStats())
   val storyModel: StoryModel =
-    StoryModel(player, StoryNode(0, "narrative", None, Set(), List(statEvent, itemEvent)))
+    StoryModel("s", player, StoryNode(0, "narrative", None, Set(), List(statEvent, itemEvent)))
 
   "The StatEvent, when executed," should "put a StatModifier into the player" in {
     statEvent.handle(storyModel)

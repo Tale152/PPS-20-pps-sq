@@ -7,6 +7,12 @@ import model.nodes.StoryNode
  * Trait that represents the StoryModel, the class that gives the controller all data about the model state.
  */
 trait StoryModel {
+
+  /**
+   * @return the name of this story
+   */
+  def storyName: String
+
   /**
    * @return the Player that is playing this story.
    * @see [[model.characters.Player]]
@@ -38,25 +44,30 @@ object StoryModel {
 
   /**
    * Returns an implementation of StoryModel.
+   * @param storyName the name of the story
    * @param player the main player of the game.
    * @param startingStoryNode the starting node of the story.
    * @return the StoryModel.
    */
-  def apply(player: Player, startingStoryNode: StoryNode): StoryModel =
-    new StoryModelImpl(player, List(startingStoryNode))
+  def apply(storyName: String, player: Player, startingStoryNode: StoryNode): StoryModel =
+    new StoryModelImpl(storyName, player, List(startingStoryNode))
 
   /**
    * Returns an implementation of StoryModel.
+   * @param storyName the name of the story
    * @param player the main player of the game.
    * @param currentHistory the history of traversed StoryNodes so far.
    * @return the StoryModel.
    */
-  def apply(player: Player, currentHistory: List[StoryNode]): StoryModel = new StoryModelImpl(player, currentHistory)
+  def apply(storyName: String, player: Player, currentHistory: List[StoryNode]): StoryModel =
+    new StoryModelImpl(storyName, player, currentHistory)
 
-  private class StoryModelImpl (override val player: Player,
+  private class StoryModelImpl (override val storyName: String,
+                                 override val player: Player,
                                 currentHistory: List[StoryNode]) extends StoryModel {
 
     require(
+        storyName.trim.nonEmpty &&
         currentHistory.nonEmpty &&
         checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentHistory.head)) &&
         isHistoryValid(currentHistory)

@@ -67,7 +67,7 @@ object ApplicationController extends ApplicationController {
   override def close(): Unit = System.exit(0)
 
   override def loadStoryNewGame(storyURI: String): Unit = {
-    PlayerConfigurationController(deserializeStory(storyURI)).execute()
+    PlayerConfigurationController(ProgressSerializer.extractStoryName(storyURI), deserializeStory(storyURI)).execute()
   }
 
   override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit = {

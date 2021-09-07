@@ -14,7 +14,7 @@ class StoryModelTest extends FlatTestSpec {
   val nextStoryNode: StoryNode = StoryNode(1, "nextNarrative", None, Set.empty, List())
   val storyNode: StoryNode = StoryNode(0, "narrative", None, Set(Pathway("pathway", nextStoryNode, None)), List())
 
-  val storyModel: StoryModel = StoryModel(mainPlayer, storyNode)
+  val storyModel: StoryModel = StoryModel("s", mainPlayer, storyNode)
 
   "The story model" should "know who is the player" in {
     storyModel.player shouldEqual mainPlayer
@@ -39,7 +39,7 @@ class StoryModelTest extends FlatTestSpec {
     val pathwayStartToMid: Pathway = Pathway("description", midNode, None)
     val startingNode: StoryNode = StoryNode(0, "narrative", None, Set(pathwayStartToMid), List())
     intercept[IllegalArgumentException] {
-      StoryModel(mainPlayer, startingNode)
+      StoryModel("s", mainPlayer, startingNode)
     }
   }
 
@@ -47,7 +47,7 @@ class StoryModelTest extends FlatTestSpec {
     val startingNode: StoryNode = StoryNode(0, "narrative", None, Set.empty, List())
     val unreachableNode: StoryNode = StoryNode(1, "narrative", None, Set.empty, List())
     intercept[IllegalArgumentException] {
-      StoryModel(mainPlayer, List(startingNode, unreachableNode))
+      StoryModel("s", mainPlayer, List(startingNode, unreachableNode))
     }
   }
 
@@ -55,7 +55,7 @@ class StoryModelTest extends FlatTestSpec {
     val unreachableNode: StoryNode = StoryNode(2, "narrative", None, Set.empty, List())
     val reachableNode: StoryNode = StoryNode(1, "narrative", None, Set.empty, List())
     val startingNode: StoryNode = StoryNode(0, "narrative", None, Set(Pathway("pathway", reachableNode, None)), List())
-    val sm: StoryModel = StoryModel(mainPlayer, startingNode)
+    val sm: StoryModel = StoryModel("s", mainPlayer, startingNode)
     intercept[IllegalArgumentException] {
       sm.appendToHistory(unreachableNode)
     }
