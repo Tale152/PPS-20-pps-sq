@@ -1,7 +1,9 @@
 package view.editor.forms
 
 import controller.editor.EditorController
-import view.editor.{AbstractOkButtonListener, Form, FormBuilder}
+import view.editor.FormConditionValues.ConditionDescriptions._
+import view.editor.FormConditionValues.Conditions.NonEmptyString
+import view.editor.{Form, FormBuilder, OkFormButtonListener}
 
 object NewStoryNode {
 
@@ -12,11 +14,11 @@ object NewStoryNode {
       .addTextField("What narrative should the new story node show?")
       .get(editorController)
     form.setOkButtonListener(
-      new AbstractOkButtonListener {
+      new OkFormButtonListener {
         /**
          * The action to perform in case of success.
          *
-         * @see [[view.editor.AbstractOkButtonListener#approvalCondition()]]
+         * @see [[view.editor.OkFormButtonListener#approvalCondition()]]
          */
          override def performAction(): Unit = {
             editorController.addNewStoryNode(
@@ -28,15 +30,15 @@ object NewStoryNode {
 
         /**
          * Specify the conditions and describe them.
-         * If ALL are satisfied (&&) call [[view.editor.AbstractOkButtonListener#performAction()]].
+         * If ALL are satisfied (&&) call [[view.editor.OkFormButtonListener#performAction()]].
          *
          * @return a List containing a condition and it's textual description.
          */
         override def conditions: List[(Boolean, String)] = {
           List(
-            (form.elements.head.value.trim.nonEmpty, "An ID should be specified."),
-            (form.elements(1).value.trim.nonEmpty, "A description should be specified."),
-            (form.elements(2).value.trim.nonEmpty,"A narrative should be specified.")
+            (NonEmptyString(form.elements.head.value), InvalidIDMessage),
+            (NonEmptyString(form.elements(1).value), InvalidDescriptionMessage),
+            (NonEmptyString(form.elements(2).value), InvalidNarrativeMessage)
           )
         }
       })

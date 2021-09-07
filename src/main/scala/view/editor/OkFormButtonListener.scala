@@ -10,7 +10,7 @@ import java.awt.event.{ActionEvent, ActionListener}
 /**
  * Abstract Ok Button Listener designed to be used inside [[view.editor.Form]].
  */
-abstract class AbstractOkButtonListener extends ActionListener {
+abstract class OkFormButtonListener extends ActionListener {
 
   /**
    * Template method, the structure of the listener is defined.
@@ -26,14 +26,14 @@ abstract class AbstractOkButtonListener extends ActionListener {
   }
 
   /**
-   * The condition needed to call [[view.editor.AbstractOkButtonListener#performAction()]].
+   * The condition needed to call [[view.editor.OkFormButtonListener#performAction()]].
    *
-   * @return true if all the conditions specified in [[view.editor.AbstractOkButtonListener#conditions()]] are satisfied.
+   * @return true if all the conditions specified in [[view.editor.OkFormButtonListener#conditions()]] are satisfied.
    */
   def approvalCondition: Boolean = conditions.map(c => c._1).forall(c => c)
 
   /**
-   * @return a Dialog that print the errors ([[view.editor.AbstractOkButtonListener#conditions()]]
+   * @return a Dialog that print the errors ([[view.editor.OkFormButtonListener#conditions()]]
    *         that are not satisfied).
    */
   def warningDialog: SqSwingDialog = {
@@ -46,16 +46,18 @@ abstract class AbstractOkButtonListener extends ActionListener {
   /**
    * The action to perform in case of success.
    *
-   * @see [[view.editor.AbstractOkButtonListener#approvalCondition()]]
+   * @see [[view.editor.OkFormButtonListener#approvalCondition()]]
    */
   def performAction(): Unit
 
   /**
    * Specify the conditions and describe them.
-   * If ALL are satisfied (&&) call [[view.editor.AbstractOkButtonListener#performAction()]].
+   * If ALL are satisfied (&&) call [[view.editor.OkFormButtonListener#performAction()]].
    *
    * @return a List containing a condition and it's textual description.
    */
   def conditions: List[(Boolean, String)]
 
 }
+
+

@@ -1,8 +1,7 @@
 package view.editor
 
 import controller.editor.EditorController
-import controller.util.ResourceName
-
+import controller.util.Resources.ResourceName
 import view.AbstractView
 import view.editor.forms.DeletePathway.showDeletePathwayForm
 import view.editor.forms.DeleteStoryNode.showDeleteStoryNodeForm
@@ -13,6 +12,7 @@ import view.editor.forms.NewStoryNode.showNewStoryNodeForm
 import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
+
 import java.awt.BorderLayout
 
 trait EditorView extends AbstractView
