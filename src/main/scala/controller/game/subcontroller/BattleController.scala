@@ -4,6 +4,7 @@ import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
 import model.characters.properties.stats.StatName
 import model.characters.{Character, Enemy, Player}
+import model.items.Item
 import view.battle.BattleView
 
 /**
@@ -22,14 +23,9 @@ sealed trait BattleController extends SubController {
   def attemptEscape(): Unit
 
   /**
-   * Inform that an item in inventory has been used.
+   * Escape failed action.
    */
-  def useItem(): Unit
-
-  /**
-   * Set the enemy turn.
-   */
-  def enemyTurn(): Unit
+  def escapeFailed(): Unit
 
   /**
    * Switch control to inventory when asked by the player.
@@ -52,7 +48,37 @@ object BattleController {
 
     private val battleView: BattleView = BattleView(this)
     private val player: Player = storyModel.player
+    private var battleFirstRound = true
     private var roundNarrative: String = ""
+    private var playerInventory: List[Item] = List()
+
+    override def execute(): Unit = {
+      if(battleFirstRound) {
+        battleFirstRound = false
+        playerInventory = storyModel.player.inventory
+        battleView.narrative("OH NO! There is a enemy. " +
+          "You must battle vs " + storyModel.currentStoryNode.enemy.get.name + ".")
+      } else if(isInventoryChanged) {
+        playerInventory = storyModel.player.inventory
+        usedItem()
+      }
+      setOpponentsInfo()
+      battleView.render()
+    }
+
+    private def isInventoryChanged: Boolean = {
+      !playerInventory.forall(storyModel.player.inventory.contains)
+    }
+
+    private def usedItem(): Unit = {
+      roundNarrative = "You used an item, it's now the enemy turn.\n"
+      enemyTurn()
+    }
+
+    private def isPlayerFaster: Boolean = {
+      val enemy: Enemy = storyModel.currentStoryNode.enemy.get
+      storyModel.player.properties.stat(StatName.Dexterity).value > enemy.properties.stat(StatName.Dexterity).value
+    }
 
     override def attack(): Unit = {
       roundNarrative = ""
@@ -65,13 +91,8 @@ object BattleController {
         playerAttack()
       }
       setOpponentsInfo()
-      battleNarrative()
+      battleView.narrative(roundNarrative)
       battleView.render()
-    }
-
-    private def isPlayerFaster: Boolean = {
-      val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-      storyModel.player.properties.stat(StatName.Dexterity).value > enemy.properties.stat(StatName.Dexterity).value
     }
 
     private def enemyAttack(): Unit = {
@@ -92,45 +113,6 @@ object BattleController {
       checkBattleResult()
     }
 
-    override def enemyTurn(): Unit = {
-      roundNarrative = ""
-      enemyAttack()
-      setOpponentsInfo()
-    }
-
-    private def battleNarrative(): Unit = {
-      battleView.narrative(roundNarrative)
-    }
-
-    override def attemptEscape(): Unit = {
-      battleView.escapeResult(escapeCondition())
-    }
-
-    private def escapeCondition(): Boolean = {
-      val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-      (storyModel.player.properties.stat(StatName.Dexterity).value +
-        player.properties.stat(StatName.Intelligence).value) >
-        enemy.properties.stat(StatName.Dexterity).value
-    }
-
-    override def useItem(): Unit = {
-      //Set in view what happened with the data returned by the inventory controller
-      checkBattleResult()
-    }
-
-    override def execute(): Unit = {
-      battleView.narrative("OH NO! There is a enemy. " +
-        "You must battle vs " + storyModel.currentStoryNode.enemy.get.name + ".")
-      setOpponentsInfo()
-      battleView.render()
-    }
-
-    override def close(): Unit = gameMasterController.close()
-
-    override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
-
-    override def goToStory(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
-
     private def damage(attacker: Character, target: Character): Int = {
       val damageInflicted = (attacker.properties.stat(StatName.Strength).value +
         attacker.properties.stat(StatName.Dexterity).value) -
@@ -143,6 +125,7 @@ object BattleController {
       if (storyModel.player.properties.health.currentPS == 0){
         battleView.battleResult(false)
       } else if (enemy.properties.health.currentPS == 0){
+        battleFirstRound = true
         battleView.battleResult()
       }
       battleView.narrative(roundNarrative)
@@ -157,5 +140,37 @@ object BattleController {
       battleView.setEnemyHealth((storyModel.currentStoryNode.enemy.get.properties.health.currentPS,
         storyModel.currentStoryNode.enemy.get.properties.health.maxPS))
     }
+
+    override def escapeFailed(): Unit = {
+      roundNarrative = "You tried to escape, but couldn't. Now it's enemy turn.\n"
+      enemyTurn()
+    }
+
+    private def enemyTurn(): Unit = {
+      enemyAttack()
+      setOpponentsInfo()
+    }
+
+    override def attemptEscape(): Unit = {
+      if (escapeCondition){
+        battleFirstRound = true
+        battleView.escapeResult()
+      } else {
+        battleView.escapeResult(false)
+      }
+    }
+
+    private def escapeCondition: Boolean = {
+      val enemy: Enemy = storyModel.currentStoryNode.enemy.get
+      (storyModel.player.properties.stat(StatName.Dexterity).value +
+        player.properties.stat(StatName.Intelligence).value) >
+        enemy.properties.stat(StatName.Dexterity).value
+    }
+
+    override def close(): Unit = gameMasterController.close()
+
+    override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
+
+    override def goToStory(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
   }
 }
