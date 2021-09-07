@@ -1,5 +1,7 @@
 package view.editor
 
+import model.nodes.StoryNode.MutableStoryNode
+
 object FormConditionValues {
 
   object Conditions {
@@ -7,6 +9,8 @@ object FormConditionValues {
   }
 
   object ConditionDescriptions {
+
+    def nodeDoesNotExist(id: Int) : String = "Node " + id.toString + " doesn't exist."
 
     val InvalidIDMessage: String = shouldBeSpecified("An ID")
 

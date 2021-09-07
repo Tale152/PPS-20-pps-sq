@@ -11,7 +11,7 @@ object NewStoryNode {
     val form: Form = FormBuilder()
       .addIntegerField("Which story node is the starting node? (id)")
       .addTextField("What description should the pathway to the new story node show?")
-      .addTextField("What narrative should the new story node show?")
+      .addTextAreaField("What narrative should the new story node show?")
       .get(editorController)
     form.setOkButtonListener(
       new OkFormButtonListener {
@@ -29,7 +29,11 @@ object NewStoryNode {
           List(
             (NonEmptyString(form.elements.head.value), InvalidIDMessage),
             (NonEmptyString(form.elements(1).value), InvalidDescriptionMessage),
-            (NonEmptyString(form.elements(2).value), InvalidNarrativeMessage)
+            (NonEmptyString(form.elements(2).value), InvalidNarrativeMessage),
+            (
+              editorController.storyNodeExists(form.elements.head.value.toInt),
+              nodeDoesNotExist(form.elements.head.value.toInt)
+            )
           )
         }
       })
