@@ -1,6 +1,6 @@
 package view.util
 
-import controller.util.ResourceName
+import controller.util.Resources.ResourceName
 
 import java.io.File
 import javax.swing.{JComponent, JFileChooser}

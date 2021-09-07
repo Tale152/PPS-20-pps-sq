@@ -4,9 +4,9 @@ import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
 import view.AbstractView
 import view.util.common.ControlsPanel
-import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
 import view.util.scalaQuestSwingComponents.SqSwingButton
-import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
+
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 
