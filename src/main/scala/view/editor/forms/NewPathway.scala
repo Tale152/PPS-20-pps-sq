@@ -14,11 +14,19 @@ object NewPathway {
       .addInt("Which story node is the ending node? (id)")
       .addTextArea("What description should the pathway show?")
       .show()
-    editorController.addNewPathway(
-      form.getByIndex(0).asInt(),
-      form.getByIndex(1).asInt(),
-      form.getByIndex(2).asString()
-    )
+
+    if(editorController.isNewPathwayValid(form.getByIndex(0).asInt(), form.getByIndex(1).asInt())){
+      editorController.addNewPathway(
+        form.getByIndex(0).asInt(),
+        form.getByIndex(1).asInt(),
+        form.getByIndex(2).asString()
+      )
+    } else {
+      new UiBooster().showErrorDialog(
+        "Creating this pathway results in a loop in the story",
+        "Cannot create this pathway"
+      )
+    }
   }
 
 }
