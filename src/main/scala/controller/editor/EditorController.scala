@@ -15,6 +15,8 @@ trait EditorController extends Controller {
 
   def getPathway(starNodeId: Int, endNodeId: Int): MutablePathway
 
+  def storyNodeExists(id: Int): Boolean
+
   def getStoryNode(id: Int): MutableStoryNode
 
   def changeNodesNarrativeVisibility(): Unit
@@ -201,6 +203,8 @@ object EditorController {
       startNode.mutablePathways = currentPathways
       res
     }
+
+    override def storyNodeExists(id: Int): Boolean = nodes._2.exists(n => n.id == id)
   }
 
   def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)
