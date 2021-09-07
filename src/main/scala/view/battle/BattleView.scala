@@ -111,7 +111,7 @@ object BattleView {
       val resultText: String = "Escape" + (if (escaped) "d successfully" else " failed") + "!"
       val resultDescription: String = "You" +
         (if (escaped) " escaped successfully from the battle" else "r attempt to escape failed")
-      val resultStrategy: Unit = if (escaped) battleController.goToStory() else battleController.enemyTurn()
+      val resultStrategy: Unit = if (escaped) battleController.goToStory() else battleController.escapeFailed()
 
       SqSwingDialog(resultText ,
         resultDescription,
