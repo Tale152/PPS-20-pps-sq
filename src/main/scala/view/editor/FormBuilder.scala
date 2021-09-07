@@ -12,8 +12,9 @@ object FormBuilder {
 
     def addTextField(label: String): FormBuilder = addField(TextInputElement(label))
 
-    //TODO CHANGE
-    def addNumberField(label: String): FormBuilder = addField(TextInputElement(label))
+    def addTextAreaField(label: String): FormBuilder = addField(TextAreaInputElement(label))
+
+    def addIntegerField(label: String): FormBuilder = addField(IntegerInputElement(label))
 
     private def addField(formElement: FormElement): FormBuilder = {
       listBuffer += formElement

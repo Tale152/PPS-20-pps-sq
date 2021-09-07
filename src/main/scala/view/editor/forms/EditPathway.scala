@@ -1,7 +1,6 @@
 package view.editor.forms
 
 import controller.editor.EditorController
-import controller.editor.util.FormBuilderUtil.BetterFormBuilder
 import de.milchreis.uibooster.UiBooster
 import de.milchreis.uibooster.model.Form
 
@@ -19,8 +18,8 @@ object EditPathway {
 
     val form: Form = new UiBooster()
       .createForm("Edit pathway")
-      .addInt("Which story node the pathway starts from? (id)")
-      .addInt("Which story node the pathway ends to? (id)")
+      .addText("Which story node the pathway starts from? (id)")
+      .addText("Which story node the pathway ends to? (id)")
       .show()
 
     showEditPathwayFormFields(

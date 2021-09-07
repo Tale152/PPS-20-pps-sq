@@ -27,10 +27,10 @@ object Form {
      */
     override def populateView(): Unit = {
       elements.foreach(e => this.add(e))
-      val panel : SqSwingBoxPanel = new SqSwingBoxPanel(BoxLayout.X_AXIS){}
-      panel.add(okButton)
-      panel.add(cancelButton)
-      this.add(panel)
+      val buttonsPanel : SqSwingBoxPanel = new SqSwingBoxPanel(BoxLayout.X_AXIS){}
+      buttonsPanel.add(okButton)
+      buttonsPanel.add(cancelButton)
+      this.add(buttonsPanel)
     }
 
     override def setOkButtonListener(okButtonListener: ActionListener): Unit =
