@@ -1,10 +1,10 @@
 package view.editor
 
-import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingLabel, SqTextArea}
+import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingLabel}
 
 import java.text.NumberFormat
 import javax.swing.text.NumberFormatter
-import javax.swing.{BoxLayout, JFormattedTextField, JTextField}
+import javax.swing.{BoxLayout, JFormattedTextField, JScrollPane, JTextArea, JTextField}
 
 abstract class FormElement(textLabel: String) extends SqSwingBoxPanel(BoxLayout.Y_AXIS) {
 
@@ -25,8 +25,8 @@ case class TextInputElement(textLabel: String) extends FormElement(textLabel) {
 
 case class TextAreaInputElement(textLabel: String) extends FormElement(textLabel) {
 
-  val jTextArea: SqTextArea = SqTextArea("", editable = true)
-  this.add(jTextArea)
+  val jTextArea: JTextArea = new JTextArea(5, 0)
+  this.add(new JScrollPane(jTextArea))
 
   override def value: String = jTextArea.getText
 }
