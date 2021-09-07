@@ -2,9 +2,6 @@ import sbt._
 
 object Dependencies {
 
-  // Resolvers
-  lazy val uiBoosterResolver = "jitpack" at "https://jitpack.io"
-
   // Versions
   lazy val scalaTestVersion = "3.0.5"
 
@@ -12,7 +9,7 @@ object Dependencies {
 
   lazy val graphStreamUiSwingVersion = "2.0"
 
-  lazy val uiBoosterVersion = "1.10.0"
+  lazy val uiBoosterVersion = "1.13.1"
 
   // Libraries
   lazy val scalaTest = "org.scalatest" %% "scalatest" % scalaTestVersion
@@ -23,5 +20,4 @@ object Dependencies {
 
   lazy val graphStreamUiSwing = graphStream % "gs-ui-swing" % graphStreamUiSwingVersion
 
-  lazy val uiBooster = "com.github.Milchreis" % "UiBooster" % uiBoosterVersion
 }

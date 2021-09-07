@@ -3,11 +3,11 @@ package view.playerInfo
 import controller.game.subcontroller.PlayerInfoController
 import model.characters.properties.stats.StatName.StatName
 import view.AbstractView
-import view.playerInfo.panels.{HealthPanel, PlayerNamePanel, StatValuePanel}
-import view.util.common.ControlsPanel
+import view.playerInfo.panels.StatValuePanel
+import view.util.common.{CharacterHealthPanel, CharacterNamePanel, ControlsPanel}
 import view.util.scalaQuestSwingComponents.{SqSwingBorderPanel, SqSwingGridPanel}
-
 import java.awt.{BorderLayout, Color}
+
 import javax.swing.BorderFactory
 import javax.swing.border.TitledBorder
 
@@ -68,9 +68,9 @@ object PlayerInfoView {
 
     def populateView(): Unit = {
       statPanel.removeAll()
-      this.add(PlayerNamePanel(_playerName), BorderLayout.NORTH)
       for (stat <- _stats) statPanel.add(StatValuePanel(stat))
-      centerPanel.add(HealthPanel(_health), BorderLayout.SOUTH)
+      this.add(CharacterNamePanel("Player", _playerName), BorderLayout.NORTH)
+      centerPanel.add(CharacterHealthPanel(_health), BorderLayout.SOUTH)
       centerPanel.add(statPanel, BorderLayout.CENTER)
       this.add(centerPanel, BorderLayout.CENTER)
       this.add(ControlsPanel(List(("b", ("[B] Back", _ => playerInfoController.close())))), BorderLayout.SOUTH)

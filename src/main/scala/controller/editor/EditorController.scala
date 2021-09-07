@@ -27,6 +27,8 @@ trait EditorController extends Controller {
 
   def editExistingStoryNode(id: Int, nodeNarrative: String): Unit
 
+  def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean
+
   def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit
 
   def deleteExistingStoryNode(id: Int): Unit
@@ -182,6 +184,23 @@ object EditorController {
 
     override def save(path: String): Unit =
       StoryNodeSerializer.serializeStory(StoryNodeConverter.fromMutableToImmutable(nodes._1)._1, path)
+
+    override def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean = {
+
+      def searchForDestination(searchedNode: MutableStoryNode, currentNode: MutableStoryNode): Boolean = {
+        currentNode != searchedNode && currentNode.mutablePathways.forall(
+          p => searchForDestination(searchedNode, p.destinationNode)
+        )
+      }
+
+      val startNode: MutableStoryNode = nodes._2.find(n => n.id == startNodeId).get
+      val endNode: MutableStoryNode = nodes._2.find(n => n.id == endNodeId).get
+      val currentPathways = startNode.mutablePathways
+      startNode.mutablePathways = currentPathways + MutablePathway("irrelevant description", endNode, None)
+      val res = startNode.mutablePathways.forall(p => searchForDestination(startNode, p.destinationNode))
+      startNode.mutablePathways = currentPathways
+      res
+    }
   }
 
   def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)
