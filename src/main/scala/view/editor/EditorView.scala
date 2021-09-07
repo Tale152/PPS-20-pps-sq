@@ -13,11 +13,7 @@ import view.editor.forms.NewStoryNode.showNewStoryNodeForm
 import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
-
 import java.awt.BorderLayout
-
-
-
 
 trait EditorView extends AbstractView
 

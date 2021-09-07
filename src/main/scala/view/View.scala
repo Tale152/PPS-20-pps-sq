@@ -15,7 +15,7 @@ sealed trait View {
 
 }
 
-abstract class AbstractView extends SqSwingPanel with View{
+abstract class AbstractView extends SqSwingPanel with View {
 
   /**
    * Template method that renders the view

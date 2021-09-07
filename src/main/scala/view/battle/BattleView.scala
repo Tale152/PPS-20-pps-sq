@@ -5,11 +5,10 @@ import view.AbstractView
 import view.story.NarrativePanel
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.SqSwingButton
-import view.util.scalaQuestSwingComponents.SqSwingDialog.SqSwingDialog
-import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
+
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-
 import view.battle.panels.OpponentsPanel
 
 /**
