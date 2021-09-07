@@ -61,7 +61,7 @@ object Resources {
       StoryProgressFileExtension
     }
 
-    private object FileExtensions {
+    object FileExtensions {
       val StoryFileExtension: String = "sqstr"
       val StoryProgressFileExtension: String = "sqprg"
       val WavExtension = "wav"
