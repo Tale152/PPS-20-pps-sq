@@ -2,10 +2,12 @@ package view.editor
 
 import controller.editor.EditorController
 import view.AbstractView
-import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingButton}
+import view.util.common.ControlsPanel
+import view.util.scalaQuestSwingComponents.{SqSwingGridBagPanel, SqSwingPanel}
 
-import java.awt.event.{ActionEvent, ActionListener}
-import javax.swing.BoxLayout
+import java.awt.BorderLayout
+import java.awt.event.ActionListener
+import javax.swing.{GroupLayout, JButton}
 
 sealed trait Form extends AbstractView {
 
@@ -19,22 +21,54 @@ object Form {
   private class FormImpl(editorController: EditorController, formElements: List[FormElement]) extends Form {
 
     val elements: List[FormElement] = formElements
-    private var okButton: SqSwingButton = SqSwingButton("Ok", (_: ActionEvent) => {})
-    private val cancelButton: SqSwingButton = SqSwingButton("Cancel", (_: ActionEvent) => editorController.execute())
+    private val okButton: JButton = new JButton("")
 
-    /**
-     * Sub-portion of render() where graphical elements are added
-     */
-    override def populateView(): Unit = {
-      elements.foreach(e => this.add(e))
-      val buttonsPanel : SqSwingBoxPanel = new SqSwingBoxPanel(BoxLayout.X_AXIS){}
-      buttonsPanel.add(okButton)
-      buttonsPanel.add(cancelButton)
-      this.add(buttonsPanel)
+    private val centerPanel: SqSwingGridBagPanel = new SqSwingGridBagPanel {}
+
+    private val groupPanel: SqSwingPanel = new SqSwingPanel(){}
+    val groupLayout = new GroupLayout(groupPanel)
+    groupLayout.setAutoCreateGaps(true)
+    groupLayout.setAutoCreateContainerGaps(true)
+    groupPanel.setLayout(groupLayout)
+
+    centerPanel.add(groupPanel)
+
+    this.setLayout(new BorderLayout())
+
+    private def createVerticalGroup(): GroupLayout#SequentialGroup = {
+      val group = groupLayout.createSequentialGroup()
+      elements.foreach(e =>
+        group
+          .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+          .addComponent(e, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+      )
+      group
     }
 
-    override def setOkButtonListener(okButtonListener: ActionListener): Unit =
-      okButton = SqSwingButton("Ok", okButtonListener)
+    private def createHorizontalGroup(): GroupLayout#ParallelGroup = {
+      val group = groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
+      elements.foreach(e =>
+        group.addComponent(e, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+      )
+      group
+    }
+
+    override def populateView(): Unit = {
+      groupLayout.setHorizontalGroup(createHorizontalGroup())
+      groupLayout.setVerticalGroup(createVerticalGroup())
+      this.add(centerPanel, BorderLayout.CENTER)
+      this.add(
+        ControlsPanel(List(
+          ("o", ("[O] OK", _ => okButton.doClick())),
+          ("b", ("[B] Back", _ => editorController.execute()))
+        )),
+        BorderLayout.SOUTH
+      )
+    }
+
+    override def setOkButtonListener(okButtonListener: ActionListener): Unit = {
+      okButton.addActionListener(okButtonListener)
+    }
   }
 
   def apply(editorController: EditorController, formElements: List[FormElement]): Form =
