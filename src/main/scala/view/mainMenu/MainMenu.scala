@@ -73,24 +73,40 @@ object MainMenu {
           chooser.showOpenDialog(this)
           val file: File = chooser.getSelectedFile
           if (file != null) {
-            try {
-              val deserialized = deserializeStory(file.getPath)
-              val newStoryFolderPath = storyDirectoryPath(RootGameDirectory) +
-                "/" + file.getName.substring(0, file.getName.length - FileExtensions.StoryFileExtension.length - 1)
-              createFolderIfNotPresent(newStoryFolderPath)
-              serializeStory(deserialized,newStoryFolderPath + "/" + file.getName)
-              ApplicationController.execute()
-            } catch {
-              case _: Exception =>
-                println("File structure is not suitable or corrupted")
-                SqSwingDialog("Error on story loading", "File structure is not suitable or corrupted",
-                  List(SqSwingButton("ok", _ => {
-                    /*does nothing*/
-                  })))
+            val nameWithOutExtension =
+              file.getName.substring(0, file.getName.length - FileExtensions.StoryFileExtension.length - 1)
+            val newStoryFolderPath = storyDirectoryPath(RootGameDirectory) +
+              "/" + nameWithOutExtension
+            if (new File(newStoryFolderPath).exists()) {
+              SqSwingDialog("Story already present", "Do you want to override existing story?",
+                List(SqSwingButton("ok", _ => {
+                  new File(newStoryFolderPath + "/" + nameWithOutExtension + ".sqprg").delete()
+                  loadNewStory(file, newStoryFolderPath)
+                }), SqSwingButton("cancel", _ => {
+                  /*does nothing*/
+                })))
+            } else {
+              loadNewStory(file, newStoryFolderPath)
             }
           }
         }))
       )), BorderLayout.SOUTH)
+    }
+
+    private def loadNewStory(file: File, newStoryFolderPath: String): Unit = {
+      try {
+        val deserialized = deserializeStory(file.getPath)
+        createFolderIfNotPresent(newStoryFolderPath)
+        serializeStory(deserialized, newStoryFolderPath + "/" + file.getName)
+        ApplicationController.execute()
+      } catch {
+        case _: Exception =>
+          println("File structure is not suitable or corrupted")
+          SqSwingDialog("Error on story loading", "File structure is not suitable or corrupted",
+            List(SqSwingButton("ok", _ => {
+              /*does nothing*/
+            })))
+      }
     }
 
     private def generateButtons(): List[SqSwingButton] = {
