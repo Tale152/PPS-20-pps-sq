@@ -11,7 +11,7 @@ import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 
 /**
- * Represents the GUI for the navigation between [[model.nodes.StoryNode]]
+ * Represents the GUI for the navigation between [[model.nodes.StoryNode]].
  */
 sealed trait StoryView extends AbstractView {
 

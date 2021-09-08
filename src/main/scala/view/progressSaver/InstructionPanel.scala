@@ -5,7 +5,7 @@ import java.awt.Color
 import javax.swing.JTextArea
 
 /**
- * Panel containing instruction for the user while saving the game
+ * Panel containing instruction for the user while saving the game.
  */
 case class InstructionPanel() extends SqSwingGridPanel(0, 1) {
   private val instructionFontSize: Int = 25

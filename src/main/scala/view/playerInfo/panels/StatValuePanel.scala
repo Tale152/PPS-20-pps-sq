@@ -8,11 +8,11 @@ import java.awt.Color
 object StatValuePanel {
 
   /**
-   * Panel contained int [[view.playerInfo.PlayerInfoView]].
+   * Panel contained in [[view.playerInfo.PlayerInfoView]].
    * Renders the current stat value; if current stat value is higher than the original value it will be displayed green,
    * red if lower, white otherwise.
    *
-   * @param stat a pair with the StatName associated to a pair of original stat value and current stat value
+   * @param stat a pair with the StatName associated to a pair of original stat value and current stat value.
    */
   class StatValuePanel(stat: (StatName, (Int, Int))) extends SqSwingFlowPanel {
     private val fontSize = 25

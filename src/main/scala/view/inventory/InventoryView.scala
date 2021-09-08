@@ -16,7 +16,7 @@ import view.util.scalaQuestSwingComponents.SqSwingLabel
 sealed trait InventoryView extends AbstractView {
 
   /**
-   * Show the items on the View.
+   * Shows the items on the View.
    *
    * @param items the items to display.
    */
