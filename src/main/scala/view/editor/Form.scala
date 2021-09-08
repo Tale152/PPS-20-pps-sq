@@ -1,5 +1,6 @@
 package view.editor
 
+import controller.Controller
 import controller.editor.EditorController
 import view.AbstractView
 import view.util.common.ControlsPanel
@@ -18,7 +19,7 @@ sealed trait Form extends AbstractView {
 
 object Form {
 
-  private class FormImpl(editorController: EditorController, formElements: List[FormElement]) extends Form {
+  private class FormImpl(controller: Controller, formElements: List[FormElement]) extends Form {
 
     val elements: List[FormElement] = formElements
     private val okButton: JButton = new JButton("")
@@ -60,7 +61,7 @@ object Form {
       this.add(
         ControlsPanel(List(
           ("o", ("[O] OK", _ => okButton.doClick())),
-          ("b", ("[B] Back", _ => editorController.execute()))
+          ("b", ("[B] Back", _ => controller.execute()))
         )),
         BorderLayout.SOUTH
       )
@@ -71,8 +72,8 @@ object Form {
     }
   }
 
-  def apply(editorController: EditorController, formElements: List[FormElement]): Form =
-    new FormImpl(editorController, formElements)
+  def apply(controller: Controller, formElements: List[FormElement]): Form =
+    new FormImpl(controller, formElements)
 }
 
 

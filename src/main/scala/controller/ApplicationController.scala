@@ -5,6 +5,7 @@ import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
+import controller.util.serialization.FolderUtil.deleteFolder
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
@@ -18,6 +19,7 @@ import java.nio.file.{Files, Paths}
  * It's the entrypoint and controls the main menu.
  */
 sealed trait ApplicationController extends Controller {
+
 
   def goToEditor(routeNode: StoryNode): Unit
 
@@ -34,19 +36,26 @@ sealed trait ApplicationController extends Controller {
   /**
    * Resumes an already started story with previously saved data.
    *
-   * @param storyUri the uri of the story to load.
+   * @param storyUri    the uri of the story to load.
    * @param progressUri the uri of the progress to load alongside the story.
    */
   def loadStoryWithProgress(storyUri: String, progressUri: String): Unit
 
-
   /**
    * Check if some progress is available for the selected story.
-   * @param storyName the name of the story.
+   *
+   * @param storyName     the name of the story.
    * @param baseDirectory the parent directory name of the game folder.
    * @return true if progress is available, false otherwise.
    */
   def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean
+
+  /**
+   * Deletes an existing story's directory and files.
+   *
+   * @param directoryName the name of the story to delete.
+   */
+  def deleteExistingStory(directoryName: String): Unit
 }
 
 object ApplicationController extends ApplicationController {
@@ -80,5 +89,12 @@ object ApplicationController extends ApplicationController {
     Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))
 
   override def goToEditor(routeNode: StoryNode): Unit = EditorController(routeNode).execute()
+
+  override def deleteExistingStory(directoryName: String): Unit = {
+    val directoryAbsolutePath: String = storyDirectoryPath(RootGameDirectory) + "/" + directoryName
+    if (new File(directoryAbsolutePath).exists()) {
+      deleteFolder(directoryAbsolutePath)
+    }
+  }
 
 }
