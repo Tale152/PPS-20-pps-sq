@@ -3,8 +3,8 @@ package view.editor
 import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingLabel}
 
 import java.text.NumberFormat
+import javax.swing._
 import javax.swing.text.NumberFormatter
-import javax.swing.{BoxLayout, JFormattedTextField, JScrollPane, JTextArea, JTextField}
 
 abstract class FormElement(textLabel: String) extends SqSwingBoxPanel(BoxLayout.Y_AXIS) {
 
@@ -42,4 +42,12 @@ case class IntegerInputElement(textLabel: String) extends FormElement(textLabel)
   this.add(jFormattedTextField)
 
   override def value: String = jFormattedTextField.getText
+}
+
+case class ComboBoxElement(textLabel: String, comboElements: List[String]) extends FormElement(textLabel) {
+  val comboBox = new JComboBox[String]()
+  comboElements.foreach(e => comboBox.addItem(e))
+  this.add(comboBox)
+
+  override def value: String = comboBox.getSelectedItem.asInstanceOf[String]
 }

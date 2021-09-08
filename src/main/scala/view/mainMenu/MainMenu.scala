@@ -9,6 +9,7 @@ import controller.util.serialization.FolderUtil.createFolderIfNotPresent
 import controller.util.serialization.StoryNodeSerializer.{deserializeStory, serializeStory}
 import model.nodes.StoryNode
 import view.AbstractView
+import view.editor.forms.DeleteStory.showDeleteStoryForm
 import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
@@ -89,6 +90,9 @@ object MainMenu {
               loadNewStory(file, newStoryFolderPath)
             }
           }
+        })), ("d", ("[D] Delete story", _ => {
+          showDeleteStoryForm(applicationController,
+            new File(storyDirectoryPath(RootGameDirectory)).listFiles().toList.map(f => f.getName))
         }))
       )), BorderLayout.SOUTH)
     }
