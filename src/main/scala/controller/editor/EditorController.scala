@@ -189,19 +189,12 @@ object EditorController {
 
     override def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean = {
 
-      def searchForDestination(searchedNode: MutableStoryNode, currentNode: MutableStoryNode): Boolean = {
+      def searchForDestination(searchedNode: MutableStoryNode, currentNode: MutableStoryNode): Boolean =
         currentNode != searchedNode && currentNode.mutablePathways.forall(
           p => searchForDestination(searchedNode, p.destinationNode)
         )
-      }
 
-      val startNode: MutableStoryNode = nodes._2.find(n => n.id == startNodeId).get
-      val endNode: MutableStoryNode = nodes._2.find(n => n.id == endNodeId).get
-      val currentPathways = startNode.mutablePathways
-      startNode.mutablePathways = currentPathways + MutablePathway("irrelevant description", endNode, None)
-      val res = startNode.mutablePathways.forall(p => searchForDestination(startNode, p.destinationNode))
-      startNode.mutablePathways = currentPathways
-      res
+      searchForDestination(nodes._2.find(n => n.id == startNodeId).get, nodes._2.find(n => n.id == endNodeId).get)
     }
 
     override def storyNodeExists(id: Int): Boolean = nodes._2.exists(n => n.id == id)
