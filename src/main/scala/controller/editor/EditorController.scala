@@ -112,9 +112,10 @@ object EditorController {
 
     private val editorView: EditorView = EditorView(this)
     private var nodes: (MutableStoryNode, Set[MutableStoryNode]) = StoryNodeConverter.fromImmutableToMutable(routeNode)
-    private val graph = GraphBuilder.build(nodes._1, printNodeNarrative, printEdgeLabel)
+    private val graph = GraphBuilder.build(nodes._1)
 
     val graphViewer: Viewer = graph.display()
+    decorateGraphGUI()
 
     override def execute(): Unit = editorView.render()
 
