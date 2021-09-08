@@ -1,8 +1,6 @@
 package view.editor.forms
 
 import controller.ApplicationController
-import view.editor.FormConditionValues.ConditionDescriptions.InvalidStartingIDMessage
-import view.editor.FormConditionValues.Conditions.NonEmptyString
 import view.editor.{Form, FormBuilder, OkFormButtonListener}
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
@@ -36,9 +34,9 @@ object DeleteStory {
        *
        * @return a List containing a condition and it's textual description.
        */
-      override def conditions: List[(Boolean, String)] = List(
-        (NonEmptyString(form.elements.head.value), InvalidStartingIDMessage),
-      )
+      override def conditions: List[(Boolean, String)] = {
+        List((form.elements.head.value != null, "No story is selected"))
+      }
     })
 
     form.render()
