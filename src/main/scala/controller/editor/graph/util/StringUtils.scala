@@ -4,6 +4,8 @@ object StringUtils {
 
   private val MaxStringLength: Int = 20
 
+  def pathwayIdSeparator: String = " to "
+
   def buildLabel(id: String, narrative: String): String = "[" + id + "] " + narrative
 
   def truncateString(s: String): String = {

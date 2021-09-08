@@ -201,7 +201,11 @@ object EditorController {
       } else {
         startNode.get.mutablePathways =
           startNode.get.mutablePathways + MutablePathway(pathwayDescription, endNode.get, None)
-        graph.addEdge(startNodeId + " to " + endNodeId, startNodeId.toString, endNodeId.toString)
+        graph.addEdge(
+          startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
+          startNodeId.toString,
+          endNodeId.toString
+        )
         decorateGraphGUI()
         true
       }
@@ -228,7 +232,7 @@ object EditorController {
         false
       } else {
         startNode.get.mutablePathways = startNode.get.mutablePathways.filter(p => p.destinationNode.id != endNodeId)
-        graph.removeEdge(startNodeId + " to " + endNodeId)
+        graph.removeEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId)
         decorateGraphGUI()
         true
       }
@@ -263,7 +267,10 @@ object EditorController {
           setupRouteNode()
         }
       })
-      graph.edges().forEach(e => setupEdge(e.getId.split(" to ")(0), e.getId.split(" to ")(1)))
+      graph.edges().forEach(e => setupEdge(
+        e.getId.split(StringUtils.pathwayIdSeparator)(0),
+        e.getId.split(StringUtils.pathwayIdSeparator)(1))
+      )
     }
 
     private def setupRouteNode(): Unit = {
@@ -295,15 +302,17 @@ object EditorController {
     private def setupEdge(startNodeId: String, endNodeId: String): Unit = {
       val startNode = nodes._2.find(n => n.id.toString == startNodeId).get
       ElementStyle.decorateEdge(
-        graph.getEdge(startNodeId + " to " + endNodeId),
+        graph.getEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId),
         startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.prerequisite.nonEmpty
       )
-      ElementLabel.putLabelOnElement(graph.getEdge(startNodeId + " to " + endNodeId), printEdgeLabel)(
+      ElementLabel.putLabelOnElement(
+        graph.getEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId), printEdgeLabel
+      )(
         StringUtils.buildLabel(
-          startNodeId + " to " + endNodeId,
+          startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
           startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.description
         ),
-        startNodeId + " to " + endNodeId
+        startNodeId + StringUtils.pathwayIdSeparator + endNodeId
       )
     }
 
