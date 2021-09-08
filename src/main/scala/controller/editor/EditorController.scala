@@ -9,11 +9,13 @@ import model.nodes.{MutablePathway, StoryNode}
 import org.graphstream.ui.view.Viewer
 import view.editor.EditorView
 
-trait EditorController extends Controller {
+sealed trait EditorController extends Controller {
 
   def save(path: String): Unit
 
   def getPathway(starNodeId: Int, endNodeId: Int): MutablePathway
+
+  def pathwayExists(startNodeId: Int, endNodeId: Int): Boolean
 
   def storyNodeExists(id: Int): Boolean
 
@@ -64,7 +66,7 @@ object EditorController {
     override def deleteExistingStoryNode(id: Int): Unit = {
       nodes._2.filter(n => n.mutablePathways.exists(p => p.destinationNode.id == id)).foreach(n => {
         n.mutablePathways = n.mutablePathways.filter(p => p.destinationNode.id != id)
-        if(n != nodes._1){
+        if (n != nodes._1) {
           setupNonRouteNode(n.id.toString)
         }
       })
@@ -75,7 +77,7 @@ object EditorController {
     override def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Unit = {
       val startNode: MutableStoryNode = nodes._2.find(n => n.id == startNodeId).get
       startNode.mutablePathways = startNode.mutablePathways.filter(p => p.destinationNode.id != endNodeId)
-      if(startNode != nodes._1){
+      if (startNode != nodes._1) {
         setupNonRouteNode(startNodeId.toString)
       }
       graph.removeEdge(startNodeId + " to " + endNodeId)
@@ -89,7 +91,7 @@ object EditorController {
       startingNode.mutablePathways = startingNode.mutablePathways + MutablePathway(pathwayDescription, newNode, None)
       graph.addNode(newId)
       setupNonRouteNode(newId)
-      if(startNodeId != nodes._1.id){
+      if (startNodeId != nodes._1.id) {
         setupNonRouteNode(startNodeId.toString)
       }
       graph.addEdge(startNodeId + " to " + newId, startNodeId.toString, newId)
@@ -100,7 +102,7 @@ object EditorController {
       val startNode: MutableStoryNode = nodes._2.find(n => n.id == startNodeId).get
       val endNode: MutableStoryNode = nodes._2.find(n => n.id == endNodeId).get
       startNode.mutablePathways = startNode.mutablePathways + MutablePathway(pathwayDescription, endNode, None)
-      if(startNodeId != nodes._1.id){
+      if (startNodeId != nodes._1.id) {
         setupNonRouteNode(startNodeId.toString)
       }
       graph.addEdge(startNodeId + " to " + endNodeId, startNodeId.toString, endNodeId.toString)
@@ -109,14 +111,14 @@ object EditorController {
 
     override def editExistingStoryNode(id: Int, nodeNarrative: String): Unit = {
       nodes._2.find(n => n.id == id).get.narrative = nodeNarrative
-      if(id != nodes._1.id){
+      if (id != nodes._1.id) {
         setupNonRouteNode(id.toString)
       } else {
         setupRouteNode()
       }
     }
 
-    override def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit ={
+    override def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit = {
       nodes._2.find(n => n.id == startNodeId).get
         .mutablePathways.find(p => p.destinationNode.id == endNodeId).get.description = pathwayDescription
       setupEdge(startNodeId.toString, endNodeId.toString)
@@ -166,7 +168,7 @@ object EditorController {
     override def changeNodesNarrativeVisibility(): Unit = {
       printNodeNarrative = !printNodeNarrative
       graph.nodes().forEach(n => {
-        if(n.getId != nodes._1.id.toString) {
+        if (n.getId != nodes._1.id.toString) {
           setupNonRouteNode(n.getId)
         } else {
           setupRouteNode()
@@ -205,6 +207,15 @@ object EditorController {
     }
 
     override def storyNodeExists(id: Int): Boolean = nodes._2.exists(n => n.id == id)
+
+    override def pathwayExists(startNodeId: Int, endNodeId: Int): Boolean = {
+      val startingStoryNode: Option[MutableStoryNode] = (nodes._2 + nodes._1).find(n => n.id == startNodeId)
+      if (startingStoryNode.isDefined) {
+        startingStoryNode.get.pathways.exists(p => p.destinationNode.id == endNodeId)
+      } else {
+        false
+      }
+    }
   }
 
   def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)

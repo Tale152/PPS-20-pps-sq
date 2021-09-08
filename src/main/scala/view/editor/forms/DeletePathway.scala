@@ -30,6 +30,8 @@ object DeletePathway {
       override def conditions: List[(Boolean, String)] = List(
         (NonEmptyString(form.elements.head.value), InvalidStartingIDMessage),
         (NonEmptyString(form.elements(1).value), InvalidEndingIDMessage),
+        (editorController.pathwayExists(form.elements.head.value.toInt, form.elements(1).value.toInt),
+          "The chosen Pathway is not valid.")
       )
     })
     form.render()
