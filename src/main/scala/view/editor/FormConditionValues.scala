@@ -8,8 +8,6 @@ object FormConditionValues {
 
   object ConditionDescriptions {
 
-    def nodeDoesNotExist(id: Int) : String = "Node " + id.toString + " doesn't exist."
-
     val InvalidIDMessage: String = shouldBeSpecified("An ID")
 
     val InvalidStartingIDMessage: String = shouldBeSpecified("A starting ID")
@@ -26,6 +24,7 @@ object FormConditionValues {
 
     val EndStoryNodeDoesNotExists: String = doesNotExists("The ending StoryNode")
 
+    def nodeDoesNotExist(id: () => Int) : String = "Node " + id().toString + " doesn't exist."
 
     private def shouldBeSpecified(subject: String): String = subject + " should be specified."
 

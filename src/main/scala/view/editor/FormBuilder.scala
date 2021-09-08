@@ -10,11 +10,14 @@ object FormBuilder {
 
     private val listBuffer: ListBuffer[FormElement] = ListBuffer()
 
-    def addTextField(label: String): FormBuilder = addField(TextInputElement(label))
+    def addTextField(label: String): FormBuilder =
+      addField(TextInputElement(label))
 
-    def addTextAreaField(label: String): FormBuilder = addField(TextAreaInputElement(label))
+    def addTextAreaField(label: String, oldText: String = ""): FormBuilder =
+      addField(TextAreaInputElement(label, oldText))
 
-    def addIntegerField(label: String): FormBuilder = addField(IntegerInputElement(label))
+    def addIntegerField(label: String): FormBuilder =
+      addField(IntegerInputElement(label))
 
     private def addField(formElement: FormElement): FormBuilder = {
       listBuffer += formElement

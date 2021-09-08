@@ -23,9 +23,15 @@ case class TextInputElement(textLabel: String) extends FormElement(textLabel) {
   override def value: String = jTextField.getText
 }
 
-case class TextAreaInputElement(textLabel: String) extends FormElement(textLabel) {
+case class TextAreaInputElement(textLabel: String, oldText: String = "") extends FormElement(textLabel) {
 
-  val jTextArea: JTextArea = new JTextArea(5, 0)
+  private object Dimensions {
+    val Rows: Int = 5
+    val Cols: Int = 5
+  }
+  import Dimensions._
+  val jTextArea: JTextArea = new JTextArea(Rows, Cols)
+  jTextArea.setText(oldText)
   this.add(new JScrollPane(jTextArea))
 
   override def value: String = jTextArea.getText
