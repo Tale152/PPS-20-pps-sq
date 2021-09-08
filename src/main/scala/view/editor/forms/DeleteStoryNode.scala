@@ -1,9 +1,12 @@
 package view.editor.forms
 
 import controller.editor.EditorController
-import view.editor.FormConditionValues.ConditionDescriptions.InvalidIDMessage
+import view.editor.FormConditionValues.ConditionDescriptions.{InvalidIDMessage, StoryNodeDoesNotExists}
 import view.editor.FormConditionValues.Conditions.NonEmptyString
 import view.editor.{Form, FormBuilder, OkFormButtonListener}
+import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
+
+import java.awt.event.ActionEvent
 
 object DeleteStoryNode {
 
@@ -17,7 +20,18 @@ object DeleteStoryNode {
        *
        * @see [[view.editor.OkFormButtonListener#approvalCondition()]]
        */
-      override def performAction(): Unit = editorController.deleteExistingStoryNode(form.elements.head.value.toInt)
+      override def performAction(): Unit = {
+        if(editorController.getStoryNode(form.elements.head.value.toInt).pathways.nonEmpty){
+          SqYesNoSwingDialog("Really delete this node?",
+            "All the subsequent nodes will also be deleted in cascade",
+            (_ :ActionEvent) => _deleteStoryNode(),
+            (_ :ActionEvent) => {})
+        } else {
+          _deleteStoryNode()
+        }
+        def _deleteStoryNode(): Unit = editorController.deleteExistingStoryNode(form.elements.head.value.toInt)
+
+      }
 
       /**
        * Specify the conditions and describe them.
@@ -26,8 +40,9 @@ object DeleteStoryNode {
        * @return a List containing a condition and it's textual description.
        */
       override def conditions: List[(Boolean, String)] = List(
-        (NonEmptyString(form.elements.head.value), InvalidIDMessage)
-        //TODO check that node is present, place it inside [[view.editor.FormConditionValues.ConditionDescriptions]]
+        (NonEmptyString(form.elements.head.value), InvalidIDMessage),
+        (editorController.storyNodeExists(form.elements.head.value.toInt), StoryNodeDoesNotExists),
+        (form.elements.head.value.toInt != 0, "The original starting node can't be deleted")
       )
     })
     form.render()

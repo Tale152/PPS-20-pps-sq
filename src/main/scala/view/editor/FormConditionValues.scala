@@ -1,6 +1,5 @@
 package view.editor
 
-
 object FormConditionValues {
 
   object Conditions {
@@ -21,7 +20,16 @@ object FormConditionValues {
 
     val InvalidNarrativeMessage: String = shouldBeSpecified("A narratives")
 
-    private def shouldBeSpecified(subject: String) = subject + " should be specified."
+    val StoryNodeDoesNotExists: String = doesNotExists("The StoryNode")
+
+    val StartingStoryNodeDoesNotExists: String = doesNotExists("The starting StoryNode")
+
+    val EndStoryNodeDoesNotExists: String = doesNotExists("The ending StoryNode")
+
+
+    private def shouldBeSpecified(subject: String): String = subject + " should be specified."
+
+    private def doesNotExists(subject: String): String = subject + " does not exists."
 
   }
 
