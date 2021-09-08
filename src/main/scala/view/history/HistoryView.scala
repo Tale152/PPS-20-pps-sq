@@ -9,7 +9,7 @@ import java.awt.BorderLayout
 import javax.swing.BorderFactory
 
 /**
- * Is a GUI that allows the user to check his previous choices traversing the story.
+ * It is a GUI that allows the user to check his previous choices traversing the story.
  * Associated with a HistoryController.
  *
  * @see [[controller.game.subcontroller.HistoryController]]
@@ -19,16 +19,16 @@ import javax.swing.BorderFactory
  */
 sealed trait HistoryView extends AbstractView {
   /**
-   * Allow to set the previous choices made by player to be rendered.
+   * Allows to set the previous choices made by player to be rendered.
    *
-   * @param choices a list of pair containing the node narrative and the chosen pathway description
+   * @param choices a list of pair containing the node narrative and the chosen pathway description.
    */
   def setPreviousChoices(choices: List[(String, String)]): Unit
 
   /**
-   * Allow to set the current node narrative to be rendered.
+   * Allows to set the current node narrative to be rendered.
    *
-   * @param narrative the current node narrative to display
+   * @param narrative the current node narrative to display.
    */
   def setCurrentNodeNarrative(narrative: String): Unit
 }

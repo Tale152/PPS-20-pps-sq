@@ -37,7 +37,7 @@ case class NarrativePanel(text: String) extends StoryPanel("Narrative") {
 }
 
 /**
- * Panel that provides the user with a list of possible choises to navigate the story.
+ * Panel that provides the user with a list of possible choices to navigate the story.
  *
  * @param paths           a sequence of all possible path to be taken in the actual node.
  * @param onPathwayChosen the selected path.

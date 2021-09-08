@@ -4,6 +4,9 @@ import view.util.scalaQuestSwingComponents.SqSwingButton
 
 import java.awt.event.{ActionEvent, ActionListener}
 
+/**
+ * A [[view.util.scalaQuestSwingComponents.dialog.SqSwingDialog]] that is provided with two buttons, yes or no.
+ */
 object SqYesNoSwingDialog {
   private class YesNoSqSwingDialogImpl(override val titleText: String, override val phrase: String,
                                        yesActionEvent: ActionListener, noActionEvent: ActionListener)
