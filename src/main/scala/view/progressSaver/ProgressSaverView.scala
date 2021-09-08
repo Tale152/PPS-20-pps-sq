@@ -10,7 +10,7 @@ import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 
 /**
- * Is a GUI that allows the user to save his progress.
+ * It is a GUI that allows the user to save his progress.
  * Associated with a ProgressSaverController.
  *
  * @see [[controller.game.subcontroller.ProgressSaverController]]

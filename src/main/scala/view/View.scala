@@ -9,7 +9,7 @@ import view.util.scalaQuestSwingComponents.SqSwingPanel
 sealed trait View {
 
   /**
-   * Renders the view
+   * Renders the view.
    */
   def render(): Unit
 
@@ -18,7 +18,7 @@ sealed trait View {
 abstract class AbstractView extends SqSwingPanel with View {
 
   /**
-   * Template method that renders the view
+   * Template method that renders the view.
    */
   override def render(): Unit = {
     this.updateUI()
@@ -30,7 +30,7 @@ abstract class AbstractView extends SqSwingPanel with View {
   }
 
   /**
-   * Sub-portion of render() where graphical elements are added
+   * Sub-portion of render() where graphical elements are added.
    */
   def populateView(): Unit
 

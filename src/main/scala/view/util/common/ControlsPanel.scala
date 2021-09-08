@@ -7,7 +7,7 @@ import javax.swing.{AbstractAction, JComponent, KeyStroke}
 
 /**
  * Panel containing one or more buttons with associated actions and key listeners.
- * @param controls list of pairs in wich the first argument is the key associated to the listener, the second is a
+ * @param controls list of pairs in which the first argument is the key associated to the listener, the second is a
  * pair containing the string to print on the button and the action on click / key pressed
  */
 case class ControlsPanel(controls: List[(String, (String, Unit => Unit))]) extends SqSwingGridPanel(0,2){

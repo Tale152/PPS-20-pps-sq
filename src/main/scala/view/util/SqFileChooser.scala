@@ -6,6 +6,9 @@ import java.io.File
 import javax.swing.{JComponent, JFileChooser}
 import javax.swing.filechooser.FileNameExtensionFilter
 
+/**
+ * Utility object used to get and show the stories files.
+ */
 object SqFileChooser {
 
   def showFileSave(title: String, onSave: String => Unit, selectedFileName: String, parent: JComponent): Unit = {
