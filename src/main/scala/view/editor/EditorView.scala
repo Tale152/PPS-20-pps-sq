@@ -26,8 +26,8 @@ object EditorView {
     override def populateView(): Unit = {
 
       this.add(ControlsPanel(List(
-        ("n", ("[N] Nodes narrative", _ => editorController.changeNodesNarrativeVisibility())),
-        ("p", ("[P] Pathways description", _ => editorController.changePathwaysDescriptionVisibility()))
+        ("n", ("[N] Nodes narrative", _ => editorController.switchNodesNarrativeVisibility())),
+        ("p", ("[P] Pathways description", _ => editorController.switchPathwaysDescriptionVisibility()))
       )), BorderLayout.NORTH)
 
       this.add(Scrollable(VerticalButtons(List(

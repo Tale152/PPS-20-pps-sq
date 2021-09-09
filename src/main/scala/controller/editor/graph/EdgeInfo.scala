@@ -1,5 +1,6 @@
 package controller.editor.graph
 
+import controller.editor.graph.util.StringUtils
 import controller.editor.graph.util.StringUtils.{buildLabel, truncateString}
 import model.nodes.{Pathway, StoryNode}
 
@@ -14,7 +15,7 @@ protected object EdgeInfo {
 
     def endNodeId: String = pathway.destinationNode.id.toString
 
-    def getEdgeId: String = startNodeId + " to " + endNodeId
+    def getEdgeId: String = startNodeId + StringUtils.pathwayIdSeparator + endNodeId
 
     def endNodeNarrative:String = truncateString(pathway.destinationNode.narrative)
 
