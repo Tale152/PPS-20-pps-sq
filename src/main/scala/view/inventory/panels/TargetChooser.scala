@@ -8,6 +8,9 @@ import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 import java.awt.event.ActionEvent
 
+/**
+ * Dialog that allows the user to select the target when he use an item in his inventory.
+ */
 object TargetChooser {
 
   private class TargetChooser(inventoryController: InventoryController,

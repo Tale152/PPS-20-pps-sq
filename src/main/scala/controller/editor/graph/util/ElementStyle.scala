@@ -7,7 +7,7 @@ object ElementStyle {
   private val StyleAttribute: String = "ui.style"
 
   private val TextAlignment: String = "under"
-  private val NodeSize: Int = 20
+  private val NodeSize: Int = 15
 
   private val RouteNodeShape: String = "diamond"
   private val MidNodeShape: String = "circle"

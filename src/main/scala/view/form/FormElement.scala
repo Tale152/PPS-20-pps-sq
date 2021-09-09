@@ -75,3 +75,11 @@ case class IntegerInputElement(textLabel: String) extends FormElement(textLabel)
 
   override def value: String = jFormattedTextField.getText
 }
+
+case class ComboBoxElement(textLabel: String, comboElements: List[String]) extends FormElement(textLabel) {
+  val comboBox = new JComboBox[String]()
+  comboElements.foreach(e => comboBox.addItem(e))
+  this.add(comboBox)
+
+  override def value: String = comboBox.getSelectedItem.asInstanceOf[String]
+}

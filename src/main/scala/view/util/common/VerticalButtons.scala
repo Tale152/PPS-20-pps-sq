@@ -12,6 +12,10 @@ import java.awt.font.FontRenderContext
 import java.awt.geom.AffineTransform
 import javax.swing.AbstractButton
 
+/**
+ * Panel that renders a list of buttons in a vertical style.
+ * @param buttonsList the list of buttons that is needed to be render vertically.
+ */
 case class VerticalButtons(buttonsList: List[SqSwingButton]) extends SqSwingGridBagPanel {
 
   private val buttonHeight = 20

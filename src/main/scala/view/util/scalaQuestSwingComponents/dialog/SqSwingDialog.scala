@@ -20,7 +20,7 @@ case class SqSwingDialog(titleText: String, phrase: String, buttons: List[JButto
   val buttonsPanel: SqSwingGridPanel = new SqSwingGridPanel(0, buttons.length) {}
   phrasePanel.add(SqSwingLabel(phrase))
   this.setLayout(new BorderLayout())
-  if(!closable){
+  if (!closable) {
     this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE)
   }
 
@@ -32,6 +32,7 @@ case class SqSwingDialog(titleText: String, phrase: String, buttons: List[JButto
   this.add(buttonsPanel, BorderLayout.CENTER)
   this.setTitle(titleText)
   this.pack()
-  this.setVisible(true)
   this.setLocationRelativeTo(frame)
+  this.setModal(true)
+  this.setVisible(true)
 }

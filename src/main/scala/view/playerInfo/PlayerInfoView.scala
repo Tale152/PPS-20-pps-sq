@@ -12,7 +12,7 @@ import javax.swing.BorderFactory
 import javax.swing.border.TitledBorder
 
 /**
- * Is a GUI that allows the user to check his player's stats. Associated with a PlayerInfoController.
+ * It is a GUI that allows the user to check his player's stats. Associated with a PlayerInfoController.
  *
  * @see [[controller.game.subcontroller.PlayerInfoController]]
  * @see [[model.characters.properties.stats.Stat]]
@@ -21,25 +21,25 @@ import javax.swing.border.TitledBorder
  */
 sealed trait PlayerInfoView extends AbstractView {
   /**
-   * Allow to set the stats to be rendered.
+   * Allows to set the stats to be rendered.
    *
    * @param stats list of stats, containing a pair with the StatName
-   *              associated to a pair of original stat value and current stat value
+   *              associated to a pair of original stat value and current stat value.
    * @see [[model.characters.properties.stats.Stat]]
    */
   def setStats(stats: List[(StatName, (Int, Int))]): Unit
 
   /**
-   * Allow to set the player name to be rendered.
+   * Allows to set the player name to be rendered.
    *
-   * @param name player name to be rendered
+   * @param name player name to be rendered.
    */
   def setPlayerName(name: String): Unit
 
   /**
    * Allow to set the health of the player to be rendered.
    *
-   * @param health a pair with current health and max health
+   * @param health a pair with current health and max health.
    */
   def setHealth(health: (Int, Int)): Unit
 }

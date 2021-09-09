@@ -9,7 +9,7 @@ import view.util.common.ControlsPanel
 import javax.swing.BoxLayout
 
 /**
- * Is a GUI that allows the user to set his properties. Associated withe a PlayerConfigurationController.
+ * It is a GUI that allows the user to set his properties. Associated with a PlayerConfigurationController.
  *
  * @see [[controller.PlayerConfigurationController]]
  * @see [[model.characters.properties.stats.Stat]]
@@ -19,17 +19,17 @@ import javax.swing.BoxLayout
 sealed trait PlayerConfigurationView extends AbstractView {
 
   /**
-   * Allow to set the number of remaining points to be rendered
+   * Allows to set the number of remaining points to be rendered.
    *
-   * @param points the number of remaining points
+   * @param points the number of remaining points.
    */
   def setRemainingPoints(points: Int): Unit
 
   /**
-   * Allow to set the stats to be rendered; the user will be able to increase (unless the remaining points are zero)
-   * or decrease the stat value (unless the stat value is one)
+   * Allows to set the stats to be rendered; the user will be able to increase (unless the remaining points are zero)
+   * or decrease the stat value (unless the stat value is one).
    *
-   * @param stats list of stats to render
+   * @param stats list of stats to render.
    * @see [[model.characters.properties.stats.Stat]]
    * @see [[setRemainingPoints]]
    */

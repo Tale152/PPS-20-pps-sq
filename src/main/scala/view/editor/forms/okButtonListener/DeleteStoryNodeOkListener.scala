@@ -9,11 +9,11 @@ import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
 import java.awt.event.ActionEvent
 
-case class DeleteStoryNodeOkListener(override val form: Form, override val editorController: EditorController)
-  extends EditorOkFormButtonListener(form, editorController) {
+case class DeleteStoryNodeOkListener(override val form: Form, override val controller: EditorController)
+  extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit = {
-    if (editorController.getStoryNode(form.elements.head.value.toInt).pathways.nonEmpty) {
+    if (controller.getStoryNode(form.elements.head.value.toInt).get.pathways.nonEmpty) {
       SqYesNoSwingDialog("Really delete this node?",
         "All the subsequent nodes will also be deleted in cascade",
         (_: ActionEvent) => _deleteStoryNode(),
@@ -22,7 +22,7 @@ case class DeleteStoryNodeOkListener(override val form: Form, override val edito
       _deleteStoryNode()
     }
 
-    def _deleteStoryNode(): Unit = editorController.deleteExistingStoryNode(form.elements.head.value.toInt)
+    def _deleteStoryNode(): Unit = controller.deleteExistingStoryNode(form.elements.head.value.toInt)
   }
 
   override def inputConditions: List[(Boolean, String)] =
@@ -32,7 +32,7 @@ case class DeleteStoryNodeOkListener(override val form: Form, override val edito
 
   override def stateConditions: List[(Boolean, String)] =
     List(
-      (editorController.storyNodeExists(form.elements.head.value.toInt), doesNotExists(TheStoryNode)),
+      (controller.getStoryNode(form.elements.head.value.toInt).isDefined, doesNotExists(TheStoryNode)),
       (form.elements.head.value.toInt != 0, "The original starting node can't be deleted")
     )
 

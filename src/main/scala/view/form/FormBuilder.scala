@@ -1,6 +1,6 @@
 package view.form
 
-import controller.editor.EditorController
+import controller.Controller
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -21,12 +21,15 @@ object FormBuilder {
     def addIntegerField(label: String): FormBuilder =
       addField(IntegerInputElement(label))
 
+    def addComboField(label: String, comboElement: List[String]): FormBuilder =
+      addField(ComboBoxElement(label, comboElement))
+
     private def addField(formElement: FormElement): FormBuilder = {
       listBuffer += formElement
       this
     }
 
-    def get(editorController: EditorController): Form = Form(editorController, listBuffer.toList)
+    def get(controller: Controller): Form = Form(controller, listBuffer.toList)
 
   }
 

@@ -9,7 +9,7 @@ import javax.swing._
 import javax.swing.border.EmptyBorder
 
 /**
- * The one and only Frame, for all the GUI's
+ * The one and only Frame, for all the GUI's.
  */
 object Frame {
 

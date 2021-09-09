@@ -6,11 +6,11 @@ import view.editor.forms.EditorConditionValues.ConditionDescriptions.{doesNotExi
 import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
 import view.form.Form
 
-case class NewStoryNodeOkListener(override val form: Form, override val editorController: EditorController)
-  extends EditorOkFormButtonListener(form, editorController) {
+case class NewStoryNodeOkListener(override val form: Form, override val controller: EditorController)
+  extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit =
-    editorController.addNewStoryNode(
+    controller.addNewStoryNode(
       form.elements.head.value.toInt,
       form.elements(1).value,
       form.elements(2).value
@@ -24,6 +24,6 @@ case class NewStoryNodeOkListener(override val form: Form, override val editorCo
     )
 
   override def stateConditions: List[(Boolean, String)] =
-    List((editorController.storyNodeExists(form.elements.head.value.toInt), doesNotExists(TheStoryNode)))
+    List((controller.getStoryNode(form.elements.head.value.toInt).isDefined, doesNotExists(TheStoryNode)))
 
 }

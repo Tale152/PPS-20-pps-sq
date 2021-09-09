@@ -9,35 +9,96 @@ import model.nodes.{MutablePathway, StoryNode}
 import org.graphstream.ui.view.Viewer
 import view.editor.EditorView
 
-sealed trait EditorController extends Controller {
+trait EditorController extends Controller {
 
+  /**
+   * Saves the current nodes structure serializing said structure in the provided path.
+   * @param path where to serialize the nodes structure
+   */
   def save(path: String): Unit
 
-  def getPathway(starNodeId: Int, endNodeId: Int): MutablePathway
+  /**
+   * Switches the visibility of the nodes narrative in the graph view
+   */
+  def switchNodesNarrativeVisibility(): Unit
 
-  def pathwayExists(startNodeId: Int, endNodeId: Int): Boolean
+  /**
+   * Switches the visibility of the pathways description in the graph view
+   */
+  def switchPathwaysDescriptionVisibility(): Unit
 
-  def storyNodeExists(id: Int): Boolean
+  /**
+   * @param id the target node's id
+   * @return the MutableStoryNode associated with the id (if present)
+   * @see [[model.nodes.StoryNode.MutableStoryNode]]
+   */
+  def getStoryNode(id: Int): Option[MutableStoryNode]
 
-  def getStoryNode(id: Int): MutableStoryNode
+  /**
+   * @param startNodeId the id of the node that is at the begin of the pathway
+   * @param endNodeId the id of the node that is at the end of the pathway
+   * @return the MutablePathway that connects the two nodes
+   * @see [[model.nodes.StoryNode.MutableStoryNode]]
+   * @see [[model.nodes.MutablePathway]]
+   */
+  def getPathway(startNodeId: Int, endNodeId: Int): Option[MutablePathway]
 
-  def changeNodesNarrativeVisibility(): Unit
+  /**
+   * Creates a new node in the story.
+   * @param startingPathwayId the id of the node that originates the pathway leading to the new node
+   * @param pathwayDescription the description of the pathway leading to the new node
+   * @param newNodeNarrative the narrative of the new node
+   * @return if the operation was successful
+   */
+  def addNewStoryNode(startingPathwayId: Int, pathwayDescription: String, newNodeNarrative: String): Boolean
 
-  def changePathwaysDescriptionVisibility(): Unit
+  /**
+   * Changes an existing node properties.
+   * @param id the target node to edit
+   * @param nodeNarrative the new narrative in the target node
+   * @return if the operation was successful
+   */
+  def editExistingStoryNode(id: Int, nodeNarrative: String): Boolean
 
-  def addNewStoryNode(startingPathwayId: Int, pathwayDescription: String, newNodeNarrative: String): Unit
+  /**
+   * Deletes an existing node.
+   * @param id the id of the target node
+   * @return if the operation was successful
+   */
+  def deleteExistingStoryNode(id: Int): Boolean
 
-  def addNewPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit
+  /**
+   * Creates a new pathway to connect two nodes.
+   * @param startNodeId the id of the node that is at the begin of the pathway
+   * @param endNodeId the id of the node that is at the end of the pathway
+   * @param pathwayDescription the description of the new pathway
+   * @return if the operation was successful
+   */
+  def addNewPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Boolean
 
-  def editExistingStoryNode(id: Int, nodeNarrative: String): Unit
+  /**
+   * Changes an existing pathway properties.
+   * @param startNodeId the id of the node that is at the begin of the pathway
+   * @param endNodeId the id of the node that is at the end of the pathway
+   * @param pathwayDescription the new description of the target pathway
+   * @return if the operation was successful
+   */
+  def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Boolean
 
+  /**
+   * Deletes an existing pathway.
+   * @param startNodeId the id of the node that is at the begin of the pathway
+   * @param endNodeId the id of the node that is at the end of the pathway
+   * @return if the operation was successful
+   */
+  def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Boolean
+
+  /**
+   * @param startNodeId the id of the node that is at the begin of a hypothetical new pathway
+   * @param endNodeId the id of the node that is at the end of a hypothetical new pathway
+   * @return if a hypothetical new pathway is valid
+   */
   def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean
-
-  def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit
-
-  def deleteExistingStoryNode(id: Int): Unit
-
-  def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Unit
 }
 
 object EditorController {
@@ -51,9 +112,10 @@ object EditorController {
 
     private val editorView: EditorView = EditorView(this)
     private var nodes: (MutableStoryNode, Set[MutableStoryNode]) = StoryNodeConverter.fromImmutableToMutable(routeNode)
-    private val graph = GraphBuilder.build(nodes._1, printNodeNarrative, printEdgeLabel)
+    private val graph = GraphBuilder.build(nodes._1)
 
     val graphViewer: Viewer = graph.display()
+    decorateGraphGUI()
 
     override def execute(): Unit = editorView.render()
 
@@ -63,65 +125,152 @@ object EditorController {
       ApplicationController.execute()
     }
 
-    override def deleteExistingStoryNode(id: Int): Unit = {
-      nodes._2.filter(n => n.mutablePathways.exists(p => p.destinationNode.id == id)).foreach(n => {
-        n.mutablePathways = n.mutablePathways.filter(p => p.destinationNode.id != id)
-        if (n != nodes._1) {
-          setupNonRouteNode(n.id.toString)
+    override def save(path: String): Unit =
+      StoryNodeSerializer.serializeStory(StoryNodeConverter.fromMutableToImmutable(nodes._1)._1, path)
+
+    override def switchNodesNarrativeVisibility(): Unit = {
+      printNodeNarrative = !printNodeNarrative
+      decorateGraphGUI()
+    }
+
+    override def switchPathwaysDescriptionVisibility(): Unit = {
+      printEdgeLabel = !printEdgeLabel
+      decorateGraphGUI()
+    }
+
+    override def getStoryNode(id: Int): Option[MutableStoryNode] = nodes._2.find(n => n.id == id)
+
+    override def getPathway(startNodeId: Int, endNodeId: Int): Option[MutablePathway] =
+      getStoryNode(startNodeId) match {
+        case None => None
+        case _ => getStoryNode(startNodeId).get.mutablePathways.find(p => p.destinationNode.id == endNodeId)
+      }
+
+    override def addNewStoryNode(startNodeId: Int, pathwayDescription: String, newNodeNarrative: String): Boolean =
+      if (getStoryNode(startNodeId).isEmpty || pathwayDescription.trim.isEmpty || newNodeNarrative.trim.isEmpty) {
+        false
+      } else {
+        val newId: Int = nodes._2.maxBy(n => n.id).id + 1
+        val newNode = MutableStoryNode(newId, newNodeNarrative, None, Set(), List())
+        nodes = (nodes._1, nodes._2 + newNode)
+        graph.addNode(newId.toString)
+        addNewPathway(startNodeId, newId, pathwayDescription) //decorateGraphGUI called here
+      }
+
+    override def editExistingStoryNode(id: Int, nodeNarrative: String): Boolean = {
+      val targetNode = getStoryNode(id)
+      if (targetNode.isEmpty || nodeNarrative.trim.isEmpty){
+        false
+      } else {
+        targetNode.get.narrative = nodeNarrative
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def deleteExistingStoryNode(id: Int): Boolean = {
+      val targetNode: Option[MutableStoryNode] = getStoryNode(id)
+      if (targetNode.isEmpty || targetNode.get == nodes._1){
+        false
+      } else {
+        //removing all pathways leading to the target node
+        nodes._2.filter(n => n.mutablePathways.exists(p => p.destinationNode.id == id))
+          .foreach(n => n.mutablePathways = n.mutablePathways.filter(p => p.destinationNode.id != id))
+        //recreating structure implicitly deleting unreachable nodes
+        nodes = StoryNodeConverter.fromImmutableToMutable(nodes._1)
+        //removing the target node from the GUI graph
+        graph.removeNode(id.toString)
+        //removing all other deleted nodes from the GUI graph
+        var removedNodesId: Set[Int] = Set()
+        graph.nodes().mapToInt(n => n.getId.toInt)
+          .filter(id => !nodes._2.exists(sn => sn.id == id))
+          .forEach(id => removedNodesId = removedNodesId + id) //removing nodes here throws null pointer
+        removedNodesId.foreach(id => {
+          if (graph.nodes.anyMatch(n => n.getId.toInt == id)) { graph.removeNode(id.toString)}
+        })
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def addNewPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Boolean = {
+      val startNode: Option[MutableStoryNode] = getStoryNode(startNodeId)
+      val endNode: Option[MutableStoryNode] = getStoryNode(endNodeId)
+      if (startNode.isEmpty || endNode.isEmpty || pathwayDescription.trim.isEmpty){
+        false
+      } else {
+        startNode.get.mutablePathways =
+          startNode.get.mutablePathways + MutablePathway(pathwayDescription, endNode.get, None)
+        graph.addEdge(
+          startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
+          startNodeId.toString,
+          endNodeId.toString
+        )
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Boolean = {
+      if (
+        getStoryNode(startNodeId).nonEmpty &&
+          getStoryNode(endNodeId).nonEmpty &&
+          pathwayDescription.trim.nonEmpty &&
+          getPathway(startNodeId, endNodeId).nonEmpty
+      ){
+        getPathway(startNodeId, endNodeId).get.description = pathwayDescription
+        decorateGraphGUI()
+        true
+      } else {
+        false
+      }
+    }
+
+    override def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Boolean = {
+      val startNode = getStoryNode(startNodeId)
+      if (startNode.isEmpty || getStoryNode(endNodeId).isEmpty){
+        false
+      } else {
+        startNode.get.mutablePathways = startNode.get.mutablePathways.filter(p => p.destinationNode.id != endNodeId)
+        graph.removeEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId)
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean = {
+
+      def searchForDestination(searchedNode: MutableStoryNode, currentNode: MutableStoryNode): Boolean =
+        currentNode != searchedNode && currentNode.mutablePathways.forall(
+          p => searchForDestination(searchedNode, p.destinationNode)
+        )
+
+      val startNode = getStoryNode(startNodeId)
+      val endNode = getStoryNode(endNodeId)
+      if (startNode.isEmpty ||
+        endNode.isEmpty ||
+        /* cannot create two pathways with same origin and destination */
+        startNode.get.mutablePathways.exists(p => p.destinationNode == endNode.get)
+      ){
+        false
+      } else {
+        //searching if, from the end node, the start node is unreachable (preventing a loop)
+        searchForDestination(startNode.get, endNode.get)
+      }
+    }
+
+    private def decorateGraphGUI(): Unit = {
+      graph.nodes().forEach(n => {
+        if(n.getId != nodes._1.id.toString) {
+          setupNonRouteNode(n.getId)
+        } else {
+          setupRouteNode()
         }
       })
-      nodes = (nodes._1, nodes._2.filter(n => n.id != id))
-      graph.removeNode(id.toString)
-    }
-
-    override def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Unit = {
-      val startNode: MutableStoryNode = nodes._2.find(n => n.id == startNodeId).get
-      startNode.mutablePathways = startNode.mutablePathways.filter(p => p.destinationNode.id != endNodeId)
-      if (startNode != nodes._1) {
-        setupNonRouteNode(startNodeId.toString)
-      }
-      graph.removeEdge(startNodeId + " to " + endNodeId)
-    }
-
-    override def addNewStoryNode(startNodeId: Int, pathwayDescription: String, newNodeNarrative: String): Unit = {
-      val newId: String = (nodes._2.maxBy(n => n.id).id + 1).toString
-      val newNode = MutableStoryNode(newId.toInt, newNodeNarrative, None, Set(), List())
-      nodes = (nodes._1, nodes._2 + newNode)
-      val startingNode = nodes._2.find(n => n.id == startNodeId).get
-      startingNode.mutablePathways = startingNode.mutablePathways + MutablePathway(pathwayDescription, newNode, None)
-      graph.addNode(newId)
-      setupNonRouteNode(newId)
-      if (startNodeId != nodes._1.id) {
-        setupNonRouteNode(startNodeId.toString)
-      }
-      graph.addEdge(startNodeId + " to " + newId, startNodeId.toString, newId)
-      setupEdge(startNodeId.toString, newId)
-    }
-
-    override def addNewPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit = {
-      val startNode: MutableStoryNode = nodes._2.find(n => n.id == startNodeId).get
-      val endNode: MutableStoryNode = nodes._2.find(n => n.id == endNodeId).get
-      startNode.mutablePathways = startNode.mutablePathways + MutablePathway(pathwayDescription, endNode, None)
-      if (startNodeId != nodes._1.id) {
-        setupNonRouteNode(startNodeId.toString)
-      }
-      graph.addEdge(startNodeId + " to " + endNodeId, startNodeId.toString, endNodeId.toString)
-      setupEdge(startNodeId.toString, endNodeId.toString)
-    }
-
-    override def editExistingStoryNode(id: Int, nodeNarrative: String): Unit = {
-      nodes._2.find(n => n.id == id).get.narrative = nodeNarrative
-      if (id != nodes._1.id) {
-        setupNonRouteNode(id.toString)
-      } else {
-        setupRouteNode()
-      }
-    }
-
-    override def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit = {
-      nodes._2.find(n => n.id == startNodeId).get
-        .mutablePathways.find(p => p.destinationNode.id == endNodeId).get.description = pathwayDescription
-      setupEdge(startNodeId.toString, endNodeId.toString)
+      graph.edges().forEach(e => setupEdge(
+        e.getId.split(StringUtils.pathwayIdSeparator)(0),
+        e.getId.split(StringUtils.pathwayIdSeparator)(1))
+      )
     }
 
     private def setupRouteNode(): Unit = {
@@ -153,69 +302,20 @@ object EditorController {
     private def setupEdge(startNodeId: String, endNodeId: String): Unit = {
       val startNode = nodes._2.find(n => n.id.toString == startNodeId).get
       ElementStyle.decorateEdge(
-        graph.getEdge(startNodeId + " to " + endNodeId),
+        graph.getEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId),
         startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.prerequisite.nonEmpty
       )
-      ElementLabel.putLabelOnElement(graph.getEdge(startNodeId + " to " + endNodeId), printEdgeLabel)(
+      ElementLabel.putLabelOnElement(
+        graph.getEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId), printEdgeLabel
+      )(
         StringUtils.buildLabel(
-          startNodeId + " to " + endNodeId,
+          startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
           startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.description
         ),
-        startNodeId + " to " + endNodeId
+        startNodeId + StringUtils.pathwayIdSeparator + endNodeId
       )
     }
 
-    override def changeNodesNarrativeVisibility(): Unit = {
-      printNodeNarrative = !printNodeNarrative
-      graph.nodes().forEach(n => {
-        if (n.getId != nodes._1.id.toString) {
-          setupNonRouteNode(n.getId)
-        } else {
-          setupRouteNode()
-        }
-      })
-    }
-
-    override def changePathwaysDescriptionVisibility(): Unit = {
-      printEdgeLabel = !printEdgeLabel
-      graph.edges().forEach(e => setupEdge(e.getId.split(" to ")(0), e.getId.split(" to ")(1)))
-    }
-
-    override def getStoryNode(id: Int): MutableStoryNode = nodes._2.find(n => n.id == id).get
-
-    override def getPathway(starNodeId: Int, endNodeId: Int): MutablePathway =
-      nodes._2.find(n => n.id == starNodeId).get.mutablePathways.find(p => p.destinationNode.id == endNodeId).get
-
-    override def save(path: String): Unit =
-      StoryNodeSerializer.serializeStory(StoryNodeConverter.fromMutableToImmutable(nodes._1)._1, path)
-
-    override def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean = {
-
-      def searchForDestination(searchedNode: MutableStoryNode, currentNode: MutableStoryNode): Boolean = {
-        currentNode != searchedNode && currentNode.mutablePathways.forall(
-          p => searchForDestination(searchedNode, p.destinationNode)
-        )
-      }
-
-      val startNode: MutableStoryNode = nodes._2.find(n => n.id == startNodeId).get
-      val endNode: MutableStoryNode = nodes._2.find(n => n.id == endNodeId).get
-      val currentPathways = startNode.mutablePathways
-      startNode.mutablePathways = currentPathways + MutablePathway("irrelevant description", endNode, None)
-      val res = startNode.mutablePathways.forall(p => searchForDestination(startNode, p.destinationNode))
-      startNode.mutablePathways = currentPathways
-      res
-    }
-
-    override def storyNodeExists(id: Int): Boolean = nodes._2.exists(n => n.id == id)
-
-    override def pathwayExists(startNodeId: Int, endNodeId: Int): Boolean = {
-      val startingStoryNode: Option[MutableStoryNode] = (nodes._2 + nodes._1).find(n => n.id == startNodeId)
-      if (startingStoryNode.isDefined) {
-        startingStoryNode.get.pathways.exists(p => p.destinationNode.id == endNodeId)
-      } else {
-        false
-      }
-    }
   }
 
   def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)

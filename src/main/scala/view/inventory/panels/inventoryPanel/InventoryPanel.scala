@@ -7,7 +7,12 @@ import view.util.common.{Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridPanel}
 
-
+/**
+ * Panel used to shows all the items in the inventory, correctly formatted. Used in [[view.inventory.InventoryView]].
+ * @param inventoryController the controller that is used to modify the actual inventory of the player; it can use
+ *                            and remove items.
+ * @param inventoryItems the current list of items in inventory.
+ */
 case class InventoryPanel(inventoryController: InventoryController, inventoryItems: List[Item])
   extends SqSwingGridPanel(0, 1) {
 

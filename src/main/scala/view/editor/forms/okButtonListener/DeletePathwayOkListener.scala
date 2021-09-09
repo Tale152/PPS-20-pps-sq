@@ -6,11 +6,11 @@ import view.editor.forms.EditorConditionValues.ConditionDescriptions.{isNotValid
 import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
 import view.form.Form
 
-case class DeletePathwayOkListener(override val form: Form, override val editorController: EditorController)
-  extends EditorOkFormButtonListener(form, editorController) {
+case class DeletePathwayOkListener(override val form: Form, override val controller: EditorController)
+  extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit =
-    editorController.deleteExistingPathway(form.elements.head.value.toInt, form.elements(1).value.toInt)
+    controller.deleteExistingPathway(form.elements.head.value.toInt, form.elements(1).value.toInt)
 
   override def inputConditions: List[(Boolean, String)] = {
     List(
@@ -21,7 +21,7 @@ case class DeletePathwayOkListener(override val form: Form, override val editorC
 
   override def stateConditions: List[(Boolean, String)] =
     List(
-      (editorController.pathwayExists(form.elements.head.value.toInt, form.elements(1).value.toInt),
+      (controller.getPathway(form.elements.head.value.toInt, form.elements(1).value.toInt).isDefined,
         isNotValid(ThePathway))
     )
 

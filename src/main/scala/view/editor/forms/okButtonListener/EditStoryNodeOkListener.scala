@@ -8,21 +8,21 @@ import view.form.{Form, FormBuilder, OkFormButtonListener}
 
 object EditStoryNodeOkListener {
 
-  case class SelectStoryNodeOkListener(override val form: Form, override val editorController: EditorController)
-    extends OkFormButtonListener(form, editorController) {
+  case class SelectStoryNodeOkListener(override val form: Form, override val controller: EditorController)
+    extends OkFormButtonListener(form, controller) {
 
     private def showEditStoryNodeFormFields(id: Int, oldNarrative: String): Unit = {
       val form: Form = FormBuilder()
         .addTextAreaField("What narrative should the story node show?", oldNarrative)
-        .get(editorController)
-      form.setOkButtonListener(EditStoryNodeOkListener(form, editorController, id))
+        .get(controller)
+      form.setOkButtonListener(EditStoryNodeOkListener(form, controller, id))
       form.render()
     }
 
     override def performAction(): Unit =
       showEditStoryNodeFormFields(
         form.elements.head.value.toInt,
-        editorController.getStoryNode(form.elements.head.value.toInt).narrative
+        controller.getStoryNode(form.elements.head.value.toInt).get.narrative
       )
 
     override def inputConditions: List[(Boolean, String)] =
@@ -32,15 +32,15 @@ object EditStoryNodeOkListener {
 
     override def stateConditions: List[(Boolean, String)] =
       List(
-        (editorController.storyNodeExists(form.elements.head.value.toInt), doesNotExists(TheStoryNode))
+        (controller.getStoryNode(form.elements.head.value.toInt).isDefined, doesNotExists(TheStoryNode))
       )
   }
 
-  case class EditStoryNodeOkListener(override val form: Form, override val editorController: EditorController, id: Int)
-    extends EditorOkFormButtonListener(form, editorController) {
+  case class EditStoryNodeOkListener(override val form: Form, override val controller: EditorController, id: Int)
+    extends EditorOkFormButtonListener(form, controller) {
 
     override def editorControllerAction(): Unit =
-      editorController.editExistingStoryNode(id, form.elements.head.value)
+      controller.editExistingStoryNode(id, form.elements.head.value)
 
     override def inputConditions: List[(Boolean, String)] =
       List(

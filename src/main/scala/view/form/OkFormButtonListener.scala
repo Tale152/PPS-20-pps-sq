@@ -1,6 +1,6 @@
 package view.form
 
-import controller.editor.EditorController
+import controller.Controller
 import view.util.StringFormatUtil.FormatElements.NewLine
 import view.util.StringFormatUtil.formatted
 import view.util.scalaQuestSwingComponents.SqSwingButton
@@ -11,7 +11,7 @@ import java.awt.event.{ActionEvent, ActionListener}
 /**
  * Abstract Ok Button Listener designed to be used inside [[Form]].
  */
-abstract class OkFormButtonListener(val form: Form, val editorController: EditorController)
+abstract class OkFormButtonListener(val form: Form, val controller: Controller)
   extends ActionListener {
 
   /**
