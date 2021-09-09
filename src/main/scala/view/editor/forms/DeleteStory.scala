@@ -25,7 +25,6 @@ object DeleteStory {
         SqYesNoSwingDialog("Delete story", "Are you sure to delete the story and all progress?",
           (_: ActionEvent) => {
             applicationController.deleteExistingStory(form.elements.head.value)
-            showDeleteStoryForm(applicationController, comboElements.filter(e => e != form.elements.head.value))
             SqSwingDialog("Story deleted", "Story " + form.elements.head.value + " deleted successfully",
               List(SqSwingButton("ok", _ => {})))
             showDeleteStoryForm(applicationController, comboElements.filter(e => e != form.elements.head.value))
