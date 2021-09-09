@@ -56,7 +56,9 @@ object MainMenu {
       this.add(Scrollable(VerticalButtons(generateButtons())))
       val chooser = SqFileChooser.getFileChooser("Load story")
       this.add(ControlsPanel(List(
-        ("q", ("[Q] Quit", _ => applicationController.close())),
+        ("q", ("[Q] Quit", _ => SqYesNoSwingDialog("Exit confirm", "Do you really want to exit the game?", _ => {
+          applicationController.close()
+        }))),
         ("e", ("[E] Editor", _ => {
           SqSwingDialog(
             "ScalaQuest",
