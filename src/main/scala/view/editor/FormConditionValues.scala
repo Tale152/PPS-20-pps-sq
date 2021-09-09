@@ -31,11 +31,11 @@ object FormConditionValues {
       val ThePathway: String = "The Pathway"
     }
 
-    val shouldBeSpecified: String => String = subject => subject + " should be specified."
+    val mustBeSpecified: String => String = subject => subject + " must be specified."
 
     val doesNotExists: String => String = subject => subject + " does not exists."
 
-    val  isNotValid: String => String = subject => subject  + " is not valid."
+    val isNotValid: String => String = subject => subject  + " is not valid."
 
   }
 

@@ -2,6 +2,8 @@ package view.editor.forms.okButtonListener
 
 import controller.editor.EditorController
 import view.editor.Form
+import view.editor.FormConditionValues.ConditionDescriptions.Subjects._
+import view.editor.FormConditionValues.ConditionDescriptions.{doesNotExists, mustBeSpecified}
 import view.editor.FormConditionValues.InputPredicates.NonEmptyString
 
 case class NewPathwayOkListener(override val form: Form, override val editorController: EditorController)
@@ -16,18 +18,23 @@ case class NewPathwayOkListener(override val form: Form, override val editorCont
 
   override def inputConditions: List[(Boolean, String)] =
     List(
-      (NonEmptyString(form.elements.head.value), ""),
-      (NonEmptyString(form.elements(1).value), ""),
-      (NonEmptyString(form.elements(2).value), ""),
-      (editorController.isNewPathwayValid(form.elements.head.value.toInt, form.elements(1).value.toInt),
-        "Creating this pathway results in a loop in the story, cannot create this pathway"),
+      (NonEmptyString(form.elements.head.value), mustBeSpecified(TheStartingId)),
+      (NonEmptyString(form.elements(1).value), mustBeSpecified(TheEndingId)),
+      (NonEmptyString(form.elements(2).value), mustBeSpecified(TheDescription))
     )
 
-  /**
-   * Specify the conditions to check in the state of the model.
-   * If ALL are satisfied (&&) call [[OkFormButtonListener#performAction()]].
-   *
-   * @return a List containing conditions that are state based with textual descriptions.
-   */
-  override def stateConditions: List[(Boolean, String)] = List()
+  override def stateConditions: List[(Boolean, String)] = List(
+    (editorController.storyNodeExists(form.elements.head.value.toInt), doesNotExists(TheStartingStoryNode)),
+    (editorController.storyNodeExists(form.elements(1).value.toInt), doesNotExists(TheEndStoryNode)),
+    checkLoop(form.elements.head.value.toInt, form.elements(1).value.toInt)
+  )
+
+  def checkLoop(startId: Int, endId: Int): (Boolean, String) = {
+    if(editorController.storyNodeExists(startId) && editorController.storyNodeExists(endId)) {
+      (editorController.isNewPathwayValid(form.elements.head.value.toInt, form.elements(1).value.toInt),
+      "Creating this pathway results in a loop in the story, cannot create this pathway.")
+    } else {
+      (true, "")
+    }
+  }
 }

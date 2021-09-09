@@ -2,6 +2,8 @@ package view.editor.forms.okButtonListener
 
 import controller.editor.EditorController
 import view.editor.Form
+import view.editor.FormConditionValues.ConditionDescriptions.Subjects.{TheId, TheStoryNode}
+import view.editor.FormConditionValues.ConditionDescriptions.{doesNotExists, mustBeSpecified}
 import view.editor.FormConditionValues.InputPredicates.NonEmptyString
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
@@ -24,19 +26,16 @@ case class DeleteStoryNodeOkListener(override val form: Form, override val edito
 
   }
 
-  override def inputConditions: List[(Boolean, String)] = List(
-    (NonEmptyString(form.elements.head.value), ""),
-    (editorController.storyNodeExists(form.elements.head.value.toInt), ""),
-    (form.elements.head.value.toInt != 0, "The original starting node can't be deleted")
-  )
+  override def inputConditions: List[(Boolean, String)] =
+    List(
+      (NonEmptyString(form.elements.head.value), mustBeSpecified(TheId))
+    )
 
-  /**
-   * Specify the conditions to check in the state of the model.
-   * If ALL are satisfied (&&) call [[OkFormButtonListener#performAction()]].
-   *
-   * @return a List containing conditions that are state based with textual descriptions.
-   */
-  override def stateConditions: List[(Boolean, String)] = List()
+  override def stateConditions: List[(Boolean, String)] =
+    List(
+      (editorController.storyNodeExists(form.elements.head.value.toInt), doesNotExists(TheStoryNode)),
+      (form.elements.head.value.toInt != 0, "The original starting node can't be deleted")
+    )
 }
 
 
