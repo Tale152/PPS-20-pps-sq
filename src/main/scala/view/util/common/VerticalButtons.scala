@@ -27,12 +27,12 @@ case class VerticalButtons(buttonsList: List[SqSwingButton]) extends SqSwingGrid
   private var _selected = 0
 
   if(buttonsList.nonEmpty) {
-    buttonsList(_selected).changeAppearance(Color.GREEN)
+    buttonsList(_selected).changeTextColor(Color.GREEN)
     Frame.frame.addKeyListener(new KeyListener {
       override def keyTyped(e: KeyEvent): Unit = { /*does nothing*/ }
 
       override def keyPressed(e: KeyEvent): Unit = {
-        buttonsList(_selected).changeAppearance(Color.WHITE)
+        buttonsList(_selected).changeTextColor(Color.WHITE)
         e.getExtendedKeyCode match {
           case KeyEvent.VK_UP =>
             if (_selected - 1 == -1) {
@@ -52,7 +52,7 @@ case class VerticalButtons(buttonsList: List[SqSwingButton]) extends SqSwingGrid
             buttonsList(_selected).doClick()
           case _ => /* does nothing, doesn't throw exception */
         }
-        buttonsList(_selected).changeAppearance(Color.GREEN)
+        buttonsList(_selected).changeTextColor(Color.GREEN)
       }
 
       override def keyReleased(e: KeyEvent): Unit = {/*does nothing*/}
