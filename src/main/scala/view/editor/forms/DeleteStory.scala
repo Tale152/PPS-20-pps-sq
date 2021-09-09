@@ -2,7 +2,8 @@ package view.editor.forms
 
 import controller.ApplicationController
 import view.editor.{Form, FormBuilder, OkFormButtonListener}
-import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
+import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
 
 import java.awt.event.ActionEvent
 
@@ -24,6 +25,8 @@ object DeleteStory {
         SqYesNoSwingDialog("Delete story", "Are you sure to delete the story and all progress?",
           (_: ActionEvent) => {
             applicationController.deleteExistingStory(form.elements.head.value)
+            SqSwingDialog("Story deleted", "Story " + form.elements.head.value + " deleted successfully",
+              List(SqSwingButton("ok", _ => {})))
             showDeleteStoryForm(applicationController, comboElements.filter(e => e != form.elements.head.value))
           }, _ => {})
       }
