@@ -9,11 +9,22 @@ import java.awt.BorderLayout
 import java.awt.event.ActionListener
 import javax.swing.{GroupLayout, JButton}
 
+/**
+ * Trait that represents a Form. A view that contains multiple elements. The user may interact with them.
+ */
 sealed trait Form extends AbstractView {
 
-  def elements : List[FormElement]
+  /**
+   * @return a list containing all the [[view.form.FormElement]] of the Form.
+   */
+  def elements: List[FormElement]
 
-  def setOkButtonListener(okButtonListener: ActionListener) : Unit
+  /**
+   * Set the Action listener of the confirmation button.
+   *
+   * @param okButtonListener the action Listener of the Ok button.
+   */
+  def setOkButtonListener(okButtonListener: ActionListener): Unit
 }
 
 object Form {
@@ -25,7 +36,7 @@ object Form {
 
     private val centerPanel: SqSwingGridBagPanel = new SqSwingGridBagPanel {}
 
-    private val groupPanel: SqSwingPanel = new SqSwingPanel(){}
+    private val groupPanel: SqSwingPanel = new SqSwingPanel() {}
     val groupLayout = new GroupLayout(groupPanel)
     groupLayout.setAutoCreateGaps(true)
     groupLayout.setAutoCreateContainerGaps(true)
@@ -40,7 +51,7 @@ object Form {
       elements.foreach(e =>
         group
           .addGroup(groupLayout.createParallelGroup(GroupLayout.Alignment.CENTER)
-          .addComponent(e, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+            .addComponent(e, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
       )
       group
     }

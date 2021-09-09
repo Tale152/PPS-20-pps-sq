@@ -1,9 +1,11 @@
 package view.form
 
 import controller.editor.EditorController
-
 import scala.collection.mutable.ListBuffer
 
+/**
+ * Factory Object used to create a [[view.form.Form]].
+ */
 object FormBuilder {
 
   class FormBuilder() {
@@ -24,9 +26,7 @@ object FormBuilder {
       this
     }
 
-    def get(editorController: EditorController): Form = {
-      Form(editorController, listBuffer.toList)
-    }
+    def get(editorController: EditorController): Form = Form(editorController, listBuffer.toList)
 
   }
 

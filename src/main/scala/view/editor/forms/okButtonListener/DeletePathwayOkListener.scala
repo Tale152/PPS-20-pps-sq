@@ -21,7 +21,7 @@ case class DeletePathwayOkListener(override val form: Form, override val editorC
 
   override def stateConditions: List[(Boolean, String)] =
     List(
-        (editorController.pathwayExists(form.elements.head.value.toInt, form.elements(1).value.toInt),
+      (editorController.pathwayExists(form.elements.head.value.toInt, form.elements(1).value.toInt),
         isNotValid(ThePathway))
     )
 

@@ -14,7 +14,7 @@ object EditPathwayOkListener {
       val form: Form = FormBuilder()
         .addTextAreaField("What description should the pathway show?", oldDescription)
         .get(editorController)
-      form.setOkButtonListener(EditPathwayOkListener(form, editorController,startNodeId, endNodeId))
+      form.setOkButtonListener(EditPathwayOkListener(form, editorController, startNodeId, endNodeId))
       form.render()
     }
 

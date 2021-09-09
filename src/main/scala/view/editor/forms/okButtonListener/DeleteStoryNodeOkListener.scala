@@ -21,6 +21,7 @@ case class DeleteStoryNodeOkListener(override val form: Form, override val edito
     } else {
       _deleteStoryNode()
     }
+
     def _deleteStoryNode(): Unit = editorController.deleteExistingStoryNode(form.elements.head.value.toInt)
   }
 
