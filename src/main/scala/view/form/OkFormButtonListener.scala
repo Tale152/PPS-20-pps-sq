@@ -1,7 +1,6 @@
-package view.editor.forms.okButtonListener
+package view.form
 
 import controller.editor.EditorController
-import view.editor.Form
 import view.util.StringFormatUtil.FormatElements.NewLine
 import view.util.StringFormatUtil.formatted
 import view.util.scalaQuestSwingComponents.SqSwingButton
@@ -10,9 +9,9 @@ import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 import java.awt.event.{ActionEvent, ActionListener}
 
 /**
- * Abstract Ok Button Listener designed to be used inside [[view.editor.Form]].
+ * Abstract Ok Button Listener designed to be used inside [[Form]].
  */
-private[okButtonListener] abstract class OkFormButtonListener(val form: Form, val editorController: EditorController)
+abstract class OkFormButtonListener(val form: Form, val editorController: EditorController)
   extends ActionListener {
 
   /**
@@ -60,7 +59,7 @@ private[okButtonListener] abstract class OkFormButtonListener(val form: Form, va
   /**
    * Specify the conditions for the inputs and describe them.
    * If ALL are satisfied (&&) check for all the
-   * [[view.editor.forms.okButtonListener.OkFormButtonListener#editorStateCondition()]].
+   * [[OkFormButtonListener#editorStateCondition()]].
    *
    * @return a List containing inputs conditions with textual descriptions.
    */

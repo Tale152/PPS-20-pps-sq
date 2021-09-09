@@ -1,7 +1,6 @@
-package view.editor
+package view.editor.forms
 
-
-object FormConditionValues {
+object EditorConditionValues {
 
   object InputPredicates {
     val NonEmptyString: String => Boolean = s => s.trim.nonEmpty
@@ -9,7 +8,7 @@ object FormConditionValues {
 
   object ConditionDescriptions {
 
-    object Subjects{
+    object Subjects {
 
       val TheId: String = "The ID"
 
@@ -34,7 +33,7 @@ object FormConditionValues {
 
     val doesNotExists: String => String = subject => subject + " does not exists."
 
-    val isNotValid: String => String = subject => subject  + " is not valid."
+    val isNotValid: String => String = subject => subject + " is not valid."
 
   }
 

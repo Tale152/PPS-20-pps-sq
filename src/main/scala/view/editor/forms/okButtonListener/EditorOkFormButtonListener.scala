@@ -1,6 +1,6 @@
 package view.editor.forms.okButtonListener
 import controller.editor.EditorController
-import view.editor.Form
+import view.form.{Form, OkFormButtonListener}
 
 abstract class EditorOkFormButtonListener(override val form: Form, override val editorController: EditorController)
   extends OkFormButtonListener(form, editorController){

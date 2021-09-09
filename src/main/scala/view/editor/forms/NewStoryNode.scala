@@ -2,7 +2,7 @@ package view.editor.forms
 
 import controller.editor.EditorController
 import view.editor.forms.okButtonListener.NewStoryNodeOkListener
-import view.editor.{Form, FormBuilder}
+import view.form.{Form, FormBuilder}
 
 object NewStoryNode {
 

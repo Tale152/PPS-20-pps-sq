@@ -1,10 +1,10 @@
 package view.editor.forms.okButtonListener
 
 import controller.editor.EditorController
-import view.editor.FormConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheId, TheStoryNode}
-import view.editor.FormConditionValues.ConditionDescriptions.{doesNotExists, mustBeSpecified}
-import view.editor.FormConditionValues.InputPredicates.NonEmptyString
-import view.editor.{Form, FormBuilder}
+import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheId, TheStoryNode}
+import view.editor.forms.EditorConditionValues.ConditionDescriptions.{doesNotExists, mustBeSpecified}
+import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
+import view.form.{Form, FormBuilder, OkFormButtonListener}
 
 object EditStoryNodeOkListener {
 

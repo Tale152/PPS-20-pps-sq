@@ -1,4 +1,4 @@
-package view.editor
+package view.form
 
 import controller.editor.EditorController
 import view.AbstractView

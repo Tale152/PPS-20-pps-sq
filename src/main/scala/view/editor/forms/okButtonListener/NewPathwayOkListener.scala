@@ -1,10 +1,10 @@
 package view.editor.forms.okButtonListener
 
 import controller.editor.EditorController
-import view.editor.Form
-import view.editor.FormConditionValues.ConditionDescriptions.Subjects._
-import view.editor.FormConditionValues.ConditionDescriptions.{doesNotExists, mustBeSpecified}
-import view.editor.FormConditionValues.InputPredicates.NonEmptyString
+import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects._
+import view.editor.forms.EditorConditionValues.ConditionDescriptions.{doesNotExists, mustBeSpecified}
+import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
+import view.form.Form
 
 case class NewPathwayOkListener(override val form: Form, override val editorController: EditorController)
   extends EditorOkFormButtonListener(form, editorController) {
