@@ -21,27 +21,29 @@ private[okButtonListener] abstract class OkFormButtonListener(val form: Form, va
    * @param e the action event.
    */
   override def actionPerformed(e: ActionEvent): Unit = {
-    if (approvalCondition) {
-      performAction()
+    if (areAllConditionSatisfied(inputConditions.map(c => c._1))) {
+      if (areAllConditionSatisfied(stateConditions.map(c => c._1))) {
+        performAction()
+      } else {
+        warningDialog(stateConditions)
+      }
     } else {
-      warningDialog
+      warningDialog(inputConditions)
     }
   }
 
   /**
-   * The condition needed to call [[OkFormButtonListener#performAction()]].
+   * Check if all the given conditions are true.
    *
-   * @return true if all the conditions specified in [[OkFormButtonListener#conditions()]] are satisfied.
+   * @return true if all the conditions passed are satisfied.
    */
-  def approvalCondition: Boolean = {
-    conditions.forall(c => c._1)
-  }
+  val areAllConditionSatisfied: List[Boolean] => Boolean = l => l.forall(c => c)
 
   /**
    * @return a Dialog that print the errors ([[OkFormButtonListener#conditions()]]
    *         that are not satisfied).
    */
-  def warningDialog: SqSwingDialog = {
+  def warningDialog(conditions: List[(Boolean, String)]): SqSwingDialog = {
     SqSwingDialog("Illegal Input",
       formatted(conditions.filter(c => !c._1).map(c => "-" + c._2).mkString(NewLine)),
       List(SqSwingButton("OK", (_: ActionEvent) => {}))
@@ -56,12 +58,21 @@ private[okButtonListener] abstract class OkFormButtonListener(val form: Form, va
   def performAction(): Unit
 
   /**
-   * Specify the conditions and describe them.
+   * Specify the conditions for the inputs and describe them.
+   * If ALL are satisfied (&&) check for all the
+   * [[view.editor.forms.okButtonListener.OkFormButtonListener#editorStateCondition()]].
+   *
+   * @return a List containing inputs conditions with textual descriptions.
+   */
+  def inputConditions: List[(Boolean, String)]
+
+  /**
+   * Specify the conditions to check in the state of the model.
    * If ALL are satisfied (&&) call [[OkFormButtonListener#performAction()]].
    *
-   * @return a List containing a condition and it's textual description.
+   * @return a List containing conditions that are state based with textual descriptions.
    */
-  def conditions: List[(Boolean, String)]
+  def stateConditions: List[(Boolean, String)]
 
 }
 

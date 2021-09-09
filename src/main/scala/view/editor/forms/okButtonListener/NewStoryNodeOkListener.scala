@@ -2,8 +2,7 @@ package view.editor.forms.okButtonListener
 
 import controller.editor.EditorController
 import view.editor.Form
-import view.editor.FormConditionValues.ConditionDescriptions._
-import view.editor.FormConditionValues.Conditions.NonEmptyString
+import view.editor.FormConditionValues.InputPredicates.NonEmptyString
 
 case class NewStoryNodeOkListener(override val form: Form, override val editorController: EditorController)
   extends OkFormButtonListener(form, editorController) {
@@ -23,15 +22,23 @@ case class NewStoryNodeOkListener(override val form: Form, override val editorCo
    *
    * @return a List containing a condition and it's textual description.
    */
-  override def conditions: List[(Boolean, String)] = {
+  override def inputConditions: List[(Boolean, String)] = {
     List(
-      (NonEmptyString(form.elements.head.value), InvalidIDMessage),
-      (NonEmptyString(form.elements(1).value), InvalidDescriptionMessage),
-      (NonEmptyString(form.elements(2).value), InvalidNarrativeMessage),
+      (NonEmptyString(form.elements.head.value), ""),
+      (NonEmptyString(form.elements(1).value), ""),
+      (NonEmptyString(form.elements(2).value), ""),
       (
         editorController.storyNodeExists(form.elements.head.value.toInt),
-        StoryNodeDoesNotExists
+        ""
       )
     )
   }
+
+  /**
+   * Specify the conditions to check in the state of the model.
+   * If ALL are satisfied (&&) call [[OkFormButtonListener#performAction()]].
+   *
+   * @return a List containing conditions that are state based with textual descriptions.
+   */
+  override def stateConditions: List[(Boolean, String)] = List()
 }

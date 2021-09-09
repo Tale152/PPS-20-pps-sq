@@ -2,8 +2,9 @@ package view.editor.forms.okButtonListener
 
 import controller.editor.EditorController
 import view.editor.Form
-import view.editor.FormConditionValues.ConditionDescriptions.{InvalidEndingIDMessage, InvalidStartingIDMessage}
-import view.editor.FormConditionValues.Conditions.NonEmptyString
+import view.editor.FormConditionValues.ConditionDescriptions.Subjects.{TheEndingId, ThePathway, TheStartingId}
+import view.editor.FormConditionValues.ConditionDescriptions.isNotValid
+import view.editor.FormConditionValues.InputPredicates.NonEmptyString
 
 case class DeletePathwayOkListener(override val form: Form, override val editorController: EditorController)
   extends OkFormButtonListener(form, editorController) {
@@ -11,19 +12,16 @@ case class DeletePathwayOkListener(override val form: Form, override val editorC
   override def performAction(): Unit =
     editorController.deleteExistingPathway(form.elements.head.value.toInt, form.elements(1).value.toInt)
 
-  override def conditions: List[(Boolean, String)] = List(
-      nodeIdConditions(),
-      (NonEmptyString(form.elements(1).value), InvalidEndingIDMessage),
+  override def inputConditions: List[(Boolean, String)] = {
+    List(
+      (NonEmptyString(form.elements.head.value), isNotValid(TheStartingId)),
+      (NonEmptyString(form.elements(1).value), isNotValid(TheEndingId))
     )
-
-  def nodeIdConditions(): (Boolean, String) = {
-    val nonEmptyID: Boolean = NonEmptyString(form.elements.head.value)
-    if (!nonEmptyID) {
-      (nonEmptyID, InvalidStartingIDMessage)
-    } else {
-      (editorController.pathwayExists(form.elements.head.value.toInt, form.elements(1).value.toInt),
-        "The chosen Pathway is not valid.")
-    }
   }
 
+  override def stateConditions: List[(Boolean, String)] =
+    List(
+      (editorController.pathwayExists(form.elements.head.value.toInt, form.elements(1).value.toInt),
+        isNotValid(ThePathway))
+    )
 }

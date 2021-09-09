@@ -1,34 +1,41 @@
 package view.editor
 
+import scala.annotation.tailrec
+
 object FormConditionValues {
 
-  object Conditions {
+  object InputPredicates {
     val NonEmptyString: String => Boolean = s => s.trim.nonEmpty
   }
 
   object ConditionDescriptions {
 
-    val InvalidIDMessage: String = shouldBeSpecified("An ID")
+    object Subjects{
 
-    val InvalidStartingIDMessage: String = shouldBeSpecified("A starting ID")
+      val TheId: String = "The ID"
 
-    val InvalidEndingIDMessage: String = shouldBeSpecified("An ending ID")
+      val TheStartingId: String = "The starting ID"
 
-    val InvalidDescriptionMessage: String = shouldBeSpecified("A description")
+      val TheEndingId: String = "The ending ID"
 
-    val InvalidNarrativeMessage: String = shouldBeSpecified("A narratives")
+      val TheDescription: String = "The description"
 
-    val StoryNodeDoesNotExists: String = doesNotExists("The StoryNode")
+      val TheNarrative: String = "The narrative"
 
-    val StartingStoryNodeDoesNotExists: String = doesNotExists("The starting StoryNode")
+      val TheStoryNode: String = "The StoryNode"
 
-    val EndStoryNodeDoesNotExists: String = doesNotExists("The ending StoryNode")
+      val TheStartingStoryNode: String = "The starting StoryNode"
 
-    def nodeDoesNotExist(id: () => Int) : String = "Node " + id().toString + " doesn't exist."
+      val TheEndStoryNode: String = "The ending StoryNode"
 
-    private def shouldBeSpecified(subject: String): String = subject + " should be specified."
+      val ThePathway: String = "The Pathway"
+    }
 
-    private def doesNotExists(subject: String): String = subject + " does not exists."
+    val shouldBeSpecified: String => String = subject => subject + " should be specified."
+
+    val doesNotExists: String => String = subject => subject + " does not exists."
+
+    val  isNotValid: String => String = subject => subject  + " is not valid."
 
   }
 
