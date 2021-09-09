@@ -41,15 +41,16 @@ object EditPathwayOkListener {
                                    override val editorController: EditorController,
                                    startNodeId: Int,
                                    endNodeId: Int)
-    extends OkFormButtonListener(form, editorController) {
+    extends EditorOkFormButtonListener(form, editorController) {
 
-    override def performAction(): Unit =
+    override def editorControllerAction(): Unit =
       editorController.editExistingPathway(startNodeId, endNodeId, form.elements.head.value)
 
     override def inputConditions: List[(Boolean, String)] =
       List((NonEmptyString(form.elements.head.value), mustBeSpecified(TheDescription)))
 
     override def stateConditions: List[(Boolean, String)] = List()
+
   }
 }
 

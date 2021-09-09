@@ -1,6 +1,5 @@
 package view.editor.forms.okButtonListener
 
-import controller.Controller
 import controller.editor.EditorController
 import view.editor.Form
 import view.util.StringFormatUtil.FormatElements.NewLine

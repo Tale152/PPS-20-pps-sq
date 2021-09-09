@@ -37,9 +37,10 @@ object EditStoryNodeOkListener {
   }
 
   case class EditStoryNodeOkListener(override val form: Form, override val editorController: EditorController, id: Int)
-    extends OkFormButtonListener(form, editorController) {
+    extends EditorOkFormButtonListener(form, editorController) {
 
-    override def performAction(): Unit = editorController.editExistingStoryNode(id, form.elements.head.value)
+    override def editorControllerAction(): Unit =
+      editorController.editExistingStoryNode(id, form.elements.head.value)
 
     override def inputConditions: List[(Boolean, String)] =
       List(
@@ -47,6 +48,7 @@ object EditStoryNodeOkListener {
       )
 
     override def stateConditions: List[(Boolean, String)] = List()
+
   }
 
 }

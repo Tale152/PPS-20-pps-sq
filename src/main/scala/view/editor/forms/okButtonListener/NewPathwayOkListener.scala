@@ -7,14 +7,13 @@ import view.editor.FormConditionValues.ConditionDescriptions.{doesNotExists, mus
 import view.editor.FormConditionValues.InputPredicates.NonEmptyString
 
 case class NewPathwayOkListener(override val form: Form, override val editorController: EditorController)
-  extends OkFormButtonListener(form, editorController) {
+  extends EditorOkFormButtonListener(form, editorController) {
 
-  override def performAction(): Unit = {
+  override def editorControllerAction(): Unit =
     editorController.addNewPathway(
       form.elements.head.value.toInt,
       form.elements(1).value.toInt,
       form.elements(2).value)
-  }
 
   override def inputConditions: List[(Boolean, String)] =
     List(
@@ -30,11 +29,12 @@ case class NewPathwayOkListener(override val form: Form, override val editorCont
   )
 
   def checkLoop(startId: Int, endId: Int): (Boolean, String) = {
-    if(editorController.storyNodeExists(startId) && editorController.storyNodeExists(endId)) {
+    if (editorController.storyNodeExists(startId) && editorController.storyNodeExists(endId)) {
       (editorController.isNewPathwayValid(form.elements.head.value.toInt, form.elements(1).value.toInt),
-      "Creating this pathway results in a loop in the story, cannot create this pathway.")
+        "Creating this pathway results in a loop in the story, cannot create this pathway.")
     } else {
       (true, "")
     }
   }
+
 }

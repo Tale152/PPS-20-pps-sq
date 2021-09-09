@@ -1,6 +1,5 @@
 package view.editor
 
-import scala.annotation.tailrec
 
 object FormConditionValues {
 

@@ -7,23 +7,15 @@ import view.editor.FormConditionValues.ConditionDescriptions.{doesNotExists, mus
 import view.editor.FormConditionValues.InputPredicates.NonEmptyString
 
 case class NewStoryNodeOkListener(override val form: Form, override val editorController: EditorController)
-  extends OkFormButtonListener(form, editorController) {
+  extends EditorOkFormButtonListener(form, editorController) {
 
-  override def performAction(): Unit = {
+  override def editorControllerAction(): Unit =
     editorController.addNewStoryNode(
       form.elements.head.value.toInt,
       form.elements(1).value,
       form.elements(2).value
     )
-    editorController.execute()
-  }
 
-  /**
-   * Specify the conditions and describe them.
-   * If ALL are satisfied (&&) call [[OkFormButtonListener#performAction()]].
-   *
-   * @return a List containing a condition and it's textual description.
-   */
   override def inputConditions: List[(Boolean, String)] =
     List(
       (NonEmptyString(form.elements.head.value), mustBeSpecified(TheId)),
@@ -33,4 +25,5 @@ case class NewStoryNodeOkListener(override val form: Form, override val editorCo
 
   override def stateConditions: List[(Boolean, String)] =
     List((editorController.storyNodeExists(form.elements.head.value.toInt), doesNotExists(TheStoryNode)))
+
 }
