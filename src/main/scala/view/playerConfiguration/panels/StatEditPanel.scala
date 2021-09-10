@@ -18,7 +18,7 @@ import javax.swing.SwingConstants
  * @param remainingPoints the number of remaining points used for button enable/disable.
  * @see [[model.characters.properties.stats.Stat]]
  */
-class StatEditPanel(controller: PlayerConfigurationController,
+case class StatEditPanel(controller: PlayerConfigurationController,
                     stat: Stat,
                     remainingPoints: Int)
   extends SqSwingBorderPanel {

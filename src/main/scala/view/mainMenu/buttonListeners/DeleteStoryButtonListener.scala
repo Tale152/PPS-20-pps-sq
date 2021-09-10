@@ -5,7 +5,6 @@ import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.storyDirectoryPath
 import view.form.{Form, FormBuilder}
 import view.mainMenu.buttonListeners.MainMenuButtonListeners.MainMenuButtonListener
-import view.mainMenu.forms.DeleteStory.showDeleteStoryForm
 import view.mainMenu.forms.DeleteStoryConfirmListener
 
 import java.awt.event.ActionEvent

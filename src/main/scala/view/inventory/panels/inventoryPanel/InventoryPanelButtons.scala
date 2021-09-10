@@ -3,7 +3,7 @@ package view.inventory.panels.inventoryPanel
 import controller.game.subcontroller.InventoryController
 import model.characters.Character
 import model.items.{EquipItem, Item, KeyItem}
-import view.inventory.panels.TargetChooser
+import view.inventory.panels.TargetChooserDialog
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
@@ -34,7 +34,7 @@ private[inventoryPanel] object InventoryPanelButtons {
         if (inventoryController.targets().size == 1 || item.isInstanceOf[EquipItem]) {
           inventoryController.use(item)(targets.head)
         } else {
-          TargetChooser(inventoryController, item, targets)
+          TargetChooserDialog(inventoryController, item, targets)
         }
       }
     }
@@ -54,12 +54,15 @@ private[inventoryPanel] object InventoryPanelButtons {
    * @param item the item that is going to be discarded.
    * @return a custom button with the specified behavior.
    */
-    def discardButton(inventoryController: InventoryController, item: Item): SqSwingButton = SqSwingButton(
-      "Discard",
-      (_: ActionEvent) => SqYesNoSwingDialog("Really discard?",
-        "Do you really want to discard this Item?\n There's no coming back.",
-        (_: ActionEvent) => inventoryController.discard(item)
-      ))
+    def discardButton(inventoryController: InventoryController, item: Item): SqSwingButton =
+      SqSwingButton(
+        "Discard",
+        (_: ActionEvent) => {
+          SqYesNoSwingDialog("Really discard?",
+            "Do you really want to discard this Item?\n There's no coming back.",
+            (_: ActionEvent) => inventoryController.discard(item)
+          )
+        })
 
   /**
    * Specifies the behavior of the back Button, that allows the user to exit the inventory.
