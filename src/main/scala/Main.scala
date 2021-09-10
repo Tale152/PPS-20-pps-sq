@@ -1,5 +1,4 @@
 import controller.ApplicationController
-import controller.util.ResourceLoader
 
 /**
  *  The Application entry point.

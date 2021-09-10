@@ -2,6 +2,7 @@ package view.form
 
 import controller.Controller
 import view.AbstractView
+import view.form.formElements.FormElement
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.{SqSwingGridBagPanel, SqSwingPanel}
 
@@ -15,7 +16,7 @@ import javax.swing.{GroupLayout, JButton}
 sealed trait Form extends AbstractView {
 
   /**
-   * @return a list containing all the [[view.form.FormElement]] of the Form.
+   * @return a list containing all the [[FormElement]] of the Form.
    */
   def elements: List[FormElement]
 

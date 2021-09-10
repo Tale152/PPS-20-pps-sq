@@ -28,11 +28,14 @@ abstract class StoryPanel(title: String) extends SqSwingBoxPanel(BoxLayout.Y_AXI
  */
 case class NarrativePanel(text: String) extends StoryPanel("Narrative") {
 
-  val RightPadding: Int = 30
-  val Paddings: Int = 10
+  private object Paddings {
+    val RightPadding: Int = 30
+    val OtherPaddings: Int = 10
+  }
+  import Paddings._
 
   val textArea: SqTextArea = SqTextArea(text)
-  textArea.setBorder(BorderFactory.createEmptyBorder(Paddings, Paddings, Paddings, RightPadding))
+  textArea.setBorder(BorderFactory.createEmptyBorder(OtherPaddings, OtherPaddings, OtherPaddings, RightPadding))
   this.add(Scrollable(textArea))
 }
 
