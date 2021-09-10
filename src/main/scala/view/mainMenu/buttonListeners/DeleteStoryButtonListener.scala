@@ -9,6 +9,11 @@ import view.mainMenu.forms.DeleteStory.showDeleteStoryForm
 import java.awt.event.ActionEvent
 import java.io.File
 
+/**
+ *  [[view.mainMenu.buttonListeners.MainMenuButtonListeners.MainMenuButtonListener]] used for the Delete Story Button
+ *  in the Main Menu.
+ * @param applicationController The Application Controller.
+ */
 case class DeleteStoryButtonListener(override val applicationController: ApplicationController)
   extends MainMenuButtonListener(applicationController) {
 

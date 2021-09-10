@@ -6,6 +6,11 @@ import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 
 import java.awt.event.ActionEvent
 
+/**
+ *  [[view.mainMenu.buttonListeners.MainMenuButtonListeners.MainMenuButtonListener]] used for the Quit Button
+ *  in the Main Menu.
+ * @param applicationController The Application Controller.
+ */
 case class QuitButtonListener(override val applicationController: ApplicationController)
   extends MainMenuButtonListener(applicationController) {
 
