@@ -1,5 +1,7 @@
 package controller.util
 
+import view.util.scalaQuestSwingComponents.SqFont
+
 import javax.swing.UIManager
 
 /**
@@ -12,8 +14,11 @@ object ResourceLoader {
    */
   def loadResources(): Unit = {
     setLookAndFeel()
+    //Load Audio Clips
     Resources.AudioClip.interactionSoundClip
     Resources.AudioClip.navigationSoundClip
+    //Load font
+    SqFont(bold = false)
   }
 
   private def setLookAndFeel(): Unit = {

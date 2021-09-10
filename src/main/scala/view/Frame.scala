@@ -4,7 +4,6 @@ import controller.util.Resources.loadImage
 import view.util.scalaQuestSwingComponents.SqSwingBorderPanel
 
 import java.awt._
-import java.io.InputStream
 import javax.swing._
 import javax.swing.border.EmptyBorder
 
@@ -50,17 +49,6 @@ object Frame {
     masterPanel.add(box)
     frame.setMinimumSize(scaleDimension(getSquareDimension, MinScreenSizePercentage))
     frame.pack()
-  }
-
-  def loadFont(is: InputStream): Font = {
-    try {
-      val myFont = Font.createFont(Font.TRUETYPE_FONT, is)
-      myFont.deriveFont(Font.PLAIN)
-    } catch {
-      case _: Exception =>
-        println("Error on loading external Font, loading default one..")
-        Font.getFont("Arial")
-    }
   }
 
   def getSquareDimension: Dimension = {
