@@ -214,13 +214,13 @@ object EditorController {
     override def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Boolean = {
       if (
         getStoryNode(startNodeId).nonEmpty &&
-        getStoryNode(endNodeId).nonEmpty &&
-        pathwayDescription.trim.nonEmpty &&
-        getPathway(startNodeId, endNodeId).nonEmpty
+          getStoryNode(endNodeId).nonEmpty &&
+          pathwayDescription.trim.nonEmpty &&
+          getPathway(startNodeId, endNodeId).nonEmpty
       ){
-          getPathway(startNodeId, endNodeId).get.description = pathwayDescription
-          decorateGraphGUI()
-          true
+        getPathway(startNodeId, endNodeId).get.description = pathwayDescription
+        decorateGraphGUI()
+        true
       } else {
         false
       }
