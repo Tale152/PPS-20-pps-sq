@@ -154,6 +154,7 @@ object BattleController {
     override def attemptEscape(): Unit = {
       if (escapeCondition){
         battleFirstRound = true
+        storyModel.currentStoryNode.enemy.get.properties.health.currentPS = 0
         battleView.escapeResult()
       } else {
         battleView.escapeResult(false)
