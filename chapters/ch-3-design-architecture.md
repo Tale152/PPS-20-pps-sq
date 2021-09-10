@@ -17,7 +17,10 @@ Model-view-controller è un pattern architetturale in grado di separare la logic
 
 Durante l'esecuzione del programma, il primo controller a prendere la parola è l'ApplicationControllerSingleton; la scelta di utilizzare un singleton deriva dal fatto che esisterà sempre una sola e unica istanza di tale controller in quanto esso si trova sulla cima della gerarchia di tutti i controller.
 
-TODO: inserire un diagramma che faccia vedere la gerarchia di controller
+<div align="center">
+    <img src="https://images2.imgbox.com/ca/14/qUVMfwc3_o.png" alt="Gerarchia dei controller">
+    <p align="center">Gerarchia dei controller</p>
+</div>
 
 Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intraprendere differenti direzioni dipendentemente dalle scelte compiute dall'utente:
 
