@@ -2,7 +2,6 @@ package view.battle
 
 import controller.game.subcontroller.BattleController
 import view.AbstractView
-import view.story.NarrativePanel
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
@@ -10,6 +9,7 @@ import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDi
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import view.battle.panels.OpponentsPanel
+import view.story.panels.NarrativePanel
 
 /**
  * It is a GUI that handles the Battle. Associated with [[controller.game.subcontroller.BattleController]].

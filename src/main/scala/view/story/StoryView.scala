@@ -3,6 +3,7 @@ package view.story
 import controller.game.subcontroller.StoryController
 import model.nodes.Pathway
 import view.AbstractView
+import view.story.panels.{NarrativePanel, PathwaysPanel}
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
 import view.util.scalaQuestSwingComponents.SqSwingButton
