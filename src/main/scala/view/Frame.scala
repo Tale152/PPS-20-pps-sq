@@ -12,10 +12,14 @@ import javax.swing.border.EmptyBorder
  */
 object Frame {
 
-  private val GameTitle: String = "ScalaQuest"
-  private val SquarePadding: Int = 10
-  private val SquareScreenPercentage: Double = 0.8
-  private val MinScreenSizePercentage: Double = 1.1
+  private object FrameValues {
+    val GameTitle: String = "ScalaQuest"
+    val SquarePadding: Int = 10
+    val SquareScreenPercentage: Double = 0.8
+    val MinScreenSizePercentage: Double = 1.1
+  }
+
+  import view.Frame.FrameValues._
 
   val frame = new JFrame()
   private val masterPanel = new MasterPanel()
