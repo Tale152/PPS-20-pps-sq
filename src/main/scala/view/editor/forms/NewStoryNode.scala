@@ -31,7 +31,7 @@ object NewStoryNode {
             (NonEmptyString(form.elements(1).value), InvalidDescriptionMessage),
             (NonEmptyString(form.elements(2).value), InvalidNarrativeMessage),
             (
-              editorController.storyNodeExists(form.elements.head.value.toInt),
+              editorController.getStoryNode(form.elements.head.value.toInt).nonEmpty,
               nodeDoesNotExist(form.elements.head.value.toInt)
             )
           )

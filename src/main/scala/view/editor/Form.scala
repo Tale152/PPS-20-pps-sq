@@ -1,7 +1,6 @@
 package view.editor
 
 import controller.Controller
-import controller.editor.EditorController
 import view.AbstractView
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.{SqSwingGridBagPanel, SqSwingPanel}
