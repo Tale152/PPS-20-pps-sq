@@ -90,16 +90,16 @@ object InventoryController {
      * Defines the actions to do when the Controller execution is over.
      */
     override def close(): Unit = {
-      if(backToStoryCondition()) {
-        gameMasterController.executeOperation(OperationType.StoryOperation)
-      } else {
+      if(currentlyInBattle()) {
         gameMasterController.executeOperation(OperationType.BattleOperation)
+      } else {
+        gameMasterController.executeOperation(OperationType.StoryOperation)
       }
     }
 
-    private def backToStoryCondition(): Boolean =
-      storyModel.currentStoryNode.enemy.isEmpty ||
-        storyModel.currentStoryNode.enemy.get.properties.health.currentPS == 0
+    private def currentlyInBattle(): Boolean =
+      targets().size > 1 &&
+        storyModel.currentStoryNode.enemy.get.properties.health.currentPS > 0
 
     /**
      * @return the list of all the possible targets.
