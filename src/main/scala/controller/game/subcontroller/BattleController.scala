@@ -90,9 +90,8 @@ object BattleController {
         enemyAttack()
         playerAttack()
       }
-      setOpponentsInfo()
-      battleView.narrative(roundNarrative)
-      battleView.render()
+
+      //battleView.narrative(roundNarrative)
     }
 
     private def enemyAttack(): Unit = {
@@ -127,9 +126,11 @@ object BattleController {
       } else if (enemy.properties.health.currentPS == 0){
         battleFirstRound = true
         battleView.battleResult()
+      } else {
+        setOpponentsInfo()
+        battleView.narrative(roundNarrative)
+        battleView.render()
       }
-      battleView.narrative(roundNarrative)
-      battleView.render()
     }
 
     private def setOpponentsInfo(): Unit = {
