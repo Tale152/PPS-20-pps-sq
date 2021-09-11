@@ -9,7 +9,7 @@ object DeleteStory {
     val form: Form = FormBuilder()
       .addComboField("Select the story to delete:", comboElements)
       .get(applicationController)
-    form.setOkButtonListener(DeleteStoryOkButtonListener(form, applicationController, comboElements))
+    form.setOkButtonListener(DeleteStoryConfirmListener(form, applicationController, comboElements))
     form.render()
   }
 

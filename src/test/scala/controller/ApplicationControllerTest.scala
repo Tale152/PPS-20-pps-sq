@@ -6,6 +6,7 @@ import controller.util.Resources.ResourceName._
 import controller.util.serialization.FolderUtil.createFolderIfNotPresent
 import org.scalatest.{BeforeAndAfterAll, DoNotDiscover}
 import specs.FlatTestSpec
+import specs.Tags.IgnoreGitHubAction
 
 import java.io.File
 
@@ -14,7 +15,6 @@ import java.io.File
  */
 @DoNotDiscover
 class ApplicationControllerTest extends FlatTestSpec with BeforeAndAfterAll {
-
   val applicationControllerTestDirectory : String  = MainDirectory.TempDirectory + "/applicationController"
   val gameDirectory = new File(gameDirectoryPath(applicationControllerTestDirectory))
   val storiesDirectory = new File(storyDirectoryPath(applicationControllerTestDirectory))
@@ -25,11 +25,11 @@ class ApplicationControllerTest extends FlatTestSpec with BeforeAndAfterAll {
     initializeGameFolderStructure(applicationControllerTestDirectory, TestStoryPopulation())
   }
 
-  "If no progress is available, false" should "be returned" in {
+  "If no progress is available, false" should "be returned" taggedAs IgnoreGitHubAction in {
     ApplicationController.isProgressAvailable(testRandomStoryName)(applicationControllerTestDirectory) shouldBe false
   }
 
-  "If progress is available, true" should "be returned" in {
+  "If progress is available, true" should "be returned" taggedAs IgnoreGitHubAction in {
     val progressTestFile = new File(storyProgressPath(testRandomStoryName)(applicationControllerTestDirectory))
     progressTestFile.createNewFile()
     ApplicationController.isProgressAvailable(testRandomStoryName)(applicationControllerTestDirectory) shouldBe true

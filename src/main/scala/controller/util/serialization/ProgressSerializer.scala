@@ -71,5 +71,5 @@ object ProgressSerializer {
   }
 
   def extractStoryName(storyUri: String): String =
-    storyUri.split("/")(storyUri.split("/").size - 1).replace(".sqstr", "")
+    storyUri.split("/")(storyUri.split("/").length - 1).replace(".sqstr", "")
 }

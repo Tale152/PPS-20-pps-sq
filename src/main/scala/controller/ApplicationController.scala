@@ -3,6 +3,7 @@ package controller
 import controller.editor.EditorController
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
+import controller.util.ResourceLoader
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
 import controller.util.serialization.FolderUtil.deleteFolder
@@ -60,6 +61,7 @@ sealed trait ApplicationController extends Controller {
 
 object ApplicationController extends ApplicationController {
 
+  ResourceLoader.loadResources()
   private val mainMenu: MainMenu = MainMenu(this)
 
   private def loadStoryNames(): Set[String] = {
