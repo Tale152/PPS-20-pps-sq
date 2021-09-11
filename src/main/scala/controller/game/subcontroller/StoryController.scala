@@ -87,7 +87,8 @@ object StoryController {
 
     override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
 
-    private def redirect(): Unit = if (storyModel.currentStoryNode.enemy.isEmpty) this.execute() else goToBattle()
+    private def redirect(): Unit =
+      if (storyModel.currentStoryNode.enemy.isEmpty) this.execute() else goToBattle()
 
     private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
 
@@ -112,7 +113,7 @@ object StoryController {
     }
 
     /**
-     * @param statName The name of the stat to consider.
+     * @param statName             The name of the stat to consider.
      * @param statModifierStrategy The strategy to apply last.
      * @return the difference between the stat value before and after the application of statModifierStrategy
      *         formatted with + or - sign.
@@ -122,7 +123,7 @@ object StoryController {
       val modifiedStatValue = storyModel.player.properties.statModifiers.filter(s => s.statName == statName)
         .foldLeft(originalStatValue)((o, m) => m.modifyStrategy(o))
       val difference = statModifierStrategy(modifiedStatValue) - modifiedStatValue
-      if(difference >= 0){
+      if (difference >= 0) {
         "+" + difference
       } else {
         difference.toString
