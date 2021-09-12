@@ -9,7 +9,7 @@ import view.editor.forms.EditPathway.showEditPathwayForm
 import view.editor.forms.EditStoryNode.showEditStoryNodeForm
 import view.editor.forms.NewPathway.showNewPathwayForm
 import view.editor.forms.NewStoryNode.showNewStoryNodeForm
-import view.editor.forms.AddStatModifier.showAddStatModifierForm
+import view.editor.forms.NewEvent.showNewEventForm
 import view.editor.forms.DeleteEvent.showDeleteEventForm
 import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
@@ -39,7 +39,7 @@ object EditorView {
         SqSwingButton("Add new pathway", _ => showNewPathwayForm(editorController)),
         SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
-        SqSwingButton("Add stat modifier event", _ => showAddStatModifierForm(editorController)),
+        SqSwingButton("Add new event", _ => showNewEventForm(editorController)),
         SqSwingButton("Delete event", _ => showDeleteEventForm(editorController))
       ))), BorderLayout.CENTER)
 
