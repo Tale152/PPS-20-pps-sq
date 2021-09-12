@@ -10,6 +10,8 @@ object EditorConditionValues {
 
     object Subjects {
 
+      val TheEvent: String = "The event"
+
       val TheId: String = "The ID"
 
       val TheStartingId: String = "The starting ID"

@@ -12,12 +12,11 @@ case class DeletePathwayOkListener(override val form: Form, override val control
   override def editorControllerAction(): Unit =
     controller.deleteExistingPathway(form.elements.head.value.toInt, form.elements(1).value.toInt)
 
-  override def inputConditions: List[(Boolean, String)] = {
+  override def inputConditions: List[(Boolean, String)] =
     List(
       (NonEmptyString(form.elements.head.value), mustBeSpecified(TheStartingId)),
       (NonEmptyString(form.elements(1).value), mustBeSpecified(TheEndingId))
     )
-  }
 
   override def stateConditions: List[(Boolean, String)] =
     List(

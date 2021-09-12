@@ -6,7 +6,7 @@ import controller.util.serialization.StoryNodeSerializer
 import controller.{ApplicationController, Controller}
 import model.characters.properties.stats.StatModifier
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.{MutablePathway, StatEvent, StoryNode}
+import model.nodes.{Event, MutablePathway, StatEvent, StoryNode}
 import org.graphstream.ui.view.Viewer
 import view.editor.EditorView
 
@@ -102,6 +102,10 @@ trait EditorController extends Controller {
   def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean
 
   def addStatModifierToNode(nodeId: Int, statModifier: StatModifier, description: String): Boolean
+
+  def getNodesIds(filter: StoryNode => Boolean): List[Int]
+
+  def deleteEventFromNode(nodeId: Int, event: Event): Boolean
 }
 
 object EditorController {
@@ -273,6 +277,17 @@ object EditorController {
       }
     }
 
+    override def deleteEventFromNode(nodeId: Int, event: Event): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty || !node.get.events.contains(event)){
+        false
+      } else {
+        node.get.events = node.get.events.filter(e => e != event)
+        decorateGraphGUI()
+        true
+      }
+    }
+
     private def decorateGraphGUI(): Unit = {
       graph.nodes().forEach(n => {
         if(n.getId != nodes._1.id.toString) {
@@ -330,6 +345,8 @@ object EditorController {
       )
     }
 
+    override def getNodesIds(filter: StoryNode => Boolean): List[Int] =
+      nodes._2.filter(n => filter(n)).map(n => n.id).toList.sortWith((i, j) => i < j)
   }
 
   def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)

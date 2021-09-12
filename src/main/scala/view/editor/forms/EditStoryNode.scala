@@ -10,7 +10,7 @@ object EditStoryNode {
     val form: Form = FormBuilder()
       .addIntegerField("Which story node would you like to edit? (id)")
       .get(editorController)
-      form.setOkButtonListener(SelectStoryNodeOkListener(form, editorController))
+    form.setOkButtonListener(SelectStoryNodeOkListener(form, editorController))
     form.render()
   }
 
