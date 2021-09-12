@@ -4,7 +4,7 @@ import controller.editor.EditorController
 import model.characters.properties.stats.StatName.StatName
 import model.characters.properties.stats.{StatModifier, StatName}
 import model.items.{ConsumableItem, EquipItem, KeyItem}
-import model.nodes.ItemEvent
+import model.nodes.{ItemEvent, StatEvent}
 import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects.{
   TheDescription, TheName, TheNarrative, TheValue
 }
@@ -79,16 +79,17 @@ private case class NewStatModifierOkListener(override val form: Form,
   private val ConstitutionString: String = StatName.Constitution.toString
 
   override def editorControllerAction(): Unit = {
-    controller.addStatModifierToNode(
+    controller.addEventToNode(
       nodeId,
-      StatModifier(
-        getSelectedStatName(form.elements.head.value),
-        getStatModifierStrategy(
-          form.elements(1).value,
-          form.elements(2).value.toInt
+      StatEvent(form.elements(3).value,
+        StatModifier(
+          getSelectedStatName(form.elements.head.value),
+          getStatModifierStrategy(
+            form.elements(1).value,
+            form.elements(2).value.toInt
+          )
         )
-      ),
-      form.elements(3).value
+      )
     )
   }
 
