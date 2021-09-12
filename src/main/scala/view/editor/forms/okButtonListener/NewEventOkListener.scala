@@ -3,6 +3,9 @@ package view.editor.forms.okButtonListener
 import controller.editor.EditorController
 import model.characters.properties.stats.StatName.StatName
 import model.characters.properties.stats.{StatModifier, StatName}
+import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheValue}
+import view.editor.forms.EditorConditionValues.ConditionDescriptions.mustBeSpecified
+import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.forms.NewEvent
 import view.form.{Form, FormBuilder, OkFormButtonListener}
 
@@ -72,9 +75,12 @@ private case class NewStatModifierOkListener(override val form: Form,
     )
   }
 
-  override def inputConditions: List[(Boolean, String)] = List() //TODO
+  override def inputConditions: List[(Boolean, String)] = List(
+    (NonEmptyString(form.elements(3).value), mustBeSpecified(TheDescription)),
+    (NonEmptyString(form.elements(2).value), mustBeSpecified(TheValue))
+  )
 
-  override def stateConditions: List[(Boolean, String)] = List() //TODO
+  override def stateConditions: List[(Boolean, String)] = List()
 
   private def getSelectedStatName(statNameStr: String): StatName = statNameStr match {
     case WisdomString => StatName.Wisdom
