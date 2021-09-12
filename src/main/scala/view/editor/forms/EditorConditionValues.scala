@@ -27,6 +27,8 @@ object EditorConditionValues {
       val TheEndStoryNode: String = "The ending StoryNode"
 
       val ThePathway: String = "The Pathway"
+
+      val TheValue: String = "The value"
     }
 
     val mustBeSpecified: String => String = subject => subject + " must be specified."

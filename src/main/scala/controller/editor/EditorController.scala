@@ -4,8 +4,9 @@ import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
 import controller.{ApplicationController, Controller}
+import model.characters.properties.stats.StatModifier
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.{MutablePathway, StoryNode}
+import model.nodes.{MutablePathway, StatEvent, StoryNode}
 import org.graphstream.ui.view.Viewer
 import view.editor.EditorView
 
@@ -99,6 +100,8 @@ trait EditorController extends Controller {
    * @return if a hypothetical new pathway is valid
    */
   def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean
+
+  def addStatModifierToNode(nodeId: Int, statModifier: StatModifier, description: String): Boolean
 }
 
 object EditorController {
@@ -256,6 +259,17 @@ object EditorController {
       } else {
         //searching if, from the end node, the start node is unreachable (preventing a loop)
         searchForDestination(startNode.get, endNode.get)
+      }
+    }
+
+    override def addStatModifierToNode(nodeId: Int, statModifier: StatModifier, description: String): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty || statModifier == null || description.trim.isEmpty){
+        false
+      } else {
+        node.get.events = node.get.events :+ StatEvent(description, statModifier)
+        decorateGraphGUI()
+        true
       }
     }
 

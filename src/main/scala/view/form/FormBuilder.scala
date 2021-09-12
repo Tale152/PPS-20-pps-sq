@@ -1,7 +1,6 @@
 package view.form
 
 import controller.Controller
-import view.form.formElements._
 
 import scala.collection.mutable.ListBuffer
 
