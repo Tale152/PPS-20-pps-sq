@@ -103,6 +103,8 @@ trait EditorController extends Controller {
 
   def addStatModifierToNode(nodeId: Int, statModifier: StatModifier, description: String): Boolean
 
+  def addEventToNode(nodeId: Int, event: Event): Boolean
+
   def getNodesIds(filter: StoryNode => Boolean): List[Int]
 
   def deleteEventFromNode(nodeId: Int, event: Event): Boolean
@@ -266,6 +268,17 @@ object EditorController {
       }
     }
 
+    override def addEventToNode(nodeId: Int, event: Event): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty){
+        false
+      } else {
+        node.get.events = node.get.events :+ event
+        decorateGraphGUI()
+        true
+      }
+    }
+
     override def addStatModifierToNode(nodeId: Int, statModifier: StatModifier, description: String): Boolean = {
       val node = getStoryNode(nodeId)
       if(node.isEmpty || statModifier == null || description.trim.isEmpty){
@@ -347,6 +360,7 @@ object EditorController {
 
     override def getNodesIds(filter: StoryNode => Boolean): List[Int] =
       nodes._2.filter(n => filter(n)).map(n => n.id).toList.sortWith((i, j) => i < j)
+
   }
 
   def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)

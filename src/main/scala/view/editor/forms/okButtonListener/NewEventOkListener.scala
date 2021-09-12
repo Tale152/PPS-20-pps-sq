@@ -3,7 +3,11 @@ package view.editor.forms.okButtonListener
 import controller.editor.EditorController
 import model.characters.properties.stats.StatName.StatName
 import model.characters.properties.stats.{StatModifier, StatName}
-import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheValue}
+import model.items.{ConsumableItem, EquipItem, KeyItem}
+import model.nodes.ItemEvent
+import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects.{
+  TheDescription, TheName, TheNarrative, TheValue
+}
 import view.editor.forms.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.forms.NewEvent
@@ -16,6 +20,18 @@ object NewEventOkListener {
 
   private case class NewEventOkListener(override val form: Form, override val controller: EditorController)
     extends OkFormButtonListener(form, controller) {
+
+    private def showItemCategoryForm(nodeId: Int): Unit = {
+      val form: Form = FormBuilder()
+        .addComboField("Select the category of the new item", List(
+          KeyItem.toString,
+          ConsumableItem.toString,
+          EquipItem.toString
+        ))
+        .get(controller)
+      form.setOkButtonListener(NewItemCategoryOkListener(form, nodeId, controller))
+      form.render()
+    }
 
     private def showStatModifierForm(nodeId: Int): Unit = {
       val form: Form = FormBuilder()
@@ -37,6 +53,7 @@ object NewEventOkListener {
 
     override def performAction(): Unit = form.elements(1).value match {
       case NewEvent.StatModifierOption => showStatModifierForm(form.elements.head.value.toInt)
+      case NewEvent.ItemOption => showItemCategoryForm(form.elements.head.value.toInt)
     }
 
     override def inputConditions: List[(Boolean, String)] = List()
@@ -49,7 +66,7 @@ object NewEventOkListener {
 }
 
 private case class NewStatModifierOkListener(override val form: Form,
-                                     val nodeId: Int,
+                                     nodeId: Int,
                                      override val controller: EditorController)
   extends EditorOkFormButtonListener(form, controller) {
 
@@ -96,4 +113,53 @@ private case class NewStatModifierOkListener(override val form: Form,
     case NewEventOkListener.DecrementOption => v => v - value
   }
 
+}
+
+private case class NewItemCategoryOkListener(override val form: Form,
+                                             nodeId: Int,
+                                             override val controller: EditorController)
+  extends OkFormButtonListener(form, controller) {
+
+  private val KeyItemString: String = KeyItem.toString
+  private val ConsumableItemString: String = ConsumableItem.toString
+  private val EquipItemString: String = EquipItem.toString
+
+  override def performAction(): Unit = form.elements.head.value match {
+    case KeyItemString => showKeyItemForm(nodeId)
+    case ConsumableItemString => println("TODO implement")
+    case EquipItemString => println("TODO implement")
+  }
+
+  private def showKeyItemForm(nodeId: Int): Unit = {
+    val form: Form = FormBuilder()
+      .addTextField("Item name")
+      .addTextAreaField("Item description")
+      .addTextAreaField("Narrative upon finding the item")
+      .get(controller)
+    form.setOkButtonListener(NewKeyItemOkListener(form, nodeId, controller))
+    form.render()
+  }
+
+  override def inputConditions: List[(Boolean, String)] = List()
+
+  override def stateConditions: List[(Boolean, String)] = List()
+}
+
+private case class NewKeyItemOkListener(override val form: Form,
+                                             nodeId: Int,
+                                             override val controller: EditorController)
+  extends EditorOkFormButtonListener(form, controller) {
+
+  override def editorControllerAction(): Unit = controller.addEventToNode(nodeId, ItemEvent(
+    form.elements(2).value,
+    KeyItem(form.elements.head.value, form.elements(1).value)
+  ))
+
+  override def inputConditions: List[(Boolean, String)] = List(
+    (NonEmptyString(form.elements.head.value), mustBeSpecified(TheName)),
+    (NonEmptyString(form.elements(1).value), mustBeSpecified(TheDescription)),
+    (NonEmptyString(form.elements(2).value), mustBeSpecified(TheNarrative)),
+  )
+
+  override def stateConditions: List[(Boolean, String)] = List()
 }
