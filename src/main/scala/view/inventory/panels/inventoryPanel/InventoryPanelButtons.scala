@@ -42,6 +42,7 @@ private[inventoryPanel] object InventoryPanelButtons {
     SqSwingButton(
       useButtonName,
       useButtonActionListener, item match {
+        case _: EquipItem => inventoryController.targets().size == 1
         case _: KeyItem => false
         case _ => true
       })

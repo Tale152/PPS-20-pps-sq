@@ -33,7 +33,7 @@ object ProgressSaverController {
         )
         progressSaverView.showSuccessFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
       } catch {
-        case e: Exception =>
+        case _: Exception =>
           progressSaverView.showFailureFeedback(
             _ => gameMasterController.executeOperation(OperationType.StoryOperation)
           )

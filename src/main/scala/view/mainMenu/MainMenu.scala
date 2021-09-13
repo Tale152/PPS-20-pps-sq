@@ -9,7 +9,7 @@ import controller.util.serialization.FolderUtil.createFolderIfNotPresent
 import controller.util.serialization.StoryNodeSerializer.{deserializeStory, serializeStory}
 import model.nodes.StoryNode
 import view.AbstractView
-import view.editor.forms.DeleteStory.showDeleteStoryForm
+import view.mainMenu.forms.DeleteStory.showDeleteStoryForm
 import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
@@ -56,7 +56,9 @@ object MainMenu {
       this.add(Scrollable(VerticalButtons(generateButtons())))
       val chooser = SqFileChooser.getFileChooser("Load story")
       this.add(ControlsPanel(List(
-        ("q", ("[Q] Quit", _ => applicationController.close())),
+        ("q", ("[Q] Quit", _ => SqYesNoSwingDialog("Exit confirm", "Do you really want to exit the game?", _ => {
+          applicationController.close()
+        }))),
         ("e", ("[E] Editor", _ => {
           SqSwingDialog(
             "ScalaQuest",
