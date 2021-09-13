@@ -1,38 +1,34 @@
 package view.form
 
 import controller.Controller
+import view.form.formElements._
+
 import scala.collection.mutable.ListBuffer
 
 /**
- * Factory Object used to create a [[view.form.Form]].
+ * Factory class used to create a [[view.form.Form]].
  */
-object FormBuilder {
+case class FormBuilder() {
 
-  class FormBuilder() {
+  private val listBuffer: ListBuffer[FormElement] = ListBuffer()
 
-    private val listBuffer: ListBuffer[FormElement] = ListBuffer()
+  def addTextField(label: String): FormBuilder =
+    addField(TextInputElement(label))
 
-    def addTextField(label: String): FormBuilder =
-      addField(TextInputElement(label))
+  def addTextAreaField(label: String, oldText: String = ""): FormBuilder =
+    addField(TextAreaInputElement(label, oldText))
 
-    def addTextAreaField(label: String, oldText: String = ""): FormBuilder =
-      addField(TextAreaInputElement(label, oldText))
+  def addIntegerField(label: String): FormBuilder =
+    addField(IntegerInputElement(label))
 
-    def addIntegerField(label: String): FormBuilder =
-      addField(IntegerInputElement(label))
+  def addComboField(label: String, comboElement: List[String]): FormBuilder =
+    addField(ComboBoxElement(label, comboElement))
 
-    def addComboField(label: String, comboElement: List[String]): FormBuilder =
-      addField(ComboBoxElement(label, comboElement))
-
-    private def addField(formElement: FormElement): FormBuilder = {
-      listBuffer += formElement
-      this
-    }
-
-    def get(controller: Controller): Form = Form(controller, listBuffer.toList)
-
+  private def addField(formElement: FormElement): FormBuilder = {
+    listBuffer += formElement
+    this
   }
 
-  def apply(): FormBuilder = new FormBuilder()
+  def get(controller: Controller): Form = Form(controller, listBuffer.toList)
 
 }

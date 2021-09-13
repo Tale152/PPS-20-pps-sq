@@ -1,10 +1,10 @@
 package view.util.scalaQuestSwingComponents
 
-import view.Frame
 import view.util.scalaQuestSwingComponents.SqRetroFont.{DefaultFontSize, RetroFont}
 
 import java.awt.Font
 import java.awt.GraphicsEnvironment
+import java.io.InputStream
 
 /**
  * Object that represents the imported font for the game,
@@ -12,9 +12,20 @@ import java.awt.GraphicsEnvironment
  */
 private object SqRetroFont {
   val DefaultFontSize = 15
-  lazy val RetroFont: Font = Frame.loadFont(getClass.getClassLoader.getResourceAsStream("retroFont.ttf"))
+  lazy val RetroFont: Font = loadFont(getClass.getClassLoader.getResourceAsStream("retroFont.ttf"))
   private val Ge: GraphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment
   Ge.registerFont(RetroFont)
+
+  def loadFont(is: InputStream): Font = {
+    try {
+      val myFont = Font.createFont(Font.TRUETYPE_FONT, is)
+      myFont.deriveFont(Font.PLAIN)
+    } catch {
+      case _: Exception =>
+        println("Error on loading external Font, loading default one..")
+        Font.getFont("Arial")
+    }
+  }
 }
 
 /**

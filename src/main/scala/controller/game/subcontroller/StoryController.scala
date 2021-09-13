@@ -2,8 +2,10 @@ package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
+import model.characters.properties.stats.StatName.StatName
 import model.nodes.{ItemEvent, Pathway, StatEvent}
 import view.story.StoryView
+import view.util.StringFormatUtil.formatted
 
 /**
  * The [[controller.game.subcontroller.SubController]] that contains the logic to update the
@@ -85,7 +87,8 @@ object StoryController {
 
     override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
 
-    private def redirect(): Unit = if (storyModel.currentStoryNode.enemy.isEmpty) this.execute() else goToBattle()
+    private def redirect(): Unit =
+      if (storyModel.currentStoryNode.enemy.isEmpty) this.execute() else goToBattle()
 
     private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
 
@@ -93,15 +96,38 @@ object StoryController {
      * Process all events, then delete them from the current [[model.nodes.StoryNode]].
      */
     private def processEvents(): Unit = {
+      import view.util.StringFormatUtil.FormatElements.NewLine
+
       storyView.displayEvent(storyModel.currentStoryNode.events.map {
-        case StatEvent(statModifier) =>
+        case StatEvent(eventDescription, statModifier) =>
           storyModel.player.properties.statModifiers += statModifier
-          "Stat " + statModifier.statName + " modified"
-        case ItemEvent(item) =>
+          formatted(eventDescription + NewLine +
+            "Stat " + statModifier.statName + " modified " +
+            "(" + getStatDifferences(statModifier.statName, statModifier.modifyStrategy) + ")"
+          )
+        case ItemEvent(eventDescription, item) =>
           storyModel.player.inventory = storyModel.player.inventory :+ item
-          "New Item: " + item.name
+          formatted(eventDescription + NewLine + "New Item found: " + item.name)
       })
       storyModel.currentStoryNode.removeAllEvents()
+    }
+
+    /**
+     * @param statName             The name of the stat to consider.
+     * @param statModifierStrategy The strategy to apply last.
+     * @return the difference between the stat value before and after the application of statModifierStrategy
+     *         formatted with + or - sign.
+     */
+    private def getStatDifferences(statName: StatName, statModifierStrategy: Int => Int): String = {
+      val originalStatValue = storyModel.player.properties.stat(statName).value
+      val modifiedStatValue = storyModel.player.properties.statModifiers.filter(s => s.statName == statName)
+        .foldLeft(originalStatValue)((o, m) => m.modifyStrategy(o))
+      val difference = statModifierStrategy(modifiedStatValue) - modifiedStatValue
+      if (difference >= 0) {
+        "+" + difference
+      } else {
+        difference.toString
+      }
     }
 
   }
