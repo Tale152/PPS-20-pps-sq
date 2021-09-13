@@ -9,9 +9,8 @@ import view.editor.forms.EditPathway.showEditPathwayForm
 import view.editor.forms.EditStoryNode.showEditStoryNodeForm
 import view.editor.forms.NewPathway.showNewPathwayForm
 import view.editor.forms.NewStoryNode.showNewStoryNodeForm
-import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFileChooser}
 
 import java.awt.BorderLayout
 
@@ -31,9 +30,9 @@ object EditorView {
       )), BorderLayout.NORTH)
 
       this.add(Scrollable(VerticalButtons(List(
-        SqSwingButton("Add new story node", _  => showNewStoryNodeForm(editorController)),
+        SqSwingButton("Add new story node", _ => showNewStoryNodeForm(editorController)),
         SqSwingButton("Edit existing story node", _ => showEditStoryNodeForm(editorController)),
-        SqSwingButton("Delete existing story node", _=> showDeleteStoryNodeForm(editorController)),
+        SqSwingButton("Delete existing story node", _ => showDeleteStoryNodeForm(editorController)),
         SqSwingButton("Add new pathway", _ => showNewPathwayForm(editorController)),
         SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController))
@@ -41,7 +40,7 @@ object EditorView {
 
       this.add(ControlsPanel(List(
         ("q", ("[Q] Quit", _ => editorController.close())),
-        ("s", ("[S] Save", _ => SqFileChooser.showFileSave(
+        ("s", ("[S] Save", _ => SqSwingFileChooser.showFileSave(
           "Save story",
           editorController.save,
           "story." + ResourceName.FileExtensions.StoryFileExtension,
