@@ -1,9 +1,10 @@
-package view.editor.forms.okButtonListener
+package view.editor.forms.okButtonListener.pathways
 
 import controller.editor.EditorController
 import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects.{TheEndingId, ThePathway, TheStartingId}
 import view.editor.forms.EditorConditionValues.ConditionDescriptions.{isNotValid, mustBeSpecified}
 import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
+import view.editor.forms.okButtonListener.EditorOkFormButtonListener
 import view.form.Form
 
 case class DeletePathwayOkListener(override val form: Form, override val controller: EditorController)
