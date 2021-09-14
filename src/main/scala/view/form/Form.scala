@@ -2,6 +2,7 @@ package view.form
 
 import controller.Controller
 import view.AbstractView
+import view.form.formElements.FormElement
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.{SqSwingGridBagPanel, SqSwingPanel}
 
