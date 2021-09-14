@@ -1,6 +1,7 @@
 package view.editor.forms.okButtonListener
 
 import controller.editor.EditorController
+import model.characters.Character
 import model.characters.properties.stats.StatName.StatName
 import model.characters.properties.stats.{StatModifier, StatName}
 import model.items.{ConsumableItem, EquipItem, KeyItem}
@@ -127,7 +128,7 @@ private case class NewItemCategoryOkListener(override val form: Form,
 
   override def performAction(): Unit = form.elements.head.value match {
     case KeyItemString => showKeyItemForm(nodeId)
-    case ConsumableItemString => println("TODO implement")
+    case ConsumableItemString => showConsumableItemForm(nodeId)
     case EquipItemString => println("TODO implement")
   }
 
@@ -138,6 +139,18 @@ private case class NewItemCategoryOkListener(override val form: Form,
       .addTextAreaField("Narrative upon finding the item")
       .get(controller)
     form.setOkButtonListener(NewKeyItemOkListener(form, nodeId, controller))
+    form.render()
+  }
+
+  private def showConsumableItemForm(nodeId: Int): Unit = {
+    val form: Form = FormBuilder()
+      .addTextField("Item name")
+      .addTextAreaField("Item description")
+      .addComboField("Effect on health", List("Increase", "Decrease"))
+      .addIntegerField("Value")
+      .addTextAreaField("Narrative upon finding the item")
+      .get(controller)
+    form.setOkButtonListener(NewConsumableItemOkListener(form, nodeId, controller))
     form.render()
   }
 
@@ -159,7 +172,38 @@ private case class NewKeyItemOkListener(override val form: Form,
   override def inputConditions: List[(Boolean, String)] = List(
     (NonEmptyString(form.elements.head.value), mustBeSpecified(TheName)),
     (NonEmptyString(form.elements(1).value), mustBeSpecified(TheDescription)),
-    (NonEmptyString(form.elements(2).value), mustBeSpecified(TheNarrative)),
+    (NonEmptyString(form.elements(2).value), mustBeSpecified(TheNarrative))
+  )
+
+  override def stateConditions: List[(Boolean, String)] = List()
+}
+
+private case class NewConsumableItemOkListener(override val form: Form,
+                                        nodeId: Int,
+                                        override val controller: EditorController)
+  extends EditorOkFormButtonListener(form, controller) {
+
+  override def editorControllerAction(): Unit = {
+
+    def getConsumableStrategy(selectedStrategyStr: String, value: Int): Character => Unit = selectedStrategyStr match {
+      case "Increase" => c => c.properties.health.currentPS = c.properties.health.currentPS + value
+      case "Decrease" => c => c.properties.health.currentPS = c.properties.health.currentPS - value
+    }
+
+    controller.addEventToNode(nodeId, ItemEvent(
+      form.elements(4).value,
+      ConsumableItem(
+        form.elements.head.value,
+        form.elements(1).value,
+        getConsumableStrategy(form.elements(2).value, form.elements(3).value.toInt))
+    ))
+  }
+
+  override def inputConditions: List[(Boolean, String)] = List(
+    (NonEmptyString(form.elements.head.value), mustBeSpecified(TheName)),
+    (NonEmptyString(form.elements(1).value), mustBeSpecified(TheDescription)),
+    (NonEmptyString(form.elements(3).value), mustBeSpecified(TheValue)),
+    (NonEmptyString(form.elements(4).value), mustBeSpecified(TheNarrative))
   )
 
   override def stateConditions: List[(Boolean, String)] = List()
