@@ -1,7 +1,8 @@
 package view.editor.forms
 
 import controller.editor.EditorController
-import view.editor.forms.okButtonListener.NewStoryNodeOkListener
+import view.editor.forms.okButtonListener.storyNodes
+import view.editor.forms.okButtonListener.storyNodes.NewStoryNodeOkListener
 import view.form.{Form, FormBuilder}
 
 object NewStoryNode {
@@ -12,7 +13,7 @@ object NewStoryNode {
       .addTextField("What description should the pathway to the new story node show?")
       .addTextAreaField("What narrative should the new story node show?")
       .get(editorController)
-    form.setOkButtonListener(NewStoryNodeOkListener(form, editorController))
+    form.setOkButtonListener(storyNodes.NewStoryNodeOkListener(form, editorController))
     form.render()
   }
 

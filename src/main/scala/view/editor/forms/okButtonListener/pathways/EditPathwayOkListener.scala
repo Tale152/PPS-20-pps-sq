@@ -1,10 +1,11 @@
-package view.editor.forms.okButtonListener
+package view.editor.forms.okButtonListener.pathways
 
 import controller.editor.EditorController
 import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects._
 import view.editor.forms.EditorConditionValues.ConditionDescriptions.{isNotValid, mustBeSpecified}
-import view.form.{Form, FormBuilder, OkFormButtonListener}
 import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
+import view.editor.forms.okButtonListener.EditorOkFormButtonListener
+import view.form.{Form, FormBuilder, OkFormButtonListener}
 
 object EditPathwayOkListener {
   case class SelectPathwayOkListener(override val form: Form, override val controller: EditorController)
@@ -53,4 +54,3 @@ object EditPathwayOkListener {
 
   }
 }
-
