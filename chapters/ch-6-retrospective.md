@@ -58,9 +58,23 @@ Sotto il punto di vista ingegneristico inoltre, in questo sprint è cominciato l
 Questo sprint è stato molto denso di contenuti, con un notevole salto quantitativo a livello di feature introdotte. Anche sta volta i task sono stati svolti nei tempi previsti.  
 Poco prima della release è sorto un bug legato al caricamento da file quando il progetto veniva lanciato da sbt piuttosto che dal run integrato in IntelliJ.  
 Tramite un meeting comune siamo stati in grado di identificare il problema velocemente e porvi rimedio.
-### Sprint 4 (date_start - date-end)
+
+### Sprint 4 (31/08/2021 - 10/09/2021)
 #### Obiettivo
+Anche in questo sprint vi è stato un carico lavorativo importante.  
+Utilizzando il model concluso nello sprint precedente sono state implementate le seguenti feature:
+- gestione dell'inventario;
+- gestione degli eventi presenti all'interno di un nodo;
+- gestione dei combattimenti.
+
+È inoltre cominciato lo sviluppo dell'editor, ottenendo una versione funzionante capace di eseguire le operazioni più basilari (le funzioni avanzate verranno implementate nel prossimo sprint).  
+I file di storie prodotte dall'editor, inoltre, possono ora essere aggiunti alle storie disponibili in maniera guidata evitando che l'utente vada manualmente ad inserire i file nella cartella giusta (è stata anche implementata una funzione per l'eliminazione guidata di storie).  
+
+Si è concluso lo studio di fattibilità descritto allo sprint precedente, confermando la possibilità di realizzare le feature desiderate (che verranno implementate nel prossimo sprint).
+
 #### Considerazioni finali
+Il programma è in grado di eseguire la quasi totalità delle feature previste per la release finale, confermando le nostre previsioni sui tempi di sviluppo.  
+
 ### Sprint 5 (date_start - date-end)
 #### Obiettivo
 #### Considerazioni finali
