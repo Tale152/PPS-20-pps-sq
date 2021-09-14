@@ -3,7 +3,7 @@ package view.form
 import controller.Controller
 import view.AbstractView
 import view.form.formElements.FormElement
-import view.util.common.ControlsPanel
+import view.util.common.{ControlsPanel, Scrollable}
 import view.util.scalaQuestSwingComponents.{SqSwingGridBagPanel, SqSwingPanel}
 
 import java.awt.BorderLayout
@@ -68,7 +68,7 @@ object Form {
     override def populateView(): Unit = {
       groupLayout.setHorizontalGroup(createHorizontalGroup())
       groupLayout.setVerticalGroup(createVerticalGroup())
-      this.add(centerPanel, BorderLayout.CENTER)
+      this.add(Scrollable(centerPanel), BorderLayout.CENTER)
       this.add(
         ControlsPanel(List(
           ("o", ("[O] OK", _ => okButton.doClick())),
