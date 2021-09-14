@@ -1,7 +1,7 @@
 package view.editor.forms
 
 import controller.editor.EditorController
-import view.editor.forms.okButtonListener.DeleteEventOkListener.SelectStoryNodeOkListener
+import view.editor.forms.okButtonListener.events.DeleteEventOkListener.SelectStoryNodeOkListener
 import view.form.{Form, FormBuilder}
 
 object DeleteEvent {

@@ -1,9 +1,10 @@
-package view.editor.forms.okButtonListener
+package view.editor.forms.okButtonListener.events
 
 import controller.editor.EditorController
 import view.editor.forms.EditorConditionValues.ConditionDescriptions.Subjects.TheEvent
 import view.editor.forms.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.forms.EditorConditionValues.InputPredicates.NonEmptyString
+import view.editor.forms.okButtonListener.EditorOkFormButtonListener
 import view.form.{Form, FormBuilder, OkFormButtonListener}
 
 object DeleteEventOkListener {

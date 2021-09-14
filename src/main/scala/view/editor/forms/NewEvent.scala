@@ -1,7 +1,7 @@
 package view.editor.forms
 
 import controller.editor.EditorController
-import view.editor.forms.okButtonListener.NewEventOkListener
+import view.editor.forms.okButtonListener.events.NewEventOkListener
 import view.form.{Form, FormBuilder}
 
 object NewEvent {
