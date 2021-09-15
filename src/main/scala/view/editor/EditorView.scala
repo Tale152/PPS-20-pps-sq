@@ -4,20 +4,21 @@ import controller.editor.EditorController
 import controller.util.Resources.ResourceName
 import view.AbstractView
 import view.editor.forms.enemies.DeleteEnemy.showDeleteEnemyForm
-import view.editor.forms.pathways.DeletePathway.showDeletePathwayForm
-import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
-import view.editor.forms.pathways.EditPathway.showEditPathwayForm
-import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
-import view.editor.forms.pathways.NewPathway.showNewPathwayForm
-import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
-import view.editor.forms.events.NewEvent.showNewEventForm
-import view.editor.forms.events.DeleteEvent.showDeleteEventForm
 import view.editor.forms.enemies.NewEnemy.showNewEnemyForm
-import view.util.SqFileChooser
+import view.editor.forms.events.DeleteEvent.showDeleteEventForm
+import view.editor.forms.events.NewEvent.showNewEventForm
+import view.editor.forms.pathways.DeletePathway.showDeletePathwayForm
+import view.editor.forms.pathways.EditPathway.showEditPathwayForm
+import view.editor.forms.pathways.NewPathway.showNewPathwayForm
+import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
+import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
+import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFileChooser}
 
 import java.awt.BorderLayout
+import java.io.File
+import javax.swing.{JComponent, JFileChooser}
 
 trait EditorView extends AbstractView
 
@@ -27,6 +28,14 @@ object EditorView {
 
     this.setLayout(new BorderLayout())
 
+    def showFileSave(title: String, onSave: String => Unit, selectedFileName: String, parent: JComponent): Unit = {
+      val chooser = SqSwingFileChooser(title)
+      chooser.setSelectedFile(new File(selectedFileName))
+      if (chooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
+        onSave(chooser.getSelectedFile.getPath)
+      }
+    }
+
     override def populateView(): Unit = {
 
       this.add(ControlsPanel(List(
@@ -35,9 +44,9 @@ object EditorView {
       )), BorderLayout.NORTH)
 
       this.add(Scrollable(VerticalButtons(List(
-        SqSwingButton("Add new story node", _  => showNewStoryNodeForm(editorController)),
+        SqSwingButton("Add new story node", _ => showNewStoryNodeForm(editorController)),
         SqSwingButton("Edit existing story node", _ => showEditStoryNodeForm(editorController)),
-        SqSwingButton("Delete existing story node", _=> showDeleteStoryNodeForm(editorController)),
+        SqSwingButton("Delete existing story node", _ => showDeleteStoryNodeForm(editorController)),
         SqSwingButton("Add new pathway", _ => showNewPathwayForm(editorController)),
         SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
@@ -49,13 +58,9 @@ object EditorView {
 
       this.add(ControlsPanel(List(
         ("q", ("[Q] Quit", _ => editorController.close())),
-        ("s", ("[S] Save", _ => SqFileChooser.showFileSave(
-          "Save story",
-          editorController.save,
-          "story." + ResourceName.FileExtensions.StoryFileExtension,
-          this
-        )))
-      )), BorderLayout.SOUTH)
+        ("s", ("[S] Save", _ => showFileSave("Save story", editorController.save,
+          "story." + ResourceName.FileExtensions.StoryFileExtension, this))))),
+        BorderLayout.SOUTH)
     }
 
   }

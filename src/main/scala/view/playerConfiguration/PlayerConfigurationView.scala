@@ -2,9 +2,11 @@ package view.playerConfiguration
 
 import controller.PlayerConfigurationController
 import model.characters.properties.stats.Stat
-import view.playerConfiguration.panels.{InstructionPanel, RemainingPointsPanel, StatEditPanel}
 import view.AbstractView
+import view.playerConfiguration.panels.{InstructionPanel, PlayerNamePanel, RemainingPointsPanel, StatEditPanel}
 import view.util.common.ControlsPanel
+import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 import javax.swing.BoxLayout
 
@@ -45,6 +47,8 @@ object PlayerConfigurationView {
 
     private var _stats: List[Stat] = List()
     private var _remainingPoints: Int = 0
+    private val playerNamePanel = PlayerNamePanel()
+    private val nameCharactersLimit = 20
 
     override def setStats(stats: List[Stat]): Unit = _stats = stats
 
@@ -53,13 +57,24 @@ object PlayerConfigurationView {
     def populateView(): Unit = {
       this.add(InstructionPanel())
       this.add(RemainingPointsPanel(_remainingPoints))
+      this.add(playerNamePanel)
       for (stat <- _stats) {
         this.add(StatEditPanel(playerConfigurationController, stat, _remainingPoints))
       }
       this.add(ControlsPanel(List(
         ("b", ("[B] Back", _ => playerConfigurationController.close())),
-        ("c", ("[C] Confirm", _ => playerConfigurationController.confirm()))
-      )))
+        ("c", ("[C] Confirm", _ => {
+          playerNamePanel.playerName.trim match {
+            case s: String if s == null || s == "" =>
+              SqSwingDialog("Empty name", "Insert a valid name for the main character!",
+                List(SqSwingButton("ok", _ => {})))
+            case s: String if s.length > nameCharactersLimit => SqSwingDialog("Invalid name",
+              "The name inserted is longer than " + nameCharactersLimit + " characters",
+              List(SqSwingButton("ok", _ => {})))
+            case _ => playerConfigurationController.confirm(playerNamePanel.playerName.trim)
+          }
+        })
+        ))))
     }
 
   }

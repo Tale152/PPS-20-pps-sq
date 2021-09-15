@@ -23,7 +23,7 @@ sealed trait PlayerConfigurationController extends Controller {
   /**
    * Used by the PlayerConfigurationView when the user modifies the value of a stat.
    *
-   * @param stat the stat that has been modified.
+   * @param stat  the stat that has been modified.
    * @param value the new stat value.
    * @see [[model.characters.properties.stats.Stat]]
    * @see [[view.playerConfiguration.PlayerConfigurationView]]
@@ -36,7 +36,7 @@ sealed trait PlayerConfigurationController extends Controller {
    * @see [[model.characters.properties.stats.Stat]]
    * @see [[view.playerConfiguration.PlayerConfigurationView]]
    */
-  def confirm(): Unit
+  def confirm(playerName: String): Unit
 }
 
 
@@ -49,8 +49,7 @@ object PlayerConfigurationController {
     val StatSortingFunction: (Stat, Stat) => Boolean = (s1, s2) => s1.toString > s2.toString
   }
 
-  import controller.PlayerConfigurationController.PlayerConfigValues.
-  {InitialRemainingPointsValue, InitialStatValue, PlayerMaxPs, StatSortingFunction}
+  import controller.PlayerConfigurationController.PlayerConfigValues._
 
   class PlayerConfigurationControllerImpl(private val storyName: String, private val startingNode: StoryNode)
     extends PlayerConfigurationController {
@@ -83,8 +82,8 @@ object PlayerConfigurationController {
       updateView()
     }
 
-    override def confirm(): Unit =
-      GameMasterController(StoryModel(storyName, Player("player", PlayerMaxPs, _stats.toSet), startingNode)).execute()
+    override def confirm(playerName: String): Unit =
+      GameMasterController(StoryModel(storyName, Player(playerName, PlayerMaxPs, _stats.toSet), startingNode)).execute()
 
   }
 
