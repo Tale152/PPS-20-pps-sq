@@ -9,6 +9,7 @@ class PrologEngineSuite extends Suites(
   new PathPredicateTest,
   new PathwayDescriptionPredicateTest,
   new ReachAllFinalNodesPredicateTest,
+  new StoryNodePredicateTest,
   new StoryNodeNarrativePredicateTest,
   new StoryWalkthroughPredicateTest,
   new WalkthroughPredicateTest

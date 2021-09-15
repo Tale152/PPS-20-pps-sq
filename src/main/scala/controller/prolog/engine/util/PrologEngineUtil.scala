@@ -13,6 +13,13 @@ object PrologEngineUtil {
   implicit def stringToTerm(string: String): Term = Term.createTerm(string)
 
   /**
+   * Implicit that let the Int be treated as a [[alice.tuprolog.Term]].
+   * @param int the Int to treat like a term.
+   * @return The term that the Int represents.
+   */
+  implicit def intToTerm(int: Int): Term = stringToTerm(int.toString)
+
+  /**
    * Implicit that let a Seq be treated as a [[alice.tuprolog.Term]].
    * @param sequence the sequence of generic objects.
    * @tparam T the generic type of the sequence.
@@ -29,5 +36,16 @@ object PrologEngineUtil {
      */
     def extractTerm(index: Integer): Term =
       term.asInstanceOf[Struct].getArg(index).getTerm
+
+    import collection.JavaConverters._
+
+    /**
+     * @return the term as a Seq of terms.
+     */
+    def toSeq: Seq[Term] = term.asInstanceOf[Struct].listIterator().asScala.toSeq
+
+    def toSeq[A](mappingFunction: Term => A): Seq[A] = term.toSeq.map(mappingFunction)
+
+    def toIntSeq: Seq[Int] = toSeq(t => t.toString.toInt)
   }
 }

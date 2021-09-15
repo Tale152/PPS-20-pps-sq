@@ -7,7 +7,8 @@ import alice.tuprolog._
  * @param engine The [[alice.tuprolog.Prolog]] engine.
  * @param goal the goal that the engine should check.
  */
-private[engine] case class PrologEngineIterator(engine: Prolog, goal: Term) extends Iterator[Term] {
+private[engine] case class PrologEngineIterator(engine: Prolog, goal: Term)
+  extends Iterator[Term] {
   var optionalSolution: Option[Term] = getNextSolution(_ => engine.solve(goal))
 
   override def hasNext: Boolean = optionalSolution.isDefined

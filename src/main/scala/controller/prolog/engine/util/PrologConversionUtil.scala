@@ -1,7 +1,7 @@
 package controller.prolog.engine.util
 
-import controller.prolog.PrologNames.Predicates.StoryNodePredicate
-import controller.prolog.PrologNames.Records.PathwayRecord
+import controller.prolog.engine.predicates.PrologPredicatesNames.Predicates.Records.PathwayRecord
+import controller.prolog.engine.predicates.PrologPredicatesNames.Predicates.StoryNodePredicateName
 import model.nodes.{Pathway, StoryNode}
 
 /**
@@ -16,7 +16,7 @@ object PrologConversionUtil {
      *         story_node(id,narrative,[pathway]).
      */
     def toPrologFact: String = {
-      StoryNodePredicate + "(" + storyNode.id + ",'" + storyNode.narrative + "',[" +
+      StoryNodePredicateName + "(" + storyNode.id + ",'" + storyNode.narrative + "',[" +
         storyNode.pathways.map(p => p.toPrologRecord).mkString(",") + "])."
     }
 
