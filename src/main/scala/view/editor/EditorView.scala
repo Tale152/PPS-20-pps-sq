@@ -3,15 +3,15 @@ package view.editor
 import controller.editor.EditorController
 import controller.util.Resources.ResourceName
 import view.AbstractView
-import view.editor.forms.DeletePathway.showDeletePathwayForm
-import view.editor.forms.DeleteStoryNode.showDeleteStoryNodeForm
-import view.editor.forms.EditPathway.showEditPathwayForm
-import view.editor.forms.EditStoryNode.showEditStoryNodeForm
-import view.editor.forms.NewPathway.showNewPathwayForm
-import view.editor.forms.NewStoryNode.showNewStoryNodeForm
-import view.editor.forms.NewEvent.showNewEventForm
-import view.editor.forms.DeleteEvent.showDeleteEventForm
-import view.editor.forms.NewEnemy.showNewEnemyForm
+import view.editor.forms.pathways.DeletePathway.showDeletePathwayForm
+import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
+import view.editor.forms.pathways.EditPathway.showEditPathwayForm
+import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
+import view.editor.forms.pathways.NewPathway.showNewPathwayForm
+import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
+import view.editor.forms.events.NewEvent.showNewEventForm
+import view.editor.forms.events.DeleteEvent.showDeleteEventForm
+import view.editor.forms.enemies.NewEnemy.showNewEnemyForm
 import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
