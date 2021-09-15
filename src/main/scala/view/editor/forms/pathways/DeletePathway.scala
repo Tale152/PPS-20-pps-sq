@@ -1,7 +1,7 @@
-package view.editor.forms
+package view.editor.forms.pathways
 
 import controller.editor.EditorController
-import view.editor.forms.okButtonListener.DeletePathwayOkListener
+import view.editor.okButtonListener.pathways
 import view.form.{Form, FormBuilder}
 
 object DeletePathway {
@@ -11,7 +11,7 @@ object DeletePathway {
       .addIntegerField("Which story node the pathway starts from? (id)")
       .addIntegerField("Which story node the pathway ends to? (id)")
       .get(editorController)
-    form.setOkButtonListener(DeletePathwayOkListener(form, editorController))
+    form.setOkButtonListener(pathways.DeletePathwayOkListener(form, editorController))
     form.render()
   }
 

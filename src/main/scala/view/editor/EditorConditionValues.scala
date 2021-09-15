@@ -1,4 +1,4 @@
-package view.editor.forms
+package view.editor
 
 object EditorConditionValues {
 
@@ -9,6 +9,10 @@ object EditorConditionValues {
   object ConditionDescriptions {
 
     object Subjects {
+
+      val TheName: String = "The name"
+
+      val TheEvent: String = "The event"
 
       val TheId: String = "The ID"
 
@@ -27,6 +31,8 @@ object EditorConditionValues {
       val TheEndStoryNode: String = "The ending StoryNode"
 
       val ThePathway: String = "The Pathway"
+
+      val TheValue: String = "The value"
     }
 
     val mustBeSpecified: String => String = subject => subject + " must be specified."

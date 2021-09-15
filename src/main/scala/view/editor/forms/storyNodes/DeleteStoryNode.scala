@@ -1,7 +1,7 @@
-package view.editor.forms
+package view.editor.forms.storyNodes
 
 import controller.editor.EditorController
-import view.editor.forms.okButtonListener.DeleteStoryNodeOkListener
+import view.editor.okButtonListener.storyNodes
 import view.form.{Form, FormBuilder}
 
 object DeleteStoryNode {
@@ -10,7 +10,7 @@ object DeleteStoryNode {
     val form: Form = FormBuilder()
       .addIntegerField("Which node you want to delete? (id)")
       .get(editorController)
-    form.setOkButtonListener(DeleteStoryNodeOkListener(form, editorController))
+    form.setOkButtonListener(storyNodes.DeleteStoryNodeOkListener(form, editorController))
     form.render()
   }
 

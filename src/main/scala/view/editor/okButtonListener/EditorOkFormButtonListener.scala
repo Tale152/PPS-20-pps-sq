@@ -1,4 +1,4 @@
-package view.editor.forms.okButtonListener
+package view.editor.okButtonListener
 
 import controller.editor.EditorController
 import view.form.{Form, OkFormButtonListener}

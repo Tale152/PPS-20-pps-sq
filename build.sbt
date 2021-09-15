@@ -9,9 +9,7 @@ lazy val root = (project in file("."))
     libraryDependencies += scalaTest % Test
   )
 
-libraryDependencies += graphStreamCore
-
-libraryDependencies += graphStreamUiSwing
+libraryDependencies ++= Seq(tuProlog, graphStreamCore, graphStreamUiSwing)
 
 // Tests Configurations
 val numberOfTestProcessors = java.lang.Runtime.getRuntime.availableProcessors + 1

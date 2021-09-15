@@ -1,7 +1,7 @@
-package view.editor.forms
+package view.editor.forms.pathways
 
 import controller.editor.EditorController
-import view.editor.forms.okButtonListener.NewPathwayOkListener
+import view.editor.okButtonListener.pathways
 import view.form.{Form, FormBuilder}
 
 object NewPathway {
@@ -12,7 +12,7 @@ object NewPathway {
       .addIntegerField("Which story node is the ending node? (id)")
       .addTextAreaField("What description should the pathway show?")
       .get(editorController)
-    form.setOkButtonListener(NewPathwayOkListener(form, editorController))
+    form.setOkButtonListener(pathways.NewPathwayOkListener(form, editorController))
     form.render()
   }
 }
