@@ -1,9 +1,8 @@
 package controller.prolog.predicates
 
-import alice.tuprolog.Var
+import alice.tuprolog.{Term, Var}
 import controller.prolog.engine.SqPrologEngine
 import controller.prolog.engine.predicates.Predicates.StoryNodePredicate
-import controller.prolog.engine.predicates.PrologPredicatesNames.Predicates.StoryNodePredicateName
 import controller.prolog.engine.util.PrologEngineUtil._
 import model.nodes.{Pathway, StoryNode}
 import org.scalatest.DoNotDiscover
@@ -33,10 +32,23 @@ class StoryNodePredicateTest extends FlatTestSpec {
       engine(p).head.extractTerm(1).toString shouldEqual "narrative"
       engine(p).size shouldEqual 1
     })
+    engine(predicates(0)).head
+      .extractTerm(2)
+      .extractTerm(0)
+      .extractTerm(0)
+      .toString.toInt shouldEqual 1
+    engine(predicates(1)).head
+      .extractTerm(2)
+      .extractTerm(0)
+      .extractTerm(0)
+      .toString.toInt shouldEqual 2
+    engine(predicates(2)).head.extractTerm(2).isEmptyList shouldBe true
   }
 
   it should "find all the solution passing only vars" in {
-    engine(StoryNodePredicateName + "(X,Y,Z)").size shouldEqual 3
+    val solutions : Stream[Term] = engine(StoryNodePredicate(new Var(), new Var(), new Var()))
+    solutions.size shouldEqual 3
+    solutions.foreach(s => s.extractTerm(1).toString shouldEqual "narrative")
   }
 
 }
