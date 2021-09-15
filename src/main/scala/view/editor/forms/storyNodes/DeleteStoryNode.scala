@@ -1,16 +1,19 @@
 package view.editor.forms.storyNodes
 
 import controller.editor.EditorController
-import view.editor.okButtonListener.storyNodes
+import view.editor.okButtonListener.storyNodes.DeleteStoryNodeOkListener
 import view.form.{Form, FormBuilder}
 
 object DeleteStoryNode {
 
   def showDeleteStoryNodeForm(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
-      .addIntegerField("Which node you want to delete? (id)")
+      .addComboField(
+        "Which node you want to delete? (id)",
+        editorController.getNodesIds(n => n.id != 0).map(id => id.toString)
+      )
       .get(editorController)
-    form.setOkButtonListener(storyNodes.DeleteStoryNodeOkListener(form, editorController))
+    form.setOkButtonListener(DeleteStoryNodeOkListener(form, editorController))
     form.render()
   }
 

@@ -1,18 +1,21 @@
 package view.editor.forms.pathways
 
 import controller.editor.EditorController
-import view.editor.okButtonListener.pathways
+import view.editor.okButtonListener.pathways.NewPathwayOkListener
 import view.form.{Form, FormBuilder}
 
 object NewPathway {
 
+  val OriginNodeIdIndex: Integer = 0
+
   def showNewPathwayForm(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
-      .addIntegerField("Which story node is the starting node? (id)")
-      .addIntegerField("Which story node is the ending node? (id)")
-      .addTextAreaField("What description should the pathway show?")
+      .addComboField(
+        "Which story node is the origin node?",
+        editorController.getNodesIds(_ => true).map(id => id.toString)
+      )
       .get(editorController)
-    form.setOkButtonListener(pathways.NewPathwayOkListener(form, editorController))
+    form.setOkButtonListener(NewPathwayOkListener(form, editorController))
     form.render()
   }
 }
