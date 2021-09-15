@@ -1,7 +1,8 @@
 package view.form
 
 import controller.Controller
-import view.form.formElements.{ComboBoxElement, FormElement, IntegerInputElement, TextAreaInputElement, TextInputElement}
+import view.form.FormBuilderConst.DefaultSpinnerNumberMax
+import view.form.formElements._
 
 import scala.collection.mutable.ListBuffer
 
@@ -24,6 +25,9 @@ case class FormBuilder() {
   def addComboField(label: String, comboElement: List[String]): FormBuilder =
     addField(ComboBoxElement(label, comboElement))
 
+  def addSpinnerNumberField(label: String, max: Int = DefaultSpinnerNumberMax): FormBuilder =
+    addField(SpinnerNumberElement(label, max))
+
   private def addField(formElement: FormElement): FormBuilder = {
     listBuffer += formElement
     this
@@ -31,4 +35,8 @@ case class FormBuilder() {
 
   def get(controller: Controller): Form = Form(controller, listBuffer.toList)
 
+}
+
+private object FormBuilderConst {
+  val DefaultSpinnerNumberMax = 1000
 }
