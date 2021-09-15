@@ -2,7 +2,6 @@ package view.editor.forms
 
 import controller.editor.EditorController
 import view.editor.forms.okButtonListener.storyNodes
-import view.editor.forms.okButtonListener.storyNodes.DeleteStoryNodeOkListener
 import view.form.{Form, FormBuilder}
 
 object DeleteStoryNode {
