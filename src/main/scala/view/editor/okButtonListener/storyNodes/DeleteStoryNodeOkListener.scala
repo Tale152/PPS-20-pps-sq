@@ -28,6 +28,5 @@ case class DeleteStoryNodeOkListener(override val form: Form, override val contr
   override def inputConditions: List[(Boolean, String)] =
     List((form.elements.head.value != null, mustBeSpecified(TheId)))
 
-  override def stateConditions: List[(Boolean, String)] =
-    List()
+  override def stateConditions: List[(Boolean, String)] = List()
 }
