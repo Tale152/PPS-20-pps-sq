@@ -80,7 +80,17 @@ object NewPathwayPrerequisiteNextFormOkListener {
     }
 
     private def showKeyItemForm(): Unit = {
-
+      val statValueForm: Form = FormBuilder()
+        .addComboField(
+          "Choose the required Key Item",
+          controller.getAllKeyItemsBeforeNode(controller.getStoryNode(originNodeId).get)
+            .zipWithIndex.map(x => "[" + (x._2 + 1) + "] " + x._1.name)
+        )
+        .get(controller)
+      statValueForm.setOkButtonListener(
+        NewKeyItemPrerequisiteOkListener(statValueForm, controller, originNodeId, form.elements.head.value.toInt)
+      )
+      statValueForm.render()
     }
 
     override def performAction(): Unit = form.elements(1).value match {
