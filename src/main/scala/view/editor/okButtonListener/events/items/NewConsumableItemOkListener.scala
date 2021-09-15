@@ -8,7 +8,7 @@ import view.editor.EditorConditionValues.ConditionDescriptions.Subjects._
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListener
-import view.editor.okButtonListener.events.NewEventOkListener.{DecrementOption, IncrementOption}
+import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
 import view.form.Form
 
 case class NewConsumableItemOkListener(override val form: Form,

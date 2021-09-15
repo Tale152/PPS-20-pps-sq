@@ -9,10 +9,13 @@ object NewEvent {
   val StatModifierOption: String = "Attach stat modifier"
   val ItemOption: String = "Find item"
 
+  val NodeIdIndex: Int = 0
+  val EventGenreIndex: Int = 1
+
   def showNewEventForm(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
       .addComboField(
-        "In which node you want to want to insert an event? (id)",
+        "In which node you want to want to insert an event?",
         editorController.getNodesIds(_ => true).map(n => n.toString)
       )
       .addComboField("Which genre of event you want to create?", List(StatModifierOption, ItemOption))

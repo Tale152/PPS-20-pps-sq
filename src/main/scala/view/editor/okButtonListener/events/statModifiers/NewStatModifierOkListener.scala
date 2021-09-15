@@ -1,14 +1,14 @@
 package view.editor.okButtonListener.events.statModifiers
 
 import controller.editor.EditorController
-import model.characters.properties.stats.{StatModifier, StatName}
 import model.characters.properties.stats.StatName._
+import model.characters.properties.stats.{StatModifier, StatName}
 import model.nodes.StatEvent
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheValue}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListener
-import view.editor.okButtonListener.events.NewEventOkListener
+import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
 import view.form.Form
 
 case class NewStatModifierOkListener(override val form: Form,
@@ -53,8 +53,8 @@ case class NewStatModifierOkListener(override val form: Form,
   }
 
   private def getStatModifierStrategy(selectedStrategyStr: String, value: Int): Int => Int = selectedStrategyStr match {
-    case NewEventOkListener.IncrementOption => v => v + value
-    case NewEventOkListener.DecrementOption => v => v - value
+    case IncrementOption => v => v + value
+    case DecrementOption => v => v - value
   }
 
 }

@@ -10,8 +10,8 @@ import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheDesc
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListener
-import view.editor.okButtonListener.events.NewEventOkListener.{DecrementOption, IncrementOption}
 import view.editor.okButtonListener.events.items.EquipItemUtil._
+import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
 import view.form.Form
 
 case class NewEquipItemOkListener(override val form: Form,
