@@ -3,8 +3,8 @@ package view.editor.okButtonListener.enemies
 import controller.editor.EditorController
 import model.characters.Enemy
 import model.characters.properties.stats.{Stat, StatName}
-import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheId, TheName, TheStoryNode}
-import view.editor.EditorConditionValues.ConditionDescriptions.{doesNotExists, mustBeSpecified}
+import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheId, TheName}
+import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.enemies.NewEnemyOkListenerConst._

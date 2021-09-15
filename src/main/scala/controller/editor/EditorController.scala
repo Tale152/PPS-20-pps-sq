@@ -108,6 +108,8 @@ trait EditorController extends Controller {
   def deleteEventFromNode(nodeId: Int, event: Event): Boolean
 
   def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean
+
+  def deleteEnemyFromNode(nodeId: Int): Boolean
 }
 
 object EditorController {
@@ -296,6 +298,17 @@ object EditorController {
         false
       } else {
         node.get.enemy = Some(enemy)
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    def deleteEnemyFromNode(nodeId: Int): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty || node.get.enemy.isEmpty){
+        false
+      } else {
+        node.get.enemy = None
         decorateGraphGUI()
         true
       }
