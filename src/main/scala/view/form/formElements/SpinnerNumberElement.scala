@@ -4,16 +4,17 @@ import view.form.formElements.SpinnerNumberElementConst._
 
 import javax.swing.{JSpinner, SpinnerNumberModel}
 
-case class SpinnerNumberElement(textLabel: String, max: Int) extends FormElement(textLabel) {
+case class SpinnerNumberElement(textLabel: String, start: Int) extends FormElement(textLabel) {
 
-  private val spinner = new JSpinner(new SpinnerNumberModel(Start, Min, max, Step))
+  private val spinner = new JSpinner(new SpinnerNumberModel(start, Min, Max, Step))
   this.add(spinner)
 
-  override def value: String = spinner.getValue.asInstanceOf[String]
+  //strange casting, but won't work if directly casted to String
+  override def value: String = spinner.getValue.asInstanceOf[Integer].toString
 }
 
 private object SpinnerNumberElementConst {
-  val Start = 0
-  val Min = 0
-  val Step = 1
+  val Min: Integer = 0
+  val Max: Integer = Integer.MAX_VALUE
+  val Step: Integer = 1
 }

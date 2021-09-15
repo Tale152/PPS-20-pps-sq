@@ -11,6 +11,7 @@ import view.editor.forms.NewPathway.showNewPathwayForm
 import view.editor.forms.NewStoryNode.showNewStoryNodeForm
 import view.editor.forms.NewEvent.showNewEventForm
 import view.editor.forms.DeleteEvent.showDeleteEventForm
+import view.editor.forms.NewEnemy.showNewEnemyForm
 import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
@@ -40,7 +41,8 @@ object EditorView {
         SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
         SqSwingButton("Add new event", _ => showNewEventForm(editorController)),
-        SqSwingButton("Delete event", _ => showDeleteEventForm(editorController))
+        SqSwingButton("Delete event", _ => showDeleteEventForm(editorController)),
+        SqSwingButton("Add new enemy", _ => showNewEnemyForm(editorController))
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(

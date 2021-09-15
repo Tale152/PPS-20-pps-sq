@@ -4,6 +4,7 @@ import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
 import controller.{ApplicationController, Controller}
+import model.characters.Enemy
 import model.nodes.StoryNode.MutableStoryNode
 import model.nodes.{Event, MutablePathway, StoryNode}
 import org.graphstream.ui.view.Viewer
@@ -105,6 +106,8 @@ trait EditorController extends Controller {
   def getNodesIds(filter: StoryNode => Boolean): List[Int]
 
   def deleteEventFromNode(nodeId: Int, event: Event): Boolean
+
+  def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean
 }
 
 object EditorController {
@@ -282,6 +285,17 @@ object EditorController {
         false
       } else {
         node.get.events = node.get.events.filter(e => e != event)
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty || node.get.enemy.nonEmpty){
+        false
+      } else {
+        node.get.enemy = Some(enemy)
         decorateGraphGUI()
         true
       }
