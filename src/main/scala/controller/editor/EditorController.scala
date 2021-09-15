@@ -4,6 +4,7 @@ import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
 import controller.{ApplicationController, Controller}
+import model.StoryModel
 import model.characters.Enemy
 import model.nodes.StoryNode.MutableStoryNode
 import model.nodes.{Event, MutablePathway, StoryNode}
@@ -110,6 +111,8 @@ trait EditorController extends Controller {
   def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean
 
   def deleteEnemyFromNode(nodeId: Int): Boolean
+
+  def addPrerequisiteToPathway(originNodeId: Int, destinationNodeId: Int, prerequisite: StoryModel => Boolean): Boolean
 }
 
 object EditorController {
@@ -292,7 +295,7 @@ object EditorController {
       }
     }
 
-    def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean = {
+    override def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean = {
       val node = getStoryNode(nodeId)
       if(node.isEmpty || node.get.enemy.nonEmpty){
         false
@@ -303,12 +306,25 @@ object EditorController {
       }
     }
 
-    def deleteEnemyFromNode(nodeId: Int): Boolean = {
+    override def deleteEnemyFromNode(nodeId: Int): Boolean = {
       val node = getStoryNode(nodeId)
       if(node.isEmpty || node.get.enemy.isEmpty){
         false
       } else {
         node.get.enemy = None
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def addPrerequisiteToPathway(originNodeId: Int,
+                                          destinationNodeId: Int,
+                                          prerequisite: StoryModel => Boolean): Boolean = {
+      val pathway = getPathway(originNodeId, destinationNodeId)
+      if(pathway.isEmpty || pathway.get.prerequisite.nonEmpty){
+        false
+      } else {
+        pathway.get.prerequisite = Some(prerequisite)
         decorateGraphGUI()
         true
       }
