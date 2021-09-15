@@ -4,9 +4,11 @@ import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
 import controller.{ApplicationController, Controller}
+import model.StoryModel
 import model.characters.Enemy
+import model.items.KeyItem
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.{Event, MutablePathway, StoryNode}
+import model.nodes.{Event, ItemEvent, MutablePathway, StoryNode}
 import org.graphstream.ui.view.Viewer
 import view.editor.EditorView
 
@@ -110,6 +112,12 @@ trait EditorController extends Controller {
   def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean
 
   def deleteEnemyFromNode(nodeId: Int): Boolean
+
+  def addPrerequisiteToPathway(originNodeId: Int, destinationNodeId: Int, prerequisite: StoryModel => Boolean): Boolean
+
+  def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean
+
+  def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem]
 }
 
 object EditorController {
@@ -292,7 +300,7 @@ object EditorController {
       }
     }
 
-    def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean = {
+    override def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean = {
       val node = getStoryNode(nodeId)
       if(node.isEmpty || node.get.enemy.nonEmpty){
         false
@@ -303,7 +311,7 @@ object EditorController {
       }
     }
 
-    def deleteEnemyFromNode(nodeId: Int): Boolean = {
+    override def deleteEnemyFromNode(nodeId: Int): Boolean = {
       val node = getStoryNode(nodeId)
       if(node.isEmpty || node.get.enemy.isEmpty){
         false
@@ -312,6 +320,64 @@ object EditorController {
         decorateGraphGUI()
         true
       }
+    }
+
+    override def addPrerequisiteToPathway(originNodeId: Int,
+                                          destinationNodeId: Int,
+                                          prerequisite: StoryModel => Boolean): Boolean = {
+      val pathway = getPathway(originNodeId, destinationNodeId)
+      if(pathway.isEmpty || pathway.get.prerequisite.nonEmpty){
+        false
+      } else {
+        pathway.get.prerequisite = Some(prerequisite)
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean = {
+      val pathway = getPathway(originNodeId, destinationNodeId)
+      if(pathway.isEmpty || pathway.get.prerequisite.isEmpty){
+        false
+      } else {
+        pathway.get.prerequisite = None
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem] = {
+
+      def getPredecessors(node: MutableStoryNode): Set[MutableStoryNode] =
+        nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == node))
+
+      def stepBack(node: MutableStoryNode,
+                   visitedNodes: Set[MutableStoryNode]): (List[KeyItem], Set[MutableStoryNode]) = {
+        var keyItems: List[KeyItem] = List()
+        var visitedNodesVar: Set[MutableStoryNode] = visitedNodes + node //adding this node to the already visited
+
+        //getting all key items in this node
+        node.events.foreach {
+          case itemEvent: ItemEvent => itemEvent.item match {
+            case keyItem: KeyItem => keyItems = keyItems :+ keyItem
+          }
+        }
+
+        //for each predecessor of this node
+        getPredecessors(node).foreach(n => {
+          //only if the predecessor hasn't been visited yet
+          if(!visitedNodes.contains(n)){
+            val nodeRes = stepBack(n, visitedNodesVar)
+            keyItems = keyItems ++ nodeRes._1 //adding the key items found exploring this predecessor
+            visitedNodesVar = visitedNodesVar ++ nodeRes._2 //adding the visited nodes exploring the predecessor
+          }
+        })
+
+        //returning the tuple
+        (keyItems, visitedNodes)
+      }
+
+      stepBack(targetNode, Set())._1
     }
 
     private def decorateGraphGUI(): Unit = {
