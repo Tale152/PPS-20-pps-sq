@@ -1,7 +1,7 @@
 package view.form
 
 import controller.Controller
-import view.form.formElements._
+import view.form.formElements.{ComboBoxElement, FormElement, IntegerInputElement, TextAreaInputElement, TextInputElement}
 
 import scala.collection.mutable.ListBuffer
 

@@ -10,6 +10,10 @@ object EditorConditionValues {
 
     object Subjects {
 
+      val TheName: String = "The name"
+
+      val TheEvent: String = "The event"
+
       val TheId: String = "The ID"
 
       val TheStartingId: String = "The starting ID"
@@ -27,6 +31,8 @@ object EditorConditionValues {
       val TheEndStoryNode: String = "The ending StoryNode"
 
       val ThePathway: String = "The Pathway"
+
+      val TheValue: String = "The value"
     }
 
     val mustBeSpecified: String => String = subject => subject + " must be specified."

@@ -1,7 +1,7 @@
 package view.editor.forms
 
 import controller.editor.EditorController
-import view.editor.forms.okButtonListener.EditPathwayOkListener.SelectPathwayOkListener
+import view.editor.forms.okButtonListener.pathways.EditPathwayOkListener.SelectPathwayOkListener
 import view.form.{Form, FormBuilder}
 
 object EditPathway {
