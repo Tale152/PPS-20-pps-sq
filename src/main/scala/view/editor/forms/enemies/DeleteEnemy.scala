@@ -6,10 +6,12 @@ import view.form.{Form, FormBuilder}
 
 object DeleteEnemy {
 
+  val StoryNodeIdIndex: Int = 0
+
   def showDeleteEnemyForm(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
       .addComboField(
-        "From what node you want to delete an existing enemy? (id)",
+        "From what node you want to delete an existing enemy?",
         editorController.getNodesIds(n => n.enemy.nonEmpty).map(n => n.toString)
       )
       .get(editorController)
