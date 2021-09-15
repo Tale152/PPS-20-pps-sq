@@ -3,14 +3,16 @@ package view.editor
 import controller.editor.EditorController
 import controller.util.Resources.ResourceName
 import view.AbstractView
-import view.editor.forms.DeletePathway.showDeletePathwayForm
-import view.editor.forms.DeleteStoryNode.showDeleteStoryNodeForm
-import view.editor.forms.EditPathway.showEditPathwayForm
-import view.editor.forms.EditStoryNode.showEditStoryNodeForm
-import view.editor.forms.NewPathway.showNewPathwayForm
-import view.editor.forms.NewStoryNode.showNewStoryNodeForm
-import view.editor.forms.NewEvent.showNewEventForm
-import view.editor.forms.DeleteEvent.showDeleteEventForm
+import view.editor.forms.enemies.DeleteEnemy.showDeleteEnemyForm
+import view.editor.forms.pathways.DeletePathway.showDeletePathwayForm
+import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
+import view.editor.forms.pathways.EditPathway.showEditPathwayForm
+import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
+import view.editor.forms.pathways.NewPathway.showNewPathwayForm
+import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
+import view.editor.forms.events.NewEvent.showNewEventForm
+import view.editor.forms.events.DeleteEvent.showDeleteEventForm
+import view.editor.forms.enemies.NewEnemy.showNewEnemyForm
 import view.util.SqFileChooser
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
@@ -40,7 +42,9 @@ object EditorView {
         SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
         SqSwingButton("Add new event", _ => showNewEventForm(editorController)),
-        SqSwingButton("Delete event", _ => showDeleteEventForm(editorController))
+        SqSwingButton("Delete existing event", _ => showDeleteEventForm(editorController)),
+        SqSwingButton("Add new enemy", _ => showNewEnemyForm(editorController)),
+        SqSwingButton("Delete existing enemy", _ => showDeleteEnemyForm(editorController))
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(
