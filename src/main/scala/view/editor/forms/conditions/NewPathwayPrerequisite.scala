@@ -1,7 +1,7 @@
 package view.editor.forms.conditions
 
 import controller.editor.EditorController
-import view.editor.okButtonListener.conditions.NewPathwayPrerequsiteOkListener
+import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteOkListener
 import view.form.{Form, FormBuilder}
 
 object NewPathwayPrerequisite {
@@ -13,7 +13,7 @@ object NewPathwayPrerequisite {
         editorController.getNodesIds(n => n.pathways.count(p => p.prerequisite.isEmpty) >= 2).map(n => n.toString)
       )
       .get(editorController)
-    form.setOkButtonListener(NewPathwayPrerequsiteOkListener(form, editorController))
+    form.setOkButtonListener(NewPathwayPrerequisiteOkListener(form, editorController))
     form.render()
   }
 }

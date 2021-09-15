@@ -113,6 +113,8 @@ trait EditorController extends Controller {
   def deleteEnemyFromNode(nodeId: Int): Boolean
 
   def addPrerequisiteToPathway(originNodeId: Int, destinationNodeId: Int, prerequisite: StoryModel => Boolean): Boolean
+
+  def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean
 }
 
 object EditorController {
@@ -325,6 +327,17 @@ object EditorController {
         false
       } else {
         pathway.get.prerequisite = Some(prerequisite)
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean = {
+      val pathway = getPathway(originNodeId, destinationNodeId)
+      if(pathway.isEmpty || pathway.get.prerequisite.isEmpty){
+        false
+      } else {
+        pathway.get.prerequisite = None
         decorateGraphGUI()
         true
       }

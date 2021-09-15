@@ -3,6 +3,7 @@ package view.editor
 import controller.editor.EditorController
 import controller.util.Resources.ResourceName
 import view.AbstractView
+import view.editor.forms.conditions.DeletePathwayPrerequisite.showDeletePathwayPrerequisiteForm
 import view.editor.forms.conditions.NewPathwayPrerequisite.showNewPathwayPrerequisiteForm
 import view.editor.forms.enemies.DeleteEnemy.showDeleteEnemyForm
 import view.editor.forms.pathways.DeletePathway.showDeletePathwayForm
@@ -46,7 +47,8 @@ object EditorView {
         SqSwingButton("Delete existing event", _ => showDeleteEventForm(editorController)),
         SqSwingButton("Add new enemy", _ => showNewEnemyForm(editorController)),
         SqSwingButton("Delete existing enemy", _ => showDeleteEnemyForm(editorController)),
-        SqSwingButton("Add new pathway condition", _ => showNewPathwayPrerequisiteForm(editorController))
+        SqSwingButton("Add new pathway condition", _ => showNewPathwayPrerequisiteForm(editorController)),
+        SqSwingButton("Delete existing pathway condition", _ => showDeletePathwayPrerequisiteForm(editorController))
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(

@@ -4,10 +4,10 @@ import controller.editor.EditorController
 import model.characters.properties.stats.StatName._
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheId
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
-import view.editor.okButtonListener.conditions.NewPathwayPrerequsiteOkListener.{KeyItemOption, StatValueOption}
+import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteOkListener.{KeyItemOption, StatValueOption}
 import view.form.{Form, FormBuilder, OkFormButtonListener}
 
-object NewPathwayPrerequsiteOkListener {
+object NewPathwayPrerequisiteOkListener {
 
   val StatValueOption: String = "Stat value"
   val KeyItemOption: String = "Key item"
