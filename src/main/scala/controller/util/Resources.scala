@@ -1,5 +1,6 @@
 package controller.util
 
+import controller.util.Resources.ResourceName.FileExtensions.PrologExtension
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{interactionSoundEffectPath, navigationSoundEffectPath}
 
@@ -7,6 +8,7 @@ import java.awt.image.BufferedImage
 import java.io.{BufferedInputStream, InputStream}
 import javax.imageio.ImageIO
 import javax.sound.sampled.{AudioInputStream, AudioSystem, Clip}
+import scala.io.Source.fromInputStream
 
 /**
  * Objects that contains resources like Audio and Images of the application.
@@ -40,9 +42,17 @@ object Resources {
     ImageIO.read(resourceAsInputStream(resourceName))
   }
 
+  /**
+   * @param filePath the path of a resource file.
+   * @return a list containing the lines of the file.
+   */
+  def resourcesAsLines(filePath: String): List[String] = {
+    fromInputStream(resourceAsInputStream(filePath)).getLines().toList
+  }
+
   object AudioClip {
-    lazy val interactionSoundClip: Clip = loadAudioClip(interactionSoundEffectPath())
-    lazy val navigationSoundClip: Clip = loadAudioClip(navigationSoundEffectPath())
+    lazy val interactionSoundClip: Clip = loadAudioClip(interactionSoundEffectPath)
+    lazy val navigationSoundClip: Clip = loadAudioClip(navigationSoundEffectPath)
   }
 
   /**
@@ -65,12 +75,17 @@ object Resources {
       val StoryFileExtension: String = "sqstr"
       val StoryProgressFileExtension: String = "sqprg"
       val WavExtension = "wav"
+      val PrologExtension = "pl"
     }
 
     private object SoundNames {
       import FileExtensions.WavExtension
       val InteractionSoundEffectFileName: String = "interaction." + WavExtension
       val NavigationSoundEffectFileName: String = "navigation." + WavExtension
+    }
+
+    private object PrologNames {
+       val PrologTheoryFileName: String = "theory." + PrologExtension
     }
 
     object MainDirectory{
@@ -108,8 +123,12 @@ object Resources {
       NavigationSoundEffectFileName
     }
 
-    def interactionSoundEffectPath(): String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
+    def interactionSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
 
-    def navigationSoundEffectPath(): String = "/" + SoundsEffectsDirectoryName + "/" + NavigationSoundEffectFileName
+    def navigationSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + NavigationSoundEffectFileName
+
+    import controller.util.Resources.ResourceName.PrologNames.PrologTheoryFileName
+
+    def prologEngineTheoryPath: String = "/" + PrologTheoryFileName
   }
 }
