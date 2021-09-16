@@ -54,7 +54,13 @@ object EditorView {
             showForbiddenActionDialog("There aren't new possible pathways")
           }
         }),
-        SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
+        SqSwingButton("Edit existing pathway", _ => {
+          if(editorController.getStoryNode(0).get.pathways.nonEmpty){
+            showEditPathwayForm(editorController)
+          } else {
+            showForbiddenActionDialog("There are no existing pathways")
+          }
+        }),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
         SqSwingButton("Add new event", _ => showNewEventForm(editorController)),
         SqSwingButton("Delete existing event", _ => showDeleteEventForm(editorController)),
