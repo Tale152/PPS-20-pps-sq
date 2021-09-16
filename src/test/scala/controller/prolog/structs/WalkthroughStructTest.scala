@@ -24,7 +24,6 @@ class WalkthroughStructTest extends FlatTestSpec {
   "The Prolog Engine" should "output the correct walkthrough" in {
     val solutions = engine.resolve(WalkthroughStruct(Seq(0,1,2), new Var()))
     solutions.size shouldEqual 1
-    println(engine.engineTheory)
     solutions.head.walkthrough shouldEqual Seq(
       "narrative(0)",
       "description(0-1)",

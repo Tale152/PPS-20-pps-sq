@@ -24,6 +24,10 @@ object Structs {
         StoryNodeNarrativeStruct(struct.getTerm(0), struct.getTerm(1))
       case s: String if s == WalkthroughPredicateName =>
         WalkthroughStruct(struct.getTerm(0), struct.getTerm(1))
+      case s: String if s == StoryWalkthroughPredicateName =>
+        StoryWalkthroughStruct(struct.getTerm(0), struct.getTerm(1))
+      case s: String if s == AllStoryWalkthroughPredicateName =>
+        AllStoryWalkthroughStruct(struct.getTerm(0), struct.getTerm(1))
     }
   }
 }

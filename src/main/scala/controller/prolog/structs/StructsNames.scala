@@ -13,6 +13,8 @@ object StructsNames {
     val PathwayDescriptionPredicateName: String = "pathway_description"
     val StoryNodeNarrativePredicateName: String = "story_node_narrative"
     val WalkthroughPredicateName: String = "walkthrough"
+    val StoryWalkthroughPredicateName: String = "story_walkthrough"
+    val AllStoryWalkthroughPredicateName: String = "all_story_walkthrough"
 
     object Records {
       val PathwayRecord: String = "pathway"
