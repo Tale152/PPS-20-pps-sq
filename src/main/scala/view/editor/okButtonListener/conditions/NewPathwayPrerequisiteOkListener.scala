@@ -1,24 +1,26 @@
 package view.editor.okButtonListener.conditions
 
 import controller.editor.EditorController
-import model.characters.properties.stats.StatName._
-import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheId
-import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
-import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteOkListener.{KeyItemOption, StatValueOption}
+import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteOkListener._
+import view.editor.util.IndexedComboListUtil.createIndexedOption
+import view.editor.util.StatsNameStringUtil.StatStrings
 import view.form.{Form, FormBuilder, OkFormButtonListener}
 
 object NewPathwayPrerequisiteOkListener {
 
+  val DestinationNodeIdIndex: Int = 0
+  val PrerequisiteOptionIndex: Int = 1
+
   val StatValueOption: String = "Stat value"
   val KeyItemOption: String = "Key item"
 
-  case class NewPathwayConditionOkListener(override val form: Form, override val controller: EditorController)
+  private case class NewPathwayConditionOkListener(override val form: Form, override val controller: EditorController)
     extends OkFormButtonListener(form, controller) {
 
     override def performAction(): Unit = {
       val nextForm: Form = FormBuilder()
         .addComboField(
-          "Select the destination node of the pathway (id)",
+          "Select the destination node of the pathway",
           controller.getStoryNode(form.elements.head.value.toInt).get
             .mutablePathways.filter(p => p.prerequisite.isEmpty)
             .map(p => p.destinationNode.id.toString).toSeq.toList
@@ -31,27 +33,23 @@ object NewPathwayPrerequisiteOkListener {
       nextForm.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] =
-      List((form.elements.head.value != null, mustBeSpecified(TheId)))
+    override def inputConditions: List[(Boolean, String)] = List()
 
     override def stateConditions: List[(Boolean, String)] = List()
   }
 
-  def apply(form: Form, controller: EditorController): NewPathwayConditionOkListener =
+  def apply(form: Form, controller: EditorController): OkFormButtonListener =
     NewPathwayConditionOkListener(form, controller)
 }
 
 object NewPathwayPrerequisiteNextFormOkListener {
 
-  //match requires stable identifiers
-  val WisdomString: String = Wisdom.toString
-  val CharismaString: String = Charisma.toString
-  val StrengthString: String = Strength.toString
-  val DexterityString: String = Dexterity.toString
-  val IntelligenceString: String = Intelligence.toString
-  val ConstitutionString: String = Constitution.toString
-
   private val DefaultMinimumValue: Int = 10
+
+  val StatValueFormStatIndex: Int = 0
+  val StatValueFormValueIndex: Int = 1
+
+  val KeyItemFormItemIndex: Int = 0
 
   case class NewPathwayPrerequisiteNextFormOkListener(override val form: Form,
                                                       override val controller: EditorController,
@@ -60,17 +58,7 @@ object NewPathwayPrerequisiteNextFormOkListener {
 
     private def showStatValueForm(): Unit = {
       val statValueForm: Form = FormBuilder()
-        .addComboField(
-          "Choose the Stat",
-          List(
-            CharismaString,
-            ConstitutionString,
-            DexterityString,
-            IntelligenceString,
-            StrengthString,
-            WisdomString
-          )
-        )
+        .addComboField("Choose the Stat", StatStrings)
         .addSpinnerNumberField("Minimum value required", DefaultMinimumValue)
         .get(controller)
       statValueForm.setOkButtonListener(
@@ -84,23 +72,32 @@ object NewPathwayPrerequisiteNextFormOkListener {
         .addComboField(
           "Choose the required Key Item",
           controller.getAllKeyItemsBeforeNode(controller.getStoryNode(originNodeId).get)
-            .zipWithIndex.map(x => "[" + (x._2 + 1) + "] " + x._1.name)
+            .zipWithIndex.map(x => createIndexedOption(x._2, x._1.name))
         )
         .get(controller)
       statValueForm.setOkButtonListener(
-        NewKeyItemPrerequisiteOkListener(statValueForm, controller, originNodeId, form.elements.head.value.toInt)
+        NewKeyItemPrerequisiteOkListener(
+          statValueForm,
+          controller,
+          originNodeId,
+          form.elements(DestinationNodeIdIndex).value.toInt
+        )
       )
       statValueForm.render()
     }
 
-    override def performAction(): Unit = form.elements(1).value match {
+    override def performAction(): Unit = form.elements(PrerequisiteOptionIndex).value match {
       case StatValueOption => showStatValueForm()
       case KeyItemOption => showKeyItemForm()
     }
 
     override def inputConditions: List[(Boolean, String)] = List()
 
-    override def stateConditions: List[(Boolean, String)] = List()
+    override def stateConditions: List[(Boolean, String)] = List(
+      (form.elements(PrerequisiteOptionIndex).value != KeyItemOption ||
+        controller.getAllKeyItemsBeforeNode(controller.getStoryNode(originNodeId).get).nonEmpty,
+        "There are no key items in node " + originNodeId + " or before")
+    )
   }
 
   def apply(form: Form, controller: EditorController, originNodeId: Int): NewPathwayPrerequisiteNextFormOkListener =

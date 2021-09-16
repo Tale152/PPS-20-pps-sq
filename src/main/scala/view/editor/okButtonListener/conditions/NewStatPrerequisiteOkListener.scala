@@ -5,10 +5,9 @@ import model.StoryModel
 import model.characters.properties.stats.StatName
 import model.characters.properties.stats.StatName.StatName
 import view.editor.okButtonListener.EditorOkFormButtonListener
-import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteNextFormOkListener.{
-  CharismaString, ConstitutionString, DexterityString, IntelligenceString, StrengthString, WisdomString
-}
+import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteNextFormOkListener._
 import view.form.Form
+import view.editor.util.StatsNameStringUtil._
 
 case class NewStatPrerequisiteOkListener(override val form: Form,
                                          override val controller: EditorController,
@@ -30,7 +29,9 @@ case class NewStatPrerequisiteOkListener(override val form: Form,
   }
 
   override def editorControllerAction(): Unit = controller.addPrerequisiteToPathway(
-    originNodeId, destinationNodeId, getPrerequisite(form.elements.head.value, form.elements(1).value.toInt)
+    originNodeId, destinationNodeId, getPrerequisite(
+      form.elements(StatValueFormStatIndex).value, form.elements(StatValueFormValueIndex).value.toInt
+    )
   )
 
   override def inputConditions: List[(Boolean, String)] = List()
