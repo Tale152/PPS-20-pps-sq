@@ -1,5 +1,7 @@
 package controller.prolog.structs
 
+import model.nodes.StoryNode
+
 /**
  * Utility methods used to test Prolog structs.
  */

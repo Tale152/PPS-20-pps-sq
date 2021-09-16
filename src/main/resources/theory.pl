@@ -34,7 +34,7 @@ all_final_nodes_solutions(S,R) :- findall(L, reach_all_final_nodes(S,L), R).
  * S: The starting story_node id.
  * E: The ending story_node id.
  * D: The description of the narrative of the pathway from the stating story_node id to the ending story_node id.
- * pathway_description(?S, ?E, ?D)
+ * pathway_description(+S, +E, -D)
  */
 pathway_description(S,E,D) :- story_node(S,_,P),
                               pathway_description(E,P,D).
