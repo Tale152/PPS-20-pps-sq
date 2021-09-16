@@ -118,6 +118,8 @@ trait EditorController extends Controller {
   def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean
 
   def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem]
+
+  def isStoryNodeDeletable(id: Int): Boolean
 }
 
 object EditorController {
@@ -186,6 +188,32 @@ object EditorController {
         true
       }
     }
+
+    def isStoryNodeDeletable(id: Int): Boolean = {
+
+      def getPrecedingNodes(targetNode: StoryNode): List[MutableStoryNode] =
+        nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == targetNode)).toList
+
+      val mutableStoryNode = getStoryNode(id)
+      if(mutableStoryNode.isEmpty){
+        false
+      } else {
+          val precedingNodes = getPrecedingNodes(mutableStoryNode.get)
+          if(precedingNodes.isEmpty){
+            //is route node
+            false
+          } else {
+            /*only if all preceding nodes have at least one unconditional pathway
+            or no pathways remaining after target node delete*/
+            precedingNodes.forall(n => {
+              val nodeRemainingPathways = n.mutablePathways
+                .filter(p => p.destinationNode != mutableStoryNode.get)
+              nodeRemainingPathways.exists(p => p.prerequisite.isEmpty) || nodeRemainingPathways.isEmpty
+            })
+          }
+      }
+    }
+
 
     override def deleteExistingStoryNode(id: Int): Boolean = {
       val targetNode: Option[MutableStoryNode] = getStoryNode(id)

@@ -10,7 +10,7 @@ object DeleteStoryNode {
     val form: Form = FormBuilder()
       .addComboField(
         "Which node you want to delete? (id)",
-        editorController.getNodesIds(n => n.id != 0).map(id => id.toString)
+        editorController.getNodesIds(n => editorController.isStoryNodeDeletable(n.id)).map(id => id.toString)
       )
       .get(editorController)
     form.setOkButtonListener(DeleteStoryNodeOkListener(form, editorController))
