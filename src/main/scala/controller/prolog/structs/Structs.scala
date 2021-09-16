@@ -18,7 +18,7 @@ object Structs {
       case s: String if s == ReachAllFinalNodesPredicateName =>
         ReachAllFinalNodesStruct(struct.getTerm(0), struct.getTerm(1))
       case s: String if s == AllFinalNodesSolutionsPredicateName =>
-        AllFinalNodesSolutionStruct(struct.getTerm(0), struct.getTerm(1))
+        AllFinalNodeSolutionsStruct(struct.getTerm(0), struct.getTerm(1))
     }
   }
 }

@@ -8,12 +8,12 @@ import model.nodes.{Pathway, StoryNode}
 import org.scalatest.DoNotDiscover
 import specs.FlatTestSpec
 import controller.prolog.util.PrologImplicits._
+
 /**
  * Tested in [[suites.PrologEngineSuite]].
  */
 @DoNotDiscover
-class ReachAllFinalNodesStructTest extends FlatTestSpec {
-
+class AllFinalNodeSolutionsStructTest extends FlatTestSpec {
   val secondDestinationNode: StoryNode = StoryNode(3, "narrative", None, Set.empty, List())
   val secondDestinationPathway: Pathway = Pathway("description", secondDestinationNode, None)
   val firstDestinationNode: StoryNode = StoryNode(2, "narrative", None, Set.empty, List())
@@ -28,29 +28,14 @@ class ReachAllFinalNodesStructTest extends FlatTestSpec {
 
   var engine: SqPrologEngine =  prolog.SqPrologEngine(startingNode)
 
-  "The prolog engine" should " find 2 solution calling ReachAllFinalNodes on the starting node" in {
-    val solutions = engine.resolve(ReachAllFinalNodesStruct(0, new Var()))
-    solutions.size shouldEqual 2
+  "The prolog engine" should " find all the solutions calling AllFinalNodeSolutions on the starting node" in {
+    val solutions = engine.resolve(AllFinalNodeSolutionsStruct(0, new Var()))
+    solutions.size shouldEqual 1
+    solutions.head.allCrossedNodes.size shouldEqual 2
     areAllSolutionPresent[Int](
       Set(Seq(0,1,2), Seq(0,1,3)),
-      solutions.head.crossedNodes,
-      solutions(1).crossedNodes
+      solutions.head.allCrossedNodes.head,
+      solutions.head.allCrossedNodes(1)
     ) shouldBe true
   }
-
-  "The prolog engine" should " find 2 solution calling ReachAllFinalNodes on the middle node" in {
-    val solutions = engine.resolve(ReachAllFinalNodesStruct(1, new Var()))
-    solutions.size shouldEqual 2
-    areAllSolutionPresent[Int](
-      Set(Seq(1,2), Seq(1,3)),
-      solutions.head.crossedNodes,
-      solutions(1).crossedNodes
-    ) shouldBe true
-  }
-
-  "The prolog engine" should " find 0 solution calling ReachAllFinalNodes on the final nodes" in {
-    engine.resolve(ReachAllFinalNodesStruct(2, new Var())).size shouldEqual 0
-    engine.resolve(ReachAllFinalNodesStruct(3, new Var())).size shouldEqual 0
-  }
-
 }

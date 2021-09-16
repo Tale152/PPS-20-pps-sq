@@ -5,7 +5,7 @@ import org.scalatest.Suites
 
 class PrologEngineSuite extends Suites(
   new AllStoryWalkthroughStructTest,
-  new AllFinalSolutionStructTest,
+  new AllFinalNodeSolutionsStructTest,
   new PathStructTest,
   new PathwayDescriptionStructTest,
   new ReachAllFinalNodesStructTest,
