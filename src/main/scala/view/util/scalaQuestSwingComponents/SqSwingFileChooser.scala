@@ -2,9 +2,8 @@ package view.util.scalaQuestSwingComponents
 
 import controller.util.Resources.ResourceName
 
-import java.io.File
 import javax.swing.filechooser.FileNameExtensionFilter
-import javax.swing.{JComponent, JFileChooser}
+import javax.swing.JFileChooser
 
 /**
  * Represents a custom FileChooser for ScalaQuest.

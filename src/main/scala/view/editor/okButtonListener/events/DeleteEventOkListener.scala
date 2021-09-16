@@ -1,9 +1,8 @@
 package view.editor.okButtonListener.events
 
 import controller.editor.EditorController
-import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheEvent, TheId}
+import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheId
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
-import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.forms.events.DeleteEvent.StoryNodeId
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.events.DeleteEventOkListener.EventComboIndex
