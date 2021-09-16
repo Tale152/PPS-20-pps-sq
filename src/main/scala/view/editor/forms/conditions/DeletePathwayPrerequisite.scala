@@ -6,6 +6,8 @@ import view.form.{Form, FormBuilder}
 
 object DeletePathwayPrerequisite {
 
+  val OriginStoryNodeIdIndex: Int = 0
+
   def showDeletePathwayPrerequisiteForm(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
       .addComboField(

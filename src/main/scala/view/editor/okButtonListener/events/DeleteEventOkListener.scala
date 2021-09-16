@@ -4,7 +4,7 @@ import controller.editor.EditorController
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheEvent, TheId}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
-import view.editor.forms.events.DeleteEvent.StoryNodeId
+import view.editor.forms.events.DeleteEvent.StoryNodeIdIndex
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.events.DeleteEventOkListener.EventComboIndex
 import view.editor.util.IndexedComboListUtil.{createIndexedOption, extractIndexFromOption}
@@ -28,10 +28,10 @@ object DeleteEventOkListener {
       nextForm.render()
     }
 
-    override def performAction(): Unit = showDeleteEventForm(form.elements(StoryNodeId).value.toInt)
+    override def performAction(): Unit = showDeleteEventForm(form.elements(StoryNodeIdIndex).value.toInt)
 
     override def inputConditions: List[(Boolean, String)] = List(
-      (form.elements(StoryNodeId).value != null, mustBeSpecified(TheId))
+      (form.elements(StoryNodeIdIndex).value != null, mustBeSpecified(TheId))
     )
 
     override def stateConditions: List[(Boolean, String)] = List()

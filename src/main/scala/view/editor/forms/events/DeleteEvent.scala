@@ -6,7 +6,7 @@ import view.form.{Form, FormBuilder}
 
 object DeleteEvent {
 
-  val StoryNodeId: Int = 0
+  val StoryNodeIdIndex: Int = 0
 
   def showDeleteEventForm(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
