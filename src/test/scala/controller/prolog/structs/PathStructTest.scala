@@ -20,10 +20,11 @@ class PathStructTest extends FlatTestSpec {
   val middlePathway: Pathway = Pathway("description", middleNode, None)
   val startingNode: StoryNode = StoryNode(0, "narrative", None, Set(middlePathway), List())
 
-  var engine: SqPrologEngine =  prolog.SqPrologEngine(startingNode)
-  it should "find a path that leads from 0 to 1 and a path that leads from 1 to 2" in {
+  var engine: SqPrologEngine = prolog.SqPrologEngine(startingNode)
+
+  "The Prolog engine" should "find a path that leads from 0 to 1 and a path that leads from 1 to 2" in {
     val zeroToOneSolutions = engine.resolve(PathStruct(0, 1, new Var()))
-    val oneToTwoSolutions =  engine.resolve(structs.PathStruct(1, 2, new Var()))
+    val oneToTwoSolutions = engine.resolve(structs.PathStruct(1, 2, new Var()))
 
     zeroToOneSolutions.size shouldEqual 1
     oneToTwoSolutions.size shouldEqual 1

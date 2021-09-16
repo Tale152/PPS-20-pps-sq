@@ -1,7 +1,7 @@
 package controller.prolog.structs
 
 import alice.tuprolog.{Struct, Term}
-import controller.prolog.structs.StructsNames.Predicates.{PathPredicateName, StoryNodePredicateName}
+import controller.prolog.structs.StructsNames.Predicates.{AllFinalNodesSolutionsPredicateName, PathPredicateName, ReachAllFinalNodesPredicateName, StoryNodePredicateName}
 
 /**
  * Factory Object used to map [[alice.tuprolog.Term]] results to the correct class.
@@ -15,6 +15,10 @@ object Structs {
         StoryNodeStruct(struct.getTerm(0), struct.getTerm(1), struct.getTerm(2))
       case s: String if s == PathPredicateName =>
         PathStruct(struct.getTerm(0), struct.getTerm(1), struct.getTerm(2))
+      case s: String if s == ReachAllFinalNodesPredicateName =>
+        ReachAllFinalNodesStruct(struct.getTerm(0), struct.getTerm(1))
+      case s: String if s == AllFinalNodesSolutionsPredicateName =>
+        AllFinalNodesSolutionStruct(struct.getTerm(0), struct.getTerm(1))
     }
   }
 }

@@ -22,7 +22,7 @@ class StoryNodeStructTest extends FlatTestSpec {
 
   var engine: SqPrologEngine =  prolog.SqPrologEngine(startingNode)
 
-  it should "not find solution for a node with index 3" in {
+  "The Prolog engine" should "not find solution for a node with index 3" in {
     engine.resolve(StoryNodeStruct(3, new Var(), new Var())).size shouldEqual 0
   }
 

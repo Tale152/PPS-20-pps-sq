@@ -10,7 +10,7 @@ import controller.prolog.util.PrologImplicits.RichTerm
  * @param _startId      S in prolog predicate.
  * @param _crossedNodes L in prolog predicate.
  */
-case class ReachAllFinalNodesStruct(_startId: Term, _crossedNodes: Term)
+case class ReachAllFinalNodesStruct(private val _startId: Term, private val _crossedNodes: Term)
   extends Struct(ReachAllFinalNodesPredicateName, _startId, _crossedNodes) {
 
   def startId: Int = _startId.toInt
