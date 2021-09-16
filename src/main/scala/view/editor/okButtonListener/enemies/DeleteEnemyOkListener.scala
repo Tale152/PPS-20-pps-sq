@@ -14,9 +14,7 @@ case class DeleteEnemyOkListener(override val form: Form,
   override def editorControllerAction(): Unit =
     controller.deleteEnemyFromNode(form.elements(StoryNodeIdIndex).value.toInt)
 
-  override def inputConditions: List[(Boolean, String)] = List(
-    (form.elements(StoryNodeIdIndex).value != null, mustBeSpecified(TheId))
-  )
+  override def inputConditions: List[(Boolean, String)] = List()
 
   override def stateConditions: List[(Boolean, String)] = List()
 }

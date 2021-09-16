@@ -30,7 +30,7 @@ object NewPathwayOkListener {
       nextForm.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] = List() //route node always exists
+    override def inputConditions: List[(Boolean, String)] = List()
 
     override def stateConditions: List[(Boolean, String)] = List()
   }
@@ -50,7 +50,6 @@ private case class NewPathwayNextFormOkListener(override val form: Form,
   )
 
   override def inputConditions: List[(Boolean, String)] = List(
-    (form.elements(DestinationNodeIdIndex).value != null, mustBeSpecified(TheId)),
     (NonEmptyString(form.elements(PathwayDescriptionIndex).value), mustBeSpecified(TheDescription))
   )
 

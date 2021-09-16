@@ -16,7 +16,9 @@ import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
 import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
 import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFileChooser}
+import view.util.scalaQuestSwingComponents.SqSwingFileChooser
+import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 import java.awt.BorderLayout
 import java.io.File
@@ -25,6 +27,13 @@ import javax.swing.{JComponent, JFileChooser}
 trait EditorView extends AbstractView
 
 object EditorView {
+
+  def showForbiddenActionDialog(message: String): SqSwingDialog = SqSwingDialog(
+    "Forbidden action",
+    message,
+    List(SqSwingButton("ok", _ => {})),
+    closable = false
+  )
 
   private class EditorViewSwing(private val editorController: EditorController) extends EditorView {
 
