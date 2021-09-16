@@ -3,8 +3,8 @@ package controller.prolog.structs
 import alice.tuprolog.Var
 import controller.prolog
 import controller.prolog.SqPrologEngine
-import controller.prolog.structs.StructUtil.areAllSolutionPresent
-import model.nodes.{Pathway, StoryNode}
+import controller.prolog.structs.StructUtil.{areAllSolutionPresent, storyNodeWithAMiddleNodeAndTwoFinalNodes}
+import model.nodes.StoryNode
 import org.scalatest.DoNotDiscover
 import specs.FlatTestSpec
 import controller.prolog.util.PrologImplicits._
@@ -14,17 +14,10 @@ import controller.prolog.util.PrologImplicits._
  */
 @DoNotDiscover
 class AllFinalNodeSolutionsStructTest extends FlatTestSpec {
-  val secondDestinationNode: StoryNode = StoryNode(3, "narrative", None, Set.empty, List())
-  val secondDestinationPathway: Pathway = Pathway("description", secondDestinationNode, None)
-  val firstDestinationNode: StoryNode = StoryNode(2, "narrative", None, Set.empty, List())
-  val firstDestinationPathway: Pathway = Pathway("description", firstDestinationNode, None)
-  val middleNode: StoryNode = StoryNode(
-    1, "narrative", None,
-    Set(firstDestinationPathway, secondDestinationPathway),
-    List()
-  )
-  val middlePathway: Pathway = Pathway("description", middleNode, None)
-  val startingNode: StoryNode = StoryNode(0, "narrative", None, Set(middlePathway), List())
+  /**
+   * Please @see [[controller.prolog.structs.StructUtil]] for a better understanding of the structure.
+   */
+  val startingNode: StoryNode = storyNodeWithAMiddleNodeAndTwoFinalNodes()
 
   var engine: SqPrologEngine =  prolog.SqPrologEngine(startingNode)
 

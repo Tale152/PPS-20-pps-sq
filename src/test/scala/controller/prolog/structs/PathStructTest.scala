@@ -2,8 +2,9 @@ package controller.prolog.structs
 
 import alice.tuprolog.Var
 import controller.prolog
+import controller.prolog.structs.StructUtil.storyNodeWithAMiddleNodeAndTwoFinalNodes
 import controller.prolog.{SqPrologEngine, structs}
-import model.nodes.{Pathway, StoryNode}
+import model.nodes.StoryNode
 import specs.FlatTestSpec
 import controller.prolog.util.PrologImplicits._
 import org.scalatest.DoNotDiscover
@@ -14,11 +15,10 @@ import org.scalatest.DoNotDiscover
 @DoNotDiscover
 class PathStructTest extends FlatTestSpec {
 
-  val destinationNode: StoryNode = StoryNode(2, "narrative", None, Set.empty, List())
-  val destinationPathway: Pathway = Pathway("description", destinationNode, None)
-  val middleNode: StoryNode = StoryNode(1, "narrative", None, Set(destinationPathway), List())
-  val middlePathway: Pathway = Pathway("description", middleNode, None)
-  val startingNode: StoryNode = StoryNode(0, "narrative", None, Set(middlePathway), List())
+  /**
+   * Please @see [[controller.prolog.structs.StructUtil]] for a better understanding of the structure.
+   */
+  val startingNode: StoryNode = storyNodeWithAMiddleNodeAndTwoFinalNodes()
 
   var engine: SqPrologEngine = prolog.SqPrologEngine(startingNode)
 
