@@ -33,9 +33,7 @@ object DeletePathwayPrerequisiteOkListener {
       nextForm.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] = List(
-      (form.elements(OriginStoryNodeIdIndex).value != null, mustBeSpecified(TheId))
-    )
+    override def inputConditions: List[(Boolean, String)] = List()
 
     override def stateConditions: List[(Boolean, String)] = List()
   }
