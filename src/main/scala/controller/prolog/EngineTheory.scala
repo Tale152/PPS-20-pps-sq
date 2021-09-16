@@ -1,7 +1,7 @@
-package controller.prolog.engine
+package controller.prolog
 
 import alice.tuprolog.Theory
-import controller.prolog.engine.util.PrologImplicits.PrologStoryNode
+import controller.prolog.util.PrologImplicits.PrologStoryNode
 import controller.util.Resources.ResourceName.prologEngineTheoryPath
 import controller.util.Resources.resourcesAsLines
 import model.nodes.StoryNode
@@ -18,18 +18,21 @@ object EngineTheory {
 
   /**
    * Generate facts from the [[model.nodes.StoryNode]] passed.
+   *
    * @param storyNode the [[model.nodes.StoryNode]] used to generate the facts for the theory.
    */
   case class StoryNodeTheory(storyNode: StoryNode) extends Theory(generateFacts(storyNode).mkString("\n") + "\n")
 
   def generateFacts(storyNode: StoryNode): Set[String] = {
     var acc: Set[String] = Set()
+
     def _generateFacts(storyNode: StoryNode): Set[String] = {
       if (storyNode.pathways.nonEmpty) {
         storyNode.pathways.foreach(p => acc = acc ++ _generateFacts(p.destinationNode))
       }
       acc + storyNode.toPrologFact
     }
+
     _generateFacts(storyNode)
   }
 

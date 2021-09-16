@@ -1,8 +1,8 @@
-package controller.prolog.engine.structs
+package controller.prolog.structs
 
 import alice.tuprolog.{Struct, Term}
-import controller.prolog.engine.structs.StructsNames.Predicates.StoryNodePredicateName
-import controller.prolog.engine.util.PrologImplicits.RichTerm
+import controller.prolog.structs.StructsNames.Predicates.StoryNodePredicateName
+import controller.prolog.util.PrologImplicits.RichTerm
 
 /**
  * [[alice.tuprolog.Struct]] used fot the story_node(I, N, P) predicate.

@@ -1,8 +1,8 @@
-package controller.prolog.engine.util
+package controller.prolog.util
 
 import alice.tuprolog.{Struct, Term}
-import controller.prolog.engine.structs.StructsNames.Predicates.Records.PathwayRecord
-import controller.prolog.engine.structs.StructsNames.Predicates.StoryNodePredicateName
+import controller.prolog.structs.StructsNames.Predicates.StoryNodePredicateName
+import controller.prolog.structs.StructsNames.Predicates.Records.PathwayRecord
 import model.nodes.{Pathway, StoryNode}
 
 import scala.language.implicitConversions
@@ -60,6 +60,7 @@ object PrologImplicits {
 
   /**
    * Implicit class to decorate [[alice.tuprolog.Term]] class with some brand new methods.
+   *
    * @param term the [[alice.tuprolog.Term]] to use as a base for the implicit class.
    */
   implicit class RichTerm(term: Term) {

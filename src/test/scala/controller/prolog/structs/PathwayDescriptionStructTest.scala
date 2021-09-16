@@ -1,4 +1,4 @@
-package controller.prolog.predicates
+package controller.prolog.structs
 
 import org.scalatest.DoNotDiscover
 import specs.FlatTestSpec
@@ -7,6 +7,6 @@ import specs.FlatTestSpec
  * Tested in [[suites.PrologEngineSuite]].
  */
 @DoNotDiscover
-class FindAllSolutionPredicateTest extends FlatTestSpec {
+class PathwayDescriptionStructTest extends FlatTestSpec {
 
 }

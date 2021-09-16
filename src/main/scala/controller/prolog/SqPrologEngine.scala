@@ -1,8 +1,8 @@
-package controller.prolog.engine
+package controller.prolog
 
 import alice.tuprolog._
-import controller.prolog.engine.EngineTheory.{EngineFileTheory, StoryNodeTheory}
-import controller.prolog.engine.structs.Structs
+import controller.prolog.EngineTheory.{EngineFileTheory, StoryNodeTheory}
+import controller.prolog.structs.Structs
 import model.nodes.StoryNode
 
 /**

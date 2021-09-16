@@ -1,8 +1,8 @@
-package controller.prolog.engine.structs
+package controller.prolog.structs
 
 import alice.tuprolog.{Struct, Term}
-import controller.prolog.engine.structs.StructsNames.Predicates.PathPredicateName
-import controller.prolog.engine.util.PrologImplicits.RichTerm
+import controller.prolog.structs.StructsNames.Predicates.PathPredicateName
+import controller.prolog.util.PrologImplicits.RichTerm
 
 /**
  * [[alice.tuprolog.Struct]] used fot the path(S, E, C) predicate.

@@ -1,7 +1,7 @@
-package controller.prolog.engine.structs
+package controller.prolog.structs
 
 import alice.tuprolog.{Struct, Term}
-import controller.prolog.engine.structs.StructsNames.Predicates.{PathPredicateName, StoryNodePredicateName}
+import controller.prolog.structs.StructsNames.Predicates.{PathPredicateName, StoryNodePredicateName}
 
 /**
  * Factory Object used to map [[alice.tuprolog.Term]] results to the correct class.

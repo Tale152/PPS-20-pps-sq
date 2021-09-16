@@ -26,9 +26,9 @@ reach_all_final_nodes(S,L) :- story_node(E,_,[]), path(S,E,L).
  * Find all the solutions of reach_all_final_nodes(+S, -L).
  * S: The starting story_node id.
  * R: A list of lists of ids of the story_node crossed to reach all the final nodes starting from S.
- * find_all_solutions(+S, -R)
+ * all_final_nodes_solutions(+S, -R)
  */
-find_all_solutions(S,R) :- findall(L, reach_all_final_nodes(S,L), R).
+all_final_nodes_solutions(S,R) :- findall(L, reach_all_final_nodes(S,L), R).
 
 /*
  * S: The starting story_node id.

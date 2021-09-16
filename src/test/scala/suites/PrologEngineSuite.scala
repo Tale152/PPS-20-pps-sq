@@ -1,16 +1,16 @@
 package suites
 
-import controller.prolog.predicates._
+import controller.prolog.structs._
 import org.scalatest.Suites
 
 class PrologEngineSuite extends Suites(
-  new AllStoryWalkthroughPredicateTest,
-  new FindAllSolutionPredicateTest,
+  new AllStoryWalkthroughStructTest,
+  new AllFinalSolutionStructTest,
   new PathStructTest,
-  new PathwayDescriptionPredicateTest,
-  new ReachAllFinalNodesPredicateTest,
+  new PathwayDescriptionStructTest,
+  new ReachAllFinalNodesStructTest,
   new StoryNodeStructTest,
-  new StoryNodeNarrativePredicateTest,
-  new StoryWalkthroughPredicateTest,
-  new WalkthroughPredicateTest
+  new StoryNodeNarrativeStructTest,
+  new StoryWalkthroughStructTest,
+  new WalkthroughStructTest
 )
