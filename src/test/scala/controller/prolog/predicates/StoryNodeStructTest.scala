@@ -1,9 +1,9 @@
 package controller.prolog.predicates
 
-import alice.tuprolog.{Term, Var}
+import alice.tuprolog.Var
 import controller.prolog.engine.SqPrologEngine
-import controller.prolog.engine.predicates.Predicates.StoryNodePredicate
-import controller.prolog.engine.util.PrologEngineUtil._
+import controller.prolog.engine.structs.StoryNodeStruct
+import controller.prolog.engine.util.PrologImplicits._
 import model.nodes.{Pathway, StoryNode}
 import org.scalatest.DoNotDiscover
 import specs.FlatTestSpec
@@ -12,7 +12,7 @@ import specs.FlatTestSpec
  * Tested in [[suites.PrologEngineSuite]].
  */
 @DoNotDiscover
-class StoryNodePredicateTest extends FlatTestSpec {
+class StoryNodeStructTest extends FlatTestSpec {
 
   val destinationNode: StoryNode = StoryNode(2, "narrative", None, Set.empty, List())
   val destinationPathway: Pathway = Pathway("description", destinationNode, None)
@@ -23,32 +23,24 @@ class StoryNodePredicateTest extends FlatTestSpec {
   var engine: SqPrologEngine =  SqPrologEngine(startingNode)
 
   it should "not find solution for a node with index 3" in {
-    engine(StoryNodePredicate(3, new Var(), new Var())).size shouldEqual 0
+    engine.resolve(StoryNodeStruct(3, new Var(), new Var())).size shouldEqual 0
   }
 
   it should "find one solution for a node with index 0 and 1 and 2" in {
-    val predicates = for(i <- 0 to 2) yield StoryNodePredicate(i, new Var(), new Var)
+    val predicates = for(i <- 0 to 2) yield StoryNodeStruct(i, new Var(), new Var)
     predicates.foreach(p => {
-      engine(p).head.extractTerm(1).toString shouldEqual "narrative"
-      engine(p).size shouldEqual 1
+      engine.resolve(p).head.narrative shouldEqual "narrative"
+      engine.resolve(p).size shouldEqual 1
     })
-    engine(predicates(0)).head
-      .extractTerm(2)
-      .extractTerm(0)
-      .extractTerm(0)
-      .toString.toInt shouldEqual 1
-    engine(predicates(1)).head
-      .extractTerm(2)
-      .extractTerm(0)
-      .extractTerm(0)
-      .toString.toInt shouldEqual 2
-    engine(predicates(2)).head.extractTerm(2).isEmptyList shouldBe true
+    engine.resolve(predicates(0)).head.pathways.head._1 shouldEqual 1
+    engine.resolve(predicates(1)).head.pathways.head._1 shouldEqual 2
+    engine.resolve(predicates(2)).head.pathways shouldBe empty
   }
 
   it should "find all the solution passing only vars" in {
-    val solutions : Stream[Term] = engine(StoryNodePredicate(new Var(), new Var(), new Var()))
+    val solutions = engine.resolve(StoryNodeStruct(new Var(), new Var(), new Var()))
     solutions.size shouldEqual 3
-    solutions.foreach(s => s.extractTerm(1).toString shouldEqual "narrative")
+    solutions.foreach(s => s.narrative shouldEqual "narrative")
   }
 
 }

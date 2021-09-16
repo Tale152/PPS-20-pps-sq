@@ -6,10 +6,10 @@ import org.scalatest.Suites
 class PrologEngineSuite extends Suites(
   new AllStoryWalkthroughPredicateTest,
   new FindAllSolutionPredicateTest,
-  new PathPredicateTest,
+  new PathStructTest,
   new PathwayDescriptionPredicateTest,
   new ReachAllFinalNodesPredicateTest,
-  new StoryNodePredicateTest,
+  new StoryNodeStructTest,
   new StoryNodeNarrativePredicateTest,
   new StoryWalkthroughPredicateTest,
   new WalkthroughPredicateTest

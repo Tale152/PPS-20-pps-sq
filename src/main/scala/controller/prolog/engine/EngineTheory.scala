@@ -1,7 +1,7 @@
 package controller.prolog.engine
 
 import alice.tuprolog.Theory
-import controller.prolog.engine.util.PrologConversionUtil.PrologStoryNode
+import controller.prolog.engine.util.PrologImplicits.PrologStoryNode
 import controller.util.Resources.ResourceName.prologEngineTheoryPath
 import controller.util.Resources.resourcesAsLines
 import model.nodes.StoryNode

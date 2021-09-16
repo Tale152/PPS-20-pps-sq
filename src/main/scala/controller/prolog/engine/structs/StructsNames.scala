@@ -1,6 +1,9 @@
-package controller.prolog.engine.predicates
+package controller.prolog.engine.structs
 
-object PrologPredicatesNames {
+/**
+ * Utility object that contains Prolog Predicate and Record names.
+ */
+object StructsNames {
 
   object Predicates {
     val StoryNodePredicateName: String = "story_node"
