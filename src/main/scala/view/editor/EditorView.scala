@@ -26,6 +26,13 @@ trait EditorView extends AbstractView
 
 object EditorView {
 
+  def showForbiddenActionDialog(message: String): SqSwingDialog = SqSwingDialog(
+    "Forbidden action",
+    message,
+    List(SqSwingButton("ok", _ => {})),
+    closable = false
+  )
+
   private class EditorViewSwing(private val editorController: EditorController) extends EditorView {
 
     this.setLayout(new BorderLayout())
@@ -40,27 +47,9 @@ object EditorView {
       this.add(Scrollable(VerticalButtons(List(
         SqSwingButton("Add new story node", _  => showNewStoryNodeForm(editorController)),
         SqSwingButton("Edit existing story node", _ => showEditStoryNodeForm(editorController)),
-        SqSwingButton("Delete existing story node", _=> {
-          if(editorController.getNodesIds(n => editorController.isStoryNodeDeletable(n.id)).nonEmpty){
-            showDeleteStoryNodeForm(editorController)
-          } else {
-            showForbiddenActionDialog("There aren't deletable nodes")
-          }
-        }),
-        SqSwingButton("Add new pathway", _ => {
-          if(editorController.getValidNodesForPathwayOrigin().nonEmpty){
-            showNewPathwayForm(editorController)
-          } else {
-            showForbiddenActionDialog("There aren't new possible pathways")
-          }
-        }),
-        SqSwingButton("Edit existing pathway", _ => {
-          if(editorController.getStoryNode(0).get.pathways.nonEmpty){
-            showEditPathwayForm(editorController)
-          } else {
-            showForbiddenActionDialog("There are no existing pathways")
-          }
-        }),
+        SqSwingButton("Delete existing story node", _=> showDeleteStoryNodeForm(editorController)),
+        SqSwingButton("Add new pathway", _ => showNewPathwayForm(editorController)),
+        SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
         SqSwingButton("Add new event", _ => showNewEventForm(editorController)),
         SqSwingButton("Delete existing event", _ => showDeleteEventForm(editorController)),
@@ -80,13 +69,6 @@ object EditorView {
         )))
       )), BorderLayout.SOUTH)
     }
-
-    private def showForbiddenActionDialog(message: String) = SqSwingDialog(
-      "Forbidden action",
-      message,
-      List(SqSwingButton("ok", _ => {})),
-      closable = false
-    )
 
   }
 
