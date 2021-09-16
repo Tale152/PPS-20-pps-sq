@@ -22,6 +22,8 @@ object Structs {
         PathwayDescriptionStruct(struct.getTerm(0), struct.getTerm(1), struct.getTerm(2))
       case s: String if s == StoryNodeNarrativePredicateName =>
         StoryNodeNarrativeStruct(struct.getTerm(0), struct.getTerm(1))
+      case s: String if s == WalkthroughPredicateName =>
+        WalkthroughStruct(struct.getTerm(0), struct.getTerm(1))
     }
   }
 }

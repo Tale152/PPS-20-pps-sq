@@ -96,5 +96,16 @@ object PrologImplicits {
      * @return the term as a [[scala.Int]]
      */
     def toInt: Int = term.toString.toInt
+
+    def toFormattedString: String = removeDelimiters(term.toString)
+
+    private val removeDelimiters: String => String = s => {
+      if (s(0) == '\'' && s(s.length - 1) == '\'') {
+        s.drop(1).dropRight(1)
+      } else{
+        s
+      }
+    }
+
   }
 }

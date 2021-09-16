@@ -63,7 +63,7 @@ walkthrough([ID1, ID2|T], [N, D|W]) :- story_node_narrative(ID1, N),
                                        pathway_description(ID1, ID2, D),
                                        walkthrough([ID2|T], W).
 % Final case. Only 1 ID remainig, just adding the narrative.
-walkthrough([ID], N) :- story_node_narrative(ID, N).
+walkthrough([ID], [N]) :- story_node_narrative(ID, N).
 
 /*
  * Get the walkthrough of the story starting from story_node S.
