@@ -120,6 +120,8 @@ trait EditorController extends Controller {
   def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem]
 
   def isStoryNodeDeletable(id: Int): Boolean
+
+  def getValidNodesForPathwayOrigin(): List[MutableStoryNode]
 }
 
 object EditorController {
@@ -407,6 +409,9 @@ object EditorController {
 
       stepBack(targetNode, Set())._1
     }
+
+    def getValidNodesForPathwayOrigin(): List[MutableStoryNode] =
+      nodes._2.filter(i => nodes._2.exists(j => isNewPathwayValid(i.id, j.id))).toList.sortWith((i, j) => i.id < j.id)
 
     private def decorateGraphGUI(): Unit = {
       graph.nodes().forEach(n => {

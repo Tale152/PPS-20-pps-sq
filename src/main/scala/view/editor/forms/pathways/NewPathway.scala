@@ -12,7 +12,7 @@ object NewPathway {
     val form: Form = FormBuilder()
       .addComboField(
         "Which story node is the origin node?",
-        editorController.getNodesIds(_ => true).map(id => id.toString)
+        editorController.getValidNodesForPathwayOrigin().map(n => n.id.toString)
       )
       .get(editorController)
     form.setOkButtonListener(NewPathwayOkListener(form, editorController))

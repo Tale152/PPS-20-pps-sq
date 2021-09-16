@@ -44,15 +44,16 @@ object EditorView {
           if(editorController.getNodesIds(n => editorController.isStoryNodeDeletable(n.id)).nonEmpty){
             showDeleteStoryNodeForm(editorController)
           } else {
-            SqSwingDialog(
-              "Forbidden action",
-              "There aren't deletable nodes",
-              List(SqSwingButton("ok", _ => {})),
-              closable = false
-            )
+            showForbiddenActionDialog("There aren't deletable nodes")
           }
         }),
-        SqSwingButton("Add new pathway", _ => showNewPathwayForm(editorController)),
+        SqSwingButton("Add new pathway", _ => {
+          if(editorController.getValidNodesForPathwayOrigin().nonEmpty){
+            showNewPathwayForm(editorController)
+          } else {
+            showForbiddenActionDialog("There aren't new possible pathways")
+          }
+        }),
         SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
         SqSwingButton("Add new event", _ => showNewEventForm(editorController)),
@@ -73,6 +74,13 @@ object EditorView {
         )))
       )), BorderLayout.SOUTH)
     }
+
+    private def showForbiddenActionDialog(message: String) = SqSwingDialog(
+      "Forbidden action",
+      message,
+      List(SqSwingButton("ok", _ => {})),
+      closable = false
+    )
 
   }
 
