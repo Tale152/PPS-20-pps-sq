@@ -20,9 +20,6 @@ object PlayerInfoController {
     private val playerInfoView: PlayerInfoView = PlayerInfoView(this)
 
     override def execute(): Unit = {
-      println("Node: " + storyModel.currentStoryNode.id)
-      println("player: " + storyModel.player.properties.health.currentPS)
-
       playerInfoView.setStats(getStatStructure)
       playerInfoView.setPlayerName(storyModel.player.name)
       playerInfoView.setHealth(
