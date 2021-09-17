@@ -8,6 +8,8 @@ object ElementStyle {
 
   private val TextAlignment: String = "under"
   private val NodeSize: Int = 15
+  private val ArrowWidth: Int = 5
+  private val ArrowHeight: Int = 15
 
   private val RouteNodeShape: String = "diamond"
   private val MidNodeShape: String = "circle"
@@ -49,8 +51,10 @@ object ElementStyle {
 
   def decorateEdge(edge: Edge, isConditional: Boolean): Unit =
     if (isConditional) {
-      edge.setAttribute(StyleAttribute, "fill-color: " + ConditionalEdge + ";")
+      edge.setAttribute(StyleAttribute, "fill-color: " + ConditionalEdge +
+        "; arrow-shape: arrow; arrow-size: " + ArrowHeight  + "px, " + ArrowWidth  + "px;")
     } else {
-      edge.setAttribute(StyleAttribute, "fill-color: " + UnconditionalEdge + ";")
+      edge.setAttribute(StyleAttribute, "fill-color: " + UnconditionalEdge +
+        "; arrow-shape: arrow; arrow-size: " + ArrowHeight + "px, " + ArrowWidth  + "px;")
     }
 }

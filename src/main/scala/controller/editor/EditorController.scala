@@ -253,7 +253,8 @@ object EditorController {
         graph.addEdge(
           startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
           startNodeId.toString,
-          endNodeId.toString
+          endNodeId.toString,
+          true
         )
         decorateGraphGUI()
         true
@@ -466,7 +467,7 @@ object EditorController {
           startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
           startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.description
         ),
-        startNodeId + StringUtils.pathwayIdSeparator + endNodeId
+        ""
       )
     }
 

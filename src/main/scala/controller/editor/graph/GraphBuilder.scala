@@ -38,7 +38,7 @@ object GraphBuilder {
     }
 
     if(routeNode.pathways.nonEmpty){
-      computeNode(routeNode, Set())._1.foreach(e => graph.addEdge(e.getEdgeId, e.startNodeId, e.endNodeId))
+      computeNode(routeNode, Set())._1.foreach(e => graph.addEdge(e.getEdgeId, e.startNodeId, e.endNodeId, true))
     } else {
       graph.addNode(routeNode.id.toString)
     }
