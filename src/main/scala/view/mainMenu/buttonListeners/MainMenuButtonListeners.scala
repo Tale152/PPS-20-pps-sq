@@ -1,7 +1,7 @@
 package view.mainMenu.buttonListeners
 
 import controller.ApplicationController
-import view.util.SqFileChooser
+import view.util.scalaQuestSwingComponents.SqSwingFileChooser
 
 import java.awt.event.ActionListener
 import javax.swing.JFileChooser
@@ -29,7 +29,7 @@ object MainMenuButtonListeners {
     (override val applicationController: ApplicationController)
     extends MainMenuButtonListener(applicationController) {
 
-    val loadStoryFileChooser: JFileChooser = SqFileChooser.getFileChooser("Load story")
+    val loadStoryFileChooser: JFileChooser = SqSwingFileChooser("Load story")
 
   }
 }

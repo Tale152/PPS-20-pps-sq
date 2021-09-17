@@ -4,8 +4,11 @@ import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
 import controller.{ApplicationController, Controller}
+import model.StoryModel
+import model.characters.Enemy
+import model.items.KeyItem
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.{MutablePathway, StoryNode}
+import model.nodes.{Event, ItemEvent, MutablePathway, StoryNode}
 import org.graphstream.ui.view.Viewer
 import view.editor.EditorView
 
@@ -99,6 +102,31 @@ trait EditorController extends Controller {
    * @return if a hypothetical new pathway is valid
    */
   def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean
+
+  def addEventToNode(nodeId: Int, event: Event): Boolean
+
+  def getNodesIds(filter: StoryNode => Boolean): List[Int]
+
+  def deleteEventFromNode(nodeId: Int, event: Event): Boolean
+
+  def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean
+
+  def deleteEnemyFromNode(nodeId: Int): Boolean
+
+  def addPrerequisiteToPathway(originNodeId: Int, destinationNodeId: Int, prerequisite: StoryModel => Boolean): Boolean
+
+  def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean
+
+  def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem]
+
+  def isStoryNodeDeletable(id: Int): Boolean
+
+  def getValidNodesForPathwayOrigin(): List[MutableStoryNode]
+
+  def getAllOriginNodes(id: Int): List[MutableStoryNode]
+
+  def containsDeletablePathways(node: StoryNode): Boolean
+
 }
 
 object EditorController {
@@ -168,6 +196,32 @@ object EditorController {
       }
     }
 
+    def isStoryNodeDeletable(id: Int): Boolean = {
+
+      def getPrecedingNodes(targetNode: StoryNode): List[MutableStoryNode] =
+        nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == targetNode)).toList
+
+      val mutableStoryNode = getStoryNode(id)
+      if(mutableStoryNode.isEmpty){
+        false
+      } else {
+          val precedingNodes = getPrecedingNodes(mutableStoryNode.get)
+          if(precedingNodes.isEmpty){
+            //is route node
+            false
+          } else {
+            /*only if all preceding nodes have at least one unconditional pathway
+            or no pathways remaining after target node delete*/
+            precedingNodes.forall(n => {
+              val nodeRemainingPathways = n.mutablePathways
+                .filter(p => p.destinationNode != mutableStoryNode.get)
+              nodeRemainingPathways.exists(p => p.prerequisite.isEmpty) || nodeRemainingPathways.isEmpty
+            })
+          }
+      }
+    }
+
+
     override def deleteExistingStoryNode(id: Int): Boolean = {
       val targetNode: Option[MutableStoryNode] = getStoryNode(id)
       if (targetNode.isEmpty || targetNode.get == nodes._1){
@@ -204,7 +258,8 @@ object EditorController {
         graph.addEdge(
           startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
           startNodeId.toString,
-          endNodeId.toString
+          endNodeId.toString,
+          true
         )
         decorateGraphGUI()
         true
@@ -257,6 +312,124 @@ object EditorController {
         //searching if, from the end node, the start node is unreachable (preventing a loop)
         searchForDestination(startNode.get, endNode.get)
       }
+    }
+
+    override def addEventToNode(nodeId: Int, event: Event): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty){
+        false
+      } else {
+        node.get.events = node.get.events :+ event
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def deleteEventFromNode(nodeId: Int, event: Event): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty || !node.get.events.contains(event)){
+        false
+      } else {
+        node.get.events = node.get.events.filter(e => e != event)
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty || node.get.enemy.nonEmpty){
+        false
+      } else {
+        node.get.enemy = Some(enemy)
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def deleteEnemyFromNode(nodeId: Int): Boolean = {
+      val node = getStoryNode(nodeId)
+      if(node.isEmpty || node.get.enemy.isEmpty){
+        false
+      } else {
+        node.get.enemy = None
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def addPrerequisiteToPathway(originNodeId: Int,
+                                          destinationNodeId: Int,
+                                          prerequisite: StoryModel => Boolean): Boolean = {
+      val pathway = getPathway(originNodeId, destinationNodeId)
+      if(pathway.isEmpty || pathway.get.prerequisite.nonEmpty){
+        false
+      } else {
+        pathway.get.prerequisite = Some(prerequisite)
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean = {
+      val pathway = getPathway(originNodeId, destinationNodeId)
+      if(pathway.isEmpty || pathway.get.prerequisite.isEmpty){
+        false
+      } else {
+        pathway.get.prerequisite = None
+        decorateGraphGUI()
+        true
+      }
+    }
+
+    override def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem] = {
+
+      def getPredecessors(node: MutableStoryNode): Set[MutableStoryNode] =
+        nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == node))
+
+      def stepBack(node: MutableStoryNode,
+                   visitedNodes: Set[MutableStoryNode]): (List[KeyItem], Set[MutableStoryNode]) = {
+        var keyItems: List[KeyItem] = List()
+        var visitedNodesVar: Set[MutableStoryNode] = visitedNodes + node //adding this node to the already visited
+
+        //getting all key items in this node
+        node.events.foreach {
+          case itemEvent: ItemEvent => itemEvent.item match {
+            case keyItem: KeyItem => keyItems = keyItems :+ keyItem
+          }
+        }
+
+        //for each predecessor of this node
+        getPredecessors(node).foreach(n => {
+          //only if the predecessor hasn't been visited yet
+          if(!visitedNodes.contains(n)){
+            val nodeRes = stepBack(n, visitedNodesVar)
+            keyItems = keyItems ++ nodeRes._1 //adding the key items found exploring this predecessor
+            visitedNodesVar = visitedNodesVar ++ nodeRes._2 //adding the visited nodes exploring the predecessor
+          }
+        })
+
+        //returning the tuple
+        (keyItems, visitedNodes)
+      }
+
+      stepBack(targetNode, Set())._1
+    }
+
+    def getValidNodesForPathwayOrigin(): List[MutableStoryNode] =
+      nodes._2.filter(i => nodes._2.exists(j => isNewPathwayValid(i.id, j.id))).toList.sortWith((i, j) => i.id < j.id)
+
+    def getAllOriginNodes(id: Int): List[MutableStoryNode] = {
+      val targetNode = getStoryNode(id).get
+      nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == targetNode)).toList
+    }
+
+    def containsDeletablePathways(node: StoryNode): Boolean = {
+      //at least one conditional pathway (therefore unconditional pathways exists) or two conditional
+      (node.pathways.count(p => p.prerequisite.nonEmpty) == 0 || node.pathways.size >= 2) &&
+        /* and at least one pathway starting from the node points to a destination node that would still be reachable
+        after deleting the pathway*/
+        node.pathways.exists(p => getAllOriginNodes(p.destinationNode.id).size > 1)
     }
 
     private def decorateGraphGUI(): Unit = {
@@ -312,9 +485,12 @@ object EditorController {
           startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
           startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.description
         ),
-        startNodeId + StringUtils.pathwayIdSeparator + endNodeId
+        ""
       )
     }
+
+    override def getNodesIds(filter: StoryNode => Boolean): List[Int] =
+      nodes._2.filter(n => filter(n)).map(n => n.id).toList.sortWith((i, j) => i < j)
 
   }
 
