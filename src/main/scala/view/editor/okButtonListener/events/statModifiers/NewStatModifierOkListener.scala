@@ -8,7 +8,9 @@ import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheDesc
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.events.NewEventOkListener._
 import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
+import view.editor.util.StatsNameStringUtil._
 import view.form.Form
 
 case class NewStatModifierOkListener(override val form: Form,
@@ -16,29 +18,24 @@ case class NewStatModifierOkListener(override val form: Form,
                                              override val controller: EditorController)
   extends EditorOkFormButtonListener(form, controller) {
 
-  //match requires stable identifiers
-  private val WisdomString: String = Wisdom.toString
-  private val CharismaString: String = Charisma.toString
-  private val StrengthString: String = Strength.toString
-  private val DexterityString: String = Dexterity.toString
-  private val IntelligenceString: String = Intelligence.toString
-  private val ConstitutionString: String = Constitution.toString
-
   override def editorControllerAction(): Unit = {
     controller.addEventToNode(
       nodeId,
-      StatEvent(form.elements(3).value,
+      StatEvent(form.elements(StatModifierDescriptionIndex).value,
         StatModifier(
-          getSelectedStatName(form.elements.head.value),
-          getStatModifierStrategy(form.elements(1).value, form.elements(2).value.toInt)
+          getSelectedStatName(form.elements(StatModifierFormStatIndex).value),
+          getStatModifierStrategy(
+            form.elements(StatModifierIncDecIndex).value,
+            form.elements(StatModifierValueIndex).value.toInt
+          )
         )
       )
     )
   }
 
   override def inputConditions: List[(Boolean, String)] = List(
-    (NonEmptyString(form.elements(3).value), mustBeSpecified(TheDescription)),
-    (NonEmptyString(form.elements(2).value), mustBeSpecified(TheValue))
+    (NonEmptyString(form.elements(StatModifierDescriptionIndex).value), mustBeSpecified(TheDescription)),
+    (NonEmptyString(form.elements(StatModifierValueIndex).value), mustBeSpecified(TheValue))
   )
 
   override def stateConditions: List[(Boolean, String)] = List()
