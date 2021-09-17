@@ -65,8 +65,8 @@ object EditorView {
         SqSwingButton("Delete existing event", _ => showDeleteEventForm(editorController)),
         SqSwingButton("Add new enemy", _ => showNewEnemyForm(editorController)),
         SqSwingButton("Delete existing enemy", _ => showDeleteEnemyForm(editorController)),
-        SqSwingButton("Add new pathway condition", _ => showNewPathwayPrerequisiteForm(editorController)),
-        SqSwingButton("Delete existing pathway condition", _ => showDeletePathwayPrerequisiteForm(editorController))
+        SqSwingButton("Add new pathway prerequisite", _ => showNewPathwayPrerequisiteForm(editorController)),
+        SqSwingButton("Delete existing pathway prerequisite", _ => showDeletePathwayPrerequisiteForm(editorController))
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(

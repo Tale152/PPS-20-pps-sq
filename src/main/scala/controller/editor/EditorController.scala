@@ -122,6 +122,11 @@ trait EditorController extends Controller {
   def isStoryNodeDeletable(id: Int): Boolean
 
   def getValidNodesForPathwayOrigin(): List[MutableStoryNode]
+
+  def getAllOriginNodes(id: Int): List[MutableStoryNode]
+
+  def containsDeletablePathways(node: StoryNode): Boolean
+
 }
 
 object EditorController {
@@ -413,6 +418,19 @@ object EditorController {
 
     def getValidNodesForPathwayOrigin(): List[MutableStoryNode] =
       nodes._2.filter(i => nodes._2.exists(j => isNewPathwayValid(i.id, j.id))).toList.sortWith((i, j) => i.id < j.id)
+
+    def getAllOriginNodes(id: Int): List[MutableStoryNode] = {
+      val targetNode = getStoryNode(id).get
+      nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == targetNode)).toList
+    }
+
+    def containsDeletablePathways(node: StoryNode): Boolean = {
+      //at least one conditional pathway (therefore unconditional pathways exists) or two conditional
+      (node.pathways.count(p => p.prerequisite.nonEmpty) == 0 || node.pathways.size >= 2) &&
+        /* and at least one pathway starting from the node points to a destination node that would still be reachable
+        after deleting the pathway*/
+        node.pathways.exists(p => getAllOriginNodes(p.destinationNode.id).size > 1)
+    }
 
     private def decorateGraphGUI(): Unit = {
       graph.nodes().forEach(n => {

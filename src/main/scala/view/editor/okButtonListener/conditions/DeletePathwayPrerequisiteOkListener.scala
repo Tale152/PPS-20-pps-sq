@@ -1,8 +1,6 @@
 package view.editor.okButtonListener.conditions
 
 import controller.editor.EditorController
-import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheId
-import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.forms.conditions.DeletePathwayPrerequisite.OriginStoryNodeIdIndex
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.conditions.DeletePathwayPrerequisiteOkListener.DestinationStoryNodeIdIndex
