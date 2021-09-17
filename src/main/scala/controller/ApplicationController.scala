@@ -21,9 +21,6 @@ import java.nio.file.{Files, Paths}
  */
 sealed trait ApplicationController extends Controller {
 
-
-  def goToEditor(routeNode: StoryNode): Unit
-
   /**
    * Load a story starting a new game. Once the story is loaded the control will be granted to the
    * StatConfigurationController in order to allow the user to choose his stats.
@@ -57,6 +54,13 @@ sealed trait ApplicationController extends Controller {
    * @param directoryName the name of the story to delete.
    */
   def deleteExistingStory(directoryName: String): Unit
+
+  /**
+   * Go to the Editor View.
+   * @param routeNode The [[model.nodes.StoryNode]] used as route node.
+   */
+  def goToEditor(routeNode: StoryNode): Unit
+
 }
 
 object ApplicationController extends ApplicationController {
@@ -90,8 +94,6 @@ object ApplicationController extends ApplicationController {
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
     Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))
 
-  override def goToEditor(routeNode: StoryNode): Unit = EditorController(routeNode).execute()
-
   override def deleteExistingStory(directoryName: String): Unit = {
     val directoryAbsolutePath: String = storyDirectoryPath(RootGameDirectory) + "/" + directoryName
     if (new File(directoryAbsolutePath).exists()) {
@@ -99,4 +101,5 @@ object ApplicationController extends ApplicationController {
     }
   }
 
+  override def goToEditor(routeNode: StoryNode): Unit = EditorController(routeNode).execute()
 }

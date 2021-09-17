@@ -1,5 +1,6 @@
 package controller.editor
 
+import controller.editor.StoryNodeConverter.fromMutableToImmutable
 import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
@@ -16,6 +17,7 @@ trait EditorController extends Controller {
 
   /**
    * Saves the current nodes structure serializing said structure in the provided path.
+   *
    * @param path where to serialize the nodes structure
    */
   def save(path: String): Unit
@@ -39,7 +41,7 @@ trait EditorController extends Controller {
 
   /**
    * @param startNodeId the id of the node that is at the begin of the pathway
-   * @param endNodeId the id of the node that is at the end of the pathway
+   * @param endNodeId   the id of the node that is at the end of the pathway
    * @return the MutablePathway that connects the two nodes
    * @see [[model.nodes.StoryNode.MutableStoryNode]]
    * @see [[model.nodes.MutablePathway]]
@@ -48,16 +50,18 @@ trait EditorController extends Controller {
 
   /**
    * Creates a new node in the story.
-   * @param startingPathwayId the id of the node that originates the pathway leading to the new node
+   *
+   * @param startingPathwayId  the id of the node that originates the pathway leading to the new node
    * @param pathwayDescription the description of the pathway leading to the new node
-   * @param newNodeNarrative the narrative of the new node
+   * @param newNodeNarrative   the narrative of the new node
    * @return if the operation was successful
    */
   def addNewStoryNode(startingPathwayId: Int, pathwayDescription: String, newNodeNarrative: String): Boolean
 
   /**
    * Changes an existing node properties.
-   * @param id the target node to edit
+   *
+   * @param id            the target node to edit
    * @param nodeNarrative the new narrative in the target node
    * @return if the operation was successful
    */
@@ -65,6 +69,7 @@ trait EditorController extends Controller {
 
   /**
    * Deletes an existing node.
+   *
    * @param id the id of the target node
    * @return if the operation was successful
    */
@@ -72,8 +77,9 @@ trait EditorController extends Controller {
 
   /**
    * Creates a new pathway to connect two nodes.
-   * @param startNodeId the id of the node that is at the begin of the pathway
-   * @param endNodeId the id of the node that is at the end of the pathway
+   *
+   * @param startNodeId        the id of the node that is at the begin of the pathway
+   * @param endNodeId          the id of the node that is at the end of the pathway
    * @param pathwayDescription the description of the new pathway
    * @return if the operation was successful
    */
@@ -81,8 +87,9 @@ trait EditorController extends Controller {
 
   /**
    * Changes an existing pathway properties.
-   * @param startNodeId the id of the node that is at the begin of the pathway
-   * @param endNodeId the id of the node that is at the end of the pathway
+   *
+   * @param startNodeId        the id of the node that is at the begin of the pathway
+   * @param endNodeId          the id of the node that is at the end of the pathway
    * @param pathwayDescription the new description of the target pathway
    * @return if the operation was successful
    */
@@ -90,15 +97,16 @@ trait EditorController extends Controller {
 
   /**
    * Deletes an existing pathway.
+   *
    * @param startNodeId the id of the node that is at the begin of the pathway
-   * @param endNodeId the id of the node that is at the end of the pathway
+   * @param endNodeId   the id of the node that is at the end of the pathway
    * @return if the operation was successful
    */
   def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Boolean
 
   /**
    * @param startNodeId the id of the node that is at the begin of a hypothetical new pathway
-   * @param endNodeId the id of the node that is at the end of a hypothetical new pathway
+   * @param endNodeId   the id of the node that is at the end of a hypothetical new pathway
    * @return if a hypothetical new pathway is valid
    */
   def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean
@@ -118,6 +126,11 @@ trait EditorController extends Controller {
   def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean
 
   def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem]
+
+  /**
+   * Go to the Info page using the editor route node.
+   */
+  def goToInfo(): Unit
 }
 
 object EditorController {
@@ -159,6 +172,7 @@ object EditorController {
 
     override def getStoryNode(id: Int): Option[MutableStoryNode] = nodes._2.find(n => n.id == id)
 
+
     override def getPathway(startNodeId: Int, endNodeId: Int): Option[MutablePathway] =
       getStoryNode(startNodeId) match {
         case None => None
@@ -178,7 +192,7 @@ object EditorController {
 
     override def editExistingStoryNode(id: Int, nodeNarrative: String): Boolean = {
       val targetNode = getStoryNode(id)
-      if (targetNode.isEmpty || nodeNarrative.trim.isEmpty){
+      if (targetNode.isEmpty || nodeNarrative.trim.isEmpty) {
         false
       } else {
         targetNode.get.narrative = nodeNarrative
@@ -189,7 +203,7 @@ object EditorController {
 
     override def deleteExistingStoryNode(id: Int): Boolean = {
       val targetNode: Option[MutableStoryNode] = getStoryNode(id)
-      if (targetNode.isEmpty || targetNode.get == nodes._1){
+      if (targetNode.isEmpty || targetNode.get == nodes._1) {
         false
       } else {
         //removing all pathways leading to the target node
@@ -205,7 +219,9 @@ object EditorController {
           .filter(id => !nodes._2.exists(sn => sn.id == id))
           .forEach(id => removedNodesId = removedNodesId + id) //removing nodes here throws null pointer
         removedNodesId.foreach(id => {
-          if (graph.nodes.anyMatch(n => n.getId.toInt == id)) { graph.removeNode(id.toString)}
+          if (graph.nodes.anyMatch(n => n.getId.toInt == id)) {
+            graph.removeNode(id.toString)
+          }
         })
         decorateGraphGUI()
         true
@@ -215,7 +231,7 @@ object EditorController {
     override def addNewPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Boolean = {
       val startNode: Option[MutableStoryNode] = getStoryNode(startNodeId)
       val endNode: Option[MutableStoryNode] = getStoryNode(endNodeId)
-      if (startNode.isEmpty || endNode.isEmpty || pathwayDescription.trim.isEmpty){
+      if (startNode.isEmpty || endNode.isEmpty || pathwayDescription.trim.isEmpty) {
         false
       } else {
         startNode.get.mutablePathways =
@@ -236,7 +252,7 @@ object EditorController {
           getStoryNode(endNodeId).nonEmpty &&
           pathwayDescription.trim.nonEmpty &&
           getPathway(startNodeId, endNodeId).nonEmpty
-      ){
+      ) {
         getPathway(startNodeId, endNodeId).get.description = pathwayDescription
         decorateGraphGUI()
         true
@@ -247,7 +263,7 @@ object EditorController {
 
     override def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Boolean = {
       val startNode = getStoryNode(startNodeId)
-      if (startNode.isEmpty || getStoryNode(endNodeId).isEmpty){
+      if (startNode.isEmpty || getStoryNode(endNodeId).isEmpty) {
         false
       } else {
         startNode.get.mutablePathways = startNode.get.mutablePathways.filter(p => p.destinationNode.id != endNodeId)
@@ -270,7 +286,7 @@ object EditorController {
         endNode.isEmpty ||
         /* cannot create two pathways with same origin and destination */
         startNode.get.mutablePathways.exists(p => p.destinationNode == endNode.get)
-      ){
+      ) {
         false
       } else {
         //searching if, from the end node, the start node is unreachable (preventing a loop)
@@ -280,7 +296,7 @@ object EditorController {
 
     override def addEventToNode(nodeId: Int, event: Event): Boolean = {
       val node = getStoryNode(nodeId)
-      if(node.isEmpty){
+      if (node.isEmpty) {
         false
       } else {
         node.get.events = node.get.events :+ event
@@ -291,7 +307,7 @@ object EditorController {
 
     override def deleteEventFromNode(nodeId: Int, event: Event): Boolean = {
       val node = getStoryNode(nodeId)
-      if(node.isEmpty || !node.get.events.contains(event)){
+      if (node.isEmpty || !node.get.events.contains(event)) {
         false
       } else {
         node.get.events = node.get.events.filter(e => e != event)
@@ -302,7 +318,7 @@ object EditorController {
 
     override def addEnemyToNode(nodeId: Int, enemy: Enemy): Boolean = {
       val node = getStoryNode(nodeId)
-      if(node.isEmpty || node.get.enemy.nonEmpty){
+      if (node.isEmpty || node.get.enemy.nonEmpty) {
         false
       } else {
         node.get.enemy = Some(enemy)
@@ -313,7 +329,7 @@ object EditorController {
 
     override def deleteEnemyFromNode(nodeId: Int): Boolean = {
       val node = getStoryNode(nodeId)
-      if(node.isEmpty || node.get.enemy.isEmpty){
+      if (node.isEmpty || node.get.enemy.isEmpty) {
         false
       } else {
         node.get.enemy = None
@@ -326,7 +342,7 @@ object EditorController {
                                           destinationNodeId: Int,
                                           prerequisite: StoryModel => Boolean): Boolean = {
       val pathway = getPathway(originNodeId, destinationNodeId)
-      if(pathway.isEmpty || pathway.get.prerequisite.nonEmpty){
+      if (pathway.isEmpty || pathway.get.prerequisite.nonEmpty) {
         false
       } else {
         pathway.get.prerequisite = Some(prerequisite)
@@ -337,7 +353,7 @@ object EditorController {
 
     override def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Boolean = {
       val pathway = getPathway(originNodeId, destinationNodeId)
-      if(pathway.isEmpty || pathway.get.prerequisite.isEmpty){
+      if (pathway.isEmpty || pathway.get.prerequisite.isEmpty) {
         false
       } else {
         pathway.get.prerequisite = None
@@ -366,7 +382,7 @@ object EditorController {
         //for each predecessor of this node
         getPredecessors(node).foreach(n => {
           //only if the predecessor hasn't been visited yet
-          if(!visitedNodes.contains(n)){
+          if (!visitedNodes.contains(n)) {
             val nodeRes = stepBack(n, visitedNodesVar)
             keyItems = keyItems ++ nodeRes._1 //adding the key items found exploring this predecessor
             visitedNodesVar = visitedNodesVar ++ nodeRes._2 //adding the visited nodes exploring the predecessor
@@ -382,7 +398,7 @@ object EditorController {
 
     private def decorateGraphGUI(): Unit = {
       graph.nodes().forEach(n => {
-        if(n.getId != nodes._1.id.toString) {
+        if (n.getId != nodes._1.id.toString) {
           setupNonRouteNode(n.getId)
         } else {
           setupRouteNode()
@@ -440,6 +456,8 @@ object EditorController {
     override def getNodesIds(filter: StoryNode => Boolean): List[Int] =
       nodes._2.filter(n => filter(n)).map(n => n.id).toList.sortWith((i, j) => i < j)
 
+    override def goToInfo(): Unit =
+      InfoController(this, fromMutableToImmutable(nodes._1)._1).execute()
   }
 
   def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)
