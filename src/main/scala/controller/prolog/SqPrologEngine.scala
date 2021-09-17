@@ -32,17 +32,19 @@ case class SqPrologEngine(storyNode: StoryNode) {
   private case class PrologEngineIterator[A <: Term](engine: Prolog, goal: A)
     extends Iterator[A] {
 
-    var optionalSolution: Option[A] = getNextSolution(_ => engine.solve(goal))
+    var optionalSolution: Option[A] = getNextSolution(() => engine.solve(goal))
 
     override def hasNext: Boolean = optionalSolution.isDefined
 
     override def next(): A = {
-      val solution: A = optionalSolution.get
-      optionalSolution = getNextSolution(_ => engine.solveNext())
-      solution
+      try {
+        optionalSolution.get
+      } finally {
+        optionalSolution = getNextSolution(() => engine.solveNext())
+      }
     }
 
-    private def getNextSolution(getStrategy: Unit => SolveInfo): Option[A] = {
+    private def getNextSolution(getStrategy: () => SolveInfo): Option[A] = {
       try {
         Some(Structs(getStrategy().getSolution).asInstanceOf[A])
       } catch {

@@ -2,15 +2,16 @@ package view.progressSaver
 
 import view.util.scalaQuestSwingComponents.{SqFont, SqSwingGridPanel}
 import java.awt.Color
+
 import javax.swing.JTextArea
+import view.util.StringUtil.TitleSize
 
 /**
  * Panel containing instruction for the user while saving the game.
  */
 case class InstructionPanel() extends SqSwingGridPanel(0, 1) {
-  private val instructionFontSize: Int = 25
   private val textArea = new JTextArea("Do you want to save your progress in this story?")
-  textArea.setFont(SqFont(bold = true, instructionFontSize))
+  textArea.setFont(SqFont(bold = true, TitleSize))
   textArea.setBackground(Color.BLACK)
   textArea.setForeground(Color.WHITE)
   textArea.setLineWrap(true)

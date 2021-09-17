@@ -23,11 +23,6 @@ sealed trait BattleController extends SubController {
   def attemptEscape(): Unit
 
   /**
-   * Escape failed action.
-   */
-  def escapeFailed(): Unit
-
-  /**
    * Switch control to inventory when asked by the player.
    */
   def goToInventory(): Unit
@@ -71,8 +66,9 @@ object BattleController {
     }
 
     private def usedItem(): Unit = {
-      roundNarrative = "You used an item, it's now the enemy turn.\n"
-      enemyTurn()
+      roundNarrative = "You used an item.\n"
+      checkBattleResult()
+      enemyAttack()
     }
 
     private def isPlayerFaster: Boolean = {
@@ -90,26 +86,26 @@ object BattleController {
         enemyAttack()
         playerAttack()
       }
-
-      //battleView.narrative(roundNarrative)
     }
 
     private def enemyAttack(): Unit = {
-      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
-      var damageInflicted: Int = 0
-      damageInflicted = damage(enemy.get, player)
-      player.properties.health.currentPS -= damageInflicted
-      roundNarrative +=  enemy.get.name + " inflicted " + damageInflicted + " damage to " + player.name + "!\n"
-      checkBattleResult()
+      if(!isBattleOver) {
+        val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
+        val damageInflicted: Int = damage(enemy.get, player)
+        player.properties.health.currentPS -= damageInflicted
+        roundNarrative +=  enemy.get.name + " inflicted " + damageInflicted + " damage to " + player.name + "!\n"
+        checkBattleResult()
+      }
     }
 
     private def playerAttack(): Unit = {
-      val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
-      var damageInflicted: Int = 0
-      damageInflicted = damage(player, enemy.get)
-      enemy.get.properties.health.currentPS -= damageInflicted
-      roundNarrative +=  player.name + " inflicted " + damageInflicted + " damage to " + enemy.get.name + "!\n"
-      checkBattleResult()
+      if(!isBattleOver) {
+        val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
+        val damageInflicted: Int = damage(player, enemy.get)
+        enemy.get.properties.health.currentPS -= damageInflicted
+        roundNarrative +=  player.name + " inflicted " + damageInflicted + " damage to " + enemy.get.name + "!\n"
+        checkBattleResult()
+      }
     }
 
     private def damage(attacker: Character, target: Character): Int = {
@@ -120,17 +116,21 @@ object BattleController {
     }
 
     private def checkBattleResult(): Unit = {
+      setOpponentsInfo()
+      battleView.narrative(roundNarrative)
+      battleView.render()
       val enemy: Enemy = storyModel.currentStoryNode.enemy.get
       if (storyModel.player.properties.health.currentPS == 0){
         battleView.battleResult(false)
       } else if (enemy.properties.health.currentPS == 0){
         battleFirstRound = true
         battleView.battleResult()
-      } else {
-        setOpponentsInfo()
-        battleView.narrative(roundNarrative)
-        battleView.render()
       }
+    }
+
+    private def isBattleOver: Boolean = {
+      storyModel.player.properties.health.currentPS == 0 ||
+        storyModel.currentStoryNode.enemy.get.properties.health.currentPS == 0
     }
 
     private def setOpponentsInfo(): Unit = {
@@ -142,23 +142,13 @@ object BattleController {
         storyModel.currentStoryNode.enemy.get.properties.health.maxPS))
     }
 
-    override def escapeFailed(): Unit = {
-      roundNarrative = "You tried to escape, but couldn't. Now it's enemy turn.\n"
-      enemyTurn()
-    }
-
-    private def enemyTurn(): Unit = {
-      enemyAttack()
-      setOpponentsInfo()
-    }
-
     override def attemptEscape(): Unit = {
       if (escapeCondition){
         battleFirstRound = true
         storyModel.currentStoryNode.enemy.get.properties.health.currentPS = 0
-        battleView.escapeResult()
+        battleView.escaped()
       } else {
-        battleView.escapeResult(false)
+        escapeFailed()
       }
     }
 
@@ -167,6 +157,11 @@ object BattleController {
       (storyModel.player.properties.stat(StatName.Dexterity).value +
         player.properties.stat(StatName.Intelligence).value) >
         enemy.properties.stat(StatName.Dexterity).value
+    }
+
+    private def escapeFailed(): Unit = {
+      roundNarrative = "You tried to escape, but couldn't. Now it's enemy turn.\n"
+      enemyAttack()
     }
 
     override def close(): Unit = gameMasterController.close()

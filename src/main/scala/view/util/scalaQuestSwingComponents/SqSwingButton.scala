@@ -1,10 +1,11 @@
 package view.util.scalaQuestSwingComponents
 
 import view.util.SoundPlayer
-
 import java.awt.Color
 import java.awt.event.{ActionEvent, ActionListener}
+
 import javax.swing.JButton
+import view.util.StringUtil.ButtonTextSize
 
 /**
  * Represents a custom button for ScalaQuest.
@@ -14,7 +15,6 @@ import javax.swing.JButton
  * @param buttonEnabled true if the button has to be enabled.
  */
 case class SqSwingButton(text: String, action: ActionListener, buttonEnabled: Boolean = true) extends JButton {
-  private val btnTextSize = 20
   this.setText(text)
   this.changeTextColor(Color.WHITE)
   this.setContentAreaFilled(false)
@@ -22,7 +22,7 @@ case class SqSwingButton(text: String, action: ActionListener, buttonEnabled: Bo
   this.addActionListener((_: ActionEvent) => SoundPlayer.playInteractionSound())
   this.setEnabled(buttonEnabled)
   this.setFocusable(false)
-  this.setFont(SqFont(bold = true, btnTextSize))
+  this.setFont(SqFont(bold = true, ButtonTextSize))
 
   def changeTextColor(color: Color): Unit = this.setForeground(color)
 }

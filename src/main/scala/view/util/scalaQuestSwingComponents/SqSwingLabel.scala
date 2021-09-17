@@ -1,7 +1,9 @@
 package view.util.scalaQuestSwingComponents
 
 import java.awt.Color
+
 import javax.swing.{JLabel, SwingConstants}
+import view.util.StringUtil.DefaultFontSize
 
 /**
  * Represents a custom label for ScalaQuest.
@@ -14,7 +16,7 @@ import javax.swing.{JLabel, SwingConstants}
  */
 case class SqSwingLabel(text: String,
                         color: Color = Color.WHITE,
-                        labelSize: Int = {val size = 15; size},
+                        labelSize: Int = DefaultFontSize,
                         bold: Boolean = false,
                         alignment: Int = SwingConstants.HORIZONTAL) extends JLabel {
   this.setText(text)

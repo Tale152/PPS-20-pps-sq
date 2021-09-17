@@ -32,7 +32,7 @@ abstract class AbstractCharacter(override val name: String, maxPS: Int, private 
   require(
     name != ""
     && maxPS > 0
-    && stats.size == 6
+    && stats.size == StatName.setOfValidStats().size
     && StatName.setOfValidStats().subsetOf(stats.map(s => s.statName)))
 
   override val properties: PropertiesContainer = PropertiesContainer(maxPS, stats)
