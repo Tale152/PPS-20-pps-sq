@@ -26,9 +26,9 @@ sealed trait InfoController extends Controller {
    *
    * @param startId the id of the starting [[model.nodes.StoryNode]].
    * @param endId   the id of the ending [[model.nodes.StoryNode]].
-   * @return A stream of Sequence of Ids where the first is always 'startId' and the last is always 'endId'
+   * @return A stream of List of Ids where the first is always 'startId' and the last is always 'endId'
    */
-  def paths(startId: Int, endId: Int): Stream[Seq[Int]]
+  def paths(startId: Int, endId: Int): Stream[List[Int]]
 
   /**
    * Calculate the number of possible outcome of a story starting from the [[model.nodes.StoryNode]] with id 'startId'.
@@ -48,35 +48,35 @@ sealed trait InfoController extends Controller {
   /**
    * Calculate all the possible outcome of a story starting from the [[model.nodes.StoryNode]] with id 'startId'.
    *
-   * @return A stream of Sequence of Ids where the first is always the route node's id and the last is always a final
+   * @return A stream of List of Ids where the first is always the route node's id and the last is always a final
    *         node.
    */
-  def storyOutcomes(startId: Int): Stream[Seq[Int]]
+  def storyOutcomes(startId: Int): Stream[List[Int]]
 
   /**
    * Calculate all the possible outcome of a story starting from the route node.
    *
-   * @return A stream of Sequence of Ids where the first is always the route node's id and the last is always a final
+   * @return A stream of List of Ids where the first is always the route node's id and the last is always a final
    *         node.
    */
-  def allStoryOutcomes: Seq[Seq[Int]]
+  def allStoryOutcomes: List[List[Int]]
 
   /**
    * Calculate all the possible outcome of a story starting from the [[model.nodes.StoryNode]] with id 'startId' and
    * narrate what happens.
    *
-   * @return A stream of Sequence strings representing the [[model.nodes.StoryNode]] narratives and the
+   * @return A stream of List strings representing the [[model.nodes.StoryNode]] narratives and the
    *         [[model.nodes.Pathway]] descriptions encountered in order.
    */
-  def storyWalkthrough(startId: Int): Stream[Seq[String]]
+  def storyWalkthrough(startId: Int): Stream[List[String]]
 
   /**
    * Calculate all the possible outcome of a story starting from the route node and narrate what happens.
    *
-   * @return A stream of Sequence strings representing the [[model.nodes.StoryNode]] narratives and the
+   * @return A stream of List strings representing the [[model.nodes.StoryNode]] narratives and the
    *         [[model.nodes.Pathway]] descriptions encountered in order.
    */
-  def allStoryWalkthrough: Seq[Seq[String]]
+  def allStoryWalkthrough: List[List[String]]
 }
 
 object InfoController {
@@ -104,7 +104,7 @@ object InfoController {
     override def pathExists(startId: Int, endId: Int): Boolean =
       pathStructResult(startId, endId).nonEmpty
 
-    override def paths(startId: Int, endId: Int): Stream[Seq[Int]] = {
+    override def paths(startId: Int, endId: Int): Stream[List[Int]] = {
       pathStructResult(startId, endId).map(s => s.crossedIds)
     }
 
@@ -114,7 +114,7 @@ object InfoController {
     override def numberOfOutcomes(startId: Int): Int =
       reachAllFinalNodesStructResult(startId).size
 
-    override def storyOutcomes(startId: Int): Stream[Seq[Int]] =
+    override def storyOutcomes(startId: Int): Stream[List[Int]] =
       reachAllFinalNodesStructResult(startId).map(s => s.crossedNodes)
 
     private def allFinalNodesSolutionsStructResult: Stream[AllFinalNodeSolutionsStruct] =
@@ -123,13 +123,13 @@ object InfoController {
     override def numberOfAllStoryOutcomes: Int =
       allFinalNodesSolutionsStructResult.size
 
-    override def allStoryOutcomes: Seq[Seq[Int]] =
+    override def allStoryOutcomes: List[List[Int]] =
       allFinalNodesSolutionsStructResult.head.allCrossedNodes
 
-    override def storyWalkthrough(startId: Int): Stream[Seq[String]] =
+    override def storyWalkthrough(startId: Int): Stream[List[String]] =
       prologEngine.resolve(WalkthroughStruct(startId, new Var())).map(s => s.walkthrough)
 
-    override def allStoryWalkthrough: Seq[Seq[String]] =
+    override def allStoryWalkthrough: List[List[String]] =
       prologEngine.resolve(AllStoryWalkthroughStruct(routeNode.id, new Var())).head.result
   }
 

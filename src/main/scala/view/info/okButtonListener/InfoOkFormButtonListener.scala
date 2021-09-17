@@ -2,7 +2,7 @@ package view.info.okButtonListener
 
 import controller.InfoController
 import view.form.{Form, OkFormButtonListener}
-import view.util.scalaQuestSwingComponents.dialog.SqOkSwingDialog
+import view.info.dialog.InfoDialogs.NoSolutionDialog
 import view.util.scalaQuestSwingComponents.fileChooser.SqSwingDirectoryChooser
 
 /**
@@ -23,11 +23,7 @@ abstract class InfoOkFormButtonListener(override val form: Form, override val co
         folderPath => saveFile(folderPath)
       )
     } else{
-      SqOkSwingDialog(
-        "No Solution",
-        "No solution found for the given data.",
-        _ => controller.execute()
-      )
+      NoSolutionDialog(controller)
     }
   }
 

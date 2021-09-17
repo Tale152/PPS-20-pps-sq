@@ -2,6 +2,7 @@ package view.info
 
 import controller.InfoController
 import view.AbstractView
+import view.info.dialog.InfoDialogs.NoSolutionDialog
 import view.info.forms.OutcomeFromId.showOutcomeFromIdForm
 import view.info.forms.PathChecker.showPathCheckerForm
 import view.info.forms.StoryWalkthroughFromId.showStoryWalkthroughFromIdForm
@@ -9,6 +10,7 @@ import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
 
 import java.awt.BorderLayout
+import java.awt.event.{ActionEvent, ActionListener}
 
 /**
  * A GUI that allows the user to view some Story Info.
@@ -39,4 +41,18 @@ object InfoView {
   }
 
   def apply(infoController: InfoController): InfoView = new InfoViewImpl(infoController)
+
+  abstract class InfoButtonActionListener(val infoController: InfoController) extends ActionListener
+
+  case class AllPossibleOutcomeListener(override val infoController: InfoController)
+    extends InfoButtonActionListener(infoController) {
+    override def actionPerformed(e: ActionEvent): Unit = {
+      val solutions: List[List[Int]] = infoController.allStoryOutcomes
+      if (solutions.nonEmpty) {
+
+      } else {
+        NoSolutionDialog(infoController)
+      }
+    }
+  }
 }

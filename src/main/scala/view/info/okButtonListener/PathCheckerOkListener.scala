@@ -3,13 +3,13 @@ package view.info.okButtonListener
 import controller.InfoController
 import controller.prolog.structs.StructsNames.Predicates.PathPredicateName
 import controller.util.Resources.ResourceName.FileExtensions.TxtExtension
-import controller.util.serialization.FileUtil.TextFileBuilder
 import controller.util.serialization.StringUtil.listFormattedLikeArray
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheEndingId, TheStartingId}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.form.Form
-import view.util.scalaQuestSwingComponents.dialog.SqOkSwingDialog
+import view.info.InfoFileTextBuilder
+import view.info.dialog.InfoDialogs.FileCreatedDialog
 
 case class PathCheckerOkListener(override val form: Form, override val controller: InfoController)
   extends InfoOkFormButtonListener(form, controller) {
@@ -30,14 +30,9 @@ case class PathCheckerOkListener(override val form: Form, override val controlle
     val endId = form.elements(1).value.toInt
     val solutions = controller.paths(startId, endId)
     val filePath: String = folderPath + "/" + PathPredicateName + "(" + startId + "," + endId + ",X)." + TxtExtension
-    val builder = TextFileBuilder()
-    builder.addText("All the possible path from node " + startId + " to node " + endId + "\n\n")
-    solutions.foreach(s => builder.addText(listFormattedLikeArray(s) + "\n"))
-    builder.outputFile(filePath)
-    SqOkSwingDialog(
-      "File created",
-      "File created in path" + filePath,
-      _ => controller.execute()
-    )
+    val builder = InfoFileTextBuilder().title("All the possible path from node " + startId + " to node " + endId)
+    solutions.foreach(s => builder.addRecord(listFormattedLikeArray(s)))
+    builder.size(solutions.size).outputFile(filePath)
+    FileCreatedDialog(controller, filePath)
   }
 }
