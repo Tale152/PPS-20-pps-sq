@@ -27,7 +27,7 @@ case class NewEquipItemOkListener(override val form: Form,
       case DecrementOption => v => v - value
     }
 
-    controller.addEventToNode(nodeId, ItemEvent(
+    controller.nodesControls.addEventToNode(nodeId, ItemEvent(
       form.elements(ItemRetrieveNarrativeIndex).value,
       EquipItem(
         form.elements(ItemNameIndex).value,

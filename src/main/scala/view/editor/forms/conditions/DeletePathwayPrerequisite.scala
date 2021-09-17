@@ -11,6 +11,7 @@ object DeletePathwayPrerequisite {
 
   def showDeletePathwayPrerequisiteForm(editorController: EditorController): Unit = {
     val targetNodes = editorController
+      .nodesControls
       .getNodesIds(n => n.pathways.exists(p => p.prerequisite.nonEmpty))
       .map(n => n.toString)
     if(targetNodes.nonEmpty){

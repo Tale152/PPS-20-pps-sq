@@ -21,7 +21,8 @@ case class StoryNodeDetailsView(storyNode: StoryNode, editorController: EditorCo
     centerPanel.add(SqTextArea(
       "ID: " + storyNode.id +
         "\n\nNarrative:\n" + storyNode.narrative +
-        "\n\nNumber of nodes reaching this node: " + editorController.getAllOriginNodes(storyNode.id).size +
+        "\n\nNumber of nodes reaching this node: " +
+        editorController.pathwaysControls.getAllOriginNodes(storyNode.id).size +
         "\nNumber of nodes reached by this node: " + storyNode.pathways.size
     ))
     if(storyNode.enemy.nonEmpty){

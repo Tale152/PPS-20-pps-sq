@@ -15,13 +15,15 @@ object DeletePathwayOkListener {
 
     override def performAction(): Unit = {
       var originNodePathways = controller
-        .getStoryNode(form.elements(OriginNodeIdIndex).value.toInt)
+        .nodesControls.getStoryNode(form.elements(OriginNodeIdIndex).value.toInt)
         .get.mutablePathways
       if(originNodePathways.exists(p => p.prerequisite.nonEmpty) &&
         originNodePathways.count(p => p.prerequisite.isEmpty) == 1){
           originNodePathways = originNodePathways.filter(p => p.prerequisite.isEmpty)
       }
-      originNodePathways = originNodePathways.filter(p => controller.getAllOriginNodes(p.destinationNode.id).size > 1)
+      originNodePathways = originNodePathways.filter(p =>
+        controller.pathwaysControls.getAllOriginNodes(p.destinationNode.id).size > 1
+      )
       val newForm: Form = FormBuilder()
         .addComboField(
           "Which story node the pathway ends to?",
@@ -49,7 +51,7 @@ private case class DeletePathwayNextFormOkListener(override val form: Form,
   extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit =
-    controller.deleteExistingPathway(originNodeId, form.elements(DestinationNodeIdIndex).value.toInt)
+    controller.pathwaysControls.deleteExistingPathway(originNodeId, form.elements(DestinationNodeIdIndex).value.toInt)
 
   override def inputConditions: List[(Boolean, String)] = List()
 

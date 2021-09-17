@@ -14,7 +14,7 @@ object NewStoryNode {
     val form: Form = FormBuilder()
       .addComboField(
         "Which story node is the starting node?",
-        editorController.getNodesIds(_ => true).map(id => id.toString)
+        editorController.nodesControls.getNodesIds(_ => true).map(id => id.toString)
       )
       .addTextField("What description should the pathway to the new story node show?")
       .addTextAreaField("What narrative should the new story node show?")

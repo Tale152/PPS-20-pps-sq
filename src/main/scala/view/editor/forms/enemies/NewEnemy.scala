@@ -20,7 +20,7 @@ object NewEnemy {
   val WisdomIndex = 8
 
   def showNewEnemyForm(editorController: EditorController): Unit = {
-    val targetNodes = editorController.getNodesIds(n => n.enemy.isEmpty).map(n => n.toString)
+    val targetNodes = editorController.nodesControls.getNodesIds(n => n.enemy.isEmpty).map(n => n.toString)
     if(targetNodes.nonEmpty){
       val form: Form = FormBuilder()
         .addComboField("In which node you want to want to insert an enemy? (id)",targetNodes)

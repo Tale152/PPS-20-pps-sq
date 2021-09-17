@@ -10,10 +10,11 @@ object NewPathwayPrerequisite {
   val OriginNodeIdIndex: Int = 0
 
   def showNewPathwayPrerequisiteForm(editorController: EditorController): Unit = {
-    if(editorController.getStoryNode(0).get.pathways.isEmpty){
+    if(editorController.nodesControls.getStoryNode(0).get.pathways.isEmpty){
       EditorView.showForbiddenActionDialog("There are no pathways")
     } else {
       val targetNodes = editorController
+        .nodesControls
         .getNodesIds(n => n.pathways.count(p => p.prerequisite.isEmpty) >= 2)
         .map(n => n.toString)
       if(targetNodes.nonEmpty){

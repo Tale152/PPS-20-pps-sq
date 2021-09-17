@@ -10,11 +10,11 @@ object EditPathway {
   val OriginNodeIdIndex: Int = 0
 
   def showEditPathwayForm(editorController: EditorController): Unit = {
-    if(editorController.getStoryNode(0).get.pathways.nonEmpty){
+    if(editorController.nodesControls.getStoryNode(0).get.pathways.nonEmpty){
       val form: Form = FormBuilder()
         .addComboField(
           "Which story node the pathway starts from?",
-          editorController.getNodesIds(n => n.pathways.nonEmpty).map(id => id.toString)
+          editorController.nodesControls.getNodesIds(n => n.pathways.nonEmpty).map(id => id.toString)
         )
         .get(editorController)
       form.setOkButtonListener(EditPathwayOkListener(form, editorController))

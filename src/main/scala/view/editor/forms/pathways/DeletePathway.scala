@@ -10,7 +10,9 @@ object DeletePathway {
   val OriginNodeIdIndex: Int = 0
 
   def showDeletePathwayForm(editorController: EditorController): Unit = {
-    val targetOriginNodes = editorController.getNodesIds(n => editorController.containsDeletablePathways(n))
+    val targetOriginNodes = editorController.nodesControls.getNodesIds(n =>
+      editorController.pathwaysControls.containsDeletablePathways(n)
+    )
     if(targetOriginNodes.nonEmpty){
       val form: Form = FormBuilder()
         .addComboField("Which story node the pathway starts from?", targetOriginNodes.map(id => id.toString))

@@ -21,7 +21,7 @@ object NewPathwayPrerequisiteOkListener {
       val nextForm: Form = FormBuilder()
         .addComboField(
           "Select the destination node of the pathway",
-          controller.getStoryNode(form.elements.head.value.toInt).get
+          controller.nodesControls.getStoryNode(form.elements.head.value.toInt).get
             .mutablePathways.filter(p => p.prerequisite.isEmpty)
             .map(p => p.destinationNode.id.toString).toSeq.toList
         )
@@ -71,7 +71,7 @@ object NewPathwayPrerequisiteNextFormOkListener {
       val statValueForm: Form = FormBuilder()
         .addComboField(
           "Choose the required Key Item",
-          controller.getAllKeyItemsBeforeNode(controller.getStoryNode(originNodeId).get)
+          controller.nodesControls.getAllKeyItemsBeforeNode(controller.nodesControls.getStoryNode(originNodeId).get)
             .zipWithIndex.map(x => createIndexedOption(x._2, x._1.name))
         )
         .get(controller)
@@ -95,7 +95,8 @@ object NewPathwayPrerequisiteNextFormOkListener {
 
     override def stateConditions: List[(Boolean, String)] = List(
       (form.elements(PrerequisiteOptionIndex).value != KeyItemOption ||
-        controller.getAllKeyItemsBeforeNode(controller.getStoryNode(originNodeId).get).nonEmpty,
+        controller.nodesControls
+          .getAllKeyItemsBeforeNode(controller.nodesControls.getStoryNode(originNodeId).get).nonEmpty,
         "There are no key items in node " + originNodeId + " or before")
     )
   }

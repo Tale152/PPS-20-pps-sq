@@ -17,7 +17,8 @@ object DeleteEventOkListener {
     extends OkFormButtonListener(form, controller) {
 
     private def createComboList(id: Int): List[String] =
-      controller.getStoryNode(id).get.events.zipWithIndex.map(x => createIndexedOption(x._2, x._1.description))
+      controller.nodesControls.getStoryNode(id).get
+        .events.zipWithIndex.map(x => createIndexedOption(x._2, x._1.description))
 
     private def showDeleteEventForm(id: Int): Unit = {
       val nextForm: Form = FormBuilder()
@@ -48,7 +49,10 @@ private case class DeleteEventNextFormOkListener(override val form: Form,
 
   override def editorControllerAction(): Unit = {
     val selectedIndex: Int = extractIndexFromOption(form.elements(EventComboIndex).value)
-    controller.deleteEventFromNode(nodeId, controller.getStoryNode(nodeId).get.events(selectedIndex))
+    controller.nodesControls.deleteEventFromNode(
+      nodeId,
+      controller.nodesControls.getStoryNode(nodeId).get.events(selectedIndex)
+    )
   }
 
   override def inputConditions: List[(Boolean, String)] = List()

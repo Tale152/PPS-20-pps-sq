@@ -14,10 +14,10 @@ case class NewKeyItemPrerequisiteOkListener(override val form: Form,
 
   override def editorControllerAction(): Unit = {
     val keyItem = controller
-      .getAllKeyItemsBeforeNode(controller.getStoryNode(originNodeId).get)(
+      .nodesControls.getAllKeyItemsBeforeNode(controller.nodesControls.getStoryNode(originNodeId).get)(
         extractIndexFromOption(form.elements(KeyItemFormItemIndex).value)
       )
-    controller.addPrerequisiteToPathway(
+    controller.pathwaysControls.addPrerequisiteToPathway(
       originNodeId,
       destinationNodeId,
       m => m.player.inventory.contains(keyItem)

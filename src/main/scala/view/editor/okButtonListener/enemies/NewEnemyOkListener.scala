@@ -3,7 +3,7 @@ package view.editor.okButtonListener.enemies
 import controller.editor.EditorController
 import model.characters.Enemy
 import model.characters.properties.stats.{Stat, StatName}
-import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheId, TheName}
+import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheName
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.forms.enemies.NewEnemy._
@@ -14,7 +14,7 @@ case class NewEnemyOkListener(override val form: Form,
                               override val controller: EditorController)
   extends EditorOkFormButtonListener(form, controller){
 
-  override def editorControllerAction(): Unit = controller.addEnemyToNode(
+  override def editorControllerAction(): Unit = controller.nodesControls.addEnemyToNode(
     form.elements(NodeIdIndex).value.toInt,
     Enemy(
       form.elements(EnemyNameIndex).value.trim,

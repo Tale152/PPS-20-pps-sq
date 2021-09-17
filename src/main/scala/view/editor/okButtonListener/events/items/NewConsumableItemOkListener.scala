@@ -24,7 +24,7 @@ case class NewConsumableItemOkListener(override val form: Form,
       case DecrementOption => c => c.properties.health.currentPS = c.properties.health.currentPS - value
     }
 
-    controller.addEventToNode(nodeId, ItemEvent(
+    controller.nodesControls.addEventToNode(nodeId, ItemEvent(
       form.elements(ItemRetrieveNarrativeIndex).value,
       ConsumableItem(
         form.elements(ItemNameIndex).value,

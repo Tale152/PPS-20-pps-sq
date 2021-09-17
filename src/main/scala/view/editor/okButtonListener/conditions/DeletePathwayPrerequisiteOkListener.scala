@@ -18,7 +18,7 @@ object DeletePathwayPrerequisiteOkListener {
       val nextForm: Form = FormBuilder()
         .addComboField(
           "Select the destination node of the pathway (id)",
-          controller.getStoryNode(form.elements.head.value.toInt).get
+          controller.nodesControls.getStoryNode(form.elements.head.value.toInt).get
             .mutablePathways.filter(p => p.prerequisite.nonEmpty)
             .map(p => p.destinationNode.id.toString).toSeq.toList
         )
@@ -46,7 +46,8 @@ private case class DeletePathwayPrerequisiteNextFormOkListener(override val form
   extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit =
-    controller.deletePrerequisiteFromPathway(originNodeId, form.elements(DestinationStoryNodeIdIndex).value.toInt)
+    controller.pathwaysControls
+      .deletePrerequisiteFromPathway(originNodeId, form.elements(DestinationStoryNodeIdIndex).value.toInt)
 
   override def inputConditions: List[(Boolean, String)] = List()
 
