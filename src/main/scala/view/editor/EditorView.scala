@@ -13,6 +13,7 @@ import view.editor.forms.pathways.DeletePathway.showDeletePathwayForm
 import view.editor.forms.pathways.EditPathway.showEditPathwayForm
 import view.editor.forms.pathways.NewPathway.showNewPathwayForm
 import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
+import view.editor.forms.storyNodes.DetailsStoryNode.showDetailsStoryNodeForm
 import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
 import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
@@ -55,6 +56,7 @@ object EditorView {
       )), BorderLayout.NORTH)
 
       this.add(Scrollable(VerticalButtons(List(
+        SqSwingButton("Show story node details", _ => showDetailsStoryNodeForm(editorController)),
         SqSwingButton("Add new story node", _ => showNewStoryNodeForm(editorController)),
         SqSwingButton("Edit existing story node", _ => showEditStoryNodeForm(editorController)),
         SqSwingButton("Delete existing story node", _ => showDeleteStoryNodeForm(editorController)),
