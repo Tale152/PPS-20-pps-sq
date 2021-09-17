@@ -13,8 +13,8 @@ import controller.prolog.util.PrologImplicits.RichTerm
 case class WalkthroughStruct(private val _idSeq: Term, private val _walkthrough: Term)
   extends Struct(WalkthroughPredicateName, _idSeq, _walkthrough) {
 
-  def idSeq: Seq[Int] = _idSeq.toIntSeq
+  def idSeq: List[Int] = _idSeq.toIntList
 
-  def walkthrough: Seq[String] = _walkthrough.toSeq(t => t.toFormattedString)
+  def walkthrough: List[String] = _walkthrough.toList(t => t.toFormattedString)
 
 }

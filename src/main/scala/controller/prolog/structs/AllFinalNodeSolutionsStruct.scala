@@ -15,5 +15,5 @@ case class AllFinalNodeSolutionsStruct(private val _startId: Term, private val _
 
   def startId: Int = _startId.toInt
 
-  def allCrossedNodes: Seq[Seq[Int]] = _allCrossedNodes.toSeq(t => t.toIntSeq)
+  def allCrossedNodes: List[List[Int]] = _allCrossedNodes.toList(t => t.toIntList)
 }

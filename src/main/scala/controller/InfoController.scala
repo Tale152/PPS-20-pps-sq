@@ -10,7 +10,7 @@ import view.info.InfoView
 /**
  * The Info Controller is used to get information about a certain story, starting from its route node.
  */
-trait InfoController extends Controller {
+sealed trait InfoController extends Controller {
 
   /**
    * Check if at least a path exists from a [[model.nodes.StoryNode]] with id 'startId' and another with id 'endId'.
@@ -104,8 +104,9 @@ object InfoController {
     override def pathExists(startId: Int, endId: Int): Boolean =
       pathStructResult(startId, endId).nonEmpty
 
-    override def paths(startId: Int, endId: Int): Stream[Seq[Int]] =
-      pathStructResult(startId,endId).map(s => s.crossedIds)
+    override def paths(startId: Int, endId: Int): Stream[Seq[Int]] = {
+      pathStructResult(startId, endId).map(s => s.crossedIds)
+    }
 
     private def reachAllFinalNodesStructResult(startId: Int): Stream[ReachAllFinalNodesStruct] =
       prologEngine.resolve(ReachAllFinalNodesStruct(startId, new Var()))

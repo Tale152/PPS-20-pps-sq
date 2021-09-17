@@ -74,6 +74,7 @@ object Resources {
     object FileExtensions {
       val StoryFileExtension: String = "sqstr"
       val StoryProgressFileExtension: String = "sqprg"
+      val TxtExtension = "txt"
       val WavExtension = "wav"
       val PrologExtension = "pl"
     }

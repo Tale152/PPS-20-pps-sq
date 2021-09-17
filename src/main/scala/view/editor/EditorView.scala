@@ -16,7 +16,8 @@ import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
 import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
 import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingFileChooser}
+import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.fileChooser.SqSwingStoryFileChooser
 
 import java.awt.BorderLayout
 import java.io.File
@@ -31,7 +32,7 @@ object EditorView {
     this.setLayout(new BorderLayout())
 
     def showFileSave(title: String, onSave: String => Unit, selectedFileName: String, parent: JComponent): Unit = {
-      val chooser = SqSwingFileChooser(title)
+      val chooser = SqSwingStoryFileChooser(title)
       chooser.setSelectedFile(new File(selectedFileName))
       if (chooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
         onSave(chooser.getSelectedFile.getPath)

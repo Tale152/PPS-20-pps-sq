@@ -15,7 +15,7 @@ case class StoryWalkthroughStruct(private val _startId: Term, private val _walkt
 
   def startId: Int = _startId.toInt
 
-  def walkthrough: Seq[String] = _walkthrough.toSeq(t => t.toFormattedString)
+  def walkthrough: List[String] = _walkthrough.toList(t => t.toFormattedString)
 
 }
 

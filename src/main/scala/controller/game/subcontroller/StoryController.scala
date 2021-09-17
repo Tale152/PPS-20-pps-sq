@@ -1,11 +1,12 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
+import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.NewLine
+import controller.util.serialization.StringUtil.StringFormatUtil.formatted
 import model.StoryModel
 import model.characters.properties.stats.StatName.StatName
 import model.nodes.{ItemEvent, Pathway, StatEvent}
 import view.story.StoryView
-import view.util.StringFormatUtil.formatted
 
 /**
  * The [[controller.game.subcontroller.SubController]] that contains the logic to update the
@@ -96,8 +97,6 @@ object StoryController {
      * Process all events, then delete them from the current [[model.nodes.StoryNode]].
      */
     private def processEvents(): Unit = {
-      import view.util.StringFormatUtil.FormatElements.NewLine
-
       storyView.displayEvent(storyModel.currentStoryNode.events.map {
         case StatEvent(eventDescription, statModifier) =>
           storyModel.player.properties.statModifiers += statModifier
