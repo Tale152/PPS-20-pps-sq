@@ -1,7 +1,8 @@
-package view.editor
+package view.info
 
-import controller.editor.InfoController
+import controller.InfoController
 import view.AbstractView
+import view.info.forms.PathChecker.showPathCheckerForm
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
 
@@ -22,7 +23,11 @@ object InfoView {
     override def populateView(): Unit = {
 
       this.add(Scrollable(VerticalButtons(List(
-        SqSwingButton("PlaceHolder button", _ => {}),
+        SqSwingButton("Path Checker", _ => showPathCheckerForm(infoController)),
+        SqSwingButton("Outcomes from ID", _ => {}),
+        SqSwingButton("All possible Outcomes", _ => {}),
+        SqSwingButton("Story walkthrough from ID", _ => {}),
+        SqSwingButton("All Possible stories walkthrough", _ => {})
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(

@@ -1,12 +1,11 @@
-package controller.editor
+package controller
 
 import alice.tuprolog.Var
-import controller.Controller
 import controller.prolog.SqPrologEngine
 import controller.prolog.structs._
-import model.nodes.StoryNode
-import view.editor.InfoView
 import controller.prolog.util.PrologImplicits._
+import model.nodes.StoryNode
+import view.info.InfoView
 
 /**
  * The Info Controller is used to get information about a certain story, starting from its route node.

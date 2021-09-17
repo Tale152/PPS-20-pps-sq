@@ -4,7 +4,7 @@ import controller.editor.StoryNodeConverter.fromMutableToImmutable
 import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
-import controller.{ApplicationController, Controller}
+import controller.{ApplicationController, Controller, InfoController}
 import model.StoryModel
 import model.characters.Enemy
 import model.items.KeyItem
