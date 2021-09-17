@@ -22,10 +22,9 @@ trait BattleView extends AbstractView {
   def narrative(narrative: String): Unit
 
   /**
-   * Used to render a dialog based on the result of the escape attempt.
-   * @param escaped if the attempt has been successful or not.
+   * Used to render a dialog if you escaped the battle successfully.
    */
-  def escapeResult(escaped: Boolean = true): Unit
+  def escaped(): Unit
 
   /**
    * Used to render a dialog based on the result of the battle.
@@ -106,15 +105,10 @@ object BattleView {
         closable = false)
     }
 
-    override def escapeResult(escaped: Boolean): Unit = {
-      val resultText: String = "Escape" + (if (escaped) "d successfully" else " failed") + "!"
-      val resultDescription: String = "You" +
-        (if (escaped) " escaped successfully from the battle" else "r attempt to escape failed")
-      val resultStrategy: Unit = if (escaped) battleController.goToStory() else battleController.escapeFailed()
-
-      SqSwingDialog(resultText ,
-        resultDescription,
-        List(SqSwingButton("ok", _ => resultStrategy)),
+    override def escaped(): Unit = {
+      SqSwingDialog("Escaped successfully!" ,
+        "You escaped successfully from the battle",
+        List(SqSwingButton("ok", _ => battleController.goToStory())),
         closable = false)
     }
   }
