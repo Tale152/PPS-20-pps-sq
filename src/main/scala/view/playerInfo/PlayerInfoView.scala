@@ -54,10 +54,6 @@ object PlayerInfoView {
     private val border: TitledBorder =
       BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.GRAY), "Current Health and Stats")
     border.setTitleColor(Color.WHITE)
-    private val statPanel = new SqSwingGridPanel(0, 2) {}
-    private val centerPanel = new SqSwingBorderPanel {}
-    centerPanel.setBorder(border)
-
     this.setLayout(new BorderLayout())
 
     override def setStats(stats: List[(StatName, (Int, Int))]): Unit = _stats = stats
@@ -67,7 +63,10 @@ object PlayerInfoView {
     override def setHealth(health: (Int, Int)): Unit = _health = health
 
     def populateView(): Unit = {
-      statPanel.removeAll()
+      val centerPanel = new SqSwingBorderPanel {}
+      centerPanel.setBorder(border)
+      val statPanel = new SqSwingGridPanel(0, 2) {}
+
       for (stat <- _stats) statPanel.add(StatValuePanel(stat))
       this.add(CharacterNamePanel("Player", _playerName), BorderLayout.NORTH)
       centerPanel.add(CharacterHealthPanel(_health), BorderLayout.SOUTH)
