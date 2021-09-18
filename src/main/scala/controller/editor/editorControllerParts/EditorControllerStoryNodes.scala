@@ -5,6 +5,7 @@ import model.characters.Enemy
 import model.items.KeyItem
 import model.nodes.{Event, ItemEvent, StoryNode}
 import model.nodes.StoryNode.MutableStoryNode
+import model.nodes.util.ItemPrerequisite
 
 trait EditorControllerStoryNodes {
 
@@ -91,6 +92,14 @@ object EditorControllerStoryNodes {
           editorController.graph.removeNode(id.toString)
         }
       })
+      //removing eventual prerequisite that require a key item that's not present anymore
+      for(n <- editorController.nodes._2; p <- n.mutablePathways if p.prerequisite.nonEmpty){
+        p.prerequisite.get match {
+          case itemPrerequisite: ItemPrerequisite => if(!getAllKeyItemsBeforeNode(n).contains(itemPrerequisite.item)){
+            editorController.pathwaysControls.deletePrerequisiteFromPathway(n.id, p.destinationNode.id)
+          }
+        }
+      }
       editorController.decorateGraphGUI()
     }
 
