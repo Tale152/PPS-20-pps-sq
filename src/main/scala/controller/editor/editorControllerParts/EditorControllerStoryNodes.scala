@@ -125,6 +125,13 @@ object EditorControllerStoryNodes {
     }
 
     override def deleteEventFromNode(nodeId: Int, event: Event): Unit = {
+      event match {
+        case itemEvent: ItemEvent => editorController.pathwaysControls
+          .getAllDependentPrerequisites(itemEvent.item)
+          .foreach(t =>
+            editorController.pathwaysControls.deletePrerequisiteFromPathway(t._1.id, t._2.destinationNode.id)
+          )
+      }
       val node = getStoryNode(nodeId)
       node.get.events = node.get.events.filter(e => e != event)
       editorController.decorateGraphGUI()

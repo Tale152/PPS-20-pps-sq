@@ -2,8 +2,9 @@ package controller.editor.editorControllerParts
 
 import controller.editor.EditorController
 import controller.editor.graph.util.StringUtils
+import model.items.Item
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.util.Prerequisite
+import model.nodes.util.{ItemPrerequisite, Prerequisite}
 import model.nodes.{MutablePathway, StoryNode}
 
 trait EditorControllerPathways {
@@ -56,6 +57,8 @@ trait EditorControllerPathways {
   def containsDeletablePathways(node: StoryNode): Boolean
 
   def getAllOriginNodes(id: Int): List[MutableStoryNode]
+
+  def getAllDependentPrerequisites(item: Item): Set[(MutableStoryNode, MutablePathway)]
 
 }
 
@@ -147,6 +150,15 @@ object EditorControllerPathways {
       editorController.nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == targetNode)).toList
     }
 
+    override def getAllDependentPrerequisites(item: Item): Set[(MutableStoryNode, MutablePathway)] = {
+      def isSearchedItemPrerequisiteInPathway(pathway: MutablePathway): Boolean =
+        pathway.prerequisite.nonEmpty && (pathway.prerequisite.get match {
+          case itemPrerequisite: ItemPrerequisite => itemPrerequisite.item == item
+          case _ => false
+        })
+
+      for(n <- editorController.nodes._2; p <- n.mutablePathways if isSearchedItemPrerequisiteInPathway(p)) yield (n, p)
+    }
   }
 
   def apply(editorController: EditorController): EditorControllerPathways =

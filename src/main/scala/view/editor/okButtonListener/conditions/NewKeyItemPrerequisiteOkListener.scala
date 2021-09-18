@@ -1,6 +1,7 @@
 package view.editor.okButtonListener.conditions
 
 import controller.editor.EditorController
+import model.nodes.util.ItemPrerequisite
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteNextFormOkListener.KeyItemFormItemIndex
 import view.editor.util.IndexedComboListUtil.extractIndexFromOption
@@ -20,7 +21,7 @@ case class NewKeyItemPrerequisiteOkListener(override val form: Form,
     controller.pathwaysControls.addPrerequisiteToPathway(
       originNodeId,
       destinationNodeId,
-      m => m.player.inventory.contains(keyItem)
+      ItemPrerequisite(keyItem)
     )
   }
 
