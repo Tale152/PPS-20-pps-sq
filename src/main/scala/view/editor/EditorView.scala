@@ -16,6 +16,7 @@ import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
 import view.editor.forms.storyNodes.DetailsStoryNode.showDetailsStoryNodeForm
 import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
 import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
+import view.editor.forms.pathways.DetailsPathway.showDetailsPathwayForm
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingFileChooser
 import view.util.scalaQuestSwingComponents.SqSwingButton
@@ -60,6 +61,7 @@ object EditorView {
         SqSwingButton("Add new story node", _ => showNewStoryNodeForm(editorController)),
         SqSwingButton("Edit existing story node", _ => showEditStoryNodeForm(editorController)),
         SqSwingButton("Delete existing story node", _ => showDeleteStoryNodeForm(editorController)),
+        SqSwingButton("Show pathway details", _ => showDetailsPathwayForm(editorController)),
         SqSwingButton("Add new pathway", _ => showNewPathwayForm(editorController)),
         SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),

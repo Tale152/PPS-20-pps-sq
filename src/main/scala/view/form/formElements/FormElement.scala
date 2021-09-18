@@ -1,6 +1,9 @@
 package view.form.formElements
 
+import view.Frame
 import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingLabel}
+
+import java.awt.Dimension
 import javax.swing._
 
 /**
@@ -18,4 +21,19 @@ abstract class FormElement(textLabel: String) extends SqSwingBoxPanel(BoxLayout.
    * @return the value of the element, for example the text in case of a TextField.
    */
   def value: String
+
+  override def getMinimumSize: Dimension = new Dimension(
+    (Frame.getSquareDimension.width * 0.8).toInt,
+    super.getMinimumSize.height
+  )
+
+  override def getMaximumSize: Dimension = new Dimension(
+    getMinimumSize.width,
+    super.getMaximumSize.height
+  )
+
+  override def getPreferredSize: Dimension = new Dimension(
+    getMinimumSize.width,
+    super.getPreferredSize.height
+  )
 }

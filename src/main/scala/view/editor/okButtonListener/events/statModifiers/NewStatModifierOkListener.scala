@@ -19,7 +19,7 @@ case class NewStatModifierOkListener(override val form: Form,
   extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit = {
-    controller.addEventToNode(
+    controller.nodesControls.addEventToNode(
       nodeId,
       StatEvent(form.elements(StatModifierDescriptionIndex).value,
         StatModifier(

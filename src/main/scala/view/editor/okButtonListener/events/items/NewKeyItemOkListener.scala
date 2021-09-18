@@ -17,7 +17,7 @@ case class NewKeyItemOkListener(override val form: Form,
                                 override val controller: EditorController)
   extends EditorOkFormButtonListener(form, controller) {
 
-  override def editorControllerAction(): Unit = controller.addEventToNode(nodeId, ItemEvent(
+  override def editorControllerAction(): Unit = controller.nodesControls.addEventToNode(nodeId, ItemEvent(
     form.elements(ItemRetrieveNarrativeIndex).value,
     KeyItem(form.elements(ItemNameIndex).value, form.elements(ItemDescriptionIndex).value)
   ))

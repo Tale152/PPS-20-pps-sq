@@ -9,7 +9,10 @@ case class DetailsStoryNodeOkListener(override val form: Form, override val cont
   extends OkFormButtonListener(form, controller) {
 
   override def performAction(): Unit =
-    StoryNodeDetailsView(controller.getStoryNode(form.elements(StoryNodeIdIndex).value.toInt).get, controller).render()
+    StoryNodeDetailsView(
+      controller.nodesControls.getStoryNode(form.elements(StoryNodeIdIndex).value.toInt).get,
+      controller
+    ).render()
 
   override def inputConditions: List[(Boolean, String)] = List()
 

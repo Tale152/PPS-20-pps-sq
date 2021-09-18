@@ -22,7 +22,9 @@ object NewPathwayOkListener {
       val nextForm: Form = FormBuilder()
         .addComboField(
           "Which story node is the destination node?",
-          controller.getNodesIds(d => controller.isNewPathwayValid(originNodeId, d.id)).map(id => id.toString)
+          controller.nodesControls.getNodesIds(d =>
+            controller.pathwaysControls.isNewPathwayValid(originNodeId, d.id)
+          ).map(id => id.toString)
         )
         .addTextAreaField("What description should the pathway show?")
         .get(controller)
@@ -43,7 +45,7 @@ private case class NewPathwayNextFormOkListener(override val form: Form,
                                                 originNodeId: Int)
   extends EditorOkFormButtonListener(form, controller) {
 
-  override def editorControllerAction(): Unit = controller.addNewPathway(
+  override def editorControllerAction(): Unit = controller.pathwaysControls.addNewPathway(
     originNodeId,
     form.elements(DestinationNodeIdIndex).value.toInt,
     form.elements(PathwayDescriptionIndex).value

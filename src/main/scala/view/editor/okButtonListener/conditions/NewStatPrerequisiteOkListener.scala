@@ -1,20 +1,20 @@
 package view.editor.okButtonListener.conditions
 
 import controller.editor.EditorController
-import model.StoryModel
 import model.characters.properties.stats.StatName
 import model.characters.properties.stats.StatName.StatName
+import model.nodes.util.{Prerequisite, StatPrerequisite}
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteNextFormOkListener._
-import view.form.Form
 import view.editor.util.StatsNameStringUtil._
+import view.form.Form
 
 case class NewStatPrerequisiteOkListener(override val form: Form,
                                          override val controller: EditorController,
                                          originNodeId: Int,
                                          destinationNodeId: Int) extends EditorOkFormButtonListener(form, controller) {
 
-  private def getPrerequisite(selectedPrerequisiteStr: String, requiredValue: Int): StoryModel => Boolean = {
+  private def getPrerequisite(selectedPrerequisiteStr: String, requiredValue: Int): Prerequisite = {
 
     def strToStatName(selectedPrerequisiteStr: String): StatName = selectedPrerequisiteStr match {
       case WisdomString => StatName.Wisdom
@@ -25,10 +25,10 @@ case class NewStatPrerequisiteOkListener(override val form: Form,
       case ConstitutionString => StatName.Constitution
     }
 
-    m => m.player.properties.stat(strToStatName(selectedPrerequisiteStr)).value >= requiredValue
+    StatPrerequisite(strToStatName(selectedPrerequisiteStr), requiredValue)
   }
 
-  override def editorControllerAction(): Unit = controller.addPrerequisiteToPathway(
+  override def editorControllerAction(): Unit = controller.pathwaysControls.addPrerequisiteToPathway(
     originNodeId, destinationNodeId, getPrerequisite(
       form.elements(StatValueFormStatIndex).value, form.elements(StatValueFormValueIndex).value.toInt
     )

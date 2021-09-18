@@ -12,7 +12,7 @@ case class NewStoryNodeOkListener(override val form: Form, override val controll
   extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit =
-    controller.addNewStoryNode(
+    controller.nodesControls.addNewStoryNode(
       form.elements(StartingNodeIndex).value.toInt,
       form.elements(NewPathwayDescriptionIndex).value,
       form.elements(NewNodeNarrativeIndex).value

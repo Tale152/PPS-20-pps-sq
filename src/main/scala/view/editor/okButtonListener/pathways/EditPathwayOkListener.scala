@@ -20,7 +20,7 @@ object EditPathwayOkListener {
       val newForm: Form = FormBuilder()
         .addComboField(
           "Which story node the pathway ends to?",
-          controller.getStoryNode(form.elements(OriginNodeIdIndex).value.toInt).get
+          controller.nodesControls.getStoryNode(form.elements(OriginNodeIdIndex).value.toInt).get
             .mutablePathways.toList.map(p => p.destinationNode.id.toString))
         .get(controller)
       newForm.setOkButtonListener(
@@ -47,7 +47,8 @@ private case class EditPathwayNextFormOkListener(override val form: Form,
     val lastForm: Form = FormBuilder()
       .addTextAreaField(
         "Pathway description",
-        controller.getPathway(originNodeId, form.elements(DestinationNodeIdIndex).value.toInt).get.description
+        controller.pathwaysControls
+          .getPathway(originNodeId, form.elements(DestinationNodeIdIndex).value.toInt).get.description
       ).get(controller)
     lastForm.setOkButtonListener(
       EditPathwayLastFormOkListener(
@@ -74,7 +75,7 @@ private case class EditPathwayLastFormOkListener(override val form: Form,
   extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit =
-    controller.editExistingPathway(originNodeId, destinationNodeId, form.elements.head.value)
+    controller.pathwaysControls.editExistingPathway(originNodeId, destinationNodeId, form.elements.head.value)
 
   override def inputConditions: List[(Boolean, String)] =
     List((NonEmptyString(form.elements.head.value), mustBeSpecified(TheDescription)))
