@@ -92,14 +92,7 @@ object EditorControllerStoryNodes {
           editorController.graph.removeNode(id.toString)
         }
       })
-      //removing eventual prerequisite that require a key item that's not present anymore
-      for(n <- editorController.nodes._2; p <- n.mutablePathways if p.prerequisite.nonEmpty){
-        p.prerequisite.get match {
-          case itemPrerequisite: ItemPrerequisite => if(!getAllKeyItemsBeforeNode(n).contains(itemPrerequisite.item)){
-            editorController.pathwaysControls.deletePrerequisiteFromPathway(n.id, p.destinationNode.id)
-          }
-        }
-      }
+      editorController.pathwaysControls.applyKeyItemPrerequisiteIntegrity()
       editorController.decorateGraphGUI()
     }
 
@@ -134,15 +127,9 @@ object EditorControllerStoryNodes {
     }
 
     override def deleteEventFromNode(nodeId: Int, event: Event): Unit = {
-      event match {
-        case itemEvent: ItemEvent => editorController.pathwaysControls
-          .getAllDependentPrerequisites(itemEvent.item)
-          .foreach(t =>
-            editorController.pathwaysControls.deletePrerequisiteFromPathway(t._1.id, t._2.destinationNode.id)
-          )
-      }
       val node = getStoryNode(nodeId)
       node.get.events = node.get.events.filter(e => e != event)
+      editorController.pathwaysControls.applyKeyItemPrerequisiteIntegrity()
       editorController.decorateGraphGUI()
     }
 

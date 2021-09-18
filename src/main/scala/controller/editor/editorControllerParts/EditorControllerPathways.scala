@@ -60,6 +60,8 @@ trait EditorControllerPathways {
 
   def getAllDependentPrerequisites(item: Item): Set[(MutableStoryNode, MutablePathway)]
 
+  def applyKeyItemPrerequisiteIntegrity(): Unit
+
 }
 
 object EditorControllerPathways {
@@ -96,6 +98,7 @@ object EditorControllerPathways {
       val startNode = editorController.nodesControls.getStoryNode(startNodeId)
       startNode.get.mutablePathways = startNode.get.mutablePathways.filter(p => p.destinationNode.id != endNodeId)
       editorController.graph.removeEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId)
+      applyKeyItemPrerequisiteIntegrity()
       editorController.decorateGraphGUI()
     }
 
@@ -158,6 +161,17 @@ object EditorControllerPathways {
         })
 
       for(n <- editorController.nodes._2; p <- n.mutablePathways if isSearchedItemPrerequisiteInPathway(p)) yield (n, p)
+    }
+
+    override def applyKeyItemPrerequisiteIntegrity(): Unit = {
+      for(n <- editorController.nodes._2; p <- n.mutablePathways if p.prerequisite.nonEmpty){
+        p.prerequisite.get match {
+          case itemPrerequisite: ItemPrerequisite =>
+            if(!editorController.nodesControls.getAllKeyItemsBeforeNode(n).contains(itemPrerequisite.item)){
+              editorController.pathwaysControls.deletePrerequisiteFromPathway(n.id, p.destinationNode.id)
+            }
+        }
+      }
     }
   }
 
