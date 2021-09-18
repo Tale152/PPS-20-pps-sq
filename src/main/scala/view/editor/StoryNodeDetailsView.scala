@@ -12,7 +12,8 @@ import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqTextArea}
 import java.awt.BorderLayout
 import javax.swing.BoxLayout
 
-case class StoryNodeDetailsView(storyNode: StoryNode, editorController: EditorController) extends AbstractView {
+case class StoryNodeDetailsView(private val storyNode: StoryNode, private val editorController: EditorController)
+  extends AbstractView {
 
   this.setLayout(new BorderLayout())
   private val centerPanel = new SqSwingBoxPanel(BoxLayout.Y_AXIS){}
