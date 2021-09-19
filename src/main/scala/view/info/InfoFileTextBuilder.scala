@@ -41,7 +41,7 @@ object InfoFileTextBuilder {
     }
 
     def size(size: Int): BuilderReadyToOutputFile = {
-      textFileBuilder.addText("size: " + size + "\n")
+      textFileBuilder.addText("\nsize: " + size + "\n")
       this
     }
 

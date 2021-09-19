@@ -126,8 +126,9 @@ object InfoController {
     override def allStoryOutcomes: List[List[Int]] =
       allFinalNodesSolutionsStructResult.head.allCrossedNodes
 
-    override def storyWalkthrough(startId: Int): Stream[List[String]] =
-      prologEngine.resolve(WalkthroughStruct(startId, new Var())).map(s => s.walkthrough)
+    override def storyWalkthrough(startId: Int): Stream[List[String]] = {
+      prologEngine.resolve(StoryWalkthroughStruct(startId, new Var())).map(s => s.walkthrough)
+    }
 
     override def allStoryWalkthrough: List[List[String]] =
       prologEngine.resolve(AllStoryWalkthroughStruct(routeNode.id, new Var())).head.result
