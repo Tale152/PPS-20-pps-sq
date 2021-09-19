@@ -10,13 +10,11 @@ import specs.FlatTestSpec
 import specs.Tags.IgnoreGitHubAction
 
 
-
 class InventoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
 
-  val playerMaxPS : Int = 100
+  val playerMaxPS: Int = 100
   val storyModel: StoryModel = mockStoryModel(playerMaxPS)
-  val gameMasterController: GameMasterController =  GameMasterController(storyModel)
-  val inventoryController: InventoryController = InventoryController(gameMasterController, storyModel)
+
 
   val consumableItem: Item = ConsumableItem(
     "potion",
@@ -38,20 +36,27 @@ class InventoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
   storyModel.player.inventory = List(consumableItem, equipItem, anotherEquipItem)
   storyModel.player.properties.health.currentPS -= 50
 
+  def inventoryController(): InventoryController = {
+    val gameMasterController: GameMasterController = GameMasterController(storyModel)
+    InventoryController(gameMasterController, storyModel)
+  }
+
   "The Inventory Controller" should "be able to use an item" taggedAs IgnoreGitHubAction in {
-    inventoryController.use(storyModel.player.inventory.head)(storyModel.player) //use potion
+    val controller = inventoryController()
+    controller.use(storyModel.player.inventory.head)(storyModel.player) //use potion
     storyModel.player.inventory.size shouldEqual 2
     storyModel.player.properties.health.currentPS shouldEqual 60
-    inventoryController.use(storyModel.player.inventory.head)(storyModel.player) //use socks
+    controller.use(storyModel.player.inventory.head)(storyModel.player) //use socks
     storyModel.player.equippedItems.size shouldEqual 1
     storyModel.player.inventory.size shouldEqual 2
   }
 
   it should "be able to discard items" taggedAs IgnoreGitHubAction in {
-    inventoryController.discard(storyModel.player.inventory.head)
+    val controller = inventoryController()
+    controller.discard(storyModel.player.inventory.head)
     storyModel.player.inventory.size shouldEqual 1
     storyModel.player.equippedItems.size shouldEqual 0
-    inventoryController.discard(storyModel.player.inventory.head)
+    controller.discard(storyModel.player.inventory.head)
     storyModel.player.inventory.size shouldEqual 0
   }
 

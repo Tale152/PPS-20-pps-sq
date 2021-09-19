@@ -1,7 +1,7 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
-import controller.util.{MusicManager, SoundPlayer}
+import controller.util.MusicManager
 import model.StoryModel
 import model.characters.properties.stats.StatName.StatName
 import model.nodes.{ItemEvent, Pathway, StatEvent}

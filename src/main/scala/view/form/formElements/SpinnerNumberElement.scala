@@ -2,8 +2,7 @@ package view.form.formElements
 
 import view.form.formElements.SpinnerNumberElementConst._
 
-import javax.swing.event.{ChangeEvent, ChangeListener}
-import javax.swing.{JFormattedTextField, JSpinner, SpinnerNumberModel}
+import javax.swing.{JSpinner, SpinnerNumberModel}
 
 case class SpinnerNumberElement(textLabel: String, start: Int) extends FormElement(textLabel) {
 
