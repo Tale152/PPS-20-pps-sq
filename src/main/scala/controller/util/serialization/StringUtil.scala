@@ -1,6 +1,22 @@
 package controller.util.serialization
 
+/**
+ * Utility object used for string manipulation.
+ */
 object StringUtil {
+
+  /**
+   * Implicit class used to enrich the String class.
+   * @param string the string used by the implicit class.
+   */
+  implicit class RichString(string: String){
+
+    /**
+     * @return the string without new lines or escape characters.
+     */
+    def withoutNewLine: String = string.replaceAll("[\\t\\n\\r]+", " ")
+
+  }
 
   def listFormattedLikeArray[A](list: Traversable[A]): String = "[" + list.mkString(",") + "]"
 
