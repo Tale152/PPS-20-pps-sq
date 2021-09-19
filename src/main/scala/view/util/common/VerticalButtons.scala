@@ -1,8 +1,8 @@
 package view.util.common
 
+import controller.util.SoundPlayer
 import view.Frame
 import view.Frame.frame
-import view.util.SoundPlayer
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.SqSwingGridBagPanel
 

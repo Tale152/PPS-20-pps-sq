@@ -15,8 +15,8 @@ object ResourceLoader {
   def loadResources(): Unit = {
     setLookAndFeel()
     //Load Audio Clips
-    Resources.AudioClip.interactionSoundClip
-    Resources.AudioClip.navigationSoundClip
+    Resources.SoundClip.interactionSoundClip
+    Resources.SoundClip.navigationSoundClip
     //Load font
     SqFont(bold = false)
   }
