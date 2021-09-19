@@ -1,9 +1,9 @@
 package view.util.scalaQuestSwingComponents
 
-import view.util.SoundPlayer
+import controller.util.SoundPlayer
+
 import java.awt.Color
 import java.awt.event.{ActionEvent, ActionListener}
-
 import javax.swing.JButton
 import view.util.StringUtil.ButtonTextSize
 

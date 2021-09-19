@@ -2,7 +2,7 @@ package controller.util
 
 import controller.util.Resources.ResourceName.FileExtensions.PrologExtension
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.Resources.ResourceName.{interactionSoundEffectPath, navigationSoundEffectPath}
+import controller.util.Resources.ResourceName.{battleMusicPath, interactionSoundEffectPath, menuMusicPath, navigationMusicPath, navigationSoundEffectPath}
 
 import java.awt.image.BufferedImage
 import java.io.{BufferedInputStream, InputStream}
@@ -24,11 +24,12 @@ object Resources {
   private def loadAudioClip(resourceName: String): Clip = {
 
     def _resourceAsAudioInputStream(resourceName: String): AudioInputStream = {
-      val audioSrc : InputStream = resourceAsInputStream(resourceName)
+      val audioSrc: InputStream = resourceAsInputStream(resourceName)
       //add buffer for mark/reset support
-      val bufferedIn : InputStream = new BufferedInputStream(audioSrc)
+      val bufferedIn: InputStream = new BufferedInputStream(audioSrc)
       AudioSystem.getAudioInputStream(bufferedIn)
     }
+
     val clip = AudioSystem.getClip()
     clip.open(_resourceAsAudioInputStream(resourceName))
     clip
@@ -50,9 +51,15 @@ object Resources {
     fromInputStream(resourceAsInputStream(filePath)).getLines().toList
   }
 
-  object AudioClip {
+  object SoundClip {
     lazy val interactionSoundClip: Clip = loadAudioClip(interactionSoundEffectPath)
     lazy val navigationSoundClip: Clip = loadAudioClip(navigationSoundEffectPath)
+  }
+
+  object MusicClip {
+    lazy val storyMusic: Clip = loadAudioClip(navigationMusicPath)
+    lazy val battleMusic: Clip = loadAudioClip(battleMusicPath)
+    lazy val menuMusic: Clip = loadAudioClip(menuMusicPath)
   }
 
   /**
@@ -79,16 +86,21 @@ object Resources {
     }
 
     private object SoundNames {
+
       import FileExtensions.WavExtension
+
       val InteractionSoundEffectFileName: String = "interaction." + WavExtension
       val NavigationSoundEffectFileName: String = "navigation." + WavExtension
+      val NavigationMusicFileName: String = "navigationMusic." + WavExtension
+      val BattleMusicFileName: String = "battleMusic." + WavExtension
+      val MenuMusicFileName: String = "menuMusic." + WavExtension
     }
 
     private object PrologNames {
-       val PrologTheoryFileName: String = "theory." + PrologExtension
+      val PrologTheoryFileName: String = "theory." + PrologExtension
     }
 
-    object MainDirectory{
+    object MainDirectory {
       val RootGameDirectory: String = System.getProperty("user.home")
       //use mostly for test purposes
       private val ScalaQuestTestFolderName = "ScalaQuest_Test"
@@ -120,12 +132,21 @@ object Resources {
 
     import controller.util.Resources.ResourceName.SoundNames.{
       InteractionSoundEffectFileName,
-      NavigationSoundEffectFileName
+      NavigationSoundEffectFileName,
+      NavigationMusicFileName,
+      BattleMusicFileName,
+      MenuMusicFileName
     }
 
     def interactionSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
 
     def navigationSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + NavigationSoundEffectFileName
+
+    def navigationMusicPath: String = "/" + SoundsEffectsDirectoryName + "/" + NavigationMusicFileName
+
+    def battleMusicPath: String = "/" + SoundsEffectsDirectoryName + "/" + BattleMusicFileName
+
+    def menuMusicPath: String = "/" + SoundsEffectsDirectoryName + "/" + MenuMusicFileName
 
     import controller.util.Resources.ResourceName.PrologNames.PrologTheoryFileName
 

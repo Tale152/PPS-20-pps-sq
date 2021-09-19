@@ -5,7 +5,6 @@ import model.characters.Enemy
 import model.items.KeyItem
 import model.nodes.{Event, ItemEvent, StoryNode}
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.util.ItemPrerequisite
 
 trait EditorControllerStoryNodes {
 

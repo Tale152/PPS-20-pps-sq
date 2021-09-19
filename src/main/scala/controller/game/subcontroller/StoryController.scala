@@ -1,6 +1,7 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
+import controller.util.MusicManager
 import model.StoryModel
 import model.characters.properties.stats.StatName.StatName
 import model.nodes.{ItemEvent, Pathway, StatEvent}
@@ -56,6 +57,7 @@ object StoryController {
     extends StoryController {
 
     private val storyView: StoryView = StoryView(this)
+    MusicManager.playStoryMusic()
 
     override def execute(): Unit = {
       processEvents()
@@ -67,7 +69,10 @@ object StoryController {
       storyView.render()
     }
 
-    override def close(): Unit = gameMasterController.close()
+    override def close(): Unit = {
+      MusicManager.playMenuMusic()
+      gameMasterController.close()
+    }
 
     override def choosePathWay(pathway: Pathway): Unit = {
       if (!storyModel.currentStoryNode.pathways.contains(pathway)) {
@@ -90,7 +95,10 @@ object StoryController {
     private def redirect(): Unit =
       if (storyModel.currentStoryNode.enemy.isEmpty) this.execute() else goToBattle()
 
-    private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
+    private def goToBattle(): Unit = {
+      MusicManager.playBattleMusic()
+      gameMasterController.executeOperation(OperationType.BattleOperation)
+    }
 
     /**
      * Process all events, then delete them from the current [[model.nodes.StoryNode]].

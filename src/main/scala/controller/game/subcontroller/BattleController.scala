@@ -1,6 +1,7 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
+import controller.util.MusicManager
 import model.StoryModel
 import model.characters.properties.stats.StatName
 import model.characters.{Character, Enemy, Player}
@@ -48,12 +49,12 @@ object BattleController {
     private var playerInventory: List[Item] = List()
 
     override def execute(): Unit = {
-      if(battleFirstRound) {
+      if (battleFirstRound) {
         battleFirstRound = false
         playerInventory = storyModel.player.inventory
         battleView.narrative("OH NO! There is a enemy. " +
           "You must battle vs " + storyModel.currentStoryNode.enemy.get.name + ".")
-      } else if(isInventoryChanged) {
+      } else if (isInventoryChanged) {
         playerInventory = storyModel.player.inventory
         usedItem()
       }
@@ -78,7 +79,7 @@ object BattleController {
 
     override def attack(): Unit = {
       roundNarrative = ""
-      if (isPlayerFaster){
+      if (isPlayerFaster) {
         playerAttack()
         enemyAttack()
       } else {
@@ -89,21 +90,21 @@ object BattleController {
     }
 
     private def enemyAttack(): Unit = {
-      if(!isBattleOver) {
+      if (!isBattleOver) {
         val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
         val damageInflicted: Int = damage(enemy.get, player)
         player.properties.health.currentPS -= damageInflicted
-        roundNarrative +=  enemy.get.name + " inflicted " + damageInflicted + " damage to " + player.name + "!\n"
+        roundNarrative += enemy.get.name + " inflicted " + damageInflicted + " damage to " + player.name + "!\n"
         checkBattleResult()
       }
     }
 
     private def playerAttack(): Unit = {
-      if(!isBattleOver) {
+      if (!isBattleOver) {
         val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
         val damageInflicted: Int = damage(player, enemy.get)
         enemy.get.properties.health.currentPS -= damageInflicted
-        roundNarrative +=  player.name + " inflicted " + damageInflicted + " damage to " + enemy.get.name + "!\n"
+        roundNarrative += player.name + " inflicted " + damageInflicted + " damage to " + enemy.get.name + "!\n"
         checkBattleResult()
       }
     }
@@ -120,9 +121,9 @@ object BattleController {
       battleView.narrative(roundNarrative)
       battleView.render()
       val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-      if (storyModel.player.properties.health.currentPS == 0){
+      if (storyModel.player.properties.health.currentPS == 0) {
         battleView.battleResult(false)
-      } else if (enemy.properties.health.currentPS == 0){
+      } else if (enemy.properties.health.currentPS == 0) {
         battleFirstRound = true
         battleView.battleResult()
       }
@@ -143,7 +144,7 @@ object BattleController {
     }
 
     override def attemptEscape(): Unit = {
-      if (escapeCondition){
+      if (escapeCondition) {
         battleFirstRound = true
         storyModel.currentStoryNode.enemy.get.properties.health.currentPS = 0
         battleView.escaped()
@@ -164,10 +165,16 @@ object BattleController {
       enemyAttack()
     }
 
-    override def close(): Unit = gameMasterController.close()
+    override def close(): Unit = {
+      MusicManager.playMenuMusic()
+      gameMasterController.close()
+    }
 
     override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
 
-    override def goToStory(): Unit = gameMasterController.executeOperation(OperationType.StoryOperation)
+    override def goToStory(): Unit = {
+      MusicManager.playStoryMusic()
+      gameMasterController.executeOperation(OperationType.StoryOperation)
+    }
   }
 }
