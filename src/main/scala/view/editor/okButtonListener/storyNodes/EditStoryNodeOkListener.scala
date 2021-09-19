@@ -27,7 +27,7 @@ object EditStoryNodeOkListener {
     override def performAction(): Unit =
       showEditStoryNodeFormFields(
         form.elements(NodeToEditIdIndex).value.toInt,
-        controller.getStoryNode(form.elements(NodeToEditIdIndex).value.toInt).get.narrative
+        controller.nodesControls.getStoryNode(form.elements(NodeToEditIdIndex).value.toInt).get.narrative
       )
 
     override def inputConditions: List[(Boolean, String)] = List() //route node always exists
@@ -46,7 +46,7 @@ private case class EditStoryNodeNextFormOkListener(override val form: Form,
   extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit =
-    controller.editExistingStoryNode(id, form.elements(StoryNodeNarrativeIndex).value)
+    controller.nodesControls.editExistingStoryNode(id, form.elements(StoryNodeNarrativeIndex).value)
 
   override def inputConditions: List[(Boolean, String)] =
     List((NonEmptyString(form.elements(StoryNodeNarrativeIndex).value), mustBeSpecified(TheDescription)))

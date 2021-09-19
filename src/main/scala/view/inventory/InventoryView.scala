@@ -7,6 +7,7 @@ import javax.swing.SwingConstants
 import model.items.Item
 import view.AbstractView
 import view.inventory.panels.inventoryPanel
+import view.util.StringUtil.TitleSize
 import view.util.common.ControlsPanel
 import view.util.scalaQuestSwingComponents.SqSwingLabel
 
@@ -26,8 +27,6 @@ sealed trait InventoryView extends AbstractView {
 
 object InventoryView {
 
-  private val TitleSize = 25
-
   def apply(inventoryController: InventoryController): InventoryView = new InventoryViewImpl(inventoryController)
 
   private class InventoryViewImpl(inventoryController: InventoryController) extends InventoryView {
@@ -39,7 +38,10 @@ object InventoryView {
     this.setLayout(new BorderLayout())
 
     override def populateView(): Unit = {
-      this.add(SqSwingLabel("Inventory", labelSize = TitleSize, alignment = SwingConstants.CENTER), BorderLayout.NORTH)
+      this.add(SqSwingLabel("Inventory",
+        labelSize = TitleSize,
+        alignment = SwingConstants.CENTER),
+        BorderLayout.NORTH)
       this.add(inventoryPanel.InventoryPanel(inventoryController, _inventoryItems), BorderLayout.CENTER)
       this.add(ControlsPanel(List(("b", ("[B] Back", _ => inventoryController.close())))), BorderLayout.SOUTH)
     }

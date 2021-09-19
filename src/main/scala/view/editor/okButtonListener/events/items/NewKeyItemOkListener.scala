@@ -7,6 +7,9 @@ import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheDesc
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.events.items.NewItemCategoryOkListener.{
+  ItemDescriptionIndex, ItemNameIndex, ItemRetrieveNarrativeIndex
+}
 import view.form.Form
 
 case class NewKeyItemOkListener(override val form: Form,
@@ -14,15 +17,15 @@ case class NewKeyItemOkListener(override val form: Form,
                                 override val controller: EditorController)
   extends EditorOkFormButtonListener(form, controller) {
 
-  override def editorControllerAction(): Unit = controller.addEventToNode(nodeId, ItemEvent(
-    form.elements(2).value,
-    KeyItem(form.elements.head.value, form.elements(1).value)
+  override def editorControllerAction(): Unit = controller.nodesControls.addEventToNode(nodeId, ItemEvent(
+    form.elements(ItemRetrieveNarrativeIndex).value,
+    KeyItem(form.elements(ItemNameIndex).value, form.elements(ItemDescriptionIndex).value)
   ))
 
   override def inputConditions: List[(Boolean, String)] = List(
-    (NonEmptyString(form.elements.head.value), mustBeSpecified(TheName)),
-    (NonEmptyString(form.elements(1).value), mustBeSpecified(TheDescription)),
-    (NonEmptyString(form.elements(2).value), mustBeSpecified(TheNarrative))
+    (NonEmptyString(form.elements(ItemNameIndex).value), mustBeSpecified(TheName)),
+    (NonEmptyString(form.elements(ItemDescriptionIndex).value), mustBeSpecified(TheDescription)),
+    (NonEmptyString(form.elements(ItemRetrieveNarrativeIndex).value), mustBeSpecified(TheNarrative))
   )
 
   override def stateConditions: List[(Boolean, String)] = List()

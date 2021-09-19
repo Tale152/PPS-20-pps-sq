@@ -13,12 +13,14 @@ import view.editor.forms.pathways.DeletePathway.showDeletePathwayForm
 import view.editor.forms.pathways.EditPathway.showEditPathwayForm
 import view.editor.forms.pathways.NewPathway.showNewPathwayForm
 import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
+import view.editor.forms.storyNodes.DetailsStoryNode.showDetailsStoryNodeForm
 import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
 import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
+import view.editor.forms.pathways.DetailsPathway.showDetailsPathwayForm
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.fileChooser.SqSwingStoryFileChooser
-
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 import java.awt.BorderLayout
 import java.io.File
 import javax.swing.{JComponent, JFileChooser}
@@ -26,6 +28,13 @@ import javax.swing.{JComponent, JFileChooser}
 trait EditorView extends AbstractView
 
 object EditorView {
+
+  def showForbiddenActionDialog(message: String): SqSwingDialog = SqSwingDialog(
+    "Forbidden action",
+    message,
+    List(SqSwingButton("ok", _ => {})),
+    closable = false
+  )
 
   private class EditorViewSwing(private val editorController: EditorController) extends EditorView {
 
@@ -48,9 +57,11 @@ object EditorView {
       )), BorderLayout.NORTH)
 
       this.add(Scrollable(VerticalButtons(List(
+        SqSwingButton("Show story node details", _ => showDetailsStoryNodeForm(editorController)),
         SqSwingButton("Add new story node", _ => showNewStoryNodeForm(editorController)),
         SqSwingButton("Edit existing story node", _ => showEditStoryNodeForm(editorController)),
         SqSwingButton("Delete existing story node", _ => showDeleteStoryNodeForm(editorController)),
+        SqSwingButton("Show pathway details", _ => showDetailsPathwayForm(editorController)),
         SqSwingButton("Add new pathway", _ => showNewPathwayForm(editorController)),
         SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
         SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
@@ -58,8 +69,8 @@ object EditorView {
         SqSwingButton("Delete existing event", _ => showDeleteEventForm(editorController)),
         SqSwingButton("Add new enemy", _ => showNewEnemyForm(editorController)),
         SqSwingButton("Delete existing enemy", _ => showDeleteEnemyForm(editorController)),
-        SqSwingButton("Add new pathway condition", _ => showNewPathwayPrerequisiteForm(editorController)),
-        SqSwingButton("Delete existing pathway condition", _ => showDeletePathwayPrerequisiteForm(editorController))
+        SqSwingButton("Add new pathway prerequisite", _ => showNewPathwayPrerequisiteForm(editorController)),
+        SqSwingButton("Delete existing pathway prerequisite", _ => showDeletePathwayPrerequisiteForm(editorController))
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(

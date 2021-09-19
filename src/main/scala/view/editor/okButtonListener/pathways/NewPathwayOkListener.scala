@@ -22,7 +22,9 @@ object NewPathwayOkListener {
       val nextForm: Form = FormBuilder()
         .addComboField(
           "Which story node is the destination node?",
-          controller.getNodesIds(d => controller.isNewPathwayValid(originNodeId, d.id)).map(id => id.toString)
+          controller.nodesControls.getNodesIds(d =>
+            controller.pathwaysControls.isNewPathwayValid(originNodeId, d.id)
+          ).map(id => id.toString)
         )
         .addTextAreaField("What description should the pathway show?")
         .get(controller)
@@ -30,7 +32,7 @@ object NewPathwayOkListener {
       nextForm.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] = List() //route node always exists
+    override def inputConditions: List[(Boolean, String)] = List()
 
     override def stateConditions: List[(Boolean, String)] = List()
   }
@@ -43,14 +45,13 @@ private case class NewPathwayNextFormOkListener(override val form: Form,
                                                 originNodeId: Int)
   extends EditorOkFormButtonListener(form, controller) {
 
-  override def editorControllerAction(): Unit = controller.addNewPathway(
+  override def editorControllerAction(): Unit = controller.pathwaysControls.addNewPathway(
     originNodeId,
     form.elements(DestinationNodeIdIndex).value.toInt,
     form.elements(PathwayDescriptionIndex).value
   )
 
   override def inputConditions: List[(Boolean, String)] = List(
-    (form.elements(DestinationNodeIdIndex).value != null, mustBeSpecified(TheId)),
     (NonEmptyString(form.elements(PathwayDescriptionIndex).value), mustBeSpecified(TheDescription))
   )
 

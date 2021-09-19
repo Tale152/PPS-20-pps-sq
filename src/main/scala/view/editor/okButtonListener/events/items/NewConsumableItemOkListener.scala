@@ -8,6 +8,7 @@ import view.editor.EditorConditionValues.ConditionDescriptions.Subjects._
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.events.items.NewItemCategoryOkListener._
 import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
 import view.form.Form
 
@@ -23,20 +24,23 @@ case class NewConsumableItemOkListener(override val form: Form,
       case DecrementOption => c => c.properties.health.currentPS = c.properties.health.currentPS - value
     }
 
-    controller.addEventToNode(nodeId, ItemEvent(
-      form.elements(4).value,
+    controller.nodesControls.addEventToNode(nodeId, ItemEvent(
+      form.elements(ItemRetrieveNarrativeIndex).value,
       ConsumableItem(
-        form.elements.head.value,
-        form.elements(1).value,
-        getConsumableStrategy(form.elements(2).value, form.elements(3).value.toInt))
+        form.elements(ItemNameIndex).value,
+        form.elements(ItemDescriptionIndex).value,
+        getConsumableStrategy(
+          form.elements(ConsumableEffectHealthIndex).value,
+          form.elements(consumableHealthValueIndex).value.toInt)
+      )
     ))
   }
 
   override def inputConditions: List[(Boolean, String)] = List(
-    (NonEmptyString(form.elements.head.value), mustBeSpecified(TheName)),
-    (NonEmptyString(form.elements(1).value), mustBeSpecified(TheDescription)),
-    (NonEmptyString(form.elements(3).value), mustBeSpecified(TheValue)),
-    (NonEmptyString(form.elements(4).value), mustBeSpecified(TheNarrative))
+    (NonEmptyString(form.elements(ItemNameIndex).value), mustBeSpecified(TheName)),
+    (NonEmptyString(form.elements(ItemDescriptionIndex).value), mustBeSpecified(TheDescription)),
+    (NonEmptyString(form.elements(consumableHealthValueIndex).value), mustBeSpecified(TheValue)),
+    (NonEmptyString(form.elements(ItemRetrieveNarrativeIndex).value), mustBeSpecified(TheNarrative))
   )
 
   override def stateConditions: List[(Boolean, String)] = List()

@@ -1,5 +1,6 @@
 package view.util.common
 
+import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.NewLine
 import view.Frame
 import view.Frame.frame
 import view.util.SoundPlayer
@@ -21,7 +22,6 @@ case class VerticalButtons(buttonsList: List[SqSwingButton]) extends SqSwingGrid
   private val buttonHeight = 20
   private val verticalPadding = 5
   private val c = new GridBagConstraints
-  private val STR_NEWLINE = "<br/>"
   private val fontRenderContext = new FontRenderContext(new AffineTransform, true, true)
 
   private var _selected = 0
@@ -73,11 +73,11 @@ case class VerticalButtons(buttonsList: List[SqSwingButton]) extends SqSwingGrid
 
   private def getWrappedText(button: AbstractButton, str: String): String = {
     var newStr: String = str
-    if (!str.contains(STR_NEWLINE) && (frame.getWidth - 5) <
+    if (!str.contains(NewLine) && (frame.getWidth - 5) <
       button.getFont.getStringBounds(str, fontRenderContext).getWidth.intValue
     ) {
       val strLength = (str.length / 3) * 2
-      newStr = str.substring(0, strLength) + STR_NEWLINE + str.substring(strLength)
+      newStr = str.substring(0, strLength) + NewLine + str.substring(strLength)
     }
     newStr
   }

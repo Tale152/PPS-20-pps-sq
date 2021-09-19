@@ -3,7 +3,7 @@ package view.editor.okButtonListener.events
 import controller.editor.EditorController
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheId
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
-import view.editor.forms.events.DeleteEvent.StoryNodeId
+import view.editor.forms.events.DeleteEvent.StoryNodeIdIndex
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.events.DeleteEventOkListener.EventComboIndex
 import view.editor.util.IndexedComboListUtil.{createIndexedOption, extractIndexFromOption}
@@ -17,7 +17,8 @@ object DeleteEventOkListener {
     extends OkFormButtonListener(form, controller) {
 
     private def createComboList(id: Int): List[String] =
-      controller.getStoryNode(id).get.events.zipWithIndex.map(x => createIndexedOption(x._2, x._1.description))
+      controller.nodesControls.getStoryNode(id).get
+        .events.zipWithIndex.map(x => createIndexedOption(x._2, x._1.description))
 
     private def showDeleteEventForm(id: Int): Unit = {
       val nextForm: Form = FormBuilder()
@@ -27,10 +28,10 @@ object DeleteEventOkListener {
       nextForm.render()
     }
 
-    override def performAction(): Unit = showDeleteEventForm(form.elements(StoryNodeId).value.toInt)
+    override def performAction(): Unit = showDeleteEventForm(form.elements(StoryNodeIdIndex).value.toInt)
 
     override def inputConditions: List[(Boolean, String)] = List(
-      (form.elements(StoryNodeId).value != null, mustBeSpecified(TheId))
+      (form.elements(StoryNodeIdIndex).value != null, mustBeSpecified(TheId))
     )
 
     override def stateConditions: List[(Boolean, String)] = List()
@@ -48,7 +49,10 @@ private case class DeleteEventNextFormOkListener(override val form: Form,
 
   override def editorControllerAction(): Unit = {
     val selectedIndex: Int = extractIndexFromOption(form.elements(EventComboIndex).value)
-    controller.deleteEventFromNode(nodeId, controller.getStoryNode(nodeId).get.events(selectedIndex))
+    controller.nodesControls.deleteEventFromNode(
+      nodeId,
+      controller.nodesControls.getStoryNode(nodeId).get.events(selectedIndex)
+    )
   }
 
   override def inputConditions: List[(Boolean, String)] = List()

@@ -4,6 +4,7 @@ import mock.MockFactory
 import model.characters.Player
 import model.StoryModel
 import model.characters.properties.stats.Stat
+import model.nodes.util.Prerequisite
 import specs.{FlatTestSpec, SerializableSpec}
 
 class PathwayTest extends FlatTestSpec with SerializableSpec {
@@ -20,7 +21,7 @@ class PathwayTest extends FlatTestSpec with SerializableSpec {
 
   val destinationNodePrerequisite: StoryNode = StoryNode(2, storyNodeNarrative, None, Set.empty, List())
   val destinationNodeNoPrerequisite: StoryNode = StoryNode(1, storyNodeNarrative, None, Set.empty, List())
-  val prerequisite: Option[StoryModel => Boolean] = Some(m => m.player.name == "prerequisite")
+  val prerequisite: Option[Prerequisite] = Some((storyModel: StoryModel) => storyModel.player.name == "prerequisite")
   val pathwayPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodePrerequisite, prerequisite)
   val pathwayNoPrerequisite: Pathway = Pathway(pathwayDescription, destinationNodeNoPrerequisite, None)
   val startingNode: StoryNode =
@@ -60,14 +61,14 @@ class PathwayTest extends FlatTestSpec with SerializableSpec {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
     pathwayPrerequisite
       .prerequisite
-      .get(StoryModel("s", Player(playerName, maxPS, stats), startingNode)) shouldEqual true
+      .get.isSatisfied(StoryModel("s", Player(playerName, maxPS, stats), startingNode)) shouldEqual true
   }
 
   it should "be false if condition is present and isn't met" in {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
     pathwayPrerequisite
       .prerequisite
-      .get(StoryModel("s", Player("should be false", maxPS, stats), startingNode)) shouldEqual false
+      .get.isSatisfied(StoryModel("s", Player("should be false", maxPS, stats), startingNode)) shouldEqual false
   }
 
   it should behave like serializationTest(pathwayPrerequisite)

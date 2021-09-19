@@ -7,6 +7,8 @@ import javax.swing.{JSpinner, SpinnerNumberModel}
 case class SpinnerNumberElement(textLabel: String, start: Int) extends FormElement(textLabel) {
 
   private val spinner = new JSpinner(new SpinnerNumberModel(start, Min, Max, Step))
+  //disabling keyboard input preventing problems related to focus and missed value update when forum confirm
+  spinner.getEditor.asInstanceOf[JSpinner.DefaultEditor].getTextField.setEditable(false)
   this.add(spinner)
 
   //strange casting, but won't work if directly casted to String

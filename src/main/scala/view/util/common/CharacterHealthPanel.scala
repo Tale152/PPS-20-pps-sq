@@ -2,6 +2,7 @@ package view.util.common
 
 import java.awt.Color
 
+import view.util.StringUtil.TitleSize
 import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
 
 /**
@@ -11,12 +12,11 @@ import view.util.scalaQuestSwingComponents.{SqSwingFlowPanel, SqSwingLabel}
  * @param health a pair containing current health and max health.
  */
 case class CharacterHealthPanel(health: (Int, Int)) extends SqSwingFlowPanel {
-  private val fontSize = 25
-  this.add(SqSwingLabel("Health: ", Color.GREEN, fontSize, bold = true))
+  this.add(SqSwingLabel("Health: ", Color.GREEN, TitleSize, bold = true))
   this.add(SqSwingLabel(health._1.toString, if (health._1 == health._2) {
     Color.GREEN
   } else {
     Color.RED
-  }, fontSize, bold = true))
-  this.add(SqSwingLabel("/" + health._2, Color.GREEN, fontSize, bold = true))
+  }, TitleSize, bold = true))
+  this.add(SqSwingLabel("/" + health._2, Color.GREEN, TitleSize, bold = true))
 }

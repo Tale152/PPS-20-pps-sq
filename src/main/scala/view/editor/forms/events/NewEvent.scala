@@ -16,7 +16,7 @@ object NewEvent {
     val form: Form = FormBuilder()
       .addComboField(
         "In which node you want to want to insert an event?",
-        editorController.getNodesIds(_ => true).map(n => n.toString)
+        editorController.nodesControls.getNodesIds(_ => true).map(n => n.toString)
       )
       .addComboField("Which genre of event you want to create?", List(StatModifierOption, ItemOption))
       .get(editorController)
