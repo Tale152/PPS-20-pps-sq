@@ -12,6 +12,8 @@ import javax.swing.JFileChooser
 case class SqSwingDirectoryChooser(title: String,
                               afterChooseAction: String => Unit)
   extends AbstractSqSwingFileChooser(title) {
+  this.setApproveButtonText("Select")
+  this.setApproveButtonToolTipText("Select a folder")
   this.setCurrentDirectory(new File("."))
   this.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
   this.setAcceptAllFileFilterUsed(false)
