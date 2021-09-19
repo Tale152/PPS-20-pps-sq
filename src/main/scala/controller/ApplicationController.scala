@@ -3,9 +3,10 @@ package controller
 import controller.editor.EditorController
 import controller.game.GameMasterController
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.{MusicManager, ResourceLoader}
+import controller.util.ResourceLoader
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
+import controller.util.audio.MusicPlayer
 import controller.util.serialization.FolderUtil.deleteFolder
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
@@ -63,7 +64,7 @@ object ApplicationController extends ApplicationController {
 
   ResourceLoader.loadResources()
   private val mainMenu: MainMenu = MainMenu(this)
-  MusicManager.playMenuMusic()
+  MusicPlayer.playMenuMusic()
 
   private def loadStoryNames(): Set[String] = {
     new File(storyDirectoryPath()).list().toSet

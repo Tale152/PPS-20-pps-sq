@@ -1,7 +1,7 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
-import controller.util.MusicManager
+import controller.util.audio.MusicPlayer
 import model.StoryModel
 import model.characters.properties.stats.StatName
 import model.characters.{Character, Enemy, Player}
@@ -166,14 +166,14 @@ object BattleController {
     }
 
     override def close(): Unit = {
-      MusicManager.playMenuMusic()
+      MusicPlayer.playMenuMusic()
       gameMasterController.close()
     }
 
     override def goToInventory(): Unit = gameMasterController.executeOperation(OperationType.InventoryOperation)
 
     override def goToStory(): Unit = {
-      MusicManager.playStoryMusic()
+      MusicPlayer.playStoryMusic()
       gameMasterController.executeOperation(OperationType.StoryOperation)
     }
   }
