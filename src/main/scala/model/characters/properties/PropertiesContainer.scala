@@ -33,6 +33,12 @@ sealed trait PropertiesContainer extends Serializable {
 
   def statModifiers_=(statModifierSet: Set[StatModifier]): Unit
 
+  /**
+   * Returns a stat with actually the modified stat.
+   * @param statName the stat that is going to be returned with the actual current value.
+   * @return a stat with the current stat value.
+   */
+  def modifiedStat(statName: StatName): Stat
 }
 
 object PropertiesContainer {
@@ -51,6 +57,10 @@ object PropertiesContainer {
     override def stat(statName: StatName): Stat = stats.find(s => s.statName == statName).get
 
     override def statModifiers(st: StatName): Set[StatModifier] = statModifiers.filter(s => s.statName == st)
+
+    override def modifiedStat(statName: StatName): Stat =
+      statModifiers(statName)
+        .foldLeft(stat(statName))((stat, modifier) => Stat(modifier.modifyStrategy(stat.value),stat.statName))
 
   }
 

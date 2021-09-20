@@ -43,7 +43,6 @@ object StoryView {
   private class StoryViewSwing(private val storyController: StoryController) extends StoryView {
     private var _narrative: String = ""
     private var _pathways: Seq[Pathway] = Seq()
-    var eventsNameList: List[String] = List()
 
     this.setLayout(new BorderLayout())
 

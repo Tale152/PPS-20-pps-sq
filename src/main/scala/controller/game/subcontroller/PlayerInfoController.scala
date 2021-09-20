@@ -38,9 +38,7 @@ object PlayerInfoController {
     private def getStatStructure: List[(StatName, (Int, Int))] = {
       val currentStats =
         for(original <- storyModel.player.properties.stats)
-          yield storyModel.player.properties
-            .statModifiers(original.statName)
-            .foldLeft(original)((o, m) => Stat(m.modifyStrategy(o.value), o.statName))
+          yield storyModel.player.properties.modifiedStat(original.statName)
       val statViewStructure =
         for(original <- storyModel.player.properties.stats)
           yield (
