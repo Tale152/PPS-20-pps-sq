@@ -2,7 +2,9 @@ package model.nodes
 
 import mock.MockFactory
 import model.characters.Enemy
+import model.characters.properties.stats.StatName.Dexterity
 import model.characters.properties.stats.Stats.Stat
+import model.nodes.util.StatPrerequisite
 import specs.{FlatTestSpec, SerializableSpec}
 
 class StoryNodeTest extends FlatTestSpec with SerializableSpec {
@@ -92,7 +94,7 @@ class StoryNodeTest extends FlatTestSpec with SerializableSpec {
         id,
         storyNodeNarrative,
         enemy,
-        Set(Pathway(pathwayDescription, node, Some(_ => true))),
+        Set(Pathway(pathwayDescription, node, Some(StatPrerequisite(Dexterity, 1)))),
         events
       )
     }

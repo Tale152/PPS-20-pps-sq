@@ -11,12 +11,12 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectOutputStream}
  */
 trait SerializableSpec { this: FlatTestSpec =>
 
-  def serializationTest(serializableObject: Serializable){
-    "Serialization and Deserialization of " + serializableObject.toString should "work" in {
+  def serializationTest(serObject: Serializable): Unit = {
+    "Serialization and Deserialization of " + serObject.toString + "(" + serObject.hashCode() + ")" should "work" in {
       val serialized = {
         val bos = new ByteArrayOutputStream()
         val out = new ObjectOutputStream(bos)
-        out.writeObject(serializableObject)
+        out.writeObject(serObject)
         val result = bos.toByteArray
         out.close()
         bos.close()

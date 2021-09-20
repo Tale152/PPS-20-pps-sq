@@ -9,30 +9,21 @@ import model.items.Item
  *
  * @see [[model.nodes.StoryNode]]
  */
-sealed trait Event extends Serializable {
+sealed trait Event extends (StoryModel => Unit) with Serializable {
 
   /**
    * @return a Description of what happened in the event.
    */
   val description: String
-
-  /**
-   * Strategy of what happens in a StoryNode's event.
-   *
-   * @param storyModel the StoryModel to manipulate on execution.
-   * @see [[model.StoryModel]]
-   * @see [[model.nodes.StoryNode]]
-   */
-  def handle(storyModel: StoryModel): Unit
 }
 
 /**
- * [[model.nodes.Event]] that contains a [[model.characters.properties.stats.StatModifier]].
+ * [[model.nodes.Event]] that contains a [[model.characters.properties.stats.Stats.StatModifier]].
  *
- * @param statModifier the [[model.characters.properties.stats.StatModifier]] contained in the event.
+ * @param statModifier the [[model.characters.properties.stats.Stats.StatModifier]] contained in the event.
  */
 case class StatEvent(override val description: String, statModifier: StatModifier) extends Event {
-  override def handle(storyModel: StoryModel): Unit =
+  override def apply(storyModel: StoryModel): Unit =
     storyModel.player.properties.statModifiers += statModifier
 }
 
@@ -42,6 +33,6 @@ case class StatEvent(override val description: String, statModifier: StatModifie
  * @param item the [[model.items.Item]] contained in the event.
  */
 case class ItemEvent(override val description: String, item: Item) extends Event {
-  override def handle(storyModel: StoryModel): Unit =
+  override def apply(storyModel: StoryModel): Unit =
     storyModel.player.inventory = storyModel.player.inventory :+ item
 }
