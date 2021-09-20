@@ -1,8 +1,9 @@
 package view.editor.okButtonListener.events.statModifiers
 
 import controller.editor.EditorController
+import model.characters.properties.stats.StatName
 import model.characters.properties.stats.StatName._
-import model.characters.properties.stats.{StatModifier, StatName}
+import model.characters.properties.stats.StatModifier
 import model.nodes.StatEvent
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheValue}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified

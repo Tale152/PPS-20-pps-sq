@@ -17,21 +17,24 @@ trait EditorControllerStoryNodes {
 
   /**
    * Creates a new node in the story.
-   * @param startingPathwayId the id of the node that originates the pathway leading to the new node
+   *
+   * @param startingPathwayId  the id of the node that originates the pathway leading to the new node
    * @param pathwayDescription the description of the pathway leading to the new node
-   * @param newNodeNarrative the narrative of the new node
+   * @param newNodeNarrative   the narrative of the new node
    */
   def addNewStoryNode(startingPathwayId: Int, pathwayDescription: String, newNodeNarrative: String): Unit
 
   /**
    * Changes an existing node properties.
-   * @param id the target node to edit
+   *
+   * @param id            the target node to edit
    * @param nodeNarrative the new narrative in the target node
    */
   def editExistingStoryNode(id: Int, nodeNarrative: String): Unit
 
   /**
    * Deletes an existing node.
+   *
    * @param id the id of the target node
    */
   def deleteExistingStoryNode(id: Int): Unit
@@ -97,11 +100,11 @@ object EditorControllerStoryNodes {
 
     def isStoryNodeDeletable(id: Int): Boolean = {
       val mutableStoryNode = getStoryNode(id)
-      if(mutableStoryNode.isEmpty){
+      if (mutableStoryNode.isEmpty) {
         false
       } else {
         val precedingNodes = editorController.pathwaysControls.getAllOriginNodes(mutableStoryNode.get.id)
-        if(precedingNodes.isEmpty){
+        if (precedingNodes.isEmpty) {
           //is route node
           false
         } else {
@@ -146,26 +149,20 @@ object EditorControllerStoryNodes {
 
       def stepBack(node: MutableStoryNode,
                    visitedNodes: Set[MutableStoryNode]): (List[KeyItem], Set[MutableStoryNode]) = {
-        var keyItems: List[KeyItem] = List()
-        var visitedNodesVar: Set[MutableStoryNode] = visitedNodes + node //adding this node to the already visited
-
+        var _visitedNodes: Set[MutableStoryNode] = visitedNodes + node //adding this node to the already visited
         //getting all key items in this node
-        node.events.foreach {
-          case itemEvent: ItemEvent => itemEvent.item match {
-            case keyItem: KeyItem => keyItems = keyItems :+ keyItem
-          }
-        }
-
+        var keyItems: List[KeyItem] = node.events
+          .collect { case itemEvent: ItemEvent => itemEvent.item }
+          .collect { case keyItem: KeyItem => keyItem }
         //for each predecessor of this node
         editorController.pathwaysControls.getAllOriginNodes(node.id).foreach(n => {
           //only if the predecessor hasn't been visited yet
-          if(!visitedNodes.contains(n)){
-            val nodeRes = stepBack(n, visitedNodesVar)
+          if (!visitedNodes.contains(n)) {
+            val nodeRes = stepBack(n, _visitedNodes)
             keyItems = keyItems ++ nodeRes._1 //adding the key items found exploring this predecessor
-            visitedNodesVar = visitedNodesVar ++ nodeRes._2 //adding the visited nodes exploring the predecessor
+            _visitedNodes = _visitedNodes ++ nodeRes._2 //adding the visited nodes exploring the predecessor
           }
         })
-
         //returning the tuple
         (keyItems, visitedNodes)
       }

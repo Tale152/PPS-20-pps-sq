@@ -2,7 +2,6 @@ package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
 import model.StoryModel
-import model.characters.properties.stats.Stat
 import model.characters.properties.stats.StatName.StatName
 import view.playerInfo.PlayerInfoView
 
