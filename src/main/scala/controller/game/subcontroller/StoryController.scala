@@ -127,9 +127,7 @@ object StoryController {
      *         formatted with + or - sign.
      */
     private def getStatDifferences(statName: StatName, statModifierStrategy: Int => Int): String = {
-      val originalStatValue = storyModel.player.properties.stat(statName).value
-      val modifiedStatValue = storyModel.player.properties.statModifiers.filter(s => s.statName == statName)
-        .foldLeft(originalStatValue)((o, m) => m.modifyStrategy(o))
+      val modifiedStatValue = storyModel.player.properties.modifiedStat(statName).value
       val difference = statModifierStrategy(modifiedStatValue) - modifiedStatValue
       if (difference >= 0) {
         "+" + difference
