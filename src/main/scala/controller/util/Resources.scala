@@ -2,10 +2,10 @@ package controller.util
 
 import controller.util.Resources.ResourceName.FileExtensions.PrologExtension
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.Resources.ResourceName.{battleMusicPath, interactionSoundEffectPath, menuMusicPath, navigationMusicPath, navigationSoundEffectPath}
+import controller.util.Resources.ResourceName.{interactionSoundEffectPath, navigationSoundEffectPath}
 
 import java.awt.image.BufferedImage
-import java.io.{BufferedInputStream, InputStream}
+import java.io.{BufferedInputStream, File, InputStream}
 import javax.imageio.ImageIO
 import javax.sound.sampled.{AudioInputStream, AudioSystem, Clip}
 import scala.io.Source.fromInputStream
@@ -36,6 +36,16 @@ object Resources {
   }
 
   /**
+   * Loads all existing clips.
+   *
+   * @param resourcesName set containing the name of the clips to load.
+   * @return a set of clip already loaded.
+   */
+  def loadAudioClips(resourcesName: Set[String]): Set[Clip] = {
+    resourcesName.map(n => loadAudioClip(n))
+  }
+
+  /**
    * @param resourceName the resource name.
    * @return a [[java.awt.image.BufferedImage]]
    */
@@ -56,12 +66,6 @@ object Resources {
     lazy val navigationSoundClip: Clip = loadAudioClip(navigationSoundEffectPath)
   }
 
-  object MusicClip {
-    lazy val storyMusic: Clip = loadAudioClip(navigationMusicPath)
-    lazy val battleMusic: Clip = loadAudioClip(battleMusicPath)
-    lazy val menuMusic: Clip = loadAudioClip(menuMusicPath)
-  }
-
   /**
    * Component that stores the files and directories' name.
    */
@@ -71,12 +75,12 @@ object Resources {
       val GameDirectoryName: String = ".sq"
       val StoryDirectoryName: String = "stories"
       val SoundsEffectsDirectoryName: String = "sound_effects"
+      val StoryMusicDirectoryName: String = "story_music"
+      val BattleMusicDirectoryName: String = "battle_music"
+      val MenuMusicDirectoryName: String = "menu_music"
     }
 
-    import controller.util.Resources.ResourceName.FileExtensions.{
-      StoryFileExtension,
-      StoryProgressFileExtension
-    }
+    import controller.util.Resources.ResourceName.FileExtensions.{StoryFileExtension, StoryProgressFileExtension}
 
     object FileExtensions {
       val StoryFileExtension: String = "sqstr"
@@ -91,9 +95,6 @@ object Resources {
 
       val InteractionSoundEffectFileName: String = "interaction." + WavExtension
       val NavigationSoundEffectFileName: String = "navigation." + WavExtension
-      val NavigationMusicFileName: String = "navigationMusic." + WavExtension
-      val BattleMusicFileName: String = "battleMusic." + WavExtension
-      val MenuMusicFileName: String = "menuMusic." + WavExtension
     }
 
     private object PrologNames {
@@ -109,11 +110,7 @@ object Resources {
 
     val testRandomStoryName: String = "test-random-story"
 
-    import controller.util.Resources.ResourceName.DirectoryNames.{
-      GameDirectoryName,
-      SoundsEffectsDirectoryName,
-      StoryDirectoryName
-    }
+    import controller.util.Resources.ResourceName.DirectoryNames.{GameDirectoryName, SoundsEffectsDirectoryName, StoryDirectoryName}
 
     def storyDirectoryPath(baseDirectory: String = RootGameDirectory): String =
       gameDirectoryPath(baseDirectory) + "/" + StoryDirectoryName
@@ -130,26 +127,32 @@ object Resources {
     def storyProgressPath(storyName: String)(baseDirectory: String = RootGameDirectory): String =
       storyPathWitNoExtension(storyName)(baseDirectory) + "." + StoryProgressFileExtension
 
-    import controller.util.Resources.ResourceName.SoundNames.{
-      InteractionSoundEffectFileName,
-      NavigationSoundEffectFileName,
-      NavigationMusicFileName,
-      BattleMusicFileName,
-      MenuMusicFileName
-    }
+    import controller.util.Resources.ResourceName.SoundNames.{InteractionSoundEffectFileName, NavigationSoundEffectFileName}
 
     def interactionSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
 
     def navigationSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + NavigationSoundEffectFileName
 
-    def navigationMusicPath: String = "/" + SoundsEffectsDirectoryName + "/" + NavigationMusicFileName
-
-    def battleMusicPath: String = "/" + SoundsEffectsDirectoryName + "/" + BattleMusicFileName
-
-    def menuMusicPath: String = "/" + SoundsEffectsDirectoryName + "/" + MenuMusicFileName
-
     import controller.util.Resources.ResourceName.PrologNames.PrologTheoryFileName
 
     def prologEngineTheoryPath: String = "/" + PrologTheoryFileName
+
+    import controller.util.Resources.ResourceName.DirectoryNames.{BattleMusicDirectoryName, MenuMusicDirectoryName, StoryMusicDirectoryName}
+
+    def storyMusicDirectoryPath(): String = {
+      "/" + SoundsEffectsDirectoryName + "/" + StoryMusicDirectoryName
+    }
+
+    def battleMusicDirectoryPath(): String = {
+      "/" + SoundsEffectsDirectoryName + "/" + BattleMusicDirectoryName
+    }
+
+    def menuMusicDirectoryPath(): String = {
+      "/" + SoundsEffectsDirectoryName + "/" + MenuMusicDirectoryName
+    }
+
+    def musicFileNames(path: String): Set[String] =
+      new File(getClass.getResource(path).toURI).list.map(name => path + "/" + name).toSet
+
   }
 }
