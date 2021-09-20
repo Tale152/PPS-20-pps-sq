@@ -2,7 +2,7 @@ package view.info.forms
 
 import controller.InfoController
 import view.form.{Form, FormBuilder}
-import view.info.okButtonListener.PathCheckerOkListener
+import view.info.okButtonListener.forms
 
 object PathChecker {
 
@@ -11,7 +11,7 @@ object PathChecker {
       .addIntegerField("Select the origin story node id")
       .addIntegerField("Select the end story node id")
       .get(infoController)
-    form.setOkButtonListener(PathCheckerOkListener(form, infoController))
+    form.setOkButtonListener(forms.PathCheckerListener(form, infoController))
     form.render()
   }
 

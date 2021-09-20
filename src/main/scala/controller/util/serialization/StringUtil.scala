@@ -18,7 +18,7 @@ object StringUtil {
 
   }
 
-  def listFormattedLikeArray[A](list: Traversable[A]): String = "[" + list.mkString(",") + "]"
+  def traversableFormattedLikeArray[A](list: Traversable[A]): String = "[" + list.mkString(",") + "]"
 
   /**
    * Utility Object used to style strings in Java Swing.

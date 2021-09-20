@@ -1,9 +1,8 @@
-package view.info.okButtonListener
+package view.info.okButtonListener.forms
 
 import controller.InfoController
 import controller.prolog.structs.StructsNames.Predicates.PathPredicateName
 import controller.util.Resources.ResourceName.FileExtensions.TxtExtension
-import controller.util.serialization.StringUtil.listFormattedLikeArray
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheEndingId, TheStartingId}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
@@ -11,8 +10,8 @@ import view.form.Form
 import view.info.InfoFileTextBuilder
 import view.info.dialog.InfoDialogs.FileCreatedDialog
 
-case class PathCheckerOkListener(override val form: Form, override val controller: InfoController)
-  extends InfoOkFormButtonListener(form, controller) {
+case class PathCheckerListener(override val form: Form, override val controller: InfoController)
+  extends InfoFormButtonListener(form, controller) {
 
   override def inputConditions: List[(Boolean, String)] =
     List(
@@ -22,7 +21,7 @@ case class PathCheckerOkListener(override val form: Form, override val controlle
 
   override def stateConditions: List[(Boolean, String)] = List()
 
-  override def performActionCondition: () => Boolean =
+  override def fileSaveCondition: () => Boolean =
     () => controller.pathExists(form.elements.head.value.toInt, form.elements(1).value.toInt)
 
   override def saveFile(folderPath: String): Unit = {
@@ -30,9 +29,11 @@ case class PathCheckerOkListener(override val form: Form, override val controlle
     val endId = form.elements(1).value.toInt
     val solutions = controller.paths(startId, endId)
     val filePath: String = folderPath + "/" + PathPredicateName + "(" + startId + "," + endId + ",X)." + TxtExtension
-    val builder = InfoFileTextBuilder().title("All the possible path from node " + startId + " to node " + endId)
-    solutions.foreach(s => builder.addRecord(listFormattedLikeArray(s)))
-    builder.size(solutions.size).outputFile(filePath)
+    InfoFileTextBuilder()
+      .title("All the possible path from node " + startId + " to node " + endId)
+      .addIterableOfIterables(solutions)
+      .size(solutions.size)
+      .outputFile(filePath)
     FileCreatedDialog(controller, filePath)
   }
 }
