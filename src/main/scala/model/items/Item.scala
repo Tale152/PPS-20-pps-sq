@@ -109,10 +109,12 @@ case class EquipItem(override val name: String,
   private def equip(character: Character): Unit = {
     def _equipItem(): Unit = {
       character.equippedItems += this
+      character.properties.statModifiers ++= statModifiers
     }
 
     def _swapItems(oldItem: EquipItem): Unit = {
       character.equippedItems -= oldItem
+      character.properties.statModifiers --= oldItem.statModifiers
       if(this.ne(oldItem)) _equipItem()
     }
 

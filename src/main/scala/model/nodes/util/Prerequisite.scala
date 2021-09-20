@@ -14,5 +14,5 @@ case class ItemPrerequisite(item: Item) extends Prerequisite {
 
 case class StatPrerequisite(statName: StatName, value: Int) extends Prerequisite {
   override def isSatisfied(storyModel: StoryModel): Boolean =
-    storyModel.player.properties.stat(statName).value >= value
+    storyModel.player.properties.modifiedStat(statName).value >= value
 }

@@ -74,7 +74,8 @@ object BattleController {
 
     private def isPlayerFaster: Boolean = {
       val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-      storyModel.player.properties.stat(StatName.Dexterity).value > enemy.properties.stat(StatName.Dexterity).value
+      storyModel.player.properties.modifiedStat(StatName.Dexterity).value >
+        enemy.properties.modifiedStat(StatName.Dexterity).value
     }
 
     override def attack(): Unit = {
@@ -110,9 +111,9 @@ object BattleController {
     }
 
     private def damage(attacker: Character, target: Character): Int = {
-      val damageInflicted = (attacker.properties.stat(StatName.Strength).value +
-        attacker.properties.stat(StatName.Dexterity).value) -
-        target.properties.stat(StatName.Constitution).value
+      val damageInflicted = (attacker.properties.modifiedStat(StatName.Strength).value +
+        attacker.properties.modifiedStat(StatName.Dexterity).value) -
+        target.properties.modifiedStat(StatName.Constitution).value
       if (damageInflicted > 0) damageInflicted else 1
     }
 
@@ -155,9 +156,9 @@ object BattleController {
 
     private def escapeCondition: Boolean = {
       val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-      (storyModel.player.properties.stat(StatName.Dexterity).value +
-        player.properties.stat(StatName.Intelligence).value) >
-        enemy.properties.stat(StatName.Dexterity).value
+      (storyModel.player.properties.modifiedStat(StatName.Dexterity).value +
+        player.properties.modifiedStat(StatName.Intelligence).value) >
+        enemy.properties.modifiedStat(StatName.Dexterity).value
     }
 
     private def escapeFailed(): Unit = {
