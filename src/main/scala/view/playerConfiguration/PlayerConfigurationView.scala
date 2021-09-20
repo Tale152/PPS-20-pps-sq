@@ -1,7 +1,7 @@
 package view.playerConfiguration
 
 import controller.PlayerConfigurationController
-import model.characters.properties.stats.Stat
+import model.characters.properties.stats.Stats.Stat
 import view.AbstractView
 import view.playerConfiguration.panels.{InstructionPanel, PlayerNamePanel, RemainingPointsPanel, StatEditPanel}
 import view.util.common.ControlsPanel

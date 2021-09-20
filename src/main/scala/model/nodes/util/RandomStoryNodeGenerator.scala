@@ -1,7 +1,8 @@
 package model.nodes.util
 
 import model.characters.Enemy
-import model.characters.properties.stats.{Stat, StatModifier, StatName}
+import model.characters.properties.stats.Stats._
+import model.characters.properties.stats.StatName
 import model.items.{ConsumableItem, EquipItem, EquipItemType, Item, KeyItem}
 import model.nodes.{ItemEvent, Pathway, StatEvent, StoryNode}
 import model.nodes.Event

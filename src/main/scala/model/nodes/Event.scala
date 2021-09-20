@@ -1,7 +1,7 @@
 package model.nodes
 
 import model.StoryModel
-import model.characters.properties.stats.StatModifier
+import model.characters.properties.stats.Stats.StatModifier
 import model.items.Item
 
 /**

@@ -3,7 +3,7 @@ package model.nodes
 import mock.MockFactory
 import model.characters.Player
 import model.StoryModel
-import model.characters.properties.stats.Stat
+import model.characters.properties.stats.Stats.Stat
 import model.nodes.util.Prerequisite
 import specs.{FlatTestSpec, SerializableSpec}
 

@@ -1,7 +1,8 @@
 package model.characters
 
 import mock.MockFactory
-import model.characters.properties.stats.{Stat, StatName}
+import model.characters.properties.stats.Stats.Stat
+import model.characters.properties.stats.StatName
 import model.items.{AbstractItem, ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 

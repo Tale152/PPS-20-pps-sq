@@ -1,7 +1,8 @@
 package model.characters
 
 import model.characters.properties.PropertiesContainer
-import model.characters.properties.stats.{Stat, StatName}
+import model.characters.properties.stats.StatName
+import model.characters.properties.stats.Stats.Stat
 import model.items.{EquipItem, Item}
 
 /**

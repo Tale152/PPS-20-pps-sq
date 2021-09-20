@@ -2,7 +2,7 @@ package model.characters.properties
 
 import model.characters.properties.Health.Health
 import model.characters.properties.stats.StatName.StatName
-import model.characters.properties.stats.{Stat, StatModifier}
+import model.characters.properties.stats.Stats.{Stat, StatModifier}
 
 /**
  * A propertiesContainer contains all the properties of a specific character.

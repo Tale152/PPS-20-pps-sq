@@ -3,7 +3,8 @@ package model.nodes
 import mock.MockFactory
 import model.StoryModel
 import model.characters.Player
-import model.characters.properties.stats.{StatModifier, StatName}
+import model.characters.properties.stats.Stats.StatModifier
+import model.characters.properties.stats.StatName
 import model.items.{Item, KeyItem}
 import specs.{FlatTestSpec, SerializableSpec}
 

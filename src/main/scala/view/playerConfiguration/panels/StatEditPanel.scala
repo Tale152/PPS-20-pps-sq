@@ -1,7 +1,7 @@
 package view.playerConfiguration.panels
 
 import controller.PlayerConfigurationController
-import model.characters.properties.stats.Stat
+import model.characters.properties.stats.Stats.Stat
 import view.util.scalaQuestSwingComponents.{SqSwingBorderPanel, SqSwingButton, SqSwingLabel}
 
 import java.awt.BorderLayout
