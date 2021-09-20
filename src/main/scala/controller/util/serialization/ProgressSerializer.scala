@@ -1,21 +1,20 @@
 package controller.util.serialization
 
 import controller.util.serialization.FileSerializer.{deserializeObject, serializeObject}
-import model.StoryModel
+import model.{Progress, StoryModel}
 import model.nodes.StoryNode
-import model.progress.{Progress, SerializableHistory}
 
 /**
  * Used to serialize / deserialize a Progress.
  *
- * @see [[model.progress.Progress]]
+ * @see [[Progress]]
  */
 object ProgressSerializer {
 
   /**
    * Serializes a Progress.
    *
-   * @see [[model.progress.Progress]]
+   * @see [[Progress]]
    * @param progress the Progress to serialize.
    * @param fileName serialized Progress file destination.
    */
@@ -41,12 +40,12 @@ object ProgressSerializer {
    * Create a ordered list of [[model.nodes.StoryNode]] from History to build the path already travelled.
    *
    * @param startingNode      the starting [[model.nodes.StoryNode]] of the story.
-   * @param serializedHistory the [[model.progress.SerializableHistory]].
+   * @param serializedHistory the list of visited [[model.nodes.StoryNode]] Ids.
    * @return the ordered list of [[model.nodes.StoryNode]] travelled in the History.
    */
-  private def rebuildHistory(startingNode: StoryNode, serializedHistory: SerializableHistory): List[StoryNode] = {
-    if (startingNode.id == serializedHistory.visitedNodesId.head) {
-      var alreadyVisitedIDs: List[Int] = serializedHistory.visitedNodesId
+  private def rebuildHistory(startingNode: StoryNode, serializedHistory: List[Int]): List[StoryNode] = {
+    if (startingNode.id == serializedHistory.head) {
+      var alreadyVisitedIDs: List[Int] = serializedHistory
       var result: List[StoryNode] = List()
       var currentNode: StoryNode = startingNode
       result = result :+ currentNode

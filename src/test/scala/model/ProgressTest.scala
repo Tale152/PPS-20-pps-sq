@@ -1,4 +1,4 @@
-package model.progress
+package model
 
 import mock.MockFactory
 import model.characters.Player
@@ -6,8 +6,8 @@ import specs.{FlatTestSpec, SerializableSpec}
 
 class ProgressTest extends FlatTestSpec with SerializableSpec{
 
-  val serializableHistory: SerializableHistory = SerializableHistory(List(0,1,2))
-  var undefinedSerializableHistory: SerializableHistory = _
+  val serializableHistory: List[Int] = List(0,1,2)
+  var undefinedSerializableHistory: List[Int] = _
   val player: Player = Player("player", 1, MockFactory.mockSetOfStats())
   var undefinedPlayer: Player = _
   val progress: Progress = Progress(serializableHistory, player)
@@ -16,19 +16,31 @@ class ProgressTest extends FlatTestSpec with SerializableSpec{
     progress.player shouldEqual player
   }
 
-  "The progress" should "contain a SerializableHistory" in {
+  it should "contain a SerializableHistory" in {
     progress.serializableHistory shouldEqual serializableHistory
   }
 
-  "The progress" should "not contain a null player" in {
+  it should "not contain a null player" in {
     intercept[IllegalArgumentException]{
       Progress(serializableHistory, undefinedPlayer)
     }
   }
 
-  "The progress" should "not contain a null SerializableHistory" in {
+  it should "not contain a null SerializableHistory" in {
     intercept[IllegalArgumentException]{
       Progress(undefinedSerializableHistory, player)
+    }
+  }
+
+  it should "not contain an empty visited nodes id list" in {
+    intercept[IllegalArgumentException]{
+      Progress(List[Int](), player)
+    }
+  }
+
+  it should "not contain a visited nodes id list with duplicate ids" in {
+    intercept[IllegalArgumentException]{
+      Progress(List[Int](0,1,0,2), player)
     }
   }
 
