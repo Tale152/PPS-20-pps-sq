@@ -1,7 +1,7 @@
 package model.characters.properties
 
 import model.characters.properties.stats.StatName
-import model.characters.properties.stats.Stats.{Stat, StatModifier}
+import model.characters.properties.stats.{Stat, StatModifier}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {

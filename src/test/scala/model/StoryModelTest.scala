@@ -2,7 +2,7 @@ package model
 
 import mock.MockFactory
 import model.characters.Player
-import model.characters.properties.stats.Stats.Stat
+import model.characters.properties.stats.Stat
 import model.nodes.{Pathway, StoryNode}
 import specs.FlatTestSpec
 

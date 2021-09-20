@@ -2,8 +2,7 @@ package view.editor.okButtonListener.enemies
 
 import controller.editor.EditorController
 import model.characters.Enemy
-import model.characters.properties.stats.StatName
-import model.characters.properties.stats.Stats._
+import model.characters.properties.stats.{Stat, StatName}
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheName
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString

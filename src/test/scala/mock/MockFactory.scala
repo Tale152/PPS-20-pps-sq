@@ -2,7 +2,7 @@ package mock
 
 import model.StoryModel
 import model.characters.Player
-import model.characters.properties.stats.Stats.Stat
+import model.characters.properties.stats.Stat
 import model.characters.properties.stats.StatName
 import model.nodes.{Pathway, StoryNode}
 

@@ -1,7 +1,7 @@
 package model.items
 
 import model.characters.Character
-import model.characters.properties.stats.Stats.StatModifier
+import model.characters.properties.stats.StatModifier
 import model.items.EquipItemType.EquipItemType
 
 /**

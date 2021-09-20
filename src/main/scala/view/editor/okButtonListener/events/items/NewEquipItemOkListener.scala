@@ -1,7 +1,7 @@
 package view.editor.okButtonListener.events.items
 
 import controller.editor.EditorController
-import model.characters.properties.stats.Stats.StatModifier
+import model.characters.properties.stats.StatModifier
 import model.characters.properties.stats.StatName._
 import model.items.EquipItem
 import model.nodes.ItemEvent
