@@ -64,7 +64,7 @@ object StoryController {
       storyView.setNarrative(storyModel.currentStoryNode.narrative)
       storyView.setPathways(
         storyModel.currentStoryNode.pathways.filter(
-          p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get.isSatisfied(storyModel)))
+          p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
       )
       storyView.render()
     }
