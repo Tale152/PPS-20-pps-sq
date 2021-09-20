@@ -3,7 +3,7 @@ package model.characters.properties.stats
 object StatName {
 
   /**
-   * Trait used by [[Stat]] and [[StatModifier]] to
+   * Trait used by [[Stats.Stat]] and [[Stats.StatModifier]] to
    * specify the name of the property they referred to.
    */
   sealed trait StatName extends Serializable

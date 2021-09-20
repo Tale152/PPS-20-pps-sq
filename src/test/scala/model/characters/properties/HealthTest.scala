@@ -1,6 +1,5 @@
 package model.characters.properties
 
-import model.characters.properties.Health.Health
 import specs.{FlatTestSpec, SerializableSpec}
 
 class HealthTest extends FlatTestSpec with SerializableSpec {

@@ -1,6 +1,5 @@
 package model.characters.properties
 
-import model.characters.properties.Health.Health
 import model.characters.properties.stats.StatName.StatName
 import model.characters.properties.stats.Stats.{Stat, StatModifier}
 
