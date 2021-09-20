@@ -15,5 +15,5 @@ case class AllStoryWalkthroughStruct(private val _startId: Term, private val _re
 
   def startId: Int = _startId.toInt
 
-  def result: List[List[String]] = _result.toList(t1 => t1.toList(t2 => t2.toFormattedString))
+  def result: List[List[String]] = _result.toList(t1 => t1.toList(t2 => t2.fromPrologToString))
 }

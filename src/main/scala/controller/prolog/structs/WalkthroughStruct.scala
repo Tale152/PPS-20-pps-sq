@@ -15,6 +15,6 @@ case class WalkthroughStruct(private val _idSeq: Term, private val _walkthrough:
 
   def idSeq: List[Int] = _idSeq.toIntList
 
-  def walkthrough: List[String] = _walkthrough.toList(t => t.toFormattedString)
+  def walkthrough: List[String] = _walkthrough.toList(t => t.fromPrologToString)
 
 }

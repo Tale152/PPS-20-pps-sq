@@ -42,7 +42,8 @@ object PrologImplicits {
      *         story_node(id,narrative,[pathway]).
      */
     def toPrologFact: String = {
-      StoryNodePredicateName + "(" + storyNode.id + ",'" + storyNode.narrative.withoutNewLine + "',[" +
+      StoryNodePredicateName + "(" + storyNode.id + ",'" +
+        storyNode.narrative.withoutNewLine.withoutContent("'") + "',[" +
         storyNode.pathways.map(p => p.toPrologRecord).mkString(",") + "])."
     }
 
@@ -55,7 +56,8 @@ object PrologImplicits {
      *         pathway(toId, description).
      */
     def toPrologRecord: String = {
-      PathwayRecord + "(" + pathway.destinationNode.id + ",'" + pathway.description.withoutNewLine + "')"
+      PathwayRecord + "(" + pathway.destinationNode.id + ",'" +
+        pathway.description.withoutNewLine.withoutContent("'") + "')"
     }
   }
 
@@ -115,7 +117,7 @@ object PrologImplicits {
      */
     def toInt: Int = term.toString.toInt
 
-    def toFormattedString: String = removeDelimiters(term.toString)
+    def fromPrologToString: String = removeDelimiters(term.toString)
 
     private val removeDelimiters: String => String = s => {
       if (s(0) == '\'' && s(s.length - 1) == '\'') {

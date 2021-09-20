@@ -5,7 +5,7 @@ import view.AbstractView
 import view.info.forms.OutcomeFromId.showOutcomeFromIdForm
 import view.info.forms.PathChecker.showPathCheckerForm
 import view.info.forms.StoryWalkthroughFromId.showStoryWalkthroughFromIdForm
-import view.info.okButtonListener.noForms.{AllPossibleOutcomeListenerWithoutForm, AllPossibleWalkthroughListenerWithoutForm}
+import view.info.okButtonListener.noForms._
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
 

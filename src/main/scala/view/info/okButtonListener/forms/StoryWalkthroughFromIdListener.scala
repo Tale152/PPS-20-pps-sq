@@ -28,7 +28,7 @@ case class StoryWalkthroughFromIdListener(override val form: Form, override val 
       folderPath + "/" + StoryWalkthroughPredicateName + "(" + storyNodeId + ",X)." + TxtExtension
     InfoFileTextBuilder()
       .title("All the story Walkthrough starting from node " + storyNodeId + ".")
-      .addIterableOfIterables(solutions)
+      .addStories(solutions)
       .size(solutions.size)
       .outputFile(filePath)
     FileCreatedDialog(controller, filePath)
