@@ -1,17 +1,15 @@
 package controller.util.audio
 
-import controller.util.Resources.ResourceName.{
-  battleMusicDirectoryPath, menuMusicDirectoryPath, musicFileNames, storyMusicDirectoryPath
-}
+import controller.util.Resources.ResourceName._
 import controller.util.Resources.loadAudioClips
 
 import javax.sound.sampled.Clip
 
 object MusicPlayer {
 
-  val storyMusicClips: Set[Clip] = loadAudioClips(musicFileNames(storyMusicDirectoryPath()))
-  val battleMusicClips: Set[Clip] = loadAudioClips(musicFileNames(battleMusicDirectoryPath()))
-  val menuMusicClips: Set[Clip] = loadAudioClips(musicFileNames(menuMusicDirectoryPath()))
+  val storyMusicClips: Set[Clip] = loadAudioClips(storyMusicDirectoryPath())
+  val battleMusicClips: Set[Clip] = loadAudioClips(battleMusicDirectoryPath())
+  val menuMusicClips: Set[Clip] = loadAudioClips(menuMusicDirectoryPath())
   private var currentlyPlaying: Option[Clip] = None
 
   /**
@@ -69,8 +67,11 @@ object MusicPlayer {
      */
     def randomClip: Option[Clip] = {
       import scala.util.Random
-      val random = new Random
-      Option(clips.toVector(random.nextInt(clips.size)))
+      if (clips.nonEmpty) {
+        Option(clips.toVector(new Random().nextInt(clips.size)))
+      } else {
+        None
+      }
     }
   }
 
