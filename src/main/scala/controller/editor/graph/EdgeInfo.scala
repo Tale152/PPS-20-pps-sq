@@ -4,32 +4,28 @@ import controller.editor.graph.util.StringUtils
 import controller.editor.graph.util.StringUtils.{buildLabel, truncateString}
 import model.nodes.{Pathway, StoryNode}
 
-protected object EdgeInfo {
-  class EdgeInfo(startingNode: StoryNode, pathway: Pathway) {
+protected case class EdgeInfo(private val startingNode: StoryNode, private val pathway: Pathway) {
 
-    def isFinalNode: Boolean = pathway.destinationNode.pathways.isEmpty
+  val isFinalNode: Boolean = pathway.destinationNode.pathways.isEmpty
 
-    def isConditionalEdge: Boolean = pathway.prerequisite.nonEmpty
+  val isConditionalEdge: Boolean = pathway.prerequisite.nonEmpty
 
-    def startNodeId: String = startingNode.id.toString
+  val startNodeId: String = startingNode.id.toString
 
-    def endNodeId: String = pathway.destinationNode.id.toString
+  val endNodeId: String = pathway.destinationNode.id.toString
 
-    def getEdgeId: String = startNodeId + StringUtils.pathwayIdSeparator + endNodeId
+  val getEdgeId: String = startNodeId + StringUtils.pathwayIdSeparator + endNodeId
 
-    def endNodeNarrative:String = truncateString(pathway.destinationNode.narrative)
+  val endNodeNarrative:String = truncateString(pathway.destinationNode.narrative)
 
-    def pathwayDescription: String = truncateString(pathway.description)
+  val pathwayDescription: String = truncateString(pathway.description)
 
-    def getEndNodeLabel: String = buildLabel(endNodeId, endNodeNarrative)
+  val getEndNodeLabel: String = buildLabel(endNodeId, endNodeNarrative)
 
-    def getPathwayLabel: String = buildLabel(getEdgeId, pathwayDescription)
+  val getPathwayLabel: String = buildLabel(getEdgeId, pathwayDescription)
 
-    def isNodeWithEnemy: Boolean = pathway.destinationNode.enemy.nonEmpty
+  val isNodeWithEnemy: Boolean = pathway.destinationNode.enemy.nonEmpty
 
-    def isNodeWithEvents: Boolean = pathway.destinationNode.events.nonEmpty
+  val isNodeWithEvents: Boolean = pathway.destinationNode.events.nonEmpty
 
-  }
-
-  def apply(startingNode: StoryNode, pathway: Pathway): EdgeInfo = new EdgeInfo(startingNode, pathway)
 }
