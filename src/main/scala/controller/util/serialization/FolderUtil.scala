@@ -15,6 +15,10 @@ object FolderUtil {
     }
   }
 
+  def filesNameInFolder(folderPath: String): Set[String] = {
+    new File(folderPath).list().toSet
+  }
+
   /**
    * Delete a folder and all its content recursively.
    * @param folderName the path of folder where to start.
