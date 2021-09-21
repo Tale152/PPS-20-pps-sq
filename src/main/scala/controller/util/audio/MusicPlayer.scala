@@ -16,41 +16,41 @@ object MusicPlayer {
    * Used to play music during story navigation.
    */
   def playStoryMusic(): Unit = {
-    playMusic(storyMusicClips.randomClip)
+    //playMusic(storyMusicClips.randomClip)
   }
 
   /**
    * Used to play music during a battle.
    */
   def playBattleMusic(): Unit = {
-    playMusic(battleMusicClips.randomClip)
+    //playMusic(battleMusicClips.randomClip)
   }
 
   /**
    * Used to play music during menu navigation.
    */
   def playMenuMusic(): Unit = {
-    playMusic(menuMusicClips.randomClip)
+    //playMusic(menuMusicClips.randomClip)
   }
 
   /**
    * Template method that exchange plays music.
    */
   def playMusic(clip: Option[Clip]): Unit = {
-    stopMusic()
+    /*stopMusic()
     currentlyPlaying = clip
     if (clip.isDefined) {
       SoundPlayer.playClip(currentlyPlaying.get, loop = true)
-    }
+    }*/
   }
 
   /**
    * Stops the current playing music.
    */
   def stopMusic(): Unit = {
-    if (currentlyPlaying.isDefined) {
+    /*if (currentlyPlaying.isDefined) {
       currentlyPlaying.get.stop()
-    }
+    }*/
   }
 
   /**
@@ -66,12 +66,13 @@ object MusicPlayer {
      * @return the selected clip.
      */
     def randomClip: Option[Clip] = {
-      import scala.util.Random
+      /*import scala.util.Random
       if (clips.nonEmpty) {
         Option(clips.toVector(new Random().nextInt(clips.size)))
       } else {
         None
-      }
+      }*/
+      None
     }
   }
 
