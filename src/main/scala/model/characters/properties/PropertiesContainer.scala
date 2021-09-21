@@ -1,6 +1,5 @@
 package model.characters.properties
 
-import model.characters.properties.Health.Health
 import model.characters.properties.stats.StatName.StatName
 import model.characters.properties.stats.{Stat, StatModifier}
 
@@ -49,10 +48,12 @@ object PropertiesContainer {
    * @param maxPS the number of PS for character's full life.
    * @param stats the statistics of a specific Character.
    */
-  private class PropertiesContainerImpl(private val maxPS: Int, val stats: Set[Stat]) extends PropertiesContainer {
+  private class PropertiesContainerImpl(private val maxPS: Int,
+                                        val stats: Set[Stat],
+                                        var statModifiers: Set[StatModifier])
+    extends PropertiesContainer {
 
     val health: Health = Health(maxPS)
-    var statModifiers: Set[StatModifier] = Set()
 
     override def stat(statName: StatName): Stat = stats.find(s => s.statName == statName).get
 
@@ -64,6 +65,7 @@ object PropertiesContainer {
 
   }
 
-  def apply(maxPS: Int, stats: Set[Stat]): PropertiesContainer = new PropertiesContainerImpl(maxPS, stats)
+  def apply(maxPS: Int, stats: Set[Stat], statModifiers: Set[StatModifier] = Set()): PropertiesContainer =
+    new PropertiesContainerImpl(maxPS, stats, statModifiers)
 
 }

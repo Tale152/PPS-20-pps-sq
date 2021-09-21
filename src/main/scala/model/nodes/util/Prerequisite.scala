@@ -4,15 +4,13 @@ import model.StoryModel
 import model.characters.properties.stats.StatName.StatName
 import model.items.Item
 
-trait Prerequisite extends Serializable {
-  def isSatisfied(storyModel: StoryModel): Boolean
-}
+sealed trait Prerequisite extends (StoryModel => Boolean) with Serializable
 
 case class ItemPrerequisite(item: Item) extends Prerequisite {
-  override def isSatisfied(storyModel: StoryModel): Boolean = storyModel.player.inventory.contains(item)
+  override def apply(storyModel: StoryModel): Boolean = storyModel.player.inventory.contains(item)
 }
 
 case class StatPrerequisite(statName: StatName, value: Int) extends Prerequisite {
-  override def isSatisfied(storyModel: StoryModel): Boolean =
+  override def apply(storyModel: StoryModel): Boolean =
     storyModel.player.properties.modifiedStat(statName).value >= value
 }

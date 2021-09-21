@@ -7,7 +7,7 @@ import controller.util.ResourceLoader
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
 import controller.util.audio.MusicPlayer
-import controller.util.serialization.FolderUtil.deleteFolder
+import controller.util.serialization.FolderUtil.{deleteFolder, filesNameInFolder}
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
@@ -66,9 +66,7 @@ object ApplicationController extends ApplicationController {
   private val mainMenu: MainMenu = MainMenu(this)
   MusicPlayer.playMenuMusic()
 
-  private def loadStoryNames(): Set[String] = {
-    new File(storyDirectoryPath()).list().toSet
-  }
+  private def loadStoryNames(): Set[String] = filesNameInFolder(storyDirectoryPath())
 
   initializeGameFolderStructure(RootGameDirectory)
 

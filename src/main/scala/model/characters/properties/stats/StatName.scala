@@ -3,7 +3,7 @@ package model.characters.properties.stats
 object StatName {
 
   /**
-   * Trait used by [[Stat]] and [[StatModifier]] to
+   * Trait used by [[Stats.Stat]] and [[Stats.StatModifier]] to
    * specify the name of the property they referred to.
    */
   sealed trait StatName extends Serializable
@@ -24,5 +24,5 @@ object StatName {
    * @return a set containing all the [[model.characters.properties.stats.StatName.StatName]] that a
    *         [[model.characters.Character]] should have.
    */
-  def setOfValidStats(): Set[StatName] = Set(Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma)
+  val setOfValidStats: Set[StatName] = Set(Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma)
 }

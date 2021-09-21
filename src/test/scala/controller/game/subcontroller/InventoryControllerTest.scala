@@ -3,7 +3,8 @@ package controller.game.subcontroller
 import controller.game.GameMasterController
 import mock.MockFactory.mockStoryModel
 import model.StoryModel
-import model.characters.properties.stats.{StatModifier, StatName}
+import model.characters.properties.stats.StatName
+import model.characters.properties.stats.StatModifier
 import model.items.{ConsumableItem, EquipItem, EquipItemType, Item}
 import org.scalatest.BeforeAndAfterEach
 import specs.FlatTestSpec

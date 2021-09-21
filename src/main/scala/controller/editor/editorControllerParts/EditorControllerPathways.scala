@@ -11,7 +11,7 @@ trait EditorControllerPathways {
 
   /**
    * @param startNodeId the id of the node that is at the begin of the pathway
-   * @param endNodeId the id of the node that is at the end of the pathway
+   * @param endNodeId   the id of the node that is at the end of the pathway
    * @return the MutablePathway that connects the two nodes
    * @see [[model.nodes.StoryNode.MutableStoryNode]]
    * @see [[model.nodes.MutablePathway]]
@@ -20,30 +20,33 @@ trait EditorControllerPathways {
 
   /**
    * Creates a new pathway to connect two nodes.
-   * @param startNodeId the id of the node that is at the begin of the pathway
-   * @param endNodeId the id of the node that is at the end of the pathway
+   *
+   * @param startNodeId        the id of the node that is at the begin of the pathway
+   * @param endNodeId          the id of the node that is at the end of the pathway
    * @param pathwayDescription the description of the new pathway
    */
   def addNewPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit
 
   /**
    * Changes an existing pathway properties.
-   * @param startNodeId the id of the node that is at the begin of the pathway
-   * @param endNodeId the id of the node that is at the end of the pathway
+   *
+   * @param startNodeId        the id of the node that is at the begin of the pathway
+   * @param endNodeId          the id of the node that is at the end of the pathway
    * @param pathwayDescription the new description of the target pathway
    */
   def editExistingPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit
 
   /**
    * Deletes an existing pathway.
+   *
    * @param startNodeId the id of the node that is at the begin of the pathway
-   * @param endNodeId the id of the node that is at the end of the pathway
+   * @param endNodeId   the id of the node that is at the end of the pathway
    */
   def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Unit
 
   /**
    * @param startNodeId the id of the node that is at the begin of a hypothetical new pathway
-   * @param endNodeId the id of the node that is at the end of a hypothetical new pathway
+   * @param endNodeId   the id of the node that is at the end of a hypothetical new pathway
    * @return if a hypothetical new pathway is valid
    */
   def isNewPathwayValid(startNodeId: Int, endNodeId: Int): Boolean
@@ -115,7 +118,7 @@ object EditorControllerPathways {
         endNode.isEmpty ||
         /* cannot create two pathways with same origin and destination */
         startNode.get.mutablePathways.exists(p => p.destinationNode == endNode.get)
-      ){
+      ) {
         false
       } else {
         //searching if, from the end node, the start node is unreachable (preventing a loop)
@@ -160,16 +163,18 @@ object EditorControllerPathways {
           case _ => false
         })
 
-      for(n <- editorController.nodes._2; p <- n.mutablePathways if isSearchedItemPrerequisiteInPathway(p)) yield (n, p)
+      for (
+        n <- editorController.nodes._2;
+        p <- n.mutablePathways if isSearchedItemPrerequisiteInPathway(p)
+      ) yield (n, p)
     }
 
     override def applyKeyItemPrerequisiteIntegrity(): Unit = {
-      for(n <- editorController.nodes._2; p <- n.mutablePathways if p.prerequisite.nonEmpty){
+      for (n <- editorController.nodes._2; p <- n.mutablePathways if p.prerequisite.nonEmpty) {
         p.prerequisite.get match {
-          case itemPrerequisite: ItemPrerequisite =>
-            if(!editorController.nodesControls.getAllKeyItemsBeforeNode(n).contains(itemPrerequisite.item)){
-              editorController.pathwaysControls.deletePrerequisiteFromPathway(n.id, p.destinationNode.id)
-            }
+          case itemPrerequisite: ItemPrerequisite
+            if !editorController.nodesControls.getAllKeyItemsBeforeNode(n).contains(itemPrerequisite.item) =>
+            editorController.pathwaysControls.deletePrerequisiteFromPathway(n.id, p.destinationNode.id)
         }
       }
     }
