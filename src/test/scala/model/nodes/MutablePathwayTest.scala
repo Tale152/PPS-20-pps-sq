@@ -18,7 +18,7 @@ class MutablePathwayTest extends FlatTestSpec with SerializableSpec {
   val storyNodeNarrative: String = "storyNodeNarrative"
   val pathwayDescription: String = "pathwayDescription"
 
-  var undefinedDestinationNode: StoryNode = _
+  var undefinedDestinationNode: MutableStoryNode = _
   val emptyPathwayDescription: String = ""
   var undefinedPathwayDescription: String = _
 
@@ -42,19 +42,19 @@ class MutablePathwayTest extends FlatTestSpec with SerializableSpec {
 
   it should "not have an empty description" in {
     intercept[IllegalArgumentException] {
-      Pathway(emptyPathwayDescription, destinationNodePrerequisite, prerequisite)
+      MutablePathway(emptyPathwayDescription, destinationNodePrerequisite, prerequisite)
     }
   }
 
   it should "have a defined description" in {
     intercept[IllegalArgumentException] {
-      Pathway(undefinedPathwayDescription, destinationNodePrerequisite, prerequisite)
+      MutablePathway(undefinedPathwayDescription, destinationNodePrerequisite, prerequisite)
     }
   }
 
   it should "have a defined destination node" in {
     intercept[IllegalArgumentException] {
-      Pathway(pathwayDescription, undefinedDestinationNode, prerequisite)
+      MutablePathway(pathwayDescription, undefinedDestinationNode, prerequisite)
     }
   }
 

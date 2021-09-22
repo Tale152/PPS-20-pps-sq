@@ -95,6 +95,7 @@ object StoryNode {
                                        override var enemy: Option[Enemy],
                                        override var mutablePathways: Set[MutablePathway],
                                        override var events: List[Event]) extends MutableStoryNode {
+      require(mutablePathways != null)
       ArgsChecker.check(id, narrative, enemy, pathways, events)
 
       override def pathways: Set[Pathway] = for (p <- mutablePathways) yield p.asInstanceOf[Pathway]
