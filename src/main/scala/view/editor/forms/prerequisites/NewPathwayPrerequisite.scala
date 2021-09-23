@@ -1,15 +1,19 @@
-package view.editor.forms.conditions
+package view.editor.forms.prerequisites
 
 import controller.editor.EditorController
 import view.editor.EditorView
-import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteOkListener
+import view.editor.forms.EditorForm
+import view.editor.okButtonListener.prerequisites.NewPathwayPrerequisiteOkListener
 import view.form.{Form, FormBuilder}
 
 object NewPathwayPrerequisite {
-
   val OriginNodeIdIndex: Int = 0
+}
 
-  def showNewPathwayPrerequisiteForm(editorController: EditorController): Unit = {
+/** @inheritdoc */
+case class NewPathwayPrerequisite() extends EditorForm {
+
+  override def show(editorController: EditorController): Unit = {
     if(editorController.nodesControls.getStoryNode(0).get.pathways.isEmpty){
       EditorView.showForbiddenActionDialog("There are no pathways")
     } else {
@@ -27,6 +31,6 @@ object NewPathwayPrerequisite {
         EditorView.showForbiddenActionDialog("There are no valid pathways to put a prerequisite on")
       }
     }
-
   }
+
 }

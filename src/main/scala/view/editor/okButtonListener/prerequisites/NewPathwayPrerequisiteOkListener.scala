@@ -1,7 +1,7 @@
-package view.editor.okButtonListener.conditions
+package view.editor.okButtonListener.prerequisites
 
 import controller.editor.EditorController
-import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteOkListener._
+import view.editor.okButtonListener.prerequisites.NewPathwayPrerequisiteOkListener._
 import view.editor.util.IndexedComboListUtil.createIndexedOption
 import view.editor.util.StatsNameStringUtil.StatStrings
 import view.form.{Form, FormBuilder, OkFormButtonListener}

@@ -1,9 +1,9 @@
-package view.editor.okButtonListener.conditions
+package view.editor.okButtonListener.prerequisites
 
 import controller.editor.EditorController
-import view.editor.forms.conditions.DeletePathwayPrerequisite.OriginStoryNodeIdIndex
+import view.editor.forms.prerequisites.DeletePathwayPrerequisite.OriginStoryNodeIdIndex
 import view.editor.okButtonListener.EditorOkFormButtonListener
-import view.editor.okButtonListener.conditions.DeletePathwayPrerequisiteOkListener.DestinationStoryNodeIdIndex
+import view.editor.okButtonListener.prerequisites.DeletePathwayPrerequisiteOkListener.DestinationStoryNodeIdIndex
 import view.form.{Form, FormBuilder, OkFormButtonListener}
 
 object DeletePathwayPrerequisiteOkListener {

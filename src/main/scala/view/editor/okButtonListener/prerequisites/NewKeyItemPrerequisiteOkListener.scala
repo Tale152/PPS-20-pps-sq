@@ -1,9 +1,9 @@
-package view.editor.okButtonListener.conditions
+package view.editor.okButtonListener.prerequisites
 
 import controller.editor.EditorController
 import model.nodes.util.ItemPrerequisite
 import view.editor.okButtonListener.EditorOkFormButtonListener
-import view.editor.okButtonListener.conditions.NewPathwayPrerequisiteNextFormOkListener.KeyItemFormItemIndex
+import view.editor.okButtonListener.prerequisites.NewPathwayPrerequisiteNextFormOkListener.KeyItemFormItemIndex
 import view.editor.util.IndexedComboListUtil.extractIndexFromOption
 import view.form.Form
 
