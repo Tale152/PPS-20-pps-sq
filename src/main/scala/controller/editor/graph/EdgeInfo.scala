@@ -18,7 +18,7 @@ protected case class EdgeInfo(private val startingNode: StoryNode, private val p
 
   val endNodeId: String = pathway.destinationNode.id.toString
 
-  val getEdgeId: String = startNodeId + StringUtils.pathwayIdSeparator + endNodeId
+  val getEdgeId: String = startNodeId + StringUtils.PathwayIdSeparator + endNodeId
 
   val endNodeNarrative:String = truncateString(pathway.destinationNode.narrative)
 

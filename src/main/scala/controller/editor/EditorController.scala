@@ -106,8 +106,8 @@ object EditorController {
         }
       })
       graph.edges().forEach(e => setupEdge(
-        e.getId.split(StringUtils.pathwayIdSeparator)(0),
-        e.getId.split(StringUtils.pathwayIdSeparator)(1))
+        e.getId.split(StringUtils.PathwayIdSeparator)(0),
+        e.getId.split(StringUtils.PathwayIdSeparator)(1))
       )
     }
 
@@ -140,14 +140,14 @@ object EditorController {
     private def setupEdge(startNodeId: String, endNodeId: String): Unit = {
       val startNode = nodes._2.find(n => n.id.toString == startNodeId).get
       ElementStyle.decorateEdge(
-        graph.getEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId),
+        graph.getEdge(startNodeId + StringUtils.PathwayIdSeparator + endNodeId),
         startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.prerequisite.nonEmpty
       )
       ElementLabel.putLabelOnElement(
-        graph.getEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId), printEdgeLabel
+        graph.getEdge(startNodeId + StringUtils.PathwayIdSeparator + endNodeId), printEdgeLabel
       )(
         StringUtils.buildLabel(
-          startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
+          startNodeId + StringUtils.PathwayIdSeparator + endNodeId,
           startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.description
         ),
         ""

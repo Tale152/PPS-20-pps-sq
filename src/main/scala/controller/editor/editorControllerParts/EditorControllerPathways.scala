@@ -120,7 +120,7 @@ object EditorControllerPathways {
       startNode.get.mutablePathways =
         startNode.get.mutablePathways + MutablePathway(pathwayDescription, endNode.get, None)
       editorController.graph.addEdge(
-        startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
+        startNodeId + StringUtils.PathwayIdSeparator + endNodeId,
         startNodeId.toString,
         endNodeId.toString,
         true
@@ -136,7 +136,7 @@ object EditorControllerPathways {
     override def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Unit = {
       val startNode = editorController.nodesControls.getStoryNode(startNodeId)
       startNode.get.mutablePathways = startNode.get.mutablePathways.filter(p => p.destinationNode.id != endNodeId)
-      editorController.graph.removeEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId)
+      editorController.graph.removeEdge(startNodeId + StringUtils.PathwayIdSeparator + endNodeId)
       applyKeyItemPrerequisiteIntegrity()
       editorController.decorateGraphGUI()
     }
