@@ -1,7 +1,7 @@
 package controller
 
 import controller.editor.EditorController
-import controller.game.GameMasterController
+import controller.game.{GameMasterController, PlayerConfigurationController}
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.{MusicManager, ResourceLoader}
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
