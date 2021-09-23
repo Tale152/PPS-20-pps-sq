@@ -72,25 +72,29 @@ object InventoryController {
       inventoryView.render()
     }
 
-    override def close(): Unit = {
+    /**
+     * Defines the actions to do when the Controller execution is over.
+     */
+    override def close(): Unit =
       if(currentlyInBattle()) {
         gameMasterController.executeOperation(OperationType.BattleOperation)
       } else {
         gameMasterController.executeOperation(OperationType.StoryOperation)
       }
-    }
 
     private def currentlyInBattle(): Boolean =
       targets().size > 1 &&
         storyModel.currentStoryNode.enemy.get.properties.health.currentPS > 0
 
-    override def targets(): Set[Character] = {
+    /**
+     * @return the list of all the possible targets.
+     */
+    override def targets(): Set[Character] =
       if(storyModel.currentStoryNode.enemy.isDefined){
         Set(storyModel.player, storyModel.currentStoryNode.enemy.get)
       } else {
         Set(storyModel.player)
       }
-    }
 
     override def isEquipped(equipItem: EquipItem): Boolean = storyModel.player.equippedItems.contains(equipItem)
   }

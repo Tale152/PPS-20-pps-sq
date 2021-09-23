@@ -14,32 +14,32 @@ sealed trait SubControllersContainer {
   /**
    * @return the [[controller.game.subcontroller.StoryController]] instance in the current game.
    */
-  def storyController: StoryController
+  val storyController: StoryController
 
   /**
    * @return the [[controller.game.subcontroller.PlayerInfoController]] instance in the current game.
    */
-  def statStatusController: PlayerInfoController
+  val statStatusController: PlayerInfoController
 
   /**
    * @return the [[controller.game.subcontroller.HistoryController]] instance in the current game.
    */
-  def historyController: HistoryController
+  val historyController: HistoryController
 
   /**
    * @return the [[controller.game.subcontroller.ProgressSaverController]] instance in the current game.
    */
-  def progressSaverController: ProgressSaverController
+  val progressSaverController: ProgressSaverController
 
   /**
    * @return the [[controller.game.subcontroller.InventoryController]] instance in the current game.
    */
-  def inventoryController: InventoryController
+  val inventoryController: InventoryController
 
   /**
    * @return the [[controller.game.subcontroller.BattleController]] instance in the current game.
    */
-  def battleController: BattleController
+  val battleController: BattleController
 
 }
 
@@ -55,17 +55,17 @@ object SubControllersContainer {
     private val inventory: InventoryController = InventoryController(gameMasterController, storyModel)
     private val battle: BattleController = BattleController(gameMasterController, storyModel)
 
-    override def storyController: StoryController = story
+    override val storyController: StoryController = story
 
-    override def statStatusController: PlayerInfoController = statStatus
+    override val statStatusController: PlayerInfoController = statStatus
 
-    override def historyController: HistoryController = history
+    override val historyController: HistoryController = history
 
-    override def progressSaverController: ProgressSaverController = progressSaver
+    override val progressSaverController: ProgressSaverController = progressSaver
 
-    override def inventoryController: InventoryController = inventory
+    override val inventoryController: InventoryController = inventory
 
-    override def battleController: BattleController = battle
+    override val battleController: BattleController = battle
 
   }
 

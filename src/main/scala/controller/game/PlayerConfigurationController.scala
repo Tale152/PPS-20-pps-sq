@@ -1,10 +1,10 @@
-package controller
+package controller.game
 
-import controller.game.GameMasterController
+import controller.{ApplicationController, Controller}
 import model.StoryModel
 import model.characters.Player
-import model.characters.properties.stats.{Stat, StatName}
 import model.characters.properties.stats.StatName.StatName
+import model.characters.properties.stats.{Stat, StatName}
 import model.nodes.StoryNode
 import view.playerConfiguration.PlayerConfigurationView
 
@@ -39,7 +39,6 @@ sealed trait PlayerConfigurationController extends Controller {
   def confirm(playerName: String): Unit
 }
 
-
 object PlayerConfigurationController {
 
   private object PlayerConfigValues {
@@ -49,7 +48,7 @@ object PlayerConfigurationController {
     val StatSortingFunction: (Stat, Stat) => Boolean = (s1, s2) => s1.toString > s2.toString
   }
 
-  import controller.PlayerConfigurationController.PlayerConfigValues._
+  import controller.game.PlayerConfigurationController.PlayerConfigValues._
 
   class PlayerConfigurationControllerImpl(private val storyName: String, private val startingNode: StoryNode)
     extends PlayerConfigurationController {

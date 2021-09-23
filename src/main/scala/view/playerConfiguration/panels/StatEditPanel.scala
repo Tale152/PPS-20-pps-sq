@@ -1,6 +1,6 @@
 package view.playerConfiguration.panels
 
-import controller.PlayerConfigurationController
+import controller.game.PlayerConfigurationController
 import model.characters.properties.stats.Stat
 import view.util.scalaQuestSwingComponents.{SqSwingBorderPanel, SqSwingButton, SqSwingLabel}
 

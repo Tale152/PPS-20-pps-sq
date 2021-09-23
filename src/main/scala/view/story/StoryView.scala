@@ -74,7 +74,7 @@ object StoryView {
         ),BorderLayout.NORTH
       )
       this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
-      this.add(PathwaysPanel(_pathways, p => storyController.choosePathWay(p)), BorderLayout.SOUTH)
+      this.add(PathwaysPanel(_pathways, p => storyController.choosePathway(p)), BorderLayout.SOUTH)
     }
   }
 

@@ -3,7 +3,7 @@ package controller
 import controller.util.DirectoryInitializer.StoryPopulationStrategy.TestStoryPopulation
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.Resources.ResourceName._
-import controller.util.serialization.FolderUtil.createFolderIfNotPresent
+import controller.util.FolderUtil.createFolderIfNotPresent
 import org.scalatest.{BeforeAndAfterAll, DoNotDiscover}
 import specs.FlatTestSpec
 import specs.Tags.IgnoreGitHubAction
