@@ -61,13 +61,13 @@ sealed trait ApplicationController extends Controller {
 
 object ApplicationController extends ApplicationController {
 
-  ResourceLoader.loadResources()
   private val mainMenu: MainMenu = MainMenu(this)
+
+  ResourceLoader.loadResources()
+  initializeGameFolderStructure(RootGameDirectory)
   MusicManager.playMenuMusic()
 
   private def loadStoryNames(): Set[String] = filesNameInFolder(storyDirectoryPath())
-
-  initializeGameFolderStructure(RootGameDirectory)
 
   override def execute(): Unit = {
     mainMenu.setStories(loadStoryNames())
