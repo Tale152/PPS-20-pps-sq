@@ -2,8 +2,33 @@
 
 ## Utilizzo del paradigma funzionale
 
+#### Limitazione dei side-effects
+Si è cercato quanto più possibile di non utilizzare metodi con side effects. Si è quindi preferito utilizzare oggetti immutabili, preferendo la creazione di
+nuovi rispetto alla modifica dello stato di quelli già esistenti qualora fosse possibile.
+
+#### Utilizzo di ricorsione 
+In diversi casi si è fatto uso della ricorsione, meccanismo più frequentamente utilizzato in linguaggi funzionali proprio per garantire immutabilità.
+La strutture dati delle storie sono inoltre particolarmente indicate ed adatte all'utilizzo di metodi ricorsivi (basti pensare alla maggior parte degli algoritmi di esplorazione di alberi).
+Una buona parte degli algoritmi che effettuano controlli ed operazioni sulla struttura dati principali sono stati quindi scritti in forma ricorsiva.
+#### Utilizzo massivo del pattern Strategy
+Al fine di rendere il codice il più riutilizzabile e generico possibile si è cercato di definire deli metodi in grado di accettare strategie.
+Il pattern Strategy è stato utilizzato massivamente in diverse classi del progetto in modo da poter modellare diversamente alcuni comportamenti del sistema senza la necessità di modificare codice già esistente.
+
+#### Utilizzo di Optional
+Dove possibile si è preferito utilizzare campi o parametri opzionali.
+Questo ha permesso la creazione di una struttura del sistema più robusta ed in grado di saper rispondere in maniera migliore ai fallimenti delle operazione.
+L'uso degli Optional permette anche di azzerare completamente l'utilizzo della keyword _null_, la quale è spesso fonte di bug o comportamenti non desiderati.
 ## Utilizzo del paradigma logico
 Come requisito opzionale il team si era proposto di realizzare uno strumento in grado di fornire dati su una determinata storia in Prolog, realizzando una sorta di "esploratore di storie".
+#### Utilizzo del currying
+Il linguaggio Scala mette a disposizione nella sua parte funzionale una funzionalità denominata currying, ovvero l'applicazione di una funzione a solo una parte dei suoi argomenti.  
+I casi d'uso del currying possono essere molteplici. Durante lo sviluppo del progetto è stato particolarmente utile nella stesura del codice della classe di model _Item_ per specificare che di base il bersaglio di uno strumento è colui che lo possiede.  
+Utilizzando la maniera convenzionale di creare i metodi è infatti impossibile impostare come valore di default di un parametro un altro parametro specificato precedentemente.  
+``` scala
+def use(owner: Character)(target: Character = owner): Unit
+```
+Un ulteriore beneficio nello strutturare in questo modo il metodo è che è molto più difficile dimenticarsi di impostare il parametro _target_ in quanto, nonostante sia un parametro di default, è comunque necessario utilizzare un paio di parentesi addizionale per richiamare la funzione.
+Dimenticarsi di impostare un parametro di default in un metodo scritto in maniera convenzionale risulta invece più semplice, e può essere fonte di bug.
 
 #### Requisiti
 Si desidera realizzare una sorta di "esploratore", in grado di percorrere tutti i possibili percorsi presenti all'interno di una storia.
@@ -27,8 +52,8 @@ L'API offerta è infatti stata sviluppata per essere il più generale possibile.
 Il recupero dei dati e la loro conversione è quidi stata incapsulata e nascosta all'interno di queste classi in modo da rendere più semplice e rapido l'utilizzo dall'esterno, oltre che a favorire il principio DRY.
 
 ##### Teoria generata
-Per poter lavorare su storie già esistenti è stato necessaria una sorta di mapping da classi Scala a fatti Prolog.  
-Tramite impliciti sono stati aggiunti metodi alle strutture dati principali dell'applicazione per convertirle in stringhe rappresentanti dei fatti. Uno StoryNode contenente dei Pathway viene quindi rappresentato nel seguente modo:
+Per poter lavorare su storie già esistenti è stato necessaria una sorta di mapping da classi (Scala) a fatti (Prolog).  
+Tramite l'utilizzo di impliciti sono stati aggiunti metodi alle strutture dati principali dell'applicazione per convertirle in stringhe rappresentanti dei fatti. Uno StoryNode contenente dei Pathway viene quindi rappresentato nel seguente modo:
 ``` prolog
 % story_node(I,N,P)
 story_node(0, 'narrative', [pathway(1, 'description'), ...])
