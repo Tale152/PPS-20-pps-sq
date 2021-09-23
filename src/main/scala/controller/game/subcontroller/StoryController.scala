@@ -60,13 +60,13 @@ object StoryController {
     MusicManager.playStoryMusic()
 
     override def execute(): Unit = {
-      processEvents()
       storyView.setNarrative(storyModel.currentStoryNode.narrative)
       storyView.setPathways(
         storyModel.currentStoryNode.pathways.filter(
           p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
       )
       storyView.render()
+      processEvents()
     }
 
     override def close(): Unit = {
