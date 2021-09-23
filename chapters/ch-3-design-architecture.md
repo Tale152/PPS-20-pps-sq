@@ -134,7 +134,30 @@ L'editor presenta lo stesso comportamento per tutte le operazioni possibili (con
 Viene dinamicamente generato un form finalizzato all'inserimento dei dati necessari al compimento dell'operazione; nel momento in cui l'utente desideri confermare l'inserimento dei dati questi ultimi vengono valutati e, in caso positivo, il model viene aggiornato (così come la rappresentazione grafica di tale model). 
 
 ### Scelte tecnologiche cruciali ai fini architetturali
+#### Tecnologie scartate
+In questa sezione verranno illustrate alcune tecnologie che in fase di analisi sono state prese in considerazione e successivamente abbandonate. Seguono descrizioni e motivazioni.
+##### Modello ad attori (Akka)
+Durante la progettazione della parte dei Controller sono state riscontrate alcune similarità tra il modello proposto (quello finale, già illustrato precedentemente) e il [modello ad attori](https://doc.akka.io/docs/akka/current/typed/actors.html#:~:text=com%2Fakka%2Fakka-,Akka%20Actors,correct%20concurrent%20and%20parallel%20systems).
+Per quanto riguarda la fase di gioco infatti, nel modello proposto un Controller principale (_GameMasterController_) si occupa di creare i sub controller e funge da loro coordinatore.
+I controller erano quindi inizialmente stati pensati in modo differente. Modificando sensibilmente la struttura del pattern MVC si puntava a far diventare i Controller degli Attori.
 
+Nella struttura presentata _GameMasterController_ diventa un attore e tutti i sub controller diventano attori figli.
+Alcuni benefici di questa modellazione:
+- Una volta istanziati gli attori è possibile per ognuno di loro dialogare con altri attori del sistema conoscendo il loro identificativo in modo trasparente senza passare tramite l'attore padre.
+- Un'eventuale estensione del gioco nel distribuito sarebbe probabilmente più facilmente sviluppabile.
+- È possibile avere molta più varietà sui contenuti che i controller possono mandarsi tra loro; molto utile nel caso in cui i controller abbiano bisogno di coordinarsi tra loro e prendere decisioni in funzione dello stato degli altri.
+> **_Un esempio_** :  
+durante una battaglia è possibile utilizzare oggetti all'interno dell'inventario. Esistono quindi due controller, _InventoryController_ e _BattleController_ che dialogano tra loro. Grazie al modello ad attori _BattleController_ potrebbe capire se è stato utilizzato uno strumento o no in base al tipo o al contenuto di un messaggio inviat da _InventoryController_.
+
+Nelle fasi iniziali del progetto sono stati realizzati alcuni prototipi dell'applicazione aventi questa struttura e sono stati riscontrate le seguenti criticità:
+
+- Trasformare i Controller in attori significherebbe trasformare anche le View in attori, facendo venire ancora meno la struttura del pattern MVC.
+- Il comportamento dei Controller dipenderebbe fortemente dal tipo di messaggi che può ricevere. Questo tipo di architettura è particolarmente scalabile, ma mano a mano che il sistema cresce tende anche ad essere particolarmente dispersiva. Il numero di tipi di messaggi all'interno del sistema sarebbe molto elevato e la navigazione del codice di conseguenza più tediosa.
+- La natura dell'applicazione non richiede mai che più di un attore esegua il suo comportamento in contemporanea ad altri.
+- Il modello a scambio di messaggi pecca in performance: inviare messaggi è generalmente un'operazione più lenta rispetto alla chiamata di metodo.
+
+A seguito di questa analisi è stato unimamente deciso di non utilizzare il framework Akka e di seguire il pattern MVC.
+##### Serializzazione e deserializzazione tramite librerie json
 <!-- NOTA: opzionalmente -->
 
 ---
