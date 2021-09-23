@@ -19,7 +19,7 @@ import scala.io.Source.fromInputStream
 object Resources {
 
   /**
-   * Implicit class used to add a method to map a[[java.io.InputStream]] to a [[javax.sound.sampled.AudioInputStream]].
+   * Implicit class used to add a method to map a [[java.io.InputStream]] to a [[javax.sound.sampled.AudioInputStream]].
    * @param inputStream the implicit InputStream parameter.
    */
   implicit class RichInputStream(inputStream: InputStream) {
