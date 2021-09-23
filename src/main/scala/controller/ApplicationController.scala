@@ -6,7 +6,7 @@ import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.{MusicManager, ResourceLoader}
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
-import controller.util.serialization.FolderUtil.{deleteFolder, filesNameInFolder}
+import controller.util.FolderUtil.{deleteFolder, filesNameInFolder}
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
