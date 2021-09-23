@@ -4,6 +4,10 @@ import controller.editor.graph.util.StringUtils
 import controller.editor.graph.util.StringUtils.{buildLabel, truncateString}
 import model.nodes.{Pathway, StoryNode}
 
+/**
+ * Support class used by the GraphBuilder to transpile the structure of a story (composed by StoryNodes and Pathways)
+ * to data used to build the GraphStream's Graph.
+ */
 protected case class EdgeInfo(private val startingNode: StoryNode, private val pathway: Pathway) {
 
   val isFinalNode: Boolean = pathway.destinationNode.pathways.isEmpty
