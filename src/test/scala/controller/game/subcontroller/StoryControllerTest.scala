@@ -20,7 +20,7 @@ class StoryControllerTest extends FlatTestSpec {
     val incorrectNode: StoryNode = StoryNode(3, "narrative", None, Set.empty, List())
     val incorrectPathway: Pathway = Pathway("description", incorrectNode, None)
     intercept[IllegalArgumentException] {
-      storyController.choosePathWay(incorrectPathway)
+      storyController.choosePathway(incorrectPathway)
     }
   }
 

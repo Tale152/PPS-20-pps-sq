@@ -21,7 +21,7 @@ sealed trait StoryController extends SubController {
    * @throws IllegalArgumentException when selecting a pathway that does not belong to the current
    *                                  [[model.nodes.StoryNode]]
    */
-  def choosePathWay(pathway: Pathway): Unit
+  def choosePathway(pathway: Pathway): Unit
 
   /**
    * Calls the [[controller.game.GameMasterController]] to grant control to the
@@ -74,12 +74,7 @@ object StoryController {
       gameMasterController.close()
     }
 
-    override def choosePathWay(pathway: Pathway): Unit = {
-      if (!storyModel.currentStoryNode.pathways.contains(pathway)) {
-        throw new IllegalArgumentException(
-          "The selected Pathway does not belong to the current StoryNode: " + pathway.toString
-        )
-      }
+    override def choosePathway(pathway: Pathway): Unit = {
       storyModel.appendToHistory(pathway.destinationNode)
       redirect()
     }
