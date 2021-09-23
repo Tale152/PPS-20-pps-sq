@@ -52,7 +52,7 @@ object BattleController {
       if (battleFirstRound) {
         battleFirstRound = false
         playerInventory = storyModel.player.inventory
-        battleView.narrative("OH NO! There is a enemy. " +
+        battleView.narrative("OH NO! There is an enemy. " +
           "You must battle vs " + storyModel.currentStoryNode.enemy.get.name + ".")
       } else if (isInventoryChanged) {
         playerInventory = storyModel.player.inventory
@@ -79,12 +79,12 @@ object BattleController {
     }
 
     override def attack(): Unit = {
-      roundNarrative = ""
       if (isPlayerFaster) {
+        roundNarrative = "You are faster than your enemy!\n"
         playerAttack()
         enemyAttack()
       } else {
-        roundNarrative += "The enemy is faster than you...\n"
+        roundNarrative = "The enemy is faster than you...\n"
         enemyAttack()
         playerAttack()
       }
