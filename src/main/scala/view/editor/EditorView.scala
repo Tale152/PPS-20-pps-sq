@@ -3,20 +3,11 @@ package view.editor
 import controller.editor.EditorController
 import controller.util.Resources.ResourceName
 import view.AbstractView
-import view.editor.forms.conditions.DeletePathwayPrerequisite.showDeletePathwayPrerequisiteForm
-import view.editor.forms.conditions.NewPathwayPrerequisite.showNewPathwayPrerequisiteForm
-import view.editor.forms.enemies.DeleteEnemy.showDeleteEnemyForm
-import view.editor.forms.enemies.NewEnemy.showNewEnemyForm
-import view.editor.forms.events.DeleteEvent.showDeleteEventForm
-import view.editor.forms.events.NewEvent.showNewEventForm
-import view.editor.forms.pathways.DeletePathway.showDeletePathwayForm
-import view.editor.forms.pathways.EditPathway.showEditPathwayForm
-import view.editor.forms.pathways.NewPathway.showNewPathwayForm
-import view.editor.forms.storyNodes.DeleteStoryNode.showDeleteStoryNodeForm
-import view.editor.forms.storyNodes.DetailsStoryNode.showDetailsStoryNodeForm
-import view.editor.forms.storyNodes.EditStoryNode.showEditStoryNodeForm
-import view.editor.forms.storyNodes.NewStoryNode.showNewStoryNodeForm
-import view.editor.forms.pathways.DetailsPathway.showDetailsPathwayForm
+import view.editor.forms.enemies.{DeleteEnemy, NewEnemy}
+import view.editor.forms.events.{DeleteEvent, NewEvent}
+import view.editor.forms.pathways.{DeletePathway, DetailsPathway, EditPathway, NewPathway}
+import view.editor.forms.prerequisites.{DeletePathwayPrerequisite, NewPathwayPrerequisite}
+import view.editor.forms.storyNodes.{DeleteStoryNode, DetailsStoryNode, EditStoryNode, NewStoryNode}
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingFileChooser
 import view.util.scalaQuestSwingComponents.SqSwingButton
@@ -57,20 +48,20 @@ object EditorView {
       )), BorderLayout.NORTH)
 
       this.add(Scrollable(VerticalButtons(List(
-        SqSwingButton("Show story node details", _ => showDetailsStoryNodeForm(editorController)),
-        SqSwingButton("Add new story node", _ => showNewStoryNodeForm(editorController)),
-        SqSwingButton("Edit existing story node", _ => showEditStoryNodeForm(editorController)),
-        SqSwingButton("Delete existing story node", _ => showDeleteStoryNodeForm(editorController)),
-        SqSwingButton("Show pathway details", _ => showDetailsPathwayForm(editorController)),
-        SqSwingButton("Add new pathway", _ => showNewPathwayForm(editorController)),
-        SqSwingButton("Edit existing pathway", _ => showEditPathwayForm(editorController)),
-        SqSwingButton("Delete existing pathway", _ => showDeletePathwayForm(editorController)),
-        SqSwingButton("Add new event", _ => showNewEventForm(editorController)),
-        SqSwingButton("Delete existing event", _ => showDeleteEventForm(editorController)),
-        SqSwingButton("Add new enemy", _ => showNewEnemyForm(editorController)),
-        SqSwingButton("Delete existing enemy", _ => showDeleteEnemyForm(editorController)),
-        SqSwingButton("Add new pathway prerequisite", _ => showNewPathwayPrerequisiteForm(editorController)),
-        SqSwingButton("Delete existing pathway prerequisite", _ => showDeletePathwayPrerequisiteForm(editorController))
+        SqSwingButton("Show story node details", _ => DetailsStoryNode().show(editorController)),
+        SqSwingButton("Add new story node", _ => NewStoryNode().show(editorController)),
+        SqSwingButton("Edit existing story node", _ => EditStoryNode().show(editorController)),
+        SqSwingButton("Delete existing story node", _ => DeleteStoryNode().show(editorController)),
+        SqSwingButton("Show pathway details", _ => DetailsPathway().show(editorController)),
+        SqSwingButton("Add new pathway", _ => NewPathway().show(editorController)),
+        SqSwingButton("Edit existing pathway", _ => EditPathway().show(editorController)),
+        SqSwingButton("Delete existing pathway", _ => DeletePathway().show(editorController)),
+        SqSwingButton("Add new event", _ => NewEvent().show(editorController)),
+        SqSwingButton("Delete existing event", _ => DeleteEvent().show(editorController)),
+        SqSwingButton("Add new enemy", _ => NewEnemy().show(editorController)),
+        SqSwingButton("Delete existing enemy", _ => DeleteEnemy().show(editorController)),
+        SqSwingButton("Add new pathway prerequisite", _ => NewPathwayPrerequisite().show(editorController)),
+        SqSwingButton("Delete existing pathway prerequisite", _ => DeletePathwayPrerequisite().show(editorController))
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(

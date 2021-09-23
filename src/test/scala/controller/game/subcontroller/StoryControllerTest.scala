@@ -7,7 +7,6 @@ import model.nodes.{Pathway, StoryNode}
 import specs.FlatTestSpec
 import specs.Tags.IgnoreGitHubAction
 
-
 class StoryControllerTest extends FlatTestSpec {
 
   val playerMaxPS: Int = 100

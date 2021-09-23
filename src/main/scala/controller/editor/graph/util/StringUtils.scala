@@ -1,10 +1,13 @@
 package controller.editor.graph.util
 
+/**
+ * Utility object used to manipulate strings in GraphStream's Graph.
+ */
 object StringUtils {
 
   private val MaxStringLength: Int = 20
 
-  def pathwayIdSeparator: String = " to "
+  val PathwayIdSeparator: String = " to "
 
   def buildLabel(id: String, narrative: String): String = "[" + id + "] " + narrative
 

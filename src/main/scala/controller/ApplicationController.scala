@@ -3,10 +3,11 @@ package controller
 import controller.editor.EditorController
 import controller.game.{GameMasterController, PlayerConfigurationController}
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.{MusicManager, ResourceLoader}
+import controller.util.ResourceLoader
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
 import controller.util.FolderUtil.{deleteFolder, filesNameInFolder}
+import controller.util.audio.MusicPlayer
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
@@ -22,6 +23,11 @@ import java.nio.file.{Files, Paths}
 sealed trait ApplicationController extends Controller {
 
 
+  /**
+   * Gives control to the [[controller.editor.EditorController]] that will manipulate the provided story.
+   *
+   * @param routeNode the route node of the story that will be manipulated
+   */
   def goToEditor(routeNode: StoryNode): Unit
 
   /**
@@ -65,7 +71,7 @@ object ApplicationController extends ApplicationController {
 
   ResourceLoader.loadResources()
   initializeGameFolderStructure(RootGameDirectory)
-  MusicManager.playMenuMusic()
+  MusicPlayer.playMenuMusic()
 
   private def loadStoryNames(): Set[String] = filesNameInFolder(storyDirectoryPath())
 

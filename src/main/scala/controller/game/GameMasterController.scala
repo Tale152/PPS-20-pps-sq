@@ -26,14 +26,8 @@ object GameMasterController {
 
     private val subControllersContainer: SubControllersContainer = SubControllersContainer(this, storyModel)
 
-    /**
-     * Start the Controller.
-     */
     override def execute(): Unit = executeOperation(OperationType.StoryOperation)
 
-    /**
-     * Defines the actions to do when the Controller execution is over.
-     */
     override def close(): Unit = ApplicationController.execute()
 
     override def executeOperation(op: OperationType): Unit = op match {

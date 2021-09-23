@@ -52,22 +52,11 @@ object InventoryController {
       inventoryView.render()
     }
 
-    /**
-     * Use the selected item.
-     *
-     * @param item the item to use.
-     */
     override def use(item: Item)(target: Character): Unit = {
       item.use(storyModel.player)(target)
       updateView()
     }
 
-
-    /**
-     * Discard the selected item. Item will be lost forever.
-     *
-     * @param item the item to discard.
-     */
     override def discard(item: Item): Unit = {
       item match {
         case equipItem: EquipItem if storyModel.player.equippedItems.contains(equipItem) =>
@@ -78,9 +67,6 @@ object InventoryController {
       updateView()
     }
 
-    /**
-     * Start the Controller.
-     */
     override def execute(): Unit = {
       inventoryView.setItems(storyModel.player.inventory)
       inventoryView.render()
@@ -110,12 +96,6 @@ object InventoryController {
         Set(storyModel.player)
       }
 
-    /**
-     * Check if a certain [[model.items.EquipItem]] is equipped.
-     *
-     * @param equipItem the [[model.items.EquipItem]] that might be equipped.
-     * @return true if the item is equipped, false otherwise.
-     */
     override def isEquipped(equipItem: EquipItem): Boolean = storyModel.player.equippedItems.contains(equipItem)
   }
 

@@ -1,6 +1,6 @@
 package view.util.scalaQuestSwingComponents
 
-import controller.util.SoundPlayer
+import controller.util.audio.SoundPlayer
 
 import java.awt.Color
 import java.awt.event.{ActionEvent, ActionListener}

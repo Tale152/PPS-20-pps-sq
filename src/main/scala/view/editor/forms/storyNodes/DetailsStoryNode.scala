@@ -1,14 +1,18 @@
 package view.editor.forms.storyNodes
 
 import controller.editor.EditorController
+import view.editor.forms.EditorForm
 import view.editor.okButtonListener.storyNodes.DetailsStoryNodeOkListener
 import view.form.{Form, FormBuilder}
 
 object DetailsStoryNode {
-
   val StoryNodeIdIndex: Int = 0
+}
 
-  def showDetailsStoryNodeForm(editorController: EditorController): Unit = {
+/** @inheritdoc */
+case class DetailsStoryNode() extends EditorForm {
+
+  override def show(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
       .addComboField(
         "Which story node would you like to examine?",
@@ -18,4 +22,5 @@ object DetailsStoryNode {
     form.setOkButtonListener(DetailsStoryNodeOkListener(form, editorController))
     form.render()
   }
+
 }

@@ -1,6 +1,8 @@
 package view.editor.forms.events
 
 import controller.editor.EditorController
+import view.editor.forms.EditorForm
+import view.editor.forms.events.NewEvent.{ItemOption, StatModifierOption}
 import view.editor.okButtonListener.events.NewEventOkListener
 import view.form.{Form, FormBuilder}
 
@@ -12,7 +14,12 @@ object NewEvent {
   val NodeIdIndex: Int = 0
   val EventGenreIndex: Int = 1
 
-  def showNewEventForm(editorController: EditorController): Unit = {
+}
+
+/** @inheritdoc */
+case class NewEvent() extends EditorForm {
+
+  override def show(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
       .addComboField(
         "In which node you want to want to insert an event?",
@@ -23,4 +30,5 @@ object NewEvent {
     form.setOkButtonListener(NewEventOkListener(form, editorController))
     form.render()
   }
+
 }

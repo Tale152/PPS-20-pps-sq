@@ -1,6 +1,6 @@
 package view.util.common
 
-import controller.util.SoundPlayer
+import controller.util.audio.SoundPlayer
 import view.Frame
 import view.Frame.frame
 import view.util.scalaQuestSwingComponents.SqSwingButton

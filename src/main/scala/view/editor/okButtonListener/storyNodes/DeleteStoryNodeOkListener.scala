@@ -1,8 +1,7 @@
 package view.editor.okButtonListener.storyNodes
 
 import controller.editor.EditorController
-import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheId
-import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
+import view.editor.forms.storyNodes.DeleteStoryNode.StoryNodeIdIndex
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.form.Form
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
@@ -13,9 +12,10 @@ case class DeleteStoryNodeOkListener(override val form: Form, override val contr
   extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit = {
-    def deleteStoryNode(): Unit = controller.nodesControls.deleteExistingStoryNode(form.elements.head.value.toInt)
+    def deleteStoryNode(): Unit =
+      controller.nodesControls.deleteExistingStoryNode(form.elements(StoryNodeIdIndex).value.toInt)
 
-    if (controller.nodesControls.getStoryNode(form.elements.head.value.toInt).get.pathways.nonEmpty) {
+    if (controller.nodesControls.getStoryNode(form.elements(StoryNodeIdIndex).value.toInt).get.pathways.nonEmpty) {
       SqYesNoSwingDialog("Really delete this node?",
         "All subsequent unreachable nodes will also be deleted in cascade",
         (_: ActionEvent) => deleteStoryNode(),
@@ -25,8 +25,7 @@ case class DeleteStoryNodeOkListener(override val form: Form, override val contr
     }
   }
 
-  override def inputConditions: List[(Boolean, String)] =
-    List((form.elements.head.value != null, mustBeSpecified(TheId)))
+  override def inputConditions: List[(Boolean, String)] = List()
 
   override def stateConditions: List[(Boolean, String)] = List()
 }

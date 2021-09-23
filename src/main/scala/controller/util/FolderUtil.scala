@@ -16,6 +16,10 @@ object FolderUtil {
     }
   }
 
+  /**
+   * @param folderPath the path to the target folder
+   * @return a list of file names in the target folder
+   */
   def filesNameInFolder(folderPath: String): Set[String] = {
     new File(folderPath).list().toSet
   }
