@@ -23,6 +23,11 @@ import java.nio.file.{Files, Paths}
 sealed trait ApplicationController extends Controller {
 
 
+  /**
+   * Gives control to the [[controller.editor.EditorController]] that will manipulate the provided story.
+   *
+   * @param routeNode the route node of the story that will be manipulated
+   */
   def goToEditor(routeNode: StoryNode): Unit
 
   /**
