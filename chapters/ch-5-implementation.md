@@ -3,7 +3,40 @@
 ## Utilizzo del paradigma funzionale
 
 ## Utilizzo del paradigma logico
+Come requisito opzionale il team si era proposto di realizzare uno strumento in grado di fornire dati su una determinata storia in Prolog, realizzando una sorta di "esploratore di storie".
 
+#### Requisiti
+Si desidera realizzare una sorta di "esploratore", in grado di percorrere tutti i possibili percorsi presenti all'interno di una storia.
+L'idea iniziale consisteva nel mostrare solo quali nodi sono stati attraversati in ciascun percorso intrapreso.  
+L'esploratore è stato però arricchito, e nella sua versione finale possiede le seguenti funzionalità:
+- Acquisizione della narrazione di un nodo a partire dal suo id.
+- Acquisizione della descrizione di un pathway dato l'id del nodo di partenza e l'id del nodo di arrivo.
+- Acquisizione dei percorsi possibili dato l'id del nodo di partenza e l'id del nodo di arrivo.
+- Acquisizione dei percorsi possibili a partire dal nodo radice (inizio della storia) o da un determinato nodo successivo. 
+- Acquisizione di tutte le narrazioni dei nodi e delle descrizioni dei pathway dei percorsi possibili (in ordine) a partire dal nodo radice (inizio della storia) o da un determinato nodo successivo.
+
+Iterando su tutte le soluzione si ottiene gratuitamente anche quante sono in totale (vale ovviamente per ciascun predicato).
+#### Integrazione in Scala
+
+##### Prolog Engine
+È stata sviluppata una classe Scala che, grazie all'API della libreria tuProlog, a partire dalla teoria passata e da un termine in input è in grado di restituire uno Stream di risultati in output.  
+L'output rappresenta le soluzioni trovate dall'engine che sono poi facilmente manipolabili grazie alle strutture personalizzate create.
+##### Strutture
+Sono state create diverse classi Scala (una per ogni predicato), per semplificare la creazione e la manipolazione dei termini.  
+L'API offerta è infatti stata sviluppata per essere il più generale possibile. Lavorare sui risultati grezzi risulta essere molto macchinoso, verboso e spesso è poco comprensibile l'intento o l'obiettivo che si vuole raggiungere.
+Il recupero dei dati e la loro conversione è quidi stata incapsulata e nascosta all'interno di queste classi in modo da rendere più semplice e rapido l'utilizzo dall'esterno, oltre che a favorire il principio DRY.
+
+##### Teoria generata
+Per poter lavorare su storie già esistenti è stato necessaria una sorta di mapping da classi Scala a fatti Prolog.  
+Tramite impliciti sono stati aggiunti metodi alle strutture dati principali dell'applicazione per convertirle in stringhe rappresentanti dei fatti. Uno StoryNode contenente dei Pathway viene quindi rappresentato nel seguente modo:
+``` prolog
+% story_node(I,N,P)
+story_node(0, 'narrative', [pathway(1, 'description'), ...])
+```
+Ogni StoryNode di una storia viene convertito in una stringa di questo tipo, la lista ottenuta viene utilizzata dal Prolog Engine per generare parte della sua teoria.
+##### Teoria sviluppata
+Oltre ai fatti generati a partire dalle strutture già presenti su Scala sono stati inseriti all'interno del Prolog Engine anche i fatti e i predicati presenti all'interno del file ``theory.pl`` situato all'interno della cartella delle risorse.  
+Al suo interno sono presenti i predicati che rappresentano l'effettiva logica che permette di ottenere le soluzioni desiderate.
 ## Test
 
 L’utilizzo di test si è rivelato fondamentale per la corretta realizzazione del progetto. Si è cercato di scrivere test che
