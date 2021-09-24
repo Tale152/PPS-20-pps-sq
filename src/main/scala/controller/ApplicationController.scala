@@ -83,25 +83,20 @@ object ApplicationController extends ApplicationController {
 
   override def close(): Unit = System.exit(0)
 
-  override def loadStoryNewGame(storyURI: String): Unit = {
+  override def loadStoryNewGame(storyURI: String): Unit =
     checkOnLoadingFile(() => PlayerConfigurationController(
-      ProgressSerializer.extractStoryName(storyURI), deserializeStory(storyURI)).execute(), "Error on story loading")
-  }
+      ProgressSerializer.extractStoryName(storyURI),
+      deserializeStory(storyURI)).execute(), "Error on story loading")
 
-  override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit = {
+  override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit =
     checkOnLoadingFile(() => GameMasterController(
       ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
-    ).execute(), "Error on story loading")
-  }
+    ).execute(), "Error on story loading story and progress")
 
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
     Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))
 
-  override def goToEditor(routeNode: StoryNode): Unit = {
-    if (routeNode != null) {
-      EditorController(routeNode).execute()
-    }
-  }
+  override def goToEditor(routeNode: StoryNode): Unit = EditorController(routeNode).execute()
 
   override def deleteExistingStory(directoryName: String): Unit = {
     val directoryAbsolutePath: String = storyDirectoryPath(RootGameDirectory) + "/" + directoryName
