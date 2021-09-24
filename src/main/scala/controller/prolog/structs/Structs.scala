@@ -2,32 +2,45 @@ package controller.prolog.structs
 
 import alice.tuprolog.{Struct, Term}
 import controller.prolog.structs.StructsNames.Predicates._
+
+import scala.language.implicitConversions
 /**
  * Factory Object used to map [[alice.tuprolog.Term]] results to the correct class.
  */
 object Structs {
+
   def apply[A <: Term](term: Term): Struct = {
     val struct = term.asInstanceOf[Struct]
     require(struct.isStruct)
+
+    /**
+     * Notice this implicit used to avoid the repetition of [[alice.tuprolog.Struct#getTerm(int)]] call method.
+     * @param integer the index of the struct.
+     * @return the extracted term from the struct.
+     */
+    implicit def extractTermFromInt(integer: Int): Term = struct.getTerm(integer)
+
     struct.getName match {
-      case s: String if s == StoryNodePredicateName =>
-        StoryNodeStruct(struct.getTerm(0), struct.getTerm(1), struct.getTerm(2))
-      case s: String if s == PathPredicateName =>
-        PathStruct(struct.getTerm(0), struct.getTerm(1), struct.getTerm(2))
-      case s: String if s == ReachAllFinalNodesPredicateName =>
-        ReachAllFinalNodesStruct(struct.getTerm(0), struct.getTerm(1))
-      case s: String if s == AllFinalNodesSolutionsPredicateName =>
-        AllFinalNodeSolutionsStruct(struct.getTerm(0), struct.getTerm(1))
-      case s: String if s == PathwayDescriptionPredicateName =>
-        PathwayDescriptionStruct(struct.getTerm(0), struct.getTerm(1), struct.getTerm(2))
-      case s: String if s == StoryNodeNarrativePredicateName =>
-        StoryNodeNarrativeStruct(struct.getTerm(0), struct.getTerm(1))
-      case s: String if s == WalkthroughPredicateName =>
-        WalkthroughStruct(struct.getTerm(0), struct.getTerm(1))
-      case s: String if s == StoryWalkthroughPredicateName =>
-        StoryWalkthroughStruct(struct.getTerm(0), struct.getTerm(1))
-      case s: String if s == AllStoryWalkthroughPredicateName =>
-        AllStoryWalkthroughStruct(struct.getTerm(0), struct.getTerm(1))
+      case StoryNodePredicateName =>
+        StoryNodeStruct(0, 1, 2)
+      case PathPredicateName =>
+        PathStruct(0, 1, 2)
+      case ReachAllFinalNodesPredicateName =>
+        ReachAllFinalNodesStruct(0, 1)
+      case AllFinalNodesSolutionsPredicateName =>
+        AllFinalNodeSolutionsStruct(0, 1)
+      case PathwayDescriptionPredicateName =>
+        PathwayDescriptionStruct(0, 1, 2)
+      case StoryNodeNarrativePredicateName =>
+        StoryNodeNarrativeStruct(0, 1)
+      case WalkthroughPredicateName =>
+        WalkthroughStruct(0, 1)
+      case StoryWalkthroughPredicateName =>
+        StoryWalkthroughStruct(0, 1)
+      case AllStoryWalkthroughPredicateName =>
+        AllStoryWalkthroughStruct(0, 1)
     }
   }
+
+
 }
