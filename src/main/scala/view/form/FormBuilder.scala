@@ -16,8 +16,8 @@ case class FormBuilder() {
 
   private val listBuffer: ListBuffer[FormElement] = ListBuffer()
 
-  def addTextField(label: String): FormBuilder =
-    addField(TextInputElement(label))
+  def addTextField(label: String, oldText: String = ""): FormBuilder =
+    addField(TextInputElement(label, oldText))
 
   def addTextAreaField(label: String, oldText: String = ""): FormBuilder =
     addField(TextAreaInputElement(label, oldText))
