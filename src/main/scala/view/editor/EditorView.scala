@@ -8,7 +8,8 @@ import view.editor.forms.events.{DeleteEvent, NewEvent}
 import view.editor.forms.pathways.{DeletePathway, DetailsPathway, EditPathway, NewPathway}
 import view.editor.forms.prerequisites.{DeletePathwayPrerequisite, NewPathwayPrerequisite}
 import view.editor.forms.storyNodes.{DeleteStoryNode, DetailsStoryNode, EditStoryNode, NewStoryNode}
-import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
+import view.util.common.StandardKeyListener.quitKeyListener
+import view.util.common.{ControlsPanel, Scrollable, StandardKeyListener, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingFileChooser
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
@@ -66,11 +67,8 @@ object EditorView {
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(
-        ("q", ("[Q] Quit", _ =>
-          SqYesNoSwingDialog(
-            "Exit Confirm",
-            "Do you really want to exit from editor?",
-            (_: ActionEvent) => editorController.close()))),
+        quitKeyListener("Do you really want to exit from editor?",
+          (_: ActionEvent) => editorController.close()),
         ("s", ("[S] Save", _ => showFileSave("Save story", editorController.save,
           "story." + ResourceName.FileExtensions.StoryFileExtension, this))))),
         BorderLayout.SOUTH)
