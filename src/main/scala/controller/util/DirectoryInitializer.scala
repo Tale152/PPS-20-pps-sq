@@ -1,10 +1,18 @@
 package controller.util
 
-import controller.util.Resources.ResourceName
-import controller.util.Resources.ResourceName.{gameDirectoryPath, storyDirectoryPath, testRandomStoryName}
+import controller.util.Resources.{ResourceName, resourcesAsNamedInputStreamFromFolder}
+import controller.util.Resources.ResourceName.{
+  defaultStoriesDirectoryPath,
+  gameDirectoryPath,
+  storyDirectoryPath,
+  testRandomStoryName
+}
 import FolderUtil.{createFolderIfNotPresent, filesNameInFolder}
+import controller.util.Resources.ResourceName.FileExtensions.StoryFileExtension
 import controller.util.serialization.StoryNodeSerializer.serializeStory
 import model.nodes.util.RandomStoryNodeGenerator
+
+import java.nio.file.{Files, Path, StandardCopyOption}
 
 
 object DirectoryInitializer {
@@ -22,6 +30,7 @@ object DirectoryInitializer {
   /** Insert a test story. */
   case class TestStoryPopulation() extends StoryPopulationStrategy {
     def apply(gameRootDirectory: String): Unit = {
+      createFolderIfNotPresent(storyDirectoryPath(gameRootDirectory) + "/" + testRandomStoryName)
       serializeStory(
         RandomStoryNodeGenerator.Generator.generate(),
         ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
@@ -32,12 +41,18 @@ object DirectoryInitializer {
   /** Insert the default set of stories. */
   case class DefaultStoryPopulation() extends StoryPopulationStrategy {
     def apply(gameRootDirectory: String): Unit = {
-      //TODO change this to the default set of story on final release.
-      serializeStory(
-        RandomStoryNodeGenerator.Generator.generate(),
-        ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
-      )
+      resourcesAsNamedInputStreamFromFolder(defaultStoriesDirectoryPath)
+        .foreach(i => {
+          val storyFolder: String = (storyDirectoryPath(gameRootDirectory) + "/" + i._1)
+            .dropRight(StoryFileExtension.length + 1)
+          createFolderIfNotPresent(storyFolder)
+          Files.copy(i._2, Path.of(storyFolder + "/" + i._1), StandardCopyOption.REPLACE_EXISTING)
+        })
     }
+  }
+
+  private def createStoryFolderAndFile(storyName: String): Unit = {
+
   }
 
   /**
@@ -47,16 +62,10 @@ object DirectoryInitializer {
    */
   def initializeGameFolderStructure(gameRootDirectory: String,
                                     populationStrategy: StoryPopulationStrategy = DefaultStoryPopulation()): Unit = {
-
-    def _populateStoriesDirectory(gameRootDirectory: String, populationStrategy: StoryPopulationStrategy): Unit = {
-      createFolderIfNotPresent(storyDirectoryPath(gameRootDirectory) + "/" + testRandomStoryName)
-      populationStrategy(gameRootDirectory)
-    }
-
     createFolderIfNotPresent(gameDirectoryPath(gameRootDirectory))
     createFolderIfNotPresent(storyDirectoryPath(gameRootDirectory))
     if (filesNameInFolder(storyDirectoryPath(gameRootDirectory)).isEmpty) {
-      _populateStoriesDirectory(gameRootDirectory, populationStrategy)
+      populationStrategy(gameRootDirectory)
     }
   }
 }
