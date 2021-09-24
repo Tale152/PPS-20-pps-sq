@@ -5,6 +5,7 @@ import model.nodes.Pathway
 import view.AbstractView
 import view.story.panels.{NarrativePanel, PathwaysPanel}
 import view.util.common.ControlsPanel
+import view.util.common.StandardKeyListener.quitKeyListener
 import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
 import view.util.scalaQuestSwingComponents.SqSwingButton
 
@@ -65,13 +66,9 @@ object StoryView {
             ("h", ("[H] History", _ => storyController.goToHistory())),
             ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
             ("i", ("[I] Inventory", _ => storyController.goToInventory())),
-            ("q", ("[Q] Quit", _ =>
-              SqYesNoSwingDialog(
-                "Exit Confirm",
-                "Do you really want to exit the game?",
-                (_: ActionEvent) => storyController.close()))
-            ))
-        ),BorderLayout.NORTH
+            quitKeyListener("Do you really want to exit the game?",
+              (_: ActionEvent) => storyController.close()))
+        ), BorderLayout.NORTH
       )
       this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
       this.add(PathwaysPanel(_pathways, p => storyController.choosePathway(p)), BorderLayout.SOUTH)

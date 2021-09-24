@@ -8,12 +8,13 @@ import view.mainMenu.buttonListeners._
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
+
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-
 import javax.swing.SwingConstants
 import view.util.StringFormatUtil.formatted
 import view.util.StringUtil.TitleSize
+import view.util.common.StandardKeyListener.quitKeyListener
 
 /**
  * Trait that represents the main menu of the game.
@@ -46,7 +47,8 @@ object MainMenu {
       this.add(Scrollable(VerticalButtons(generateButtons())))
       this.add(ControlsPanel(
         List(
-          ("q", ("[Q] Quit", QuitButtonListener(applicationController))),
+          quitKeyListener("Do you really want to exit the game?",
+            _ => applicationController.close()),
           ("e", ("[E] Editor", EditorButtonListener(applicationController, this))),
           ("l", ("[L] Load story", LoadStoryButtonListener(applicationController, this))),
           ("d", ("[D] Delete story", DeleteStoryButtonListener(applicationController)))
