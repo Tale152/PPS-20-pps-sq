@@ -79,8 +79,8 @@ abstract class OkFormButtonListener(val form: Form, val controller: Controller)
 abstract class OkFormButtonListenerUnconditional(form: Form, controller: Controller)
   extends OkFormButtonListener(form, controller) {
 
-  override def inputConditions: List[(Boolean, String)] = List()
+  override final def inputConditions: List[(Boolean, String)] = List()
 
-  override def stateConditions: List[(Boolean, String)] = List()
+  override final def stateConditions: List[(Boolean, String)] = List()
 
 }

@@ -5,7 +5,7 @@ import view.editor.EditorConditionValues.ConditionDescriptions.Subjects._
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.forms.pathways.EditPathway.OriginNodeIdIndex
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerStateless
 import view.editor.okButtonListener.pathways.EditPathwayOkListener.DestinationNodeIdIndex
 import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
@@ -64,13 +64,11 @@ private case class EditPathwayLastFormOkListener(override val form: Form,
                                                  override val controller: EditorController,
                                                  originNodeId: Int,
                                                  destinationNodeId: Int)
-  extends EditorOkFormButtonListener(form, controller) {
+  extends EditorOkFormButtonListenerStateless(form, controller) {
 
   override def editorControllerAction(): Unit =
     controller.pathwaysControls.editExistingPathway(originNodeId, destinationNodeId, form.elements.head.value)
 
   override def inputConditions: List[(Boolean, String)] =
     List((NonEmptyString(form.elements.head.value), mustBeSpecified(TheDescription)))
-
-  override def stateConditions: List[(Boolean, String)] = List()
 }

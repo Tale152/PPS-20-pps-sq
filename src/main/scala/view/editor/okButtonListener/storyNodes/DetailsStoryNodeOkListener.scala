@@ -13,5 +13,4 @@ case class DetailsStoryNodeOkListener(override val form: Form, override val cont
       controller.nodesControls.getStoryNode(form.elements(StoryNodeIdIndex).value.toInt).get,
       controller
     ).render()
-
 }

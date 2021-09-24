@@ -18,11 +18,7 @@ case class NewKeyItemPrerequisiteOkListener(override val form: Form,
       .nodesControls.getAllKeyItemsBeforeNode(controller.nodesControls.getStoryNode(originNodeId).get)(
         extractIndexFromOption(form.elements(KeyItemFormItemIndex).value)
       )
-    controller.pathwaysControls.addPrerequisiteToPathway(
-      originNodeId,
-      destinationNodeId,
-      ItemPrerequisite(keyItem)
-    )
+    controller.pathwaysControls.addPrerequisiteToPathway(originNodeId, destinationNodeId, ItemPrerequisite(keyItem))
   }
 
 }

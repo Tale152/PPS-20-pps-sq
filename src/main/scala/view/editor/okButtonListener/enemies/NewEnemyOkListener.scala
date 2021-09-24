@@ -7,12 +7,12 @@ import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheName
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.forms.enemies.NewEnemy._
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerStateless
 import view.form.Form
 
 case class NewEnemyOkListener(override val form: Form,
                               override val controller: EditorController)
-  extends EditorOkFormButtonListener(form, controller){
+  extends EditorOkFormButtonListenerStateless(form, controller){
 
   override def editorControllerAction(): Unit = controller.nodesControls.addEnemyToNode(
     form.elements(NodeIdIndex).value.toInt,
@@ -33,7 +33,5 @@ case class NewEnemyOkListener(override val form: Form,
   override def inputConditions: List[(Boolean, String)] = List(
     (NonEmptyString(form.elements(EnemyNameIndex).value), mustBeSpecified(TheName))
   )
-
-  override def stateConditions: List[(Boolean, String)] = List()
 
 }

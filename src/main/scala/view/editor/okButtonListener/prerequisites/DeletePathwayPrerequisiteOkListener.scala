@@ -42,8 +42,6 @@ private case class DeletePathwayPrerequisiteNextFormOkListener(override val form
                                                                originNodeId: Int)
   extends EditorOkFormButtonListenerUnconditional(form, controller) {
 
-  override def editorControllerAction(): Unit =
-    controller.pathwaysControls
+  override def editorControllerAction(): Unit = controller.pathwaysControls
       .deletePrerequisiteFromPathway(originNodeId, form.elements(DestinationStoryNodeIdIndex).value.toInt)
-
 }
