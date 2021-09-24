@@ -5,12 +5,12 @@ import controller.prolog.SqPrologEngine
 import controller.prolog.structs._
 import controller.prolog.util.PrologImplicits._
 import model.nodes.StoryNode
-import view.info.InfoView
+import view.explorer.ExplorerView
 
 /**
- * The Info Controller is used to get information about a certain story, starting from its route node.
+ * The Explorer Controller is used to get information about a certain story, starting from its route node.
  */
-sealed trait InfoController extends Controller {
+sealed trait ExplorerController extends Controller {
 
   /**
    * Check if at least a path exists from a [[model.nodes.StoryNode]] with id 'startId' and another with id 'endId'.
@@ -79,19 +79,19 @@ sealed trait InfoController extends Controller {
   def allStoryWalkthrough: List[List[String]]
 }
 
-object InfoController {
+object ExplorerController {
 
-  private class InfoControllerImpl(private val previousController: Controller,
-                                   private val routeNode: StoryNode
-                                  )extends InfoController {
+  private class ExplorerControllerImpl(private val previousController: Controller,
+                                       private val routeNode: StoryNode
+                                  )extends ExplorerController {
 
     private val prologEngine = SqPrologEngine(routeNode)
-    private val infoView: InfoView = InfoView(this)
+    private val explorerView: ExplorerView = ExplorerView(this)
 
     /**
      * Start the Controller.
      */
-    override def execute(): Unit = infoView.render()
+    override def execute(): Unit = explorerView.render()
 
     /**
      * Defines the actions to do when the Controller execution is over.
@@ -134,6 +134,6 @@ object InfoController {
       prologEngine.resolve(AllStoryWalkthroughStruct(routeNode.id, new Var())).head.result
   }
 
-  def apply(previousController: Controller, routeNode: StoryNode): InfoController =
-    new InfoControllerImpl(previousController, routeNode)
+  def apply(previousController: Controller, routeNode: StoryNode): ExplorerController =
+    new ExplorerControllerImpl(previousController, routeNode)
 }

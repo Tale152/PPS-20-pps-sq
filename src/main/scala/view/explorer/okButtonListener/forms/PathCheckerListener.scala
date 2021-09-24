@@ -1,17 +1,17 @@
-package view.info.okButtonListener.forms
+package view.explorer.okButtonListener.forms
 
-import controller.InfoController
+import controller.ExplorerController
 import controller.prolog.structs.StructsNames.Predicates.PathPredicateName
 import controller.util.Resources.ResourceName.FileExtensions.TxtExtension
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheEndingId, TheStartingId}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.form.Form
-import view.info.InfoFileTextBuilder
-import view.info.dialog.InfoDialogs.FileCreatedDialog
+import view.explorer.ExplorerFileTextBuilder
+import view.explorer.ExplorerDialogs.FileCreatedDialog
 
-case class PathCheckerListener(override val form: Form, override val controller: InfoController)
-  extends InfoFormButtonListener(form, controller) {
+case class PathCheckerListener(override val form: Form, override val controller: ExplorerController)
+  extends ExplorerFormButtonListener(form, controller) {
 
   override def inputConditions: List[(Boolean, String)] =
     List(
@@ -29,7 +29,7 @@ case class PathCheckerListener(override val form: Form, override val controller:
     val endId = form.elements(1).value.toInt
     val solutions = controller.paths(startId, endId)
     val filePath: String = folderPath + "/" + PathPredicateName + "(" + startId + "," + endId + ",X)." + TxtExtension
-    InfoFileTextBuilder()
+    ExplorerFileTextBuilder()
       .title("All the possible path from node " + startId + " to node " + endId)
       .addIterableOfIterables(solutions)
       .size(solutions.size)

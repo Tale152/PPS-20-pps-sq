@@ -1,18 +1,18 @@
-package view.info.okButtonListener.forms
+package view.explorer.okButtonListener.forms
 
-import controller.InfoController
+import controller.ExplorerController
 import controller.prolog.structs.StructsNames.Predicates.ReachAllFinalNodesPredicateName
 import controller.util.Resources.ResourceName.FileExtensions.TxtExtension
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheStartingId
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
-import view.info.okButtonListener.InfoButtonListener
+import view.explorer.okButtonListener.ExplorerButtonListener
 import view.form.Form
-import view.info.InfoFileTextBuilder
-import view.info.dialog.InfoDialogs.FileCreatedDialog
+import view.explorer.ExplorerFileTextBuilder
+import view.explorer.ExplorerDialogs.FileCreatedDialog
 
-case class OutcomeFromIdListener(override val form: Form, override val controller: InfoController)
-  extends InfoFormButtonListener(form, controller) with InfoButtonListener {
+case class OutcomeFromIdListener(override val form: Form, override val controller: ExplorerController)
+  extends ExplorerFormButtonListener(form, controller) with ExplorerButtonListener {
 
   override def inputConditions: List[(Boolean, String)] =
     List((NonEmptyString(form.elements.head.value), mustBeSpecified(TheStartingId)))
@@ -26,7 +26,7 @@ case class OutcomeFromIdListener(override val form: Form, override val controlle
     val startId = form.elements.head.value.toInt
     val solutions = controller.storyOutcomes(form.elements.head.value.toInt)
     val filePath: String = folderPath + "/" + ReachAllFinalNodesPredicateName + "(" + startId + ",X)." + TxtExtension
-    InfoFileTextBuilder()
+    ExplorerFileTextBuilder()
       .title("All the possible outcome from node " + startId)
       .addIterableOfIterables(solutions)
       .size(solutions.size)

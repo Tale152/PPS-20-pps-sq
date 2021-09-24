@@ -1,11 +1,11 @@
-package view.info.okButtonListener
+package view.explorer.okButtonListener
 
 import view.util.scalaQuestSwingComponents.fileChooser.SqSwingDirectoryChooser
 
 /**
- * An Info Button will always save a file in the filesystem.
+ * An Explorer Button will always save a file in the filesystem.
  */
-trait InfoButtonListener {
+trait ExplorerButtonListener {
 
   /**
    * @return a condition. If true, the file creation phase will be next.
@@ -19,7 +19,7 @@ trait InfoButtonListener {
   def saveFile(folderPath: String): Unit
 
   /**
-   * Show an error if [[view.info.okButtonListener.InfoButtonListener#fileSaveCondition()]] is not satisfied.
+   * Show an error if [[view.explorer.okButtonListener.ExplorerButtonListener#fileSaveCondition()]] is not satisfied.
    */
   def showError(): Unit
 

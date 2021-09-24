@@ -1,9 +1,9 @@
-package view.info.dialog
+package view.explorer
 
 import controller.Controller
 import view.util.scalaQuestSwingComponents.dialog.SqOkSwingDialog
 
-object InfoDialogs {
+object ExplorerDialogs {
 
   case class NoSolutionDialog(controller: Controller)
     extends SqOkSwingDialog(
@@ -21,4 +21,3 @@ object InfoDialogs {
 
 
 }
-

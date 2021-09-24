@@ -1,19 +1,19 @@
-package view.info
+package view.explorer
 
 import controller.util.serialization.FileUtil.TextFileBuilder
 import controller.util.serialization.StringUtil.traversableFormattedLikeArray
-import view.info.InfoFileTextBuilder.InfoFileTextBuilderOrderingTraits._
+import view.explorer.ExplorerFileTextBuilder.ExplorerFileTextBuilderOrderingTraits._
 
 /**
  * Object that uses a [[controller.util.serialization.FileUtil.TextFileBuilder]] to create a custom TextFileBuilder
- * useful to create Info files.
+ * useful to create Explorer files.
  */
-object InfoFileTextBuilder {
+object ExplorerFileTextBuilder {
 
   /**
    * Traits used to force order of operations.
    */
-  object InfoFileTextBuilderOrderingTraits {
+  object ExplorerFileTextBuilderOrderingTraits {
 
     trait BuilderTitleToSet {
       def title(title: String): BuilderRecordsToSet
@@ -38,7 +38,7 @@ object InfoFileTextBuilder {
     }
   }
 
-  private class InfoFileTextBuilderImplToBuilder()
+  private class ExplorerFileTextBuilderImpl()
     extends BuilderTitleToSet with BuilderRecordsToSet with BuilderReadyToOutputFile {
 
     private val textFileBuilder: TextFileBuilder = TextFileBuilder()
@@ -81,6 +81,6 @@ object InfoFileTextBuilder {
 
   }
 
-  def apply(): BuilderTitleToSet = new InfoFileTextBuilderImplToBuilder()
+  def apply(): BuilderTitleToSet = new ExplorerFileTextBuilderImpl()
 }
 

@@ -44,7 +44,7 @@ object EditorView {
       this.add(ControlsPanel(List(
         ("n", ("[N] Nodes narrative", _ => editorController.switchNodesNarrativeVisibility())),
         ("p", ("[P] Pathways description", _ => editorController.switchPathwaysDescriptionVisibility())),
-        ("i", ("[I] Info", _ => editorController.goToInfo()))
+        ("i", ("[I] Info", _ => editorController.goToExplorer()))
       )), BorderLayout.NORTH)
 
       this.add(Scrollable(VerticalButtons(List(

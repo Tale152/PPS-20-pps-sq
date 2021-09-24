@@ -1,14 +1,15 @@
-package view.info.okButtonListener.noForms
+package view.explorer.okButtonListener.noForms
 
-import controller.InfoController
+import controller.ExplorerController
 
 /**
  * Abstract common class for buttons that does not need a form.
- * @param infoController A [[controller.InfoController]]
+ *
+ * @param explorerController A [[controller.ExplorerController]]
  * @tparam A The generic type of the items in the solutions.
  */
-abstract class AllPossibleGenericListenerWithoutForm[A](val infoController: InfoController)
-  extends InfoWithoutFormButtonListener(infoController) {
+abstract class AllPossibleGenericListenerWithoutForm[A](val explorerController: ExplorerController)
+  extends ExplorerWithoutFormButtonListener(explorerController) {
 
   /**
    * @return the solution of the prolog engine computation.

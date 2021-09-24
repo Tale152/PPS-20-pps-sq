@@ -5,7 +5,7 @@ import controller.editor.editorControllerParts.{EditorControllerPathways, Editor
 import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
-import controller.{ApplicationController, Controller, InfoController}
+import controller.{ApplicationController, Controller, ExplorerController}
 import model.nodes.StoryNode
 import model.nodes.StoryNode.MutableStoryNode
 import org.graphstream.graph.Graph
@@ -51,10 +51,9 @@ trait EditorController extends Controller {
   def switchPathwaysDescriptionVisibility(): Unit
 
   /**
-<<<<<<< HEAD
-   * Go to the Info page using the editor route node.
+   * Go to the Explorer page using the editor route node.
    */
-  def goToInfo(): Unit
+  def goToExplorer(): Unit
 
   /**
    * Applies graphical changes to the GraphStream's graph
@@ -159,8 +158,8 @@ object EditorController {
       )
     }
 
-    override def goToInfo(): Unit =
-      InfoController(this, fromMutableToImmutable(nodes._1)._1).execute()
+    override def goToExplorer(): Unit =
+      ExplorerController(this, fromMutableToImmutable(nodes._1)._1).execute()
 
   }
 
