@@ -2,7 +2,7 @@ package controller.util
 
 import controller.util.Resources.ResourceName.FileExtensions.PrologExtension
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.Resources.ResourceName.{interactionSoundEffectPath, navigationSoundEffectPath}
+import controller.util.Resources.ResourceName.interactionSoundEffectPath
 
 import java.awt.image.BufferedImage
 import java.io.{BufferedInputStream, File, InputStream}
@@ -139,7 +139,6 @@ object Resources {
 
   object SoundClip {
     lazy val interactionSoundClip: Clip = loadAudioClip(interactionSoundEffectPath)
-    lazy val navigationSoundClip: Clip = loadAudioClip(navigationSoundEffectPath)
   }
 
   /**
@@ -172,7 +171,6 @@ object Resources {
       import FileExtensions.WavExtension
 
       val InteractionSoundEffectFileName: String = "interaction." + WavExtension
-      val NavigationSoundEffectFileName: String = "navigation." + WavExtension
     }
 
     private object PrologNames {
@@ -208,8 +206,6 @@ object Resources {
     import controller.util.Resources.ResourceName.SoundNames._
 
     def interactionSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
-
-    def navigationSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + NavigationSoundEffectFileName
 
     import controller.util.Resources.ResourceName.PrologNames.PrologTheoryFileName
 
