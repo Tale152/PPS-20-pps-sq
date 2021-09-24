@@ -58,9 +58,8 @@ object PlayerConfigurationView {
       this.add(InstructionPanel())
       this.add(RemainingPointsPanel(_remainingPoints))
       this.add(playerNamePanel)
-      for (stat <- _stats) {
-        this.add(StatEditPanel(playerConfigurationController, stat, _remainingPoints))
-      }
+      (for (stat <- _stats) yield StatEditPanel(playerConfigurationController, stat, _remainingPoints))
+        .sortBy(_.stat.statName.toString)(Ordering[String]).foreach(this.add(_))
       this.add(ControlsPanel(List(
         ("b", ("[B] Back", _ => playerConfigurationController.close())),
         ("o", ("[O] Ok", _ => {
