@@ -107,12 +107,11 @@ object StoryModel {
 
       def check(): Unit =
         require(
-          storyName.trim.nonEmpty &&
-            currentHistory.nonEmpty &&
-            checkNoDuplicateIdInNodes(getReachableNodes(currentHistory.head)) &&
-            isHistoryValid(currentHistory)
+            storyName.trim.nonEmpty
+            && currentHistory.nonEmpty
+            && checkNoDuplicateIdInNodes(getReachableNodes(currentHistory.head))
+            && isHistoryValid(currentHistory)
         )
-
     }
   }
 }
