@@ -1,19 +1,13 @@
 package controller.util
 
 import controller.util.Resources.{ResourceName, resourcesAsNamedInputStreamFromFolder}
-import controller.util.Resources.ResourceName.{
-  defaultStoriesDirectoryPath,
-  gameDirectoryPath,
-  storyDirectoryPath,
-  testRandomStoryName
-}
+import controller.util.Resources.ResourceName._
 import FolderUtil.{createFolderIfNotPresent, filesNameInFolder}
 import controller.util.Resources.ResourceName.FileExtensions.StoryFileExtension
 import controller.util.serialization.StoryNodeSerializer.serializeStory
 import model.nodes.util.RandomStoryNodeGenerator
 
-import java.nio.file.{Files, Path, StandardCopyOption}
-
+import java.nio.file.{Files, Paths, StandardCopyOption}
 
 object DirectoryInitializer {
 
@@ -46,13 +40,9 @@ object DirectoryInitializer {
           val storyFolder: String = (storyDirectoryPath(gameRootDirectory) + "/" + i._1)
             .dropRight(StoryFileExtension.length + 1)
           createFolderIfNotPresent(storyFolder)
-          Files.copy(i._2, Path.of(storyFolder + "/" + i._1), StandardCopyOption.REPLACE_EXISTING)
+          Files.copy(i._2, Paths.get(storyFolder + "/" + i._1), StandardCopyOption.REPLACE_EXISTING)
         })
     }
-  }
-
-  private def createStoryFolderAndFile(storyName: String): Unit = {
-
   }
 
   /**
