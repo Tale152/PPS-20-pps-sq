@@ -17,8 +17,6 @@ import java.awt.event.ActionEvent
  */
 sealed trait ProgressSaverView extends AbstractView {
   def showSuccessFeedback(onOk: Unit => Unit): Unit
-
-  def showFailureFeedback(onOk: Unit => Unit): Unit
 }
 
 object ProgressSaverView {
@@ -39,17 +37,17 @@ object ProgressSaverView {
     }
 
     private def showFeedBackAndExecute(message: String, onOk: Unit => Unit): Unit = {
-      SqSwingDialog("Save progress", message,
-        List(SqSwingButton("ok", (_: ActionEvent) => onOk())))
+      SqSwingDialog("Save progress", message, List(SqSwingButton("ok", (_: ActionEvent) => onOk())))
     }
 
-    override def showSuccessFeedback(onOk: Unit => Unit): Unit =
+    override def showSuccessFeedback(onOk: Unit => Unit): Unit = {
       showFeedBackAndExecute("Progress saved successfully", onOk)
+    }
 
-    override def showFailureFeedback(onOk: Unit => Unit): Unit =
-      showFeedBackAndExecute("An error occurred while saving progress", onOk)
   }
 
-  def apply(progressSaverController: ProgressSaverController): ProgressSaverView =
+  def apply(progressSaverController: ProgressSaverController): ProgressSaverView = {
     new ProgressSaverViewImpl(progressSaverController)
+  }
+
 }
