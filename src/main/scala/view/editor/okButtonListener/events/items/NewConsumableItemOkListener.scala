@@ -7,7 +7,7 @@ import model.nodes.ItemEvent
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects._
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
-import view.editor.okButtonListener.EditorOkFormButtonListenerStateless
+import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.events.items.NewItemCategoryOkListener._
 import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
 import view.form.Form
@@ -15,7 +15,7 @@ import view.form.Form
 case class NewConsumableItemOkListener(override val form: Form,
                                        nodeId: Int,
                                        override val controller: EditorController)
-  extends EditorOkFormButtonListenerStateless(form, controller) {
+  extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit = {
 
@@ -41,4 +41,6 @@ case class NewConsumableItemOkListener(override val form: Form,
     (NonEmptyString(form.elements(ItemDescriptionIndex).value), mustBeSpecified(TheDescription)),
     (NonEmptyString(form.elements(ItemRetrieveNarrativeIndex).value), mustBeSpecified(TheNarrative))
   )
+
+  override def stateConditions: List[(Boolean, String)] = List()
 }

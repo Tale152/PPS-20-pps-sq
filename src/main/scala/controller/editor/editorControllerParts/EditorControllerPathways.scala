@@ -211,6 +211,7 @@ object EditorControllerPathways {
           case itemPrerequisite: ItemPrerequisite
             if !editorController.nodesControls.getAllKeyItemsBeforeNode(n).contains(itemPrerequisite.item) =>
             editorController.pathwaysControls.deletePrerequisiteFromPathway(n.id, p.destinationNode.id)
+          case _ => { /*does nothing on other type of prerequisite */ }
         }
       }
     }

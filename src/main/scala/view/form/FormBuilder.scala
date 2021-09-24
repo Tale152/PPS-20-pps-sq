@@ -1,7 +1,6 @@
 package view.form
 
 import controller.Controller
-import view.form.FormBuilderConst.DefaultSpinnerStart
 import view.form.formElements._
 
 import scala.collection.mutable.ListBuffer
@@ -10,6 +9,10 @@ import scala.collection.mutable.ListBuffer
  * Factory class used to create a [[view.form.Form]].
  */
 case class FormBuilder() {
+
+  private object FormBuilderConst {
+    val DefaultSpinnerStart = 0
+  }
 
   private val listBuffer: ListBuffer[FormElement] = ListBuffer()
 
@@ -25,6 +28,8 @@ case class FormBuilder() {
   def addComboField(label: String, comboElement: List[String]): FormBuilder =
     addField(ComboBoxElement(label, comboElement))
 
+  import FormBuilderConst.DefaultSpinnerStart
+
   def addSpinnerNumberField(label: String, start: Int = DefaultSpinnerStart): FormBuilder =
     addField(SpinnerNumberElement(label, start))
 
@@ -37,6 +42,3 @@ case class FormBuilder() {
 
 }
 
-private object FormBuilderConst {
-  val DefaultSpinnerStart = 0
-}

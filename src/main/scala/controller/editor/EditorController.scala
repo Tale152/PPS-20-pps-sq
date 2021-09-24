@@ -1,10 +1,11 @@
 package controller.editor
 
+import controller.editor.StoryNodeConverter.fromMutableToImmutable
 import controller.editor.editorControllerParts.{EditorControllerPathways, EditorControllerStoryNodes}
 import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
 import controller.util.serialization.StoryNodeSerializer
-import controller.{ApplicationController, Controller}
+import controller.{ApplicationController, Controller, ExplorerController}
 import model.nodes.StoryNode
 import model.nodes.StoryNode.MutableStoryNode
 import org.graphstream.graph.Graph
@@ -50,6 +51,11 @@ trait EditorController extends Controller {
   def switchPathwaysDescriptionVisibility(): Unit
 
   /**
+   * Go to the Explorer page using the editor route node.
+   */
+  def goToExplorer(): Unit
+
+  /**
    * Applies graphical changes to the GraphStream's graph
    */
   def decorateGraphGUI(): Unit
@@ -65,9 +71,7 @@ object EditorController {
 
     private var printNodeNarrative: Boolean = false
     private var printEdgeLabel: Boolean = false
-
     private val editorView: EditorView = EditorView(this)
-
     override val nodesControls: EditorControllerStoryNodes = EditorControllerStoryNodes(this)
     override val pathwaysControls: EditorControllerPathways = EditorControllerPathways(this)
     override var nodes: (MutableStoryNode, Set[MutableStoryNode]) = StoryNodeConverter.fromImmutableToMutable(routeNode)
@@ -153,6 +157,9 @@ object EditorController {
         ""
       )
     }
+
+    override def goToExplorer(): Unit =
+      ExplorerController(this, fromMutableToImmutable(nodes._1)._1).execute()
 
   }
 

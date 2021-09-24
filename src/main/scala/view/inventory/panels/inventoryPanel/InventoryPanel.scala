@@ -1,9 +1,9 @@
 package view.inventory.panels.inventoryPanel
 
 import controller.game.subcontroller.InventoryController
+import controller.util.serialization.StringUtil.StringFormatUtil.formatted
 import model.items.{EquipItem, Item}
 import view.inventory.panels.inventoryPanel.InventoryPanelButtons.{discardButton, goBackButton, useButton}
-import view.util.StringFormatUtil.formatted
 import view.util.common.{Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridPanel}
@@ -29,11 +29,11 @@ case class InventoryPanel(inventoryController: InventoryController, inventoryIte
   }
 
   private def formattedItemName(item: Item) =
-    item.name + " [" + item.getClass.getSimpleName + {
+    item.name + " [" + item.getClass.getSimpleName.replace("Item", "") + {
       item match {
         case equipItem: EquipItem if inventoryController.isEquipped(equipItem) =>
-          "(" + equipItem.equipItemType.toString + ") - Equipped"
-        case equipItem: EquipItem => "(" + equipItem.equipItemType.toString + ")"
+          " (" + equipItem.equipItemType.toString + ") *"
+        case equipItem: EquipItem => " (" + equipItem.equipItemType.toString + ")"
         case _ => ""
       }
     } + "]"

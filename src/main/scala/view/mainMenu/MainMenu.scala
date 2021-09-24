@@ -3,6 +3,7 @@ package view.mainMenu
 import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.Resources.ResourceName
+import controller.util.serialization.StringUtil.StringFormatUtil.{formatted, standardize}
 import view.AbstractView
 import view.mainMenu.buttonListeners._
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
@@ -12,7 +13,6 @@ import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
 import javax.swing.SwingConstants
-import view.util.StringFormatUtil.formatted
 import view.util.StringUtil.TitleSize
 import view.util.common.StandardKeyListener.quitKeyListener
 
@@ -47,17 +47,17 @@ object MainMenu {
       this.add(Scrollable(VerticalButtons(generateButtons())))
       this.add(ControlsPanel(
         List(
+          ("l", ("[L] Load story", LoadStoryButtonListener(applicationController, this))),
+          ("d", ("[D] Delete story", DeleteStoryButtonListener(applicationController))),
+          ("e", ("[E] Editor", EditorButtonListener(applicationController, this))),
           quitKeyListener("Do you really want to exit the game?",
             _ => applicationController.close()),
-          ("e", ("[E] Editor", EditorButtonListener(applicationController, this))),
-          ("l", ("[L] Load story", LoadStoryButtonListener(applicationController, this))),
-          ("d", ("[D] Delete story", DeleteStoryButtonListener(applicationController)))
         )
       ), BorderLayout.SOUTH)
     }
 
     private def generateButtons(): List[SqSwingButton] = {
-      for (storyName <- _stories.toList) yield SqSwingButton(formatted(storyName), (_: ActionEvent) => {
+      for (storyName <- _stories.toList) yield SqSwingButton(formatted(standardize(storyName)), (_: ActionEvent) => {
         val storyPath = ResourceName.storyPath(storyName)()
         if (isProgressAvailable(storyName)()) {
           generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName)())

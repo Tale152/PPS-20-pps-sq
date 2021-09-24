@@ -6,7 +6,7 @@ import view.AbstractView
 import view.story.panels.{NarrativePanel, PathwaysPanel}
 import view.util.common.ControlsPanel
 import view.util.common.StandardKeyListener.quitKeyListener
-import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 import view.util.scalaQuestSwingComponents.SqSwingButton
 
 import java.awt.BorderLayout

@@ -20,7 +20,7 @@ case class PathwayDescriptionStruct(private val _startId: Term,
 
   def endId: Int = _endId.toInt
 
-  def description: String = _description.toFormattedString
+  def description: String = _description.fromPrologToString
 
 }
 
