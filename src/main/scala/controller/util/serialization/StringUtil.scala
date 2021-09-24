@@ -44,6 +44,13 @@ object StringUtil {
      */
     def formatted(string: String): String = "<html>" + string + "</html>"
 
+    /**
+     * @param string the input string
+     * @return the string replacing all underscores and dashes with a single space and converting all to upper case
+     */
+    def standardize(string: String): String =
+      string.replaceAll("_", " ").replaceAll("-", " ").toUpperCase
+
   }
 
 }
