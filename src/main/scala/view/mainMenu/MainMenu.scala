@@ -3,7 +3,7 @@ package view.mainMenu
 import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.Resources.ResourceName
-import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
+import controller.util.serialization.StringUtil.StringFormatUtil.{standardize, swingFormatted}
 import view.AbstractView
 import view.mainMenu.buttonListeners._
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
@@ -46,23 +46,24 @@ object MainMenu {
       this.add(Scrollable(VerticalButtons(generateButtons())))
       this.add(ControlsPanel(
         List(
-          ("q", ("[Q] Quit", QuitButtonListener(applicationController))),
-          ("e", ("[E] Editor", EditorButtonListener(applicationController, this))),
           ("l", ("[L] Load story", LoadStoryButtonListener(applicationController, this))),
-          ("d", ("[D] Delete story", DeleteStoryButtonListener(applicationController)))
+          ("d", ("[D] Delete story", DeleteStoryButtonListener(applicationController))),
+          ("e", ("[E] Editor", EditorButtonListener(applicationController, this))),
+          ("q", ("[Q] Quit", QuitButtonListener(applicationController)))
         )
       ), BorderLayout.SOUTH)
     }
 
     private def generateButtons(): List[SqSwingButton] = {
-      for (storyName <- _stories.toList) yield SqSwingButton(swingFormatted(storyName), (_: ActionEvent) => {
-        val storyPath = ResourceName.storyPath(storyName)()
-        if (isProgressAvailable(storyName)()) {
-          generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName)())
-        } else {
-          loadStoryNewGame(storyPath)
-        }
-      })
+      for (storyName <- _stories.toList) yield SqSwingButton(swingFormatted(standardize(storyName)),
+        (_: ActionEvent) => {
+          val storyPath = ResourceName.storyPath(storyName)()
+          if (isProgressAvailable(storyName)()) {
+            generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName)())
+          } else {
+            loadStoryNewGame(storyPath)
+          }
+        })
     }
 
     private def generateOptionPane(storyPath: String, progressPath: String): Unit = {

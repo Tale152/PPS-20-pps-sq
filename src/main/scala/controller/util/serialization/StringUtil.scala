@@ -52,6 +52,13 @@ object StringUtil {
      */
     def swingTitle(string: String): String = "<h1>" + string + "</h1>"
 
+    /**
+     * @param string the input string
+     * @return the string replacing all underscores and dashes with a single space and converting all to upper case
+     */
+    def standardize(string: String): String =
+      string.replaceAll("_", " ").replaceAll("-", " ").toUpperCase
+
   }
 
 }

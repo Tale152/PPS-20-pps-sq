@@ -62,7 +62,7 @@ object PlayerConfigurationView {
         .sortBy(_.stat.statName.toString)(Ordering[String]).foreach(this.add(_))
       this.add(ControlsPanel(List(
         ("b", ("[B] Back", _ => playerConfigurationController.close())),
-        ("c", ("[C] Confirm", _ => {
+        ("o", ("[O] Ok", _ => {
           playerNamePanel.playerName.trim match {
             case s: String if s == null || s == "" =>
               SqSwingDialog("Empty name", "Insert a valid name for the main character!",

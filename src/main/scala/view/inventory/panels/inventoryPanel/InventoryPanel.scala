@@ -29,11 +29,11 @@ case class InventoryPanel(inventoryController: InventoryController, inventoryIte
   }
 
   private def formattedItemName(item: Item) =
-    item.name + " [" + item.getClass.getSimpleName + {
+    item.name + " [" + item.getClass.getSimpleName.replace("Item", "") + {
       item match {
         case equipItem: EquipItem if inventoryController.isEquipped(equipItem) =>
-          "(" + equipItem.equipItemType.toString + ") - Equipped"
-        case equipItem: EquipItem => "(" + equipItem.equipItemType.toString + ")"
+          " (" + equipItem.equipItemType.toString + ") *"
+        case equipItem: EquipItem => " (" + equipItem.equipItemType.toString + ")"
         case _ => ""
       }
     } + "]"
