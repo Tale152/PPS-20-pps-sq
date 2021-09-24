@@ -7,15 +7,16 @@ object StringUtil {
 
   /**
    * Implicit class used to enrich the String class.
+   *
    * @param string the string used by the implicit class.
    */
-  implicit class RichString(string: String){
+  implicit class RichString(string: String) {
 
     /**
      * @param regex a regex.
      * @return the same string but with the content in regex swapped with a space.
      */
-    def withoutContent(regex: String): String =  string.replaceAll(regex, " ")
+    def withoutContent(regex: String): String = string.replaceAll(regex, " ")
 
     /**
      * @return the string without new lines or escape characters.
@@ -35,14 +36,21 @@ object StringUtil {
      * Contains HTML tags used to format a formatted string.
      */
     object FormatElements {
-      val NewLine: String= "<br/>"
+      val SwingNewLine: String = "<br/>"
     }
 
     /**
      * @param string the input string.
      * @return a string that can be decorated with html tags for styling.
      */
-    def formatted(string: String): String = "<html>" + string + "</html>"
+    def swingFormatted(string: String): String = "<html>" + string + "</html>"
+
+    /**
+     * @param string the input string.
+     * @return a string that represent a title inside a
+     *         [[controller.util.serialization.StringUtil.StringFormatUtil#swingFormatted(java.lang.String)]] string.
+     */
+    def swingTitle(string: String): String = "<h1>" + string + "</h1>"
 
     /**
      * @param string the input string

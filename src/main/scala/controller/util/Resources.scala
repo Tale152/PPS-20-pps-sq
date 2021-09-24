@@ -39,12 +39,12 @@ object Resources {
   def resourceAsInputStream(resourcePath: String): InputStream = getClass.getResourceAsStream(resourcePath)
 
   /**
-   * Convert all the resources inside a folder to a Set of [[java.io.InputStream]].
+   * Convert all the resources inside a folder to a Set of (FileName, [[java.io.InputStream]]).
    *
    * @param folderPath the folder path.
-   * @return A set of [[java.io.InputStream]]
+   * @return A set of (FileName, [[java.io.InputStream]]).
    */
-  def resourcesAsInputStreamFromFolder(folderPath: String): Set[InputStream] = {
+  def resourcesAsNamedInputStreamFromFolder(folderPath: String): Set[(String,InputStream)] = {
     val url: Option[URL] = Option(getClass.getResource(folderPath))
     url match {
       case Some(url) =>
@@ -52,7 +52,7 @@ object Resources {
         if (uri.getScheme.contains("jar")) {
           resourceAsInputStreamFromJarFolder(folderPath)
         } else {
-          new File(uri).list().map(s => resourceAsInputStream(folderPath + "/" + s)).toSet
+          new File(uri).list().map(n => (n, resourceAsInputStream(folderPath + "/" + n))).toSet
         }
       case None => Set()
     }
@@ -60,12 +60,21 @@ object Resources {
 
   /**
    * Convert all the resources inside a folder to a Set of [[java.io.InputStream]].
-   * Works only if launched from inside a compiled jar.
    *
    * @param folderPath the folder path.
    * @return A set of [[java.io.InputStream]]
    */
-  private def resourceAsInputStreamFromJarFolder(folderPath: String): Set[InputStream] = {
+  def resourcesAsInputStreamFromFolder(folderPath: String): Set[InputStream] =
+    resourcesAsNamedInputStreamFromFolder(folderPath).map(t => t._2)
+
+  /**
+   * Convert all the resources inside a folder to a Set of (FileName, [[java.io.InputStream]]).
+   * Works only if launched from inside a compiled jar.
+   *
+   * @param folderPath the folder path.
+   * @return A set of (FileName, [[java.io.InputStream]])
+   */
+  private def resourceAsInputStreamFromJarFolder(folderPath: String): Set[(String, InputStream)] = {
     val jarFile: Path = Paths.get(
       getClass.getProtectionDomain.getCodeSource.getLocation.toString
         .substring("file:".length()).replaceFirst("^/(.:/)", "$1")
@@ -74,7 +83,7 @@ object Resources {
     Files.newDirectoryStream(fs.getPath(folderPath))
       .iterator()
       .asScala
-      .map(p => resourceAsInputStream(p.toString))
+      .map(p => (p.getFileName.toString, resourceAsInputStream(p.toString)))
       .toSet
   }
 
@@ -141,6 +150,7 @@ object Resources {
     private object DirectoryNames {
       val GameDirectoryName: String = ".sq"
       val StoryDirectoryName: String = "stories"
+      val DefaultStoriesDirectoryName: String = "default_stories"
       val SoundsEffectsDirectoryName: String = "sound_effects"
       val StoryMusicDirectoryName: String = "story_music"
       val BattleMusicDirectoryName: String = "battle_music"
@@ -205,17 +215,13 @@ object Resources {
 
     def prologEngineTheoryPath: String = "/" + PrologTheoryFileName
 
-    def storyMusicDirectoryPath(): String = {
-      "/" + SoundsEffectsDirectoryName + "/" + StoryMusicDirectoryName
-    }
+    def defaultStoriesDirectoryPath: String = "/" + DefaultStoriesDirectoryName
 
-    def battleMusicDirectoryPath(): String = {
-      "/" + SoundsEffectsDirectoryName + "/" + BattleMusicDirectoryName
-    }
+    def storyMusicDirectoryPath(): String = "/" + SoundsEffectsDirectoryName + "/" + StoryMusicDirectoryName
 
-    def menuMusicDirectoryPath(): String = {
-      "/" + SoundsEffectsDirectoryName + "/" + MenuMusicDirectoryName
-    }
+    def battleMusicDirectoryPath(): String = "/" + SoundsEffectsDirectoryName + "/" + BattleMusicDirectoryName
+
+    def menuMusicDirectoryPath(): String = "/" + SoundsEffectsDirectoryName + "/" + MenuMusicDirectoryName
 
   }
 }

@@ -1,8 +1,8 @@
 package view.form
 
 import controller.Controller
-import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.NewLine
-import controller.util.serialization.StringUtil.StringFormatUtil.formatted
+import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
+import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
@@ -44,7 +44,7 @@ abstract class OkFormButtonListener(val form: Form, val controller: Controller)
    */
   def warningDialog(conditions: List[(Boolean, String)]): SqSwingDialog = {
     SqSwingDialog("Illegal Input",
-      formatted(conditions.filter(c => !c._1).map(c => "-" + c._2).mkString(NewLine)),
+      swingFormatted(conditions.filter(c => !c._1).map(c => "-" + c._2).mkString(SwingNewLine)),
       List(SqSwingButton("OK", (_: ActionEvent) => {}))
     )
   }

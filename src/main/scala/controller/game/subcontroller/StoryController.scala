@@ -1,8 +1,8 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
-import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.NewLine
-import controller.util.serialization.StringUtil.StringFormatUtil.formatted
+import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
+import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
 import controller.util.audio.MusicPlayer
 import model.StoryModel
 import model.characters.properties.stats.StatName.StatName
@@ -103,13 +103,13 @@ object StoryController {
       storyView.displayEvent(storyModel.currentStoryNode.events.map {
         case StatEvent(eventDescription, statModifier) =>
           storyModel.player.properties.statModifiers += statModifier
-          formatted(eventDescription + NewLine +
+          swingFormatted(eventDescription + SwingNewLine +
             "Stat " + statModifier.statName + " modified " +
             "(" + getStatDifferences(statModifier.statName, statModifier.modifyStrategy) + ")"
           )
         case ItemEvent(eventDescription, item) =>
           storyModel.player.inventory = storyModel.player.inventory :+ item
-          formatted(eventDescription + NewLine + "New Item found: " + item.name)
+          swingFormatted(eventDescription + SwingNewLine + "New Item found: " + item.name)
       })
       storyModel.currentStoryNode.removeAllEvents()
     }
