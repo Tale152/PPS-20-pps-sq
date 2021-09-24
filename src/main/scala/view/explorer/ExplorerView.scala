@@ -20,6 +20,8 @@ object ExplorerView {
 
   private class ExplorerViewImpl(private val explorerController: ExplorerController) extends ExplorerView {
 
+    this.setLayout(new BorderLayout())
+
     /**
      * Sub-portion of render() where graphical elements are added.
      */
