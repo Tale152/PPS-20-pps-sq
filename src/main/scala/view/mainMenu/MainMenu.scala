@@ -46,10 +46,10 @@ object MainMenu {
       this.add(Scrollable(VerticalButtons(generateButtons())))
       this.add(ControlsPanel(
         List(
-          ("q", ("[Q] Quit", QuitButtonListener(applicationController))),
-          ("e", ("[E] Editor", EditorButtonListener(applicationController, this))),
           ("l", ("[L] Load story", LoadStoryButtonListener(applicationController, this))),
-          ("d", ("[D] Delete story", DeleteStoryButtonListener(applicationController)))
+          ("d", ("[D] Delete story", DeleteStoryButtonListener(applicationController))),
+          ("e", ("[E] Editor", EditorButtonListener(applicationController, this))),
+          ("q", ("[Q] Quit", QuitButtonListener(applicationController)))
         )
       ), BorderLayout.SOUTH)
     }
