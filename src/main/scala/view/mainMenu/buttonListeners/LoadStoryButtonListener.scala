@@ -26,11 +26,12 @@ case class LoadStoryButtonListener(override val applicationController: Applicati
   extends LoadStoryChooserButtonListener(applicationController) {
 
   override def actionPerformed(e: ActionEvent): Unit = {
+    println("AAA")
     loadStoryFileChooser.setFileFilter(new FileNameExtensionFilter("SQSTR", "sqstr"))
     loadStoryFileChooser.showOpenDialog(mainMenu)
-    val file: File = loadStoryFileChooser.getSelectedFile
-    if (file != null) {
-      loadStoryFromFile(file)
+    val file: Option[File] = Option(loadStoryFileChooser.getSelectedFile)
+    if (file.nonEmpty) {
+      loadStoryFromFile(file.get)
     }
   }
 
