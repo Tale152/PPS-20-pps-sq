@@ -3,7 +3,7 @@ package view.mainMenu
 import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.Resources.ResourceName
-import controller.util.serialization.StringUtil.StringFormatUtil.formatted
+import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
 import view.AbstractView
 import view.mainMenu.buttonListeners._
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
@@ -55,7 +55,7 @@ object MainMenu {
     }
 
     private def generateButtons(): List[SqSwingButton] = {
-      for (storyName <- _stories.toList) yield SqSwingButton(formatted(storyName), (_: ActionEvent) => {
+      for (storyName <- _stories.toList) yield SqSwingButton(swingFormatted(storyName), (_: ActionEvent) => {
         val storyPath = ResourceName.storyPath(storyName)()
         if (isProgressAvailable(storyName)()) {
           generateOptionPane(storyPath, ResourceName.storyProgressPath(storyName)())

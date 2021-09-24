@@ -1,7 +1,7 @@
 package view.inventory.panels.inventoryPanel
 
 import controller.game.subcontroller.InventoryController
-import controller.util.serialization.StringUtil.StringFormatUtil.formatted
+import controller.util.serialization.StringUtil.StringFormatUtil.{swingFormatted, swingTitle}
 import model.items.{EquipItem, Item}
 import view.inventory.panels.inventoryPanel.InventoryPanelButtons.{discardButton, goBackButton, useButton}
 import view.util.common.{Scrollable, VerticalButtons}
@@ -19,7 +19,7 @@ case class InventoryPanel(inventoryController: InventoryController, inventoryIte
 
   private def itemDialog(item: Item): Unit = {
     SqSwingDialog(
-      "Item Screen", formatted("<h1>" + item.name + "</h1>" + item.description),
+      "Item Screen", swingFormatted(swingTitle(item.name) + item.description),
       if (inventoryController.targets().size == 1) {
         List(useButton(inventoryController, item), discardButton(inventoryController, item), goBackButton())
       } else {
