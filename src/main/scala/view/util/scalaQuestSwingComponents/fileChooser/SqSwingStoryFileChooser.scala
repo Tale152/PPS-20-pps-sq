@@ -18,5 +18,4 @@ case class SqSwingStoryFileChooser(title: String) extends AbstractSqSwingFileCho
     )
   )
 
-
 }
