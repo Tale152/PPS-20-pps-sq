@@ -6,14 +6,16 @@ import model.nodes.ItemEvent
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheName, TheNarrative}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
-import view.editor.okButtonListener.EditorOkFormButtonListenerStateless
-import view.editor.okButtonListener.events.items.NewItemCategoryOkListener.{ItemDescriptionIndex, ItemNameIndex, ItemRetrieveNarrativeIndex}
+import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.events.items.NewItemCategoryOkListener.{
+  ItemDescriptionIndex, ItemNameIndex, ItemRetrieveNarrativeIndex
+}
 import view.form.Form
 
 case class NewKeyItemOkListener(override val form: Form,
                                 nodeId: Int,
                                 override val controller: EditorController)
-  extends EditorOkFormButtonListenerStateless(form, controller) {
+  extends EditorOkFormButtonListener(form, controller) {
 
   override def editorControllerAction(): Unit = controller.nodesControls.addEventToNode(nodeId, ItemEvent(
     form.elements(ItemRetrieveNarrativeIndex).value,
@@ -25,4 +27,6 @@ case class NewKeyItemOkListener(override val form: Form,
     (NonEmptyString(form.elements(ItemDescriptionIndex).value), mustBeSpecified(TheDescription)),
     (NonEmptyString(form.elements(ItemRetrieveNarrativeIndex).value), mustBeSpecified(TheNarrative))
   )
+
+  override def stateConditions: List[(Boolean, String)] = List()
 }
