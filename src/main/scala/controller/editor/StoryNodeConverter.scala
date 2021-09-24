@@ -1,8 +1,19 @@
 package controller.editor
 
+import controller.editor.StoryNodeConverterType.{ConversionType, Immutable, Mutable}
 import model.nodes.StoryNode.MutableStoryNode
 import model.nodes.{MutablePathway, Pathway, StoryNode}
 
+object StoryNodeConverterType {
+
+  sealed trait ConversionType
+
+  case object Mutable extends ConversionType
+
+  case object Immutable extends ConversionType
+}
+
+case
 /**
  * Utility object used to convert stories that use StoryNodes and Pathways
  * to stories that use MutableStoryNodes and MutablePathways and the other way around.
@@ -15,24 +26,8 @@ object StoryNodeConverter {
    * @return a pair containing the new mutable route node and a set with all mutable nodes composing the story
    */
   def fromImmutableToMutable(routeNode: StoryNode): (MutableStoryNode, Set[MutableStoryNode]) = {
-    def traverse(node: StoryNode, traversed: Set[MutableStoryNode]): Set[MutableStoryNode] = {
-      var t = traversed
-      var pathways = Set[MutablePathway]()
-      for(p <- node.pathways){
-        if(!t.exists(n => n.id == p.destinationNode.id)){
-          val traversedNodeSet = traverse(p.destinationNode, t)
-          t = t ++ traversedNodeSet
-        }
-        pathways = pathways + MutablePathway(
-          p.description,
-          t.filter(n => n.id == p.destinationNode.id).last,
-          p.prerequisite
-        )
-      }
-      t + MutableStoryNode(node.id, node.narrative, node.enemy, pathways, node.events)
-    }
-    val t = traverse(routeNode, Set())
-    (t.filter(n => n.id == routeNode.id).last, t)
+    val t = traverse(routeNode, Set(), Mutable)
+    (t.filter(n => n.id == routeNode.id).last.asInstanceOf[MutableStoryNode], t.asInstanceOf[Set[MutableStoryNode]])
   }
 
   /**
@@ -42,24 +37,42 @@ object StoryNodeConverter {
    * @return a pair containing the new immutable route node and a set with all immutable nodes composing the story
    */
   def fromMutableToImmutable(routeNode: MutableStoryNode): (StoryNode, Set[StoryNode]) = {
-    def traverse(node: MutableStoryNode, traversed: Set[StoryNode]): Set[StoryNode] = {
-      var t = traversed
-      var pathways = Set[Pathway]()
-      for(p <- node.mutablePathways){
-        if(!t.exists(n => n.id == p.destinationNode.id)){
-          val traversedNodeSet = traverse(p.destinationNode, t)
-          t = t ++ traversedNodeSet
-        }
-        pathways = pathways + Pathway(
-          p.description,
-          t.filter(n => n.id == p.destinationNode.id).last,
-          p.prerequisite
-        )
-      }
-      t + StoryNode(node.id, node.narrative, node.enemy, pathways, node.events)
-    }
-    val t = traverse(routeNode, Set())
+    val t = traverse(routeNode, Set(), Immutable)
     (t.filter(n => n.id == routeNode.id).last, t)
   }
+
+  private def traverse(node: StoryNode, traversed: Set[StoryNode], conversionType: ConversionType): Set[StoryNode] = {
+    var t = traversed
+    val pathways = for(p <- node.pathways) yield {
+      if(!t.exists(n => n.id == p.destinationNode.id)){
+        t ++= traverse(p.destinationNode, t, conversionType)
+      }
+      instantiatePathway(p, t, conversionType)
+    }
+    enrichTraversed(node, t, pathways, conversionType)
+  }
+
+  private def instantiatePathway(p: Pathway, t: Set[StoryNode], conversionType: ConversionType): Pathway = {
+    val description = p.description
+    val destinationNode = t.filter(n => n.id == p.destinationNode.id).last
+    val prerequisite = p.prerequisite
+    conversionType match {
+      case Immutable => Pathway(description, destinationNode, prerequisite)
+      case Mutable => MutablePathway(description, destinationNode.asInstanceOf[MutableStoryNode], prerequisite)
+    }
+  }
+
+  private def enrichTraversed(node: StoryNode,
+                              traversed: Set[StoryNode],
+                              pathways: Set[Pathway],
+                              conversionType: ConversionType): Set[StoryNode] =
+    conversionType match {
+      case Immutable => traversed + StoryNode(
+        node.id, node.narrative, node.enemy, pathways, node.events
+      )
+      case Mutable => traversed + MutableStoryNode(
+        node.id, node.narrative, node.enemy, pathways.asInstanceOf[Set[MutablePathway]], node.events
+      )
+    }
 
 }
