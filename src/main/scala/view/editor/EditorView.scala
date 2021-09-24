@@ -9,10 +9,9 @@ import view.editor.forms.pathways.{DeletePathway, DetailsPathway, EditPathway, N
 import view.editor.forms.prerequisites.{DeletePathwayPrerequisite, NewPathwayPrerequisite}
 import view.editor.forms.storyNodes.{DeleteStoryNode, DetailsStoryNode, EditStoryNode, NewStoryNode}
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.SqSwingFileChooser
 import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.fileChooser.SqSwingStoryFileChooser
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
-
 import java.awt.BorderLayout
 import java.io.File
 import javax.swing.{JComponent, JFileChooser}
@@ -33,7 +32,7 @@ object EditorView {
     this.setLayout(new BorderLayout())
 
     def showFileSave(title: String, onSave: String => Unit, selectedFileName: String, parent: JComponent): Unit = {
-      val chooser = SqSwingFileChooser(title)
+      val chooser = SqSwingStoryFileChooser(title)
       chooser.setSelectedFile(new File(selectedFileName))
       if (chooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION) {
         onSave(chooser.getSelectedFile.getPath)
@@ -44,7 +43,8 @@ object EditorView {
 
       this.add(ControlsPanel(List(
         ("n", ("[N] Nodes narrative", _ => editorController.switchNodesNarrativeVisibility())),
-        ("p", ("[P] Pathways description", _ => editorController.switchPathwaysDescriptionVisibility()))
+        ("p", ("[P] Pathways description", _ => editorController.switchPathwaysDescriptionVisibility())),
+        ("i", ("[I] Info", _ => editorController.goToExplorer()))
       )), BorderLayout.NORTH)
 
       this.add(Scrollable(VerticalButtons(List(

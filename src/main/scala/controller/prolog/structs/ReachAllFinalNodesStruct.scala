@@ -15,6 +15,6 @@ case class ReachAllFinalNodesStruct(private val _startId: Term, private val _cro
 
   def startId: Int = _startId.toInt
 
-  def crossedNodes: Seq[Int] = _crossedNodes.toIntSeq
+  def crossedNodes: List[Int] = _crossedNodes.toIntList
 
 }

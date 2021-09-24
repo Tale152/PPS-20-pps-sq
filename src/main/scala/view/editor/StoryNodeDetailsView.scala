@@ -3,7 +3,7 @@ package view.editor
 import controller.editor.EditorController
 import model.characters.Enemy
 import model.characters.properties.stats.StatName.{Charisma, Constitution, Dexterity, Intelligence, Strength, Wisdom}
-import model.items.{ConsumableItem, EquipItem, KeyItem}
+import model.items.{ConsumableItem, EquipItem, Item, KeyItem}
 import model.nodes.{ItemEvent, StatEvent, StoryNode}
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable}
@@ -56,6 +56,7 @@ case class StoryNodeDetailsView(private val storyNode: StoryNode, private val ed
     case keyItem: KeyItem => getKeyItemEventString(keyItem, itemEvent)
     case equipItem: EquipItem => getEquipItemEventString(equipItem, itemEvent)
     case consumableItem: ConsumableItem => getConsumableItemEventString(consumableItem, itemEvent)
+    case item: Item => item.toString
   }
 
   private def getKeyItemEventString(keyItem: KeyItem, itemEvent: ItemEvent): String =

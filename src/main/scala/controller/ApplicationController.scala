@@ -22,7 +22,6 @@ import java.nio.file.{Files, Paths}
  */
 sealed trait ApplicationController extends Controller {
 
-
   /**
    * Gives control to the [[controller.editor.EditorController]] that will manipulate the provided story.
    *
@@ -63,6 +62,7 @@ sealed trait ApplicationController extends Controller {
    * @param directoryName the name of the story to delete.
    */
   def deleteExistingStory(directoryName: String): Unit
+
 }
 
 object ApplicationController extends ApplicationController {
@@ -95,8 +95,6 @@ object ApplicationController extends ApplicationController {
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
     Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))
 
-  override def goToEditor(routeNode: StoryNode): Unit = EditorController(routeNode).execute()
-
   override def deleteExistingStory(directoryName: String): Unit = {
     val directoryAbsolutePath: String = storyDirectoryPath(RootGameDirectory) + "/" + directoryName
     if (new File(directoryAbsolutePath).exists()) {
@@ -104,4 +102,5 @@ object ApplicationController extends ApplicationController {
     }
   }
 
+  override def goToEditor(routeNode: StoryNode): Unit = EditorController(routeNode).execute()
 }

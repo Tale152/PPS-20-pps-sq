@@ -18,5 +18,5 @@ case class PathStruct(private val _startId: Term, private val _endId: Term, priv
 
   def endId: Int = _endId.toInt
 
-  def crossedIds: Seq[Int] = _crossedIds.toIntSeq
+  def crossedIds: List[Int] = _crossedIds.toIntList
 }

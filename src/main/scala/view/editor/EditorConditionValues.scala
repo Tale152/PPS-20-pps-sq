@@ -9,6 +9,10 @@ object EditorConditionValues {
   object ConditionDescriptions {
 
     object Subjects {
+      val TheStartingId: String = "The starting Id"
+
+      val TheEndingId: String = "The ending Id"
+
       val TheName: String = "The name"
 
       val TheDescription: String = "The description"

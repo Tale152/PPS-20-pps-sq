@@ -3,16 +3,16 @@ package view.mainMenu
 import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.Resources.ResourceName
+import controller.util.serialization.StringUtil.StringFormatUtil.formatted
 import view.AbstractView
 import view.mainMenu.buttonListeners._
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
+
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-
 import javax.swing.SwingConstants
-import view.util.StringFormatUtil.formatted
 import view.util.StringUtil.TitleSize
 
 /**

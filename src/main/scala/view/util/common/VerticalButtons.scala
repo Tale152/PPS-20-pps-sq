@@ -1,5 +1,6 @@
 package view.util.common
 
+import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.NewLine
 import view.Frame.frame
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridBagPanel}
 
@@ -32,7 +33,6 @@ case class VerticalButtons(buttonsList: List[SqSwingButton]) extends SqSwingGrid
   })
 
   private def getWrappedText(button: AbstractButton, str: String): String = {
-    import view.util.StringFormatUtil.FormatElements.NewLine
     var newStr: String = str
     if (!str.contains(NewLine) && (frame.getWidth - 5) <
       button.getFont.getStringBounds(str, fontRenderContext).getWidth.intValue

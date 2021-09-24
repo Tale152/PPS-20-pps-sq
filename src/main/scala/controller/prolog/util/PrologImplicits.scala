@@ -3,6 +3,7 @@ package controller.prolog.util
 import alice.tuprolog.{Struct, Term}
 import controller.prolog.structs.StructsNames.Predicates.StoryNodePredicateName
 import controller.prolog.structs.StructsNames.Predicates.Records.PathwayRecord
+import controller.util.serialization.StringUtil.RichString
 import model.nodes.{Pathway, StoryNode}
 
 import scala.language.implicitConversions
@@ -41,7 +42,8 @@ object PrologImplicits {
      *         story_node(id,narrative,[pathway]).
      */
     def toPrologFact: String = {
-      StoryNodePredicateName + "(" + storyNode.id + ",'" + storyNode.narrative + "',[" +
+      StoryNodePredicateName + "(" + storyNode.id + ",'" +
+        storyNode.narrative.withoutNewLine.withoutContent("'") + "',[" +
         storyNode.pathways.map(p => p.toPrologRecord).mkString(",") + "])."
     }
 
@@ -54,7 +56,8 @@ object PrologImplicits {
      *         pathway(toId, description).
      */
     def toPrologRecord: String = {
-      PathwayRecord + "(" + pathway.destinationNode.id + ",'" + pathway.description + "')"
+      PathwayRecord + "(" + pathway.destinationNode.id + ",'" +
+        pathway.description.withoutNewLine.withoutContent("'") + "')"
     }
   }
 
@@ -81,11 +84,24 @@ object PrologImplicits {
     def toSeq: Seq[Term] = term.asInstanceOf[Struct].listIterator().asScala.toSeq
 
     /**
+     * @return the term as a List of terms.
+     */
+    def toList: List[Term] = term.toSeq.toList
+
+    /**
      * @param mappingFunction A mapping function to transform the term.
      * @tparam A The generic tye of the mapped Seq.
      * @return the term as a Seq of terms.
      */
     def toSeq[A](mappingFunction: Term => A): Seq[A] = term.toSeq.map(mappingFunction)
+
+
+    /**
+     * @param mappingFunction A mapping function to transform the term.
+     * @tparam A The generic tye of the mapped Seq.
+     * @return the term as a Seq of terms.
+     */
+    def toList[A](mappingFunction: Term => A): List[A] = term.toSeq(mappingFunction).toList
 
     /**
      * @return the term as a Seq of [[scala.Int]].
@@ -93,11 +109,15 @@ object PrologImplicits {
     def toIntSeq: Seq[Int] = toSeq(t => t.toInt)
 
     /**
+     * @return the term as a List of [[scala.Int]].
+     */
+    def toIntList: List[Int] = term.toIntSeq.toList
+    /**
      * @return the term as a [[scala.Int]]
      */
     def toInt: Int = term.toString.toInt
 
-    def toFormattedString: String = removeDelimiters(term.toString)
+    def fromPrologToString: String = removeDelimiters(term.toString)
 
     private val removeDelimiters: String => String = s => {
       if (s(0) == '\'' && s(s.length - 1) == '\'') {

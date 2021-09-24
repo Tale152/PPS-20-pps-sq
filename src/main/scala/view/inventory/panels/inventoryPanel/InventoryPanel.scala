@@ -1,9 +1,9 @@
 package view.inventory.panels.inventoryPanel
 
 import controller.game.subcontroller.InventoryController
+import controller.util.serialization.StringUtil.StringFormatUtil.formatted
 import model.items.{EquipItem, Item}
 import view.inventory.panels.inventoryPanel.InventoryPanelButtons.{discardButton, goBackButton, useButton}
-import view.util.StringFormatUtil.formatted
 import view.util.common.{Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridPanel}
