@@ -4,7 +4,7 @@ import controller.editor.EditorController
 import model.characters.properties.stats.StatName
 import model.characters.properties.stats.StatName.StatName
 import model.nodes.util.{Prerequisite, StatPrerequisite}
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerUnconditional
 import view.editor.okButtonListener.prerequisites.NewPathwayPrerequisiteNextFormOkListener._
 import view.editor.util.StatsNameStringUtil._
 import view.form.Form
@@ -12,7 +12,8 @@ import view.form.Form
 case class NewStatPrerequisiteOkListener(override val form: Form,
                                          override val controller: EditorController,
                                          originNodeId: Int,
-                                         destinationNodeId: Int) extends EditorOkFormButtonListener(form, controller) {
+                                         destinationNodeId: Int)
+  extends EditorOkFormButtonListenerUnconditional(form, controller) {
 
   private def getPrerequisite(selectedPrerequisiteStr: String, requiredValue: Int): Prerequisite = {
 
@@ -34,7 +35,4 @@ case class NewStatPrerequisiteOkListener(override val form: Form,
     )
   )
 
-  override def inputConditions: List[(Boolean, String)] = List()
-
-  override def stateConditions: List[(Boolean, String)] = List()
 }

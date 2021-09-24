@@ -4,7 +4,7 @@ import controller.editor.EditorController
 import view.editor.okButtonListener.events.NewEventOkListener.{ConsumableItemString, EquipItemString, ItemFormCategoryIndex, KeyItemString}
 import view.editor.util.EquipItemTypeUtil
 import view.editor.util.OperationStringUtil.IncrementDecrementOptions
-import view.form.{Form, FormBuilder, OkFormButtonListener}
+import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
 object NewItemCategoryOkListener {
 
@@ -32,7 +32,7 @@ object NewItemCategoryOkListener {
   private case class NewItemCategoryOkListener(override val form: Form,
                                                nodeId: Int,
                                                override val controller: EditorController)
-    extends OkFormButtonListener(form, controller) {
+    extends OkFormButtonListenerUnconditional(form, controller) {
 
     override def performAction(): Unit = form.elements(ItemFormCategoryIndex).value match {
       case KeyItemString => showKeyItemForm(nodeId)
@@ -85,9 +85,6 @@ object NewItemCategoryOkListener {
       form.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] = List()
-
-    override def stateConditions: List[(Boolean, String)] = List()
   }
 
   def apply(form: Form, nodeId: Int, controller: EditorController): OkFormButtonListener =

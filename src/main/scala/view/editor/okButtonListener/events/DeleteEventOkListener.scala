@@ -1,20 +1,18 @@
 package view.editor.okButtonListener.events
 
 import controller.editor.EditorController
-import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheId
-import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.forms.events.DeleteEvent.StoryNodeIdIndex
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerUnconditional
 import view.editor.okButtonListener.events.DeleteEventOkListener.EventComboIndex
 import view.editor.util.IndexedComboListUtil.{createIndexedOption, extractIndexFromOption}
-import view.form.{Form, FormBuilder, OkFormButtonListener}
+import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
 object DeleteEventOkListener {
 
   val EventComboIndex: Int = 0
 
   private case class DeleteEventOkListener(override val form: Form, override val controller: EditorController)
-    extends OkFormButtonListener(form, controller) {
+    extends OkFormButtonListenerUnconditional(form, controller) {
 
     private def createComboList(id: Int): List[String] =
       controller.nodesControls.getStoryNode(id).get
@@ -30,11 +28,6 @@ object DeleteEventOkListener {
 
     override def performAction(): Unit = showDeleteEventForm(form.elements(StoryNodeIdIndex).value.toInt)
 
-    override def inputConditions: List[(Boolean, String)] = List(
-      (form.elements(StoryNodeIdIndex).value != null, mustBeSpecified(TheId))
-    )
-
-    override def stateConditions: List[(Boolean, String)] = List()
   }
 
   def apply(form: Form, controller: EditorController): OkFormButtonListener =
@@ -45,7 +38,7 @@ object DeleteEventOkListener {
 private case class DeleteEventNextFormOkListener(override val form: Form,
                                                  override val controller: EditorController,
                                                  nodeId: Int)
-  extends EditorOkFormButtonListener(form, controller) {
+  extends EditorOkFormButtonListenerUnconditional(form, controller) {
 
   override def editorControllerAction(): Unit = {
     val selectedIndex: Int = extractIndexFromOption(form.elements(EventComboIndex).value)
@@ -55,7 +48,4 @@ private case class DeleteEventNextFormOkListener(override val form: Form,
     )
   }
 
-  override def inputConditions: List[(Boolean, String)] = List()
-
-  override def stateConditions: List[(Boolean, String)] = List()
 }

@@ -23,3 +23,17 @@ abstract class EditorOkFormButtonListener(override val form: Form, override val 
   def editorControllerAction(): Unit
 
 }
+
+/** @inheritdoc */
+abstract class EditorOkFormButtonListenerStateless(form: Form, controller: EditorController)
+  extends EditorOkFormButtonListener(form, controller) {
+
+  override final def stateConditions: List[(Boolean, String)] = List()
+}
+
+/** @inheritdoc */
+abstract class EditorOkFormButtonListenerUnconditional(form: Form, controller: EditorController)
+  extends EditorOkFormButtonListenerStateless(form, controller) {
+
+  override final def inputConditions: List[(Boolean, String)] = List()
+}

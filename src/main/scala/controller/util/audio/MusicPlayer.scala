@@ -10,7 +10,7 @@ object MusicPlayer {
   val storyMusicClips: Set[Clip] = loadAudioClips(storyMusicDirectoryPath())
   val battleMusicClips: Set[Clip] = loadAudioClips(battleMusicDirectoryPath())
   val menuMusicClips: Set[Clip] = loadAudioClips(menuMusicDirectoryPath())
-  private var currentlyPlaying: Option[Clip] = None
+  None
 
   /**
    * Used to play music during story navigation.
