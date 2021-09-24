@@ -1,9 +1,9 @@
 package view.util.scalaQuestSwingComponents
 
-import view.util.SoundPlayer
-import java.awt.Color
-import java.awt.event.{ActionEvent, ActionListener}
+import controller.util.audio.SoundPlayer
 
+import java.awt.Color
+import java.awt.event.{ActionEvent, ActionListener, MouseAdapter, MouseEvent}
 import javax.swing.JButton
 import view.util.StringUtil.ButtonTextSize
 
@@ -23,6 +23,20 @@ case class SqSwingButton(text: String, action: ActionListener, buttonEnabled: Bo
   this.setEnabled(buttonEnabled)
   this.setFocusable(false)
   this.setFont(SqFont(bold = true, ButtonTextSize))
+
+  private val thisButton = this
+  this.addMouseListener(new MouseAdapter {
+    override def mouseEntered(e: MouseEvent): Unit = {
+      super.mouseEntered(e)
+      SoundPlayer.playNavigationSound()
+      thisButton.changeTextColor(Color.GREEN)
+    }
+
+    override def mouseExited(e: MouseEvent): Unit = {
+      super.mouseExited(e)
+      thisButton.changeTextColor(Color.WHITE)
+    }
+  })
 
   def changeTextColor(color: Color): Unit = this.setForeground(color)
 }

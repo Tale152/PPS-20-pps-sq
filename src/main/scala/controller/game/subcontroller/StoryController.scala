@@ -3,6 +3,7 @@ package controller.game.subcontroller
 import controller.game.{GameMasterController, OperationType}
 import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.NewLine
 import controller.util.serialization.StringUtil.StringFormatUtil.formatted
+import controller.util.audio.MusicPlayer
 import model.StoryModel
 import model.characters.properties.stats.StatName.StatName
 import model.nodes.{ItemEvent, Pathway, StatEvent}
@@ -21,7 +22,7 @@ sealed trait StoryController extends SubController {
    * @throws IllegalArgumentException when selecting a pathway that does not belong to the current
    *                                  [[model.nodes.StoryNode]]
    */
-  def choosePathWay(pathway: Pathway): Unit
+  def choosePathway(pathway: Pathway): Unit
 
   /**
    * Calls the [[controller.game.GameMasterController]] to grant control to the
@@ -57,25 +58,24 @@ object StoryController {
     extends StoryController {
 
     private val storyView: StoryView = StoryView(this)
+    MusicPlayer.playStoryMusic()
 
     override def execute(): Unit = {
-      processEvents()
       storyView.setNarrative(storyModel.currentStoryNode.narrative)
       storyView.setPathways(
         storyModel.currentStoryNode.pathways.filter(
-          p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get.isSatisfied(storyModel)))
+          p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
       )
       storyView.render()
+      processEvents()
     }
 
-    override def close(): Unit = gameMasterController.close()
+    override def close(): Unit = {
+      MusicPlayer.playMenuMusic()
+      gameMasterController.close()
+    }
 
-    override def choosePathWay(pathway: Pathway): Unit = {
-      if (!storyModel.currentStoryNode.pathways.contains(pathway)) {
-        throw new IllegalArgumentException(
-          "The selected Pathway does not belong to the current StoryNode: " + pathway.toString
-        )
-      }
+    override def choosePathway(pathway: Pathway): Unit = {
       storyModel.appendToHistory(pathway.destinationNode)
       redirect()
     }
@@ -91,7 +91,10 @@ object StoryController {
     private def redirect(): Unit =
       if (storyModel.currentStoryNode.enemy.isEmpty) this.execute() else goToBattle()
 
-    private def goToBattle(): Unit = gameMasterController.executeOperation(OperationType.BattleOperation)
+    private def goToBattle(): Unit = {
+      MusicPlayer.playBattleMusic()
+      gameMasterController.executeOperation(OperationType.BattleOperation)
+    }
 
     /**
      * Process all events, then delete them from the current [[model.nodes.StoryNode]].
@@ -118,9 +121,7 @@ object StoryController {
      *         formatted with + or - sign.
      */
     private def getStatDifferences(statName: StatName, statModifierStrategy: Int => Int): String = {
-      val originalStatValue = storyModel.player.properties.stat(statName).value
-      val modifiedStatValue = storyModel.player.properties.statModifiers.filter(s => s.statName == statName)
-        .foldLeft(originalStatValue)((o, m) => m.modifyStrategy(o))
+      val modifiedStatValue = storyModel.player.properties.modifiedStat(statName).value
       val difference = statModifierStrategy(modifiedStatValue) - modifiedStatValue
       if (difference >= 0) {
         "+" + difference

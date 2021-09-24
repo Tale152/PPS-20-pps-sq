@@ -1,6 +1,6 @@
 package view.playerConfiguration
 
-import controller.PlayerConfigurationController
+import controller.game.PlayerConfigurationController
 import model.characters.properties.stats.Stat
 import view.AbstractView
 import view.playerConfiguration.panels.{InstructionPanel, PlayerNamePanel, RemainingPointsPanel, StatEditPanel}
@@ -13,7 +13,7 @@ import javax.swing.BoxLayout
 /**
  * It is a GUI that allows the user to set his properties. Associated with a PlayerConfigurationController.
  *
- * @see [[controller.PlayerConfigurationController]]
+ * @see [[PlayerConfigurationController]]
  * @see [[model.characters.properties.stats.Stat]]
  * @see [[model.characters.properties.PropertiesContainer]]
  * @see [[model.characters.Player]]

@@ -5,9 +5,12 @@ import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{interactionSoundEffectPath, navigationSoundEffectPath}
 
 import java.awt.image.BufferedImage
-import java.io.{BufferedInputStream, InputStream}
+import java.io.{BufferedInputStream, File, InputStream}
+import java.net.{URI, URL}
+import java.nio.file._
 import javax.imageio.ImageIO
 import javax.sound.sampled.{AudioInputStream, AudioSystem, Clip}
+import scala.collection.JavaConverters.asScalaIteratorConverter
 import scala.io.Source.fromInputStream
 
 /**
@@ -15,23 +18,98 @@ import scala.io.Source.fromInputStream
  */
 object Resources {
 
-  def resourceAsInputStream(resourceName: String): InputStream = getClass.getResourceAsStream(resourceName)
+  /**
+   * Implicit class used to add a method to map a [[java.io.InputStream]] to a [[javax.sound.sampled.AudioInputStream]].
+   * @param inputStream the implicit InputStream parameter.
+   */
+  implicit class RichInputStream(inputStream: InputStream) {
+    def toAudioInputStream: AudioInputStream = {
+      //add buffer for mark/reset support
+      val bufferedIn: InputStream = new BufferedInputStream(inputStream)
+      AudioSystem.getAudioInputStream(bufferedIn)
+    }
+  }
+
+  /**
+   * Get the resource (from the resources folder) as an [[java.io.InputStream]].
+   *
+   * @param resourcePath the resource path.
+   * @return the [[java.io.InputStream]] representing the resource.
+   */
+  def resourceAsInputStream(resourcePath: String): InputStream = getClass.getResourceAsStream(resourcePath)
+
+  /**
+   * Convert all the resources inside a folder to a Set of [[java.io.InputStream]].
+   *
+   * @param folderPath the folder path.
+   * @return A set of [[java.io.InputStream]]
+   */
+  def resourcesAsInputStreamFromFolder(folderPath: String): Set[InputStream] = {
+    val url: Option[URL] = Option(getClass.getResource(folderPath))
+    url match {
+      case Some(url) =>
+        val uri: URI = url.toURI
+        if (uri.getScheme.contains("jar")) {
+          resourceAsInputStreamFromJarFolder(folderPath)
+        } else {
+          new File(uri).list().map(s => resourceAsInputStream(folderPath + "/" + s)).toSet
+        }
+      case None => Set()
+    }
+  }
+
+  /**
+   * Convert all the resources inside a folder to a Set of [[java.io.InputStream]].
+   * Works only if launched from inside a compiled jar.
+   *
+   * @param folderPath the folder path.
+   * @return A set of [[java.io.InputStream]]
+   */
+  private def resourceAsInputStreamFromJarFolder(folderPath: String): Set[InputStream] = {
+    val jarFile: Path = Paths.get(
+      getClass.getProtectionDomain.getCodeSource.getLocation.toString
+        .substring("file:".length()).replaceFirst("^/(.:/)", "$1")
+    )
+    val fs: FileSystem = FileSystems.newFileSystem(jarFile, getClass.getClassLoader)
+    Files.newDirectoryStream(fs.getPath(folderPath))
+      .iterator()
+      .asScala
+      .map(p => resourceAsInputStream(p.toString))
+      .toSet
+  }
+
+  /**
+   * Loads a clip from it's corresponding inputstream.
+   *
+   * @param inputStream stream representing the audio file.
+   * @return a loaded clip.
+   */
+  private def loadClipFromAudioInputStream(inputStream: InputStream): Clip = {
+    val audioInputStream: AudioInputStream = inputStream match {
+      case a: AudioInputStream => a
+      case _ => inputStream.toAudioInputStream
+    }
+    val clip = AudioSystem.getClip()
+    clip.open(audioInputStream)
+    clip
+  }
 
   /**
    * @param resourceName the resource name.
    * @return a [[javax.sound.sampled.Clip]] containing the sound.
    */
   private def loadAudioClip(resourceName: String): Clip = {
+    loadClipFromAudioInputStream(resourceAsInputStream(resourceName))
+  }
 
-    def _resourceAsAudioInputStream(resourceName: String): AudioInputStream = {
-      val audioSrc : InputStream = resourceAsInputStream(resourceName)
-      //add buffer for mark/reset support
-      val bufferedIn : InputStream = new BufferedInputStream(audioSrc)
-      AudioSystem.getAudioInputStream(bufferedIn)
-    }
-    val clip = AudioSystem.getClip()
-    clip.open(_resourceAsAudioInputStream(resourceName))
-    clip
+  /**
+   * Loads all existing clips.
+   *
+   * @param resourcesFolder string containing the name of the folder that contains the music.
+   * @return a set of clip already loaded.
+   */
+  def loadAudioClips(resourcesFolder: String): Set[Clip] = {
+    resourcesAsInputStreamFromFolder(resourcesFolder).map(i => loadClipFromAudioInputStream(i))
   }
 
   /**
@@ -50,7 +128,7 @@ object Resources {
     fromInputStream(resourceAsInputStream(filePath)).getLines().toList
   }
 
-  object AudioClip {
+  object SoundClip {
     lazy val interactionSoundClip: Clip = loadAudioClip(interactionSoundEffectPath)
     lazy val navigationSoundClip: Clip = loadAudioClip(navigationSoundEffectPath)
   }
@@ -64,12 +142,12 @@ object Resources {
       val GameDirectoryName: String = ".sq"
       val StoryDirectoryName: String = "stories"
       val SoundsEffectsDirectoryName: String = "sound_effects"
+      val StoryMusicDirectoryName: String = "story_music"
+      val BattleMusicDirectoryName: String = "battle_music"
+      val MenuMusicDirectoryName: String = "menu_music"
     }
 
-    import controller.util.Resources.ResourceName.FileExtensions.{
-      StoryFileExtension,
-      StoryProgressFileExtension
-    }
+    import controller.util.Resources.ResourceName.FileExtensions.{StoryFileExtension, StoryProgressFileExtension}
 
     object FileExtensions {
       val StoryFileExtension: String = "sqstr"
@@ -80,16 +158,18 @@ object Resources {
     }
 
     private object SoundNames {
+
       import FileExtensions.WavExtension
+
       val InteractionSoundEffectFileName: String = "interaction." + WavExtension
       val NavigationSoundEffectFileName: String = "navigation." + WavExtension
     }
 
     private object PrologNames {
-       val PrologTheoryFileName: String = "theory." + PrologExtension
+      val PrologTheoryFileName: String = "theory." + PrologExtension
     }
 
-    object MainDirectory{
+    object MainDirectory {
       val RootGameDirectory: String = System.getProperty("user.home")
       //use mostly for test purposes
       private val ScalaQuestTestFolderName = "ScalaQuest_Test"
@@ -98,11 +178,7 @@ object Resources {
 
     val testRandomStoryName: String = "test-random-story"
 
-    import controller.util.Resources.ResourceName.DirectoryNames.{
-      GameDirectoryName,
-      SoundsEffectsDirectoryName,
-      StoryDirectoryName
-    }
+    import controller.util.Resources.ResourceName.DirectoryNames._
 
     def storyDirectoryPath(baseDirectory: String = RootGameDirectory): String =
       gameDirectoryPath(baseDirectory) + "/" + StoryDirectoryName
@@ -119,10 +195,7 @@ object Resources {
     def storyProgressPath(storyName: String)(baseDirectory: String = RootGameDirectory): String =
       storyPathWitNoExtension(storyName)(baseDirectory) + "." + StoryProgressFileExtension
 
-    import controller.util.Resources.ResourceName.SoundNames.{
-      InteractionSoundEffectFileName,
-      NavigationSoundEffectFileName
-    }
+    import controller.util.Resources.ResourceName.SoundNames._
 
     def interactionSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
 
@@ -131,5 +204,18 @@ object Resources {
     import controller.util.Resources.ResourceName.PrologNames.PrologTheoryFileName
 
     def prologEngineTheoryPath: String = "/" + PrologTheoryFileName
+
+    def storyMusicDirectoryPath(): String = {
+      "/" + SoundsEffectsDirectoryName + "/" + StoryMusicDirectoryName
+    }
+
+    def battleMusicDirectoryPath(): String = {
+      "/" + SoundsEffectsDirectoryName + "/" + BattleMusicDirectoryName
+    }
+
+    def menuMusicDirectoryPath(): String = {
+      "/" + SoundsEffectsDirectoryName + "/" + MenuMusicDirectoryName
+    }
+
   }
 }

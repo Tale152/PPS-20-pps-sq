@@ -1,14 +1,18 @@
 package view.editor.forms.pathways
 
 import controller.editor.EditorController
+import view.editor.forms.EditorForm
 import view.editor.okButtonListener.pathways.DetailsPathwayOkListener
 import view.form.{Form, FormBuilder}
 
 object DetailsPathway {
-
   val OriginNodeIdIndex: Int = 0
+}
 
-  def showDetailsPathwayForm(editorController: EditorController): Unit = {
+/** @inheritdoc */
+case class DetailsPathway() extends EditorForm {
+
+  override def show(editorController: EditorController): Unit = {
     val form: Form = FormBuilder()
       .addComboField(
         "Which is the starting node?",

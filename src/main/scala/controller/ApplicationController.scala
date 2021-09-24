@@ -1,12 +1,13 @@
 package controller
 
 import controller.editor.EditorController
-import controller.game.GameMasterController
+import controller.game.{GameMasterController, PlayerConfigurationController}
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceLoader
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
-import controller.util.serialization.FolderUtil.deleteFolder
+import controller.util.FolderUtil.{deleteFolder, filesNameInFolder}
+import controller.util.audio.MusicPlayer
 import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
@@ -20,6 +21,13 @@ import java.nio.file.{Files, Paths}
  * It's the entrypoint and controls the main menu.
  */
 sealed trait ApplicationController extends Controller {
+
+  /**
+   * Gives control to the [[controller.editor.EditorController]] that will manipulate the provided story.
+   *
+   * @param routeNode the route node of the story that will be manipulated
+   */
+  def goToEditor(routeNode: StoryNode): Unit
 
   /**
    * Load a story starting a new game. Once the story is loaded the control will be granted to the
@@ -55,24 +63,17 @@ sealed trait ApplicationController extends Controller {
    */
   def deleteExistingStory(directoryName: String): Unit
 
-  /**
-   * Go to the Editor View.
-   * @param routeNode The [[model.nodes.StoryNode]] used as route node.
-   */
-  def goToEditor(routeNode: StoryNode): Unit
-
 }
 
 object ApplicationController extends ApplicationController {
 
-  ResourceLoader.loadResources()
   private val mainMenu: MainMenu = MainMenu(this)
 
-  private def loadStoryNames(): Set[String] = {
-    new File(storyDirectoryPath()).list().toSet
-  }
-
+  ResourceLoader.loadResources()
   initializeGameFolderStructure(RootGameDirectory)
+  MusicPlayer.playMenuMusic()
+
+  private def loadStoryNames(): Set[String] = filesNameInFolder(storyDirectoryPath())
 
   override def execute(): Unit = {
     mainMenu.setStories(loadStoryNames())

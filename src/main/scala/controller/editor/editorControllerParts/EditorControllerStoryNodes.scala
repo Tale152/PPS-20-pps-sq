@@ -39,25 +39,59 @@ trait EditorControllerStoryNodes {
    */
   def deleteExistingStoryNode(id: Int): Unit
 
+  /**
+   * @param id the id of the target StoryNode
+   * @return true if deleting the target StoryNode wouldn't violate the integrity of the story
+   */
   def isStoryNodeDeletable(id: Int): Boolean
 
+  /**
+   * @param filter to apply to the StoryNodes
+   * @return ordered StoryNodes id that satisfy the provided filter
+   */
   def getNodesIds(filter: StoryNode => Boolean): List[Int]
 
+  /**
+   * Adds an Event to a StoryNode.
+   * @param nodeId the id of the StoryNode where the event to delete is
+   * @param event the Event to add to the target StoryNode
+   */
   def addEventToNode(nodeId: Int, event: Event): Unit
 
+  /**
+   * Deletes an Event from a StoryNode.
+   * @param nodeId the id of the StoryNode from which the Event will be deleted
+   * @param event the Event to delete from the target StoryNode
+   */
   def deleteEventFromNode(nodeId: Int, event: Event): Unit
 
+  /**
+   * Adds an Enemy to a StoryNode.
+   * @param nodeId the id of the StoryNode where the Enemy will be added
+   * @param enemy the Enemy to add to the target StoryNode
+   */
   def addEnemyToNode(nodeId: Int, enemy: Enemy): Unit
 
+  /**
+   * Deletes an Enemy from a StoryNode.
+   * @param nodeId the id of the StoryNode where the Enemy will be deleted
+   */
   def deleteEnemyFromNode(nodeId: Int): Unit
 
+  /**
+   * Returns all KeyItems in the StoryNodes that come before the targetNode (included).
+   * Example: giving pathways {(A -> B), (A -> C), (B -> D), (B -> E), (D -> F)},
+   * targeting the node 'D' will return all KeyItems from StoryNodes D, B and A (if said nodes contain any KeyItem).
+   * @param targetNode the node to target
+   * @return the list of all the KeyItems found
+   */
   def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem]
 
 }
 
 object EditorControllerStoryNodes {
 
-  private case class EditorControllerStoryNodesImpl(editorController: EditorController)
+  private case class EditorControllerStoryNodesImpl(private val editorController: EditorController)
     extends EditorControllerStoryNodes {
 
     override def getStoryNode(id: Int): Option[MutableStoryNode] = editorController.nodes._2.find(n => n.id == id)
@@ -98,7 +132,7 @@ object EditorControllerStoryNodes {
       editorController.decorateGraphGUI()
     }
 
-    def isStoryNodeDeletable(id: Int): Boolean = {
+    override def isStoryNodeDeletable(id: Int): Boolean = {
       val mutableStoryNode = getStoryNode(id)
       if (mutableStoryNode.isEmpty) {
         false
@@ -149,28 +183,20 @@ object EditorControllerStoryNodes {
 
       def stepBack(node: MutableStoryNode,
                    visitedNodes: Set[MutableStoryNode]): (List[KeyItem], Set[MutableStoryNode]) = {
-        var keyItems: List[KeyItem] = List()
-        var visitedNodesVar: Set[MutableStoryNode] = visitedNodes + node //adding this node to the already visited
-
+        var _visitedNodes: Set[MutableStoryNode] = visitedNodes + node //adding this node to the already visited
         //getting all key items in this node
-        node.events.foreach {
-          case itemEvent: ItemEvent => itemEvent.item match {
-            case keyItem: KeyItem => keyItems = keyItems :+ keyItem
-            case _ =>
-          }
-          case _ =>
-        }
-
+        var keyItems: List[KeyItem] = node.events
+          .collect { case itemEvent: ItemEvent => itemEvent.item }
+          .collect { case keyItem: KeyItem => keyItem }
         //for each predecessor of this node
         editorController.pathwaysControls.getAllOriginNodes(node.id).foreach(n => {
           //only if the predecessor hasn't been visited yet
           if (!visitedNodes.contains(n)) {
-            val nodeRes = stepBack(n, visitedNodesVar)
+            val nodeRes = stepBack(n, _visitedNodes)
             keyItems = keyItems ++ nodeRes._1 //adding the key items found exploring this predecessor
-            visitedNodesVar = visitedNodesVar ++ nodeRes._2 //adding the visited nodes exploring the predecessor
+            _visitedNodes = _visitedNodes ++ nodeRes._2 //adding the visited nodes exploring the predecessor
           }
         })
-
         //returning the tuple
         (keyItems, visitedNodes)
       }

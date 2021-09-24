@@ -3,7 +3,7 @@ package view.mainMenu.buttonListeners
 import controller.ApplicationController
 import controller.util.Resources.ResourceName.{FileExtensions, storyDirectoryPath}
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.serialization.FolderUtil.createFolderIfNotPresent
+import controller.util.FolderUtil.createFolderIfNotPresent
 import controller.util.serialization.StoryNodeSerializer.{deserializeStory, serializeStory}
 import view.mainMenu.MainMenu
 import view.mainMenu.buttonListeners.MainMenuButtonListeners.LoadStoryChooserButtonListener

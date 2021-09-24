@@ -2,12 +2,11 @@ package view.editor.forms.enemies
 
 import controller.editor.EditorController
 import view.editor.EditorView
+import view.editor.forms.EditorForm
 import view.editor.okButtonListener.enemies.NewEnemyOkListener
 import view.form.{Form, FormBuilder}
 
 object NewEnemy {
-
-  private val DefaultStatValue: Integer = 10
 
   val NodeIdIndex = 0
   val EnemyNameIndex = 1
@@ -19,7 +18,14 @@ object NewEnemy {
   val StrengthIndex = 7
   val WisdomIndex = 8
 
-  def showNewEnemyForm(editorController: EditorController): Unit = {
+}
+
+/** @inheritdoc */
+case class NewEnemy() extends EditorForm {
+
+  private val DefaultStatValue: Integer = 10
+
+  override def show(editorController: EditorController): Unit = {
     val targetNodes = editorController.nodesControls.getNodesIds(n => n.enemy.isEmpty).map(n => n.toString)
     if(targetNodes.nonEmpty){
       val form: Form = FormBuilder()
@@ -38,6 +44,6 @@ object NewEnemy {
     } else {
       EditorView.showForbiddenActionDialog("There are no nodes without an enemy")
     }
-
   }
+
 }

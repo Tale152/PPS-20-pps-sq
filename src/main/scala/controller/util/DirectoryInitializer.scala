@@ -3,11 +3,10 @@ package controller.util
 import controller.util.DirectoryInitializer.StoryPopulationStrategy.{DefaultStoryPopulation, StoryPopulationStrategy}
 import controller.util.Resources.ResourceName
 import controller.util.Resources.ResourceName.{gameDirectoryPath, storyDirectoryPath, testRandomStoryName}
-import controller.util.serialization.FolderUtil.createFolderIfNotPresent
+import FolderUtil.{createFolderIfNotPresent, filesNameInFolder}
 import controller.util.serialization.StoryNodeSerializer.serializeStory
 import model.nodes.util.RandomStoryNodeGenerator
 
-import java.io.File
 
 object DirectoryInitializer {
 
@@ -62,7 +61,7 @@ object DirectoryInitializer {
 
     createFolderIfNotPresent(gameDirectoryPath(gameRootDirectory))
     createFolderIfNotPresent(storyDirectoryPath(gameRootDirectory))
-    if (new File(storyDirectoryPath(gameRootDirectory)).list().isEmpty) {
+    if (filesNameInFolder(storyDirectoryPath(gameRootDirectory)).isEmpty) {
       _populateStoriesDirectory(gameRootDirectory, populationStrategy)
     }
   }

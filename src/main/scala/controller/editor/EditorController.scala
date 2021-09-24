@@ -14,12 +14,24 @@ import view.editor.EditorView
 
 trait EditorController extends Controller {
 
+  /**
+   * A pair containing the route node an a set of all the existing nodes (including the route node)
+   */
   var nodes: (MutableStoryNode, Set[MutableStoryNode])
 
+  /**
+   * Instance of the GraphStream's graph, used to visually display the StoryNodes structure.
+   */
   val graph: Graph
 
+  /**
+   * @return accessor to the methods regarding the StoryNodes.
+   */
   val nodesControls: EditorControllerStoryNodes
 
+  /**
+   * @return accessor to the methods regarding the Pathways.
+   */
   val pathwaysControls: EditorControllerPathways
 
   /**
@@ -39,16 +51,21 @@ trait EditorController extends Controller {
   def switchPathwaysDescriptionVisibility(): Unit
 
   /**
+<<<<<<< HEAD
    * Go to the Info page using the editor route node.
    */
   def goToInfo(): Unit
 
+  /**
+   * Applies graphical changes to the GraphStream's graph
+   */
   def decorateGraphGUI(): Unit
 
 }
 
 object EditorController {
 
+  //used to tell to the GraphStream framework to collaborate with Swing
   System.setProperty("org.graphstream.ui", "swing")
 
   private class EditorControllerImpl(routeNode: StoryNode) extends EditorController {
@@ -61,7 +78,7 @@ object EditorController {
     override var nodes: (MutableStoryNode, Set[MutableStoryNode]) = StoryNodeConverter.fromImmutableToMutable(routeNode)
     override val graph: Graph = GraphBuilder.build(nodes._1)
 
-    val graphViewer: Viewer = graph.display()
+    private val graphViewer: Viewer = graph.display() //opens the graph GUI and return a Viewer instance
     decorateGraphGUI()
 
     override def execute(): Unit = editorView.render()
@@ -94,8 +111,8 @@ object EditorController {
         }
       })
       graph.edges().forEach(e => setupEdge(
-        e.getId.split(StringUtils.pathwayIdSeparator)(0),
-        e.getId.split(StringUtils.pathwayIdSeparator)(1))
+        e.getId.split(StringUtils.PathwayIdSeparator)(0),
+        e.getId.split(StringUtils.PathwayIdSeparator)(1))
       )
     }
 
@@ -128,14 +145,14 @@ object EditorController {
     private def setupEdge(startNodeId: String, endNodeId: String): Unit = {
       val startNode = nodes._2.find(n => n.id.toString == startNodeId).get
       ElementStyle.decorateEdge(
-        graph.getEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId),
+        graph.getEdge(startNodeId + StringUtils.PathwayIdSeparator + endNodeId),
         startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.prerequisite.nonEmpty
       )
       ElementLabel.putLabelOnElement(
-        graph.getEdge(startNodeId + StringUtils.pathwayIdSeparator + endNodeId), printEdgeLabel
+        graph.getEdge(startNodeId + StringUtils.PathwayIdSeparator + endNodeId), printEdgeLabel
       )(
         StringUtils.buildLabel(
-          startNodeId + StringUtils.pathwayIdSeparator + endNodeId,
+          startNodeId + StringUtils.PathwayIdSeparator + endNodeId,
           startNode.pathways.find(p => p.destinationNode.id.toString == endNodeId).get.description
         ),
         ""

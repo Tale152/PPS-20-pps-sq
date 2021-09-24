@@ -43,7 +43,6 @@ object StoryView {
   private class StoryViewSwing(private val storyController: StoryController) extends StoryView {
     private var _narrative: String = ""
     private var _pathways: Seq[Pathway] = Seq()
-    var eventsNameList: List[String] = List()
 
     this.setLayout(new BorderLayout())
 
@@ -52,13 +51,10 @@ object StoryView {
     override def setPathways(pathways: Set[Pathway]): Unit = _pathways = pathways.toSeq
 
     override def displayEvent(eventsList: List[String]): Unit = {
-      if (eventsList.nonEmpty) {
-        SqSwingDialog("New Event!", eventsList.head, List(
-          SqSwingButton("ok", (_: ActionEvent) => {
-            displayEvent(eventsNameList)
-          })), closable = false)
-        eventsNameList = eventsList.drop(1)
-      }
+      eventsList.foreach(e => {
+        SqSwingDialog("New Event!", e, List(
+          SqSwingButton("ok", _ => {})), closable = false)
+      })
     }
 
     override def populateView(): Unit = {
@@ -78,7 +74,7 @@ object StoryView {
         ),BorderLayout.NORTH
       )
       this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
-      this.add(PathwaysPanel(_pathways, p => storyController.choosePathWay(p)), BorderLayout.SOUTH)
+      this.add(PathwaysPanel(_pathways, p => storyController.choosePathway(p)), BorderLayout.SOUTH)
     }
   }
 

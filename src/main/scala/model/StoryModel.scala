@@ -11,13 +11,13 @@ trait StoryModel {
   /**
    * @return the name of this story
    */
-  def storyName: String
+  val storyName: String
 
   /**
    * @return the Player that is playing this story.
    * @see [[model.characters.Player]]
    */
-  def player: Player
+  val player: Player
 
   /**
    * @return the story node where the player currently is (last node in history)
@@ -34,6 +34,7 @@ trait StoryModel {
 
   /**
    * Appends a new traversed StoryNode, updating the history.
+   *
    * @param storyNode the new traversed StoryNode to append.
    * @see [[model.nodes.StoryNode]]
    */
@@ -44,8 +45,9 @@ object StoryModel {
 
   /**
    * Returns an implementation of StoryModel.
-   * @param storyName the name of the story
-   * @param player the main player of the game.
+   *
+   * @param storyName         the name of the story
+   * @param player            the main player of the game.
    * @param startingStoryNode the starting node of the story.
    * @return the StoryModel.
    */
@@ -54,54 +56,63 @@ object StoryModel {
 
   /**
    * Returns an implementation of StoryModel.
-   * @param storyName the name of the story
-   * @param player the main player of the game.
+   *
+   * @param storyName      the name of the story
+   * @param player         the main player of the game.
    * @param currentHistory the history of traversed StoryNodes so far.
    * @return the StoryModel.
    */
   def apply(storyName: String, player: Player, currentHistory: List[StoryNode]): StoryModel =
     new StoryModelImpl(storyName, player, currentHistory)
 
-  private class StoryModelImpl (override val storyName: String,
-                                 override val player: Player,
-                                currentHistory: List[StoryNode]) extends StoryModel {
+  private class StoryModelImpl(override val storyName: String,
+                               override val player: Player,
+                               currentHistory: List[StoryNode]) extends StoryModel {
 
-    require(
-        storyName.trim.nonEmpty &&
-        currentHistory.nonEmpty &&
-        checkNoDuplicateIdInNodes(getAllNodesStartingFromThis(currentHistory.head)) &&
-        isHistoryValid(currentHistory)
-    )
+    ArgsChecker.check()
 
     private var _history: List[StoryNode] = currentHistory
 
-    private def getAllNodesStartingFromThis(node: StoryNode): Set[StoryNode] = {
-      def _visitAllPathways(node: StoryNode): Set[Set[StoryNode]] = {
-        for(pathway <- node.pathways)
-          yield getAllNodesStartingFromThis(pathway.destinationNode)
-      }
-      Set(node) ++ _visitAllPathways(node).foldLeft[Set[StoryNode]](Set.empty[StoryNode])(_ ++ _)
-    }
-
-    private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = nodes.size == nodes.map(n => n.id).size
-
     private def isStoryNodeToAppendValid(currentNode: StoryNode, nodeToAppend: StoryNode): Boolean =
       currentNode.pathways.count(p => p.destinationNode == nodeToAppend) == 1
-
-    private def isHistoryValid(history: List[StoryNode]): Boolean = history.size match {
-      case 1 => true
-      case _ => history.sliding(2).forall(p => isStoryNodeToAppendValid(p.head, p.last))
-    }
 
     override def currentStoryNode: StoryNode = _history.last
 
     override def history: List[StoryNode] = _history
 
     override def appendToHistory(storyNode: StoryNode): Unit = {
-      if(!isStoryNodeToAppendValid(currentStoryNode, storyNode)) throw new IllegalArgumentException(
+      if (!isStoryNodeToAppendValid(currentStoryNode, storyNode)) throw new IllegalArgumentException(
         "Provided StoryNode is not reachable by any Pathway starting from the current StoryNode"
       )
       _history = _history :+ storyNode
+    }
+
+    private object ArgsChecker {
+
+      private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = nodes.size == nodes.map(n => n.id).size
+
+      private def getReachableNodes(node: StoryNode): Set[StoryNode] = {
+
+        def _visitAllPathways(node: StoryNode): Set[Set[StoryNode]] = {
+          for (pathway <- node.pathways) yield getReachableNodes(pathway.destinationNode)
+        }
+
+        Set(node) ++ _visitAllPathways(node).foldLeft[Set[StoryNode]](Set.empty[StoryNode])(_ ++ _)
+      }
+
+      private def isHistoryValid(history: List[StoryNode]): Boolean = history.size match {
+        case 1 => true
+        case _ => history.sliding(2).forall(p => isStoryNodeToAppendValid(p.head, p.last))
+      }
+
+      def check(): Unit =
+        require(
+          storyName.trim.nonEmpty &&
+            currentHistory.nonEmpty &&
+            checkNoDuplicateIdInNodes(getReachableNodes(currentHistory.head)) &&
+            isHistoryValid(currentHistory)
+        )
+
     }
   }
 }

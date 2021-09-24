@@ -21,7 +21,7 @@ sealed trait Item extends Serializable with Ordered[Item] {
 abstract class AbstractItem(override val name: String,
                             override val description: String) extends Item {
 
-  require(name != null && name.trim.nonEmpty  && description != null && description.trim.nonEmpty)
+  require(name != null && name.trim.nonEmpty && description != null && description.trim.nonEmpty)
   /**
    * Template method that use [[model.items.AbstractItem#applyEffect(java.lang.Character)]]
    * and [[model.items.AbstractItem#postEffect(java.lang.Character)]].
@@ -36,22 +36,19 @@ abstract class AbstractItem(override val name: String,
   def applyEffect(owner: Character)(target: Character = owner): Unit
   def postEffect(owner: Character)(target: Character = owner): Unit
 
-  override def compare(that: Item): Int = {
+  override def compare(that: Item): Int =
    if(this.isInstanceOf[that.type]) {
      this.name compare that.name //compare alphabetically
    } else {
      _compareByPriorityType(that)
    }
-  }
 
-  private def _compareByPriorityType(that: Item): Int = {
-    this match {
+  private def _compareByPriorityType(that: Item): Int = this match {
       case _: KeyItem => 1
       case _: ConsumableItem => -1
       case _: EquipItem => if (that.isInstanceOf[ConsumableItem]) 1 else -1
       case _ => throw new IllegalArgumentException("Supplied item class does not exist")
     }
-  }
 }
 
 /**
@@ -62,7 +59,7 @@ abstract class AbstractItem(override val name: String,
 case class KeyItem(override val name: String,
                    override val description: String) extends AbstractItem(name, description) {
   override def applyEffect(owner: Character)(target: Character = owner): Unit =
-    throw new UnsupportedOperationException(getClass.getSimpleName + " can't be used")
+    throw new UnsupportedOperationException(getClass.getSimpleName + " can't be used.")
 
   override def postEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
 }
@@ -95,9 +92,7 @@ case class EquipItem(override val name: String,
                      equipItemType: EquipItemType) extends AbstractItem(name, description) {
   require(equipItemType != null)
 
-  override def applyEffect(owner: Character)(target: Character = owner): Unit = {
-    equip(target)
-  }
+  override def applyEffect(owner: Character)(target: Character = owner): Unit = equip(target)
 
   override def postEffect(owner: Character)(target: Character = owner): Unit = { /*does nothing*/ }
 
@@ -109,10 +104,12 @@ case class EquipItem(override val name: String,
   private def equip(character: Character): Unit = {
     def _equipItem(): Unit = {
       character.equippedItems += this
+      character.properties.statModifiers ++= statModifiers
     }
 
     def _swapItems(oldItem: EquipItem): Unit = {
       character.equippedItems -= oldItem
+      character.properties.statModifiers --= oldItem.statModifiers
       if(this.ne(oldItem)) _equipItem()
     }
 

@@ -12,7 +12,7 @@ sealed trait StoryNode extends Serializable {
   /**
    * @return the story node ID.
    */
-  def id: Int
+  val id: Int
 
   /**
    * @return the story node narrative.
@@ -64,7 +64,7 @@ object StoryNode {
                               override val pathways: Set[Pathway],
                               eventList: List[Event]) extends StoryNode {
 
-    Checker.check(id, narrative, enemy, pathways, eventList)
+    ArgsChecker.check(id, narrative, enemy, pathways, eventList)
 
     private var _events: List[Event] = eventList
 
@@ -73,8 +73,8 @@ object StoryNode {
     override def removeAllEvents(): Unit = _events = List()
   }
 
-  trait MutableStoryNode extends StoryNode {
-    var id: Int
+  sealed trait MutableStoryNode extends StoryNode {
+    val id: Int
     var narrative: String
     var enemy: Option[Enemy]
     var mutablePathways: Set[MutablePathway]
@@ -90,12 +90,13 @@ object StoryNode {
               events: List[Event]): MutableStoryNode =
       new MutableStoryNodeImpl(id, narrative, enemy, pathways, events)
 
-    private class MutableStoryNodeImpl(override var id: Int,
+    private class MutableStoryNodeImpl(override val id: Int,
                                        override var narrative: String,
                                        override var enemy: Option[Enemy],
                                        override var mutablePathways: Set[MutablePathway],
                                        override var events: List[Event]) extends MutableStoryNode {
-      Checker.check(id, narrative, enemy, pathways, events)
+      require(mutablePathways != null)
+      ArgsChecker.check(id, narrative, enemy, pathways, events)
 
       override def pathways: Set[Pathway] = for (p <- mutablePathways) yield p.asInstanceOf[Pathway]
 
@@ -103,7 +104,7 @@ object StoryNode {
     }
   }
 
-  private object Checker {
+  private object ArgsChecker {
     def check(id: Int, narrative: String, enemy: Option[Enemy], pathways: Set[Pathway], eventList: List[Event]): Unit =
       require(
           !id.isNaN &&

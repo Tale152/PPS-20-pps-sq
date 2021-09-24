@@ -3,8 +3,7 @@ package controller.game.subcontroller
 import controller.game.{GameMasterController, OperationType}
 import controller.util.Resources.ResourceName
 import controller.util.serialization.ProgressSerializer
-import model.StoryModel
-import model.progress.{Progress, SerializableHistory}
+import model.{Progress, StoryModel}
 import view.progressSaver.ProgressSaverView
 
 /**
@@ -28,7 +27,7 @@ object ProgressSaverController {
     override def saveProgress(): Unit = {
       try{
         ProgressSerializer.serializeProgress(
-          Progress(SerializableHistory(storyModel.history.map(n => n.id)), storyModel.player),
+          Progress(storyModel.history.map(n => n.id), storyModel.player),
           ResourceName.storyProgressPath(storyModel.storyName)()
         )
         progressSaverView.showSuccessFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))

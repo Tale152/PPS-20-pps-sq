@@ -4,7 +4,7 @@ import controller.util.DirectoryInitializer.StoryPopulationStrategy.TestStoryPop
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.Resources.ResourceName.MainDirectory.TempDirectory
 import controller.util.Resources.ResourceName._
-import controller.util.serialization.FolderUtil.createFolderIfNotPresent
+import FolderUtil.createFolderIfNotPresent
 import org.scalatest.DoNotDiscover
 import specs.FlatTestSpec
 
