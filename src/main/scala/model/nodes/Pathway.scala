@@ -55,5 +55,10 @@ object MutablePathway {
 
 private object ArgsChecker {
   def check(description: String, destinationNode: StoryNode, prerequisite: Option[Prerequisite]): Unit =
-    require(description != null && description.trim.nonEmpty && destinationNode != null && prerequisite != null)
+    require(
+        Option(description).nonEmpty
+        && description.trim.nonEmpty
+        && Option(destinationNode).nonEmpty
+        && Option(prerequisite).nonEmpty
+    )
 }
