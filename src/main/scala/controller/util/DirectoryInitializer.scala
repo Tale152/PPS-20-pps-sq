@@ -1,8 +1,7 @@
 package controller.util
 
 import controller.util.DirectoryInitializer.StoryPopulationStrategy.{DefaultStoryPopulation, StoryPopulationStrategy}
-import controller.util.Resources.ResourceName
-import controller.util.Resources.ResourceName.{gameDirectoryPath, storyDirectoryPath, testRandomStoryName}
+import controller.util.ResourceNames.{gameDirectoryPath, storyDirectoryPath, testRandomStoryName}
 import FolderUtil.{createFolderIfNotPresent, filesNameInFolder}
 import controller.util.serialization.StoryNodeSerializer.serializeStory
 import model.nodes.util.RandomStoryNodeGenerator
@@ -29,7 +28,7 @@ object DirectoryInitializer {
       def apply(gameRootDirectory: String): Unit = {
         serializeStory(
           RandomStoryNodeGenerator.Generator.generate(),
-          ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
+          ResourceNames.storyPath(testRandomStoryName)(gameRootDirectory)
         )
       }
     }
@@ -40,7 +39,7 @@ object DirectoryInitializer {
         //TODO change this to the default set of story on final release.
         serializeStory(
           RandomStoryNodeGenerator.Generator.generate(),
-          ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
+          ResourceNames.storyPath(testRandomStoryName)(gameRootDirectory)
         )
       }
     }

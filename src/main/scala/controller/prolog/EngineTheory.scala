@@ -2,7 +2,7 @@ package controller.prolog
 
 import alice.tuprolog.Theory
 import controller.prolog.util.PrologImplicits.PrologStoryNode
-import controller.util.Resources.ResourceName.prologEngineTheoryPath
+import controller.util.ResourceNames.prologEngineTheoryPath
 import controller.util.Resources.resourcesAsLines
 import model.nodes.StoryNode
 

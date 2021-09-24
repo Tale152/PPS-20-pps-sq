@@ -1,6 +1,6 @@
 package controller.util.serialization
 
-import controller.util.Resources.ResourceName.FileExtensions.StoryFileExtension
+import controller.util.ResourceNames.FileExtensions.StoryFileExtension
 import controller.util.serialization.FileSerializer.{deserializeObject, serializeObject}
 import model.{Progress, StoryModel}
 import model.nodes.StoryNode

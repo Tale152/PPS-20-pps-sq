@@ -1,8 +1,8 @@
 package view.mainMenu.buttonListeners
 
 import controller.ApplicationController
-import controller.util.Resources.ResourceName.{FileExtensions, storyDirectoryPath}
-import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
+import controller.util.ResourceNames.{FileExtensions, storyDirectoryPath}
+import controller.util.ResourceNames.MainDirectory.RootGameDirectory
 import controller.util.FolderUtil.createFolderIfNotPresent
 import controller.util.serialization.DeserializerChecker.checkOnLoadingFile
 import controller.util.serialization.StoryNodeSerializer.{deserializeStory, serializeStory}
