@@ -65,7 +65,7 @@ object PlayerConfigurationView {
         ("b", ("[B] Back", _ => playerConfigurationController.close())),
         ("o", ("[O] Ok", _ => {
           playerNamePanel.playerName.trim match {
-            case s: String if s == null || s == "" =>
+            case s: String if Option(s).isEmpty || s.isEmpty =>
               SqSwingDialog("Empty name", "Insert a valid name for the main character!",
                 List(SqSwingButton("ok", _ => {})))
             case s: String if s.length > nameCharactersLimit => SqSwingDialog("Invalid name",
