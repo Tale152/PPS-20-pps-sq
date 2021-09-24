@@ -11,9 +11,10 @@ import view.editor.forms.storyNodes.{DeleteStoryNode, DetailsStoryNode, EditStor
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingFileChooser
 import view.util.scalaQuestSwingComponents.SqSwingButton
-import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
 
 import java.awt.BorderLayout
+import java.awt.event.ActionEvent
 import java.io.File
 import javax.swing.{JComponent, JFileChooser}
 
@@ -65,7 +66,11 @@ object EditorView {
       ))), BorderLayout.CENTER)
 
       this.add(ControlsPanel(List(
-        ("q", ("[Q] Quit", _ => editorController.close())),
+        ("q", ("[Q] Quit", _ =>
+          SqYesNoSwingDialog(
+            "Exit Confirm",
+            "Do you really want to exit from editor?",
+            (_: ActionEvent) => editorController.close()))),
         ("s", ("[S] Save", _ => showFileSave("Save story", editorController.save,
           "story." + ResourceName.FileExtensions.StoryFileExtension, this))))),
         BorderLayout.SOUTH)
