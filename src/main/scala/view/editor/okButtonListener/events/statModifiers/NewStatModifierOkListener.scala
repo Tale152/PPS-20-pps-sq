@@ -5,7 +5,7 @@ import model.characters.properties.stats.StatName
 import model.characters.properties.stats.StatName._
 import model.characters.properties.stats.StatModifier
 import model.nodes.StatEvent
-import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheValue}
+import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheDescription
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListener
@@ -35,8 +35,7 @@ case class NewStatModifierOkListener(override val form: Form,
   }
 
   override def inputConditions: List[(Boolean, String)] = List(
-    (NonEmptyString(form.elements(StatModifierDescriptionIndex).value), mustBeSpecified(TheDescription)),
-    (NonEmptyString(form.elements(StatModifierValueIndex).value), mustBeSpecified(TheValue))
+    (NonEmptyString(form.elements(StatModifierDescriptionIndex).value), mustBeSpecified(TheDescription))
   )
 
   override def stateConditions: List[(Boolean, String)] = List()
