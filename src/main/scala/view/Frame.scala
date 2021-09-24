@@ -42,6 +42,7 @@ object Frame {
 
   private def init(): Unit = {
     frame.setIconImage(loadImage("/Icon.png"))
+    frame.setBackground(Color.BLACK)
     frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
     frame.setFocusable(true)
     frame.setTitle(GameTitle)
