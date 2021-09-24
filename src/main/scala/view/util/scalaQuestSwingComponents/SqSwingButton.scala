@@ -28,7 +28,6 @@ case class SqSwingButton(text: String, action: ActionListener, buttonEnabled: Bo
   this.addMouseListener(new MouseAdapter {
     override def mouseEntered(e: MouseEvent): Unit = {
       super.mouseEntered(e)
-      SoundPlayer.playNavigationSound()
       thisButton.changeTextColor(Color.GREEN)
     }
 
