@@ -45,22 +45,15 @@ object ProgressSerializer {
    */
   private def rebuildHistory(startingNode: StoryNode, serializedHistory: List[Int]): List[StoryNode] = {
     if (startingNode.id == serializedHistory.head) {
-      var alreadyVisitedIDs: List[Int] = serializedHistory
-      var result: List[StoryNode] = List()
-      var currentNode: StoryNode = startingNode
-      result = result :+ currentNode
-      alreadyVisitedIDs = alreadyVisitedIDs.drop(1)
-      while (alreadyVisitedIDs.nonEmpty) {
-        if (currentNode.pathways.exists(p => p.destinationNode.id == alreadyVisitedIDs.head)) {
-          currentNode = currentNode.pathways.filter(
-            p => p.destinationNode.id == alreadyVisitedIDs.head
-          ).head.destinationNode
-          result = result :+ currentNode
-          alreadyVisitedIDs = alreadyVisitedIDs.drop(1)
+      var previousNode: StoryNode = startingNode
+      val result: List[StoryNode] = List(startingNode) ++ serializedHistory.drop(1).map(id =>
+        if(previousNode.pathways.exists(p => p.destinationNode.id == id)){
+          previousNode = previousNode.pathways.filter(p => p.destinationNode.id == id).head.destinationNode
+          previousNode
         } else {
-          throw new IllegalArgumentException()
+          throw new IllegalArgumentException("An id in the serialized history does not match with any valid StoryNode")
         }
-      }
+      )
       // the events on the final node (the node where to start in the progress) have already been processed
       result.last.removeAllEvents()
       result
