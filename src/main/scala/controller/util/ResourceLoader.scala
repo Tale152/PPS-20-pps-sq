@@ -16,7 +16,6 @@ object ResourceLoader {
     setLookAndFeel()
     //Load Audio Clips
     Resources.SoundClip.interactionSoundClip
-    Resources.SoundClip.navigationSoundClip
     //Load font
     SqFont(bold = false)
   }

@@ -1,6 +1,6 @@
 package controller.util.audio
 
-import controller.util.Resources.SoundClip.{interactionSoundClip, navigationSoundClip}
+import controller.util.Resources.SoundClip.interactionSoundClip
 
 import javax.sound.sampled.Clip
 
@@ -13,13 +13,6 @@ object SoundPlayer {
     clip.setFramePosition(0)
     if (loop) clip.loop(Clip.LOOP_CONTINUOUSLY)
     clip.start()
-  }
-
-  /**
-   * Used to play a sound effect during navigation.
-   */
-  def playNavigationSound(): Unit = {
-    playClip(navigationSoundClip)
   }
 
   /**
