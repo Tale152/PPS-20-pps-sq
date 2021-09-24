@@ -12,6 +12,8 @@ import controller.util.serialization.ProgressSerializer
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
 import view.mainMenu.MainMenu
+import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 import java.io.File
 import java.nio.file.{Files, Paths}
@@ -83,13 +85,30 @@ object ApplicationController extends ApplicationController {
   override def close(): Unit = System.exit(0)
 
   override def loadStoryNewGame(storyURI: String): Unit = {
-    PlayerConfigurationController(ProgressSerializer.extractStoryName(storyURI), deserializeStory(storyURI)).execute()
+    try {
+      PlayerConfigurationController(ProgressSerializer.extractStoryName(storyURI), deserializeStory(storyURI)).execute()
+    } catch {
+      case _: Exception =>
+        openErrorDialog()
+    }
   }
 
   override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit = {
-    GameMasterController(
-      ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
-    ).execute()
+    try {
+      GameMasterController(
+        ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
+      ).execute()
+    } catch {
+      case _: Exception =>
+        openErrorDialog()
+    }
+  }
+
+  private def openErrorDialog(): Unit = {
+    SqSwingDialog(
+      "Error on story loading", "File structure is not suitable or corrupted",
+      List(SqSwingButton("ok", _ => {}))
+    )
   }
 
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
