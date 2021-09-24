@@ -15,12 +15,12 @@ object DirectoryInitializer {
   sealed trait StoryPopulationStrategy extends (String => Unit)
 
   /** Don't insert any story. */
-  private case class NoStoryPopulation() extends StoryPopulationStrategy {
+  case class NoStoryPopulation() extends StoryPopulationStrategy {
     def apply(gameRootDirectory: String): Unit = {/* does nothing */}
   }
 
   /** Insert a test story. */
-  private case class TestStoryPopulation() extends StoryPopulationStrategy {
+  case class TestStoryPopulation() extends StoryPopulationStrategy {
     def apply(gameRootDirectory: String): Unit = {
       serializeStory(
         RandomStoryNodeGenerator.Generator.generate(),
@@ -30,7 +30,7 @@ object DirectoryInitializer {
   }
 
   /** Insert the default set of stories. */
-  private case class DefaultStoryPopulation() extends StoryPopulationStrategy {
+  case class DefaultStoryPopulation() extends StoryPopulationStrategy {
     def apply(gameRootDirectory: String): Unit = {
       //TODO change this to the default set of story on final release.
       serializeStory(
