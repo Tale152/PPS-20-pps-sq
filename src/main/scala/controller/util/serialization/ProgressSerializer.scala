@@ -1,5 +1,6 @@
 package controller.util.serialization
 
+import controller.util.Resources.ResourceName.FileExtensions.StoryFileExtension
 import controller.util.serialization.FileSerializer.{deserializeObject, serializeObject}
 import model.{Progress, StoryModel}
 import model.nodes.StoryNode
@@ -62,6 +63,10 @@ object ProgressSerializer {
     }
   }
 
+  /**
+   * @param storyUri uri of the story
+   * @return the name of the story, extracted from the uri
+   */
   def extractStoryName(storyUri: String): String =
-    storyUri.split("/")(storyUri.split("/").length - 1).replace(".sqstr", "")
+    storyUri.split("/")(storyUri.split("/").length - 1).replace("." + StoryFileExtension, "")
 }
