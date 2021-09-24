@@ -1,6 +1,5 @@
 package controller.util
 
-import controller.util.DirectoryInitializer.StoryPopulationStrategy.{DefaultStoryPopulation, StoryPopulationStrategy}
 import controller.util.Resources.ResourceName
 import controller.util.Resources.ResourceName.{gameDirectoryPath, storyDirectoryPath, testRandomStoryName}
 import FolderUtil.{createFolderIfNotPresent, filesNameInFolder}
@@ -10,39 +9,34 @@ import model.nodes.util.RandomStoryNodeGenerator
 
 object DirectoryInitializer {
 
-  object StoryPopulationStrategy {
+  /**
+   * Choose how to populate the story folder on first run.
+   */
+  sealed trait StoryPopulationStrategy extends (String => Unit)
 
-    /**
-     * Choose how to populate the story folder on first run.
-     */
-    sealed trait StoryPopulationStrategy {
-      def apply(gameRootDirectory: String): Unit
+  /** Don't insert any story. */
+  private case class NoStoryPopulation() extends StoryPopulationStrategy {
+    def apply(gameRootDirectory: String): Unit = {/* does nothing */}
+  }
+
+  /** Insert a test story. */
+  private case class TestStoryPopulation() extends StoryPopulationStrategy {
+    def apply(gameRootDirectory: String): Unit = {
+      serializeStory(
+        RandomStoryNodeGenerator.Generator.generate(),
+        ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
+      )
     }
+  }
 
-    /** Don't insert any story. */
-    case class NoStoryPopulation() extends StoryPopulationStrategy {
-      def apply(gameRootDirectory: String): Unit = {/* does nothing */}
-    }
-
-    /** Insert a test story. */
-    case class TestStoryPopulation() extends StoryPopulationStrategy {
-      def apply(gameRootDirectory: String): Unit = {
-        serializeStory(
-          RandomStoryNodeGenerator.Generator.generate(),
-          ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
-        )
-      }
-    }
-
-    /** Insert the default set of stories. */
-    case class DefaultStoryPopulation() extends StoryPopulationStrategy {
-      def apply(gameRootDirectory: String): Unit = {
-        //TODO change this to the default set of story on final release.
-        serializeStory(
-          RandomStoryNodeGenerator.Generator.generate(),
-          ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
-        )
-      }
+  /** Insert the default set of stories. */
+  private case class DefaultStoryPopulation() extends StoryPopulationStrategy {
+    def apply(gameRootDirectory: String): Unit = {
+      //TODO change this to the default set of story on final release.
+      serializeStory(
+        RandomStoryNodeGenerator.Generator.generate(),
+        ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
+      )
     }
   }
 
