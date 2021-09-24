@@ -1,6 +1,7 @@
 package view.mainMenu.buttonListeners
 
 import controller.ApplicationController
+import controller.util.serialization.DeserializerChecker.checkOnLoadingFile
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
 import view.mainMenu.MainMenu
@@ -13,9 +14,10 @@ import javax.swing.JFileChooser
 
 /**
  * [[view.mainMenu.buttonListeners.MainMenuButtonListeners.MainMenuButtonListener]] used for the Editor Button
- *  in the Main Menu.
+ * in the Main Menu.
+ *
  * @param applicationController The Application Controller.
- * @param mainMenu the reference to the Main Menu.
+ * @param mainMenu              the reference to the Main Menu.
  */
 case class EditorButtonListener(override val applicationController: ApplicationController,
                                 mainMenu: MainMenu)
@@ -31,7 +33,8 @@ case class EditorButtonListener(override val applicationController: ApplicationC
         ),
         SqSwingButton("Load story", _ =>
           if (loadStoryFileChooser.showOpenDialog(mainMenu) == JFileChooser.APPROVE_OPTION) {
-            ApplicationController.goToEditor(deserializeStory(loadStoryFileChooser.getSelectedFile.getPath))
+            checkOnLoadingFile(() => ApplicationController.goToEditor(
+              deserializeStory(loadStoryFileChooser.getSelectedFile.getPath)), "Error on story loading")
           })
       ))
   }

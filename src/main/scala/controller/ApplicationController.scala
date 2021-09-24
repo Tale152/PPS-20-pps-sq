@@ -9,11 +9,10 @@ import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgress
 import controller.util.FolderUtil.{deleteFolder, filesNameInFolder}
 import controller.util.audio.MusicPlayer
 import controller.util.serialization.ProgressSerializer
+import controller.util.serialization.DeserializerChecker.checkOnLoadingFile
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
 import view.mainMenu.MainMenu
-import view.util.scalaQuestSwingComponents.SqSwingButton
-import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 import java.io.File
 import java.nio.file.{Files, Paths}
@@ -84,32 +83,15 @@ object ApplicationController extends ApplicationController {
 
   override def close(): Unit = System.exit(0)
 
-  override def loadStoryNewGame(storyURI: String): Unit = {
-    try {
-      PlayerConfigurationController(ProgressSerializer.extractStoryName(storyURI), deserializeStory(storyURI)).execute()
-    } catch {
-      case _: Exception =>
-        openErrorDialog()
-    }
-  }
+  override def loadStoryNewGame(storyURI: String): Unit =
+    checkOnLoadingFile(() => PlayerConfigurationController(
+      ProgressSerializer.extractStoryName(storyURI),
+      deserializeStory(storyURI)).execute(), "Error on story loading")
 
-  override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit = {
-    try {
-      GameMasterController(
-        ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
-      ).execute()
-    } catch {
-      case _: Exception =>
-        openErrorDialog()
-    }
-  }
-
-  private def openErrorDialog(): Unit = {
-    SqSwingDialog(
-      "Error on story loading", "File structure is not suitable or corrupted",
-      List(SqSwingButton("ok", _ => {}))
-    )
-  }
+  override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit =
+    checkOnLoadingFile(() => GameMasterController(
+      ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
+    ).execute(), "Error on story loading story and progress")
 
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
     Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))

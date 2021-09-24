@@ -4,6 +4,7 @@ import controller.ApplicationController
 import controller.util.Resources.ResourceName.{FileExtensions, storyDirectoryPath}
 import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
 import controller.util.FolderUtil.createFolderIfNotPresent
+import controller.util.serialization.DeserializerChecker.checkOnLoadingFile
 import controller.util.serialization.StoryNodeSerializer.{deserializeStory, serializeStory}
 import view.mainMenu.MainMenu
 import view.mainMenu.buttonListeners.MainMenuButtonListeners.LoadStoryChooserButtonListener
@@ -15,10 +16,11 @@ import java.io.File
 import javax.swing.filechooser.FileNameExtensionFilter
 
 /**
- *  [[view.mainMenu.buttonListeners.MainMenuButtonListeners.MainMenuButtonListener]] used for the Load Story Button
- *  in the Main Menu.
+ * [[view.mainMenu.buttonListeners.MainMenuButtonListeners.MainMenuButtonListener]] used for the Load Story Button
+ * in the Main Menu.
+ *
  * @param applicationController The Application Controller.
- * @param mainMenu the reference to the Main Menu.
+ * @param mainMenu              the reference to the Main Menu.
  */
 case class LoadStoryButtonListener(override val applicationController: ApplicationController, mainMenu: MainMenu)
   extends LoadStoryChooserButtonListener(applicationController) {
@@ -56,18 +58,12 @@ case class LoadStoryButtonListener(override val applicationController: Applicati
   }
 
   private def loadNewStory(file: File, newStoryFolderPath: String): Unit = {
-    try {
+    checkOnLoadingFile(() => {
       val deserialized = deserializeStory(file.getPath)
       createFolderIfNotPresent(newStoryFolderPath)
       serializeStory(deserialized, newStoryFolderPath + "/" + file.getName)
       ApplicationController.execute()
-    } catch {
-      case _: Exception =>
-        SqSwingDialog(
-          "Error on story loading", "File structure is not suitable or corrupted",
-          List(SqSwingButton("ok", _ => {}))
-        )
-    }
+    }, "Error on story loading")
   }
 
 }
