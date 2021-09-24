@@ -4,7 +4,7 @@ import controller.editor.EditorController
 import view.editor.okButtonListener.prerequisites.NewPathwayPrerequisiteOkListener._
 import view.editor.util.IndexedComboListUtil.createIndexedOption
 import view.editor.util.StatsNameStringUtil.StatStrings
-import view.form.{Form, FormBuilder, OkFormButtonListener}
+import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
 object NewPathwayPrerequisiteOkListener {
 
@@ -15,7 +15,7 @@ object NewPathwayPrerequisiteOkListener {
   val KeyItemOption: String = "Key item"
 
   private case class NewPathwayConditionOkListener(override val form: Form, override val controller: EditorController)
-    extends OkFormButtonListener(form, controller) {
+    extends OkFormButtonListenerUnconditional(form, controller) {
 
     override def performAction(): Unit = {
       val nextForm: Form = FormBuilder()
@@ -33,9 +33,6 @@ object NewPathwayPrerequisiteOkListener {
       nextForm.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] = List()
-
-    override def stateConditions: List[(Boolean, String)] = List()
   }
 
   def apply(form: Form, controller: EditorController): OkFormButtonListener =

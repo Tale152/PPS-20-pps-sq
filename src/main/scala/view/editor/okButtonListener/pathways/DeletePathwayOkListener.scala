@@ -2,16 +2,16 @@ package view.editor.okButtonListener.pathways
 
 import controller.editor.EditorController
 import view.editor.forms.pathways.DeletePathway.OriginNodeIdIndex
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerUnconditional
 import view.editor.okButtonListener.pathways.DeletePathwayOkListener.DestinationNodeIdIndex
-import view.form.{Form, FormBuilder, OkFormButtonListener}
+import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
 object DeletePathwayOkListener {
 
   val DestinationNodeIdIndex: Int = 0
 
   case class DeletePathwayOkListener(override val form: Form, override val controller: EditorController)
-    extends OkFormButtonListener(form, controller) {
+    extends OkFormButtonListenerUnconditional(form, controller) {
 
     override def performAction(): Unit = {
       var originNodePathways = controller
@@ -35,10 +35,6 @@ object DeletePathwayOkListener {
       newForm.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] = List()
-
-    override def stateConditions: List[(Boolean, String)] = List()
-
   }
 
   def apply(form: Form, controller: EditorController): OkFormButtonListener = DeletePathwayOkListener(form, controller)
@@ -48,12 +44,9 @@ object DeletePathwayOkListener {
 private case class DeletePathwayNextFormOkListener(override val form: Form,
                                                  override val controller: EditorController,
                                                  originNodeId: Int)
-  extends EditorOkFormButtonListener(form, controller) {
+  extends EditorOkFormButtonListenerUnconditional(form, controller) {
 
   override def editorControllerAction(): Unit =
     controller.pathwaysControls.deleteExistingPathway(originNodeId, form.elements(DestinationNodeIdIndex).value.toInt)
 
-  override def inputConditions: List[(Boolean, String)] = List()
-
-  override def stateConditions: List[(Boolean, String)] = List()
 }

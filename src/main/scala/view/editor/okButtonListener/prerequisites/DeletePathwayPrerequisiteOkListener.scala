@@ -2,9 +2,9 @@ package view.editor.okButtonListener.prerequisites
 
 import controller.editor.EditorController
 import view.editor.forms.prerequisites.DeletePathwayPrerequisite.OriginStoryNodeIdIndex
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerUnconditional
 import view.editor.okButtonListener.prerequisites.DeletePathwayPrerequisiteOkListener.DestinationStoryNodeIdIndex
-import view.form.{Form, FormBuilder, OkFormButtonListener}
+import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
 object DeletePathwayPrerequisiteOkListener {
 
@@ -12,7 +12,7 @@ object DeletePathwayPrerequisiteOkListener {
 
   private case class DeletePathwayPrerequisiteOkListener(override val form: Form,
                                                  override val controller: EditorController)
-    extends OkFormButtonListener(form, controller) {
+    extends OkFormButtonListenerUnconditional(form, controller) {
 
     override def performAction(): Unit = {
       val nextForm: Form = FormBuilder()
@@ -31,9 +31,6 @@ object DeletePathwayPrerequisiteOkListener {
       nextForm.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] = List()
-
-    override def stateConditions: List[(Boolean, String)] = List()
   }
 
   def apply(form: Form, controller: EditorController): OkFormButtonListener =
@@ -43,13 +40,10 @@ object DeletePathwayPrerequisiteOkListener {
 private case class DeletePathwayPrerequisiteNextFormOkListener(override val form: Form,
                                                                override val controller: EditorController,
                                                                originNodeId: Int)
-  extends EditorOkFormButtonListener(form, controller) {
+  extends EditorOkFormButtonListenerUnconditional(form, controller) {
 
   override def editorControllerAction(): Unit =
     controller.pathwaysControls
       .deletePrerequisiteFromPathway(originNodeId, form.elements(DestinationStoryNodeIdIndex).value.toInt)
 
-  override def inputConditions: List[(Boolean, String)] = List()
-
-  override def stateConditions: List[(Boolean, String)] = List()
 }

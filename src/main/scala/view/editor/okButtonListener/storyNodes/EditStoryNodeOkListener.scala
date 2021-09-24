@@ -7,14 +7,14 @@ import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.forms.storyNodes.EditStoryNode.NodeToEditIdIndex
 import view.editor.okButtonListener.EditorOkFormButtonListener
 import view.editor.okButtonListener.storyNodes.EditStoryNodeOkListener.StoryNodeNarrativeIndex
-import view.form.{Form, FormBuilder, OkFormButtonListener}
+import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
 object EditStoryNodeOkListener {
 
   val StoryNodeNarrativeIndex: Int = 0
 
   private case class EditStoryNodeOkListener(override val form: Form, override val controller: EditorController)
-    extends OkFormButtonListener(form, controller) {
+    extends OkFormButtonListenerUnconditional(form, controller) {
 
     private def showEditStoryNodeFormFields(id: Int, oldNarrative: String): Unit = {
       val form: Form = FormBuilder()
@@ -30,14 +30,10 @@ object EditStoryNodeOkListener {
         controller.nodesControls.getStoryNode(form.elements(NodeToEditIdIndex).value.toInt).get.narrative
       )
 
-    override def inputConditions: List[(Boolean, String)] = List() //route node always exists
-
-    override def stateConditions: List[(Boolean, String)] = List()
   }
 
   def apply(form: Form, controller: EditorController): OkFormButtonListener =
     EditStoryNodeOkListener(form, controller)
-
 }
 
 private case class EditStoryNodeNextFormOkListener(override val form: Form,

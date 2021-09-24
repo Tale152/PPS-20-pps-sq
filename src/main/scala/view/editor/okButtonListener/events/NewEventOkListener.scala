@@ -7,7 +7,7 @@ import view.editor.okButtonListener.events.items.NewItemCategoryOkListener
 import view.editor.okButtonListener.events.statModifiers.NewStatModifierOkListener
 import view.editor.util.OperationStringUtil.IncrementDecrementOptions
 import view.editor.util.StatsNameStringUtil.StatStrings
-import view.form.{Form, FormBuilder, OkFormButtonListener}
+import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
 object NewEventOkListener {
 
@@ -23,7 +23,7 @@ object NewEventOkListener {
   val StatModifierDescriptionIndex: Int = 3
 
   private case class NewEventOkListener(override val form: Form, override val controller: EditorController)
-    extends OkFormButtonListener(form, controller) {
+    extends OkFormButtonListenerUnconditional(form, controller) {
 
     private def showItemCategoryForm(nodeId: Int): Unit = {
       val nextForm: Form = FormBuilder()
@@ -51,10 +51,6 @@ object NewEventOkListener {
       case StatModifierOption => showStatModifierForm(form.elements(NodeIdIndex).value.toInt)
       case ItemOption => showItemCategoryForm(form.elements(NodeIdIndex).value.toInt)
     }
-
-    override def inputConditions: List[(Boolean, String)] = List()
-
-    override def stateConditions: List[(Boolean, String)] = List()
 
   }
 

@@ -4,14 +4,14 @@ import controller.editor.EditorController
 import view.editor.PathwayDetailsView
 import view.editor.forms.pathways.DetailsPathway.OriginNodeIdIndex
 import view.editor.okButtonListener.pathways.DetailsPathwayOkListener.DestinationNodeIdIndex
-import view.form.{Form, FormBuilder, OkFormButtonListener}
+import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}
 
 object DetailsPathwayOkListener {
 
   val DestinationNodeIdIndex: Int = 0
 
   private case class DetailsPathwayOkListener(override val form: Form, override val controller: EditorController)
-    extends OkFormButtonListener(form, controller) {
+    extends OkFormButtonListenerUnconditional(form, controller) {
 
     override def performAction(): Unit = {
       val nextForm: Form = FormBuilder()
@@ -26,9 +26,6 @@ object DetailsPathwayOkListener {
       nextForm.render()
     }
 
-    override def inputConditions: List[(Boolean, String)] = List()
-
-    override def stateConditions: List[(Boolean, String)] = List()
   }
 
   def apply(form: Form, controller: EditorController): OkFormButtonListener = DetailsPathwayOkListener(form, controller)
@@ -38,16 +35,12 @@ object DetailsPathwayOkListener {
 private case class DetailsPathwayNextFormOkListener(override val form: Form,
                                                  override val controller: EditorController,
                                                  originNodeId: Int)
-  extends OkFormButtonListener(form, controller) {
+  extends OkFormButtonListenerUnconditional(form, controller) {
 
   override def performAction(): Unit = PathwayDetailsView(
     controller.nodesControls.getStoryNode(originNodeId).get,
     controller.pathwaysControls.getPathway(originNodeId, form.elements(DestinationNodeIdIndex).value.toInt).get,
     controller
   ).render()
-
-  override def inputConditions: List[(Boolean, String)] = List()
-
-  override def stateConditions: List[(Boolean, String)] = List()
 
 }

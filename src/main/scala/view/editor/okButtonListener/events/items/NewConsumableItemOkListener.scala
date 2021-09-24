@@ -39,7 +39,6 @@ case class NewConsumableItemOkListener(override val form: Form,
   override def inputConditions: List[(Boolean, String)] = List(
     (NonEmptyString(form.elements(ItemNameIndex).value), mustBeSpecified(TheName)),
     (NonEmptyString(form.elements(ItemDescriptionIndex).value), mustBeSpecified(TheDescription)),
-    (NonEmptyString(form.elements(consumableHealthValueIndex).value), mustBeSpecified(TheValue)),
     (NonEmptyString(form.elements(ItemRetrieveNarrativeIndex).value), mustBeSpecified(TheNarrative))
   )
 
