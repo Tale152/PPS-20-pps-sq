@@ -10,47 +10,64 @@ object MusicPlayer {
   val storyMusicClips: Set[Clip] = loadAudioClips(storyMusicDirectoryPath())
   val battleMusicClips: Set[Clip] = loadAudioClips(battleMusicDirectoryPath())
   val menuMusicClips: Set[Clip] = loadAudioClips(menuMusicDirectoryPath())
-  None
+  var currentlyPlayingStory: Option[Clip] = None
+  var currentlyPlayingBattle: Option[Clip] = None
+  var currentlyPlayingMenu: Option[Clip] = None
 
   /**
    * Used to play music during story navigation.
    */
   def playStoryMusic(): Unit = {
-    //playMusic(storyMusicClips.randomClip)
+    if (currentlyPlayingStory.isEmpty) currentlyPlayingStory = storyMusicClips.randomClip
+    playMusic(currentlyPlayingStory)
   }
 
   /**
    * Used to play music during a battle.
    */
   def playBattleMusic(): Unit = {
-    //playMusic(battleMusicClips.randomClip)
+    if (currentlyPlayingBattle.isEmpty) currentlyPlayingBattle = battleMusicClips.randomClip
+    playMusic(currentlyPlayingBattle)
   }
 
   /**
    * Used to play music during menu navigation.
    */
   def playMenuMusic(): Unit = {
-    //playMusic(menuMusicClips.randomClip)
+    stopMusic()
+    currentlyPlayingStory = None
+    currentlyPlayingBattle = None
+    currentlyPlayingMenu = None
+    if (currentlyPlayingMenu.isEmpty) currentlyPlayingMenu = menuMusicClips.randomClip
+    playMusic(currentlyPlayingMenu)
   }
 
   /**
    * Template method that exchange plays music.
    */
-  def playMusic(clip: Option[Clip]): Unit = {
-    /*stopMusic()
-    currentlyPlaying = clip
-    if (clip.isDefined) {
-      SoundPlayer.playClip(currentlyPlaying.get, loop = true)
-    }*/
+  def playMusic(currentlyPlayingClip: Option[Clip]): Unit = {
+    stopMusic()
+    if (currentlyPlayingClip.isDefined) {
+      SoundPlayer.playClip(currentlyPlayingClip.get, loop = true)
+    }
   }
 
   /**
    * Stops the current playing music.
    */
   def stopMusic(): Unit = {
-    /*if (currentlyPlaying.isDefined) {
-      currentlyPlaying.get.stop()
-    }*/
+    if (currentlyPlayingMenu.isDefined) {
+      currentlyPlayingMenu.get.stop()
+      println("Menu")
+    }
+    if (currentlyPlayingStory.isDefined) {
+      currentlyPlayingStory.get.stop()
+      println("battle")
+    }
+    if (currentlyPlayingBattle.isDefined) {
+      currentlyPlayingBattle.get.stop()
+      println("story")
+    }
   }
 
   /**
@@ -66,13 +83,12 @@ object MusicPlayer {
      * @return the selected clip.
      */
     def randomClip: Option[Clip] = {
-      /*import scala.util.Random
+      import scala.util.Random
       if (clips.nonEmpty) {
         Option(clips.toVector(new Random().nextInt(clips.size)))
       } else {
         None
-      }*/
-      None
+      }
     }
   }
 
