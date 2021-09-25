@@ -4,9 +4,9 @@ import controller.editor.EditorController
 import view.form.{Form, OkFormButtonListener}
 
 /**
- * OkButtonLister used to re-render the editor view at the end of the [[controller.editor.EditorController]] command.
+ * OkButtonLister used to re-render the editor view at the end of the Editor Controller command.
  *
- * @param form             the Form where the elements are.
+ * @param form       the Form where the elements are.
  * @param controller the Editor Controller.
  */
 abstract class EditorOkFormButtonListener(override val form: Form, override val controller: EditorController)

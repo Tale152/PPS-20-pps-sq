@@ -95,7 +95,7 @@ object StoryNode {
                                        override var enemy: Option[Enemy],
                                        override var mutablePathways: Set[MutablePathway],
                                        override var events: List[Event]) extends MutableStoryNode {
-      require(mutablePathways != null)
+      require(Option(mutablePathways).nonEmpty)
       ArgsChecker.check(id, narrative, enemy, pathways, events)
 
       override def pathways: Set[Pathway] = for (p <- mutablePathways) yield p.asInstanceOf[Pathway]
@@ -107,12 +107,13 @@ object StoryNode {
   private object ArgsChecker {
     def check(id: Int, narrative: String, enemy: Option[Enemy], pathways: Set[Pathway], eventList: List[Event]): Unit =
       require(
-          !id.isNaN &&
-          narrative != null && narrative.trim.nonEmpty &&
-          enemy != null &&
-          pathways.forall(p => !pathways.exists(o => !o.eq(p) && o.destinationNode.eq(p.destinationNode))) &&
-          containsOnePathwayWithNoCondition(pathways) &&
-          eventList != null
+          !id.isNaN
+          && Option(narrative).nonEmpty
+          && narrative.trim.nonEmpty
+          && Option(enemy).nonEmpty
+          && pathways.forall(p => !pathways.exists(o => !o.eq(p) && o.destinationNode.eq(p.destinationNode)))
+          && containsOnePathwayWithNoCondition(pathways)
+          && Option(eventList).nonEmpty
       )
 
     private def containsOnePathwayWithNoCondition(pathways: Set[Pathway]): Boolean =

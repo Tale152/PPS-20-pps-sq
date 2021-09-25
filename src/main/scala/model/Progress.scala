@@ -23,8 +23,8 @@ object Progress {
   private class ProgressImpl(override val serializableHistory: List[Int], override val player: Player)
     extends Progress {
     require(
-      player != null
-        && serializableHistory != null
+        Option(player).nonEmpty
+        && Option(serializableHistory).nonEmpty
         && serializableHistory.nonEmpty
         && serializableHistory.size == serializableHistory.toSet.size
     )
