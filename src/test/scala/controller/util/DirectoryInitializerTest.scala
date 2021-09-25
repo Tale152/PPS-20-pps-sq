@@ -1,8 +1,8 @@
 package controller.util
 
 import controller.util.DirectoryInitializer.{TestStoryPopulation, initializeGameFolderStructure}
-import controller.util.Resources.ResourceName.MainDirectory.TempDirectory
-import controller.util.Resources.ResourceName._
+import controller.util.ResourceNames.MainDirectory.TempDirectory
+import controller.util.ResourceNames._
 import FolderUtil.createFolderIfNotPresent
 import org.scalatest.DoNotDiscover
 import specs.FlatTestSpec

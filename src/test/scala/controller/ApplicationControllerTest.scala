@@ -2,7 +2,7 @@ package controller
 
 import controller.util.DirectoryInitializer.TestStoryPopulation
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
-import controller.util.Resources.ResourceName._
+import controller.util.ResourceNames._
 import controller.util.FolderUtil.createFolderIfNotPresent
 import org.scalatest.{BeforeAndAfterAll, DoNotDiscover}
 import specs.FlatTestSpec
