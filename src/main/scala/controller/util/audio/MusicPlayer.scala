@@ -1,6 +1,6 @@
 package controller.util.audio
 
-import controller.util.Resources.ResourceName._
+import controller.util.ResourceNames._
 import controller.util.Resources.loadAudioClips
 
 import javax.sound.sampled.Clip

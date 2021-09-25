@@ -2,7 +2,7 @@ package view.explorer.okButtonListener.forms
 
 import controller.ExplorerController
 import controller.prolog.structs.StructsNames.Predicates.ReachAllFinalNodesPredicateName
-import controller.util.Resources.ResourceName.FileExtensions.TxtExtension
+import controller.util.ResourceNames.FileExtensions.TxtExtension
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheStartingId
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString

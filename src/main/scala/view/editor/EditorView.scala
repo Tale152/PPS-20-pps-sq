@@ -1,7 +1,7 @@
 package view.editor
 
 import controller.editor.EditorController
-import controller.util.Resources.ResourceName
+import controller.util.ResourceNames.FileExtensions
 import view.AbstractView
 import view.editor.forms.enemies.{DeleteEnemy, NewEnemy}
 import view.editor.forms.events.{DeleteEvent, NewEvent}
@@ -70,7 +70,7 @@ object EditorView {
         quitKeyListener("Do you really want to exit from editor?",
           (_: ActionEvent) => editorController.close()),
         ("s", ("[S] Save", _ => showFileSave("Save story", editorController.save,
-          "story." + ResourceName.FileExtensions.StoryFileExtension, this))))),
+          "story." + FileExtensions.StoryFileExtension, this))))),
         BorderLayout.SOUTH)
     }
 

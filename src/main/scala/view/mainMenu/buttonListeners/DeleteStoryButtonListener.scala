@@ -1,8 +1,8 @@
 package view.mainMenu.buttonListeners
 
 import controller.ApplicationController
-import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.Resources.ResourceName.storyDirectoryPath
+import controller.util.ResourceNames.MainDirectory.RootGameDirectory
+import controller.util.ResourceNames.storyDirectoryPath
 import view.form.{Form, FormBuilder}
 import view.mainMenu.buttonListeners.MainMenuButtonListeners.MainMenuButtonListener
 import view.mainMenu.forms.DeleteStoryConfirmListener

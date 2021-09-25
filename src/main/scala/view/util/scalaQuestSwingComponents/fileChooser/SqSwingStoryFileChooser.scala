@@ -1,7 +1,6 @@
 package view.util.scalaQuestSwingComponents.fileChooser
 
-import controller.util.Resources.ResourceName
-
+import controller.util.ResourceNames
 import javax.swing.filechooser.FileNameExtensionFilter
 
 /**
@@ -13,8 +12,8 @@ case class SqSwingStoryFileChooser(title: String) extends AbstractSqSwingFileCho
   this.setAcceptAllFileFilterUsed(false)
   this.addChoosableFileFilter(
     new FileNameExtensionFilter(
-      "." + ResourceName.FileExtensions.StoryFileExtension,
-      ResourceName.FileExtensions.StoryFileExtension
+      "." + ResourceNames.FileExtensions.StoryFileExtension,
+      ResourceNames.FileExtensions.StoryFileExtension
     )
   )
 

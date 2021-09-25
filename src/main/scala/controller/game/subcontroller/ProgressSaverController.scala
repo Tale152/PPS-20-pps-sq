@@ -1,7 +1,7 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
-import controller.util.Resources.ResourceName
+import controller.util.ResourceNames
 import controller.util.serialization.DeserializerChecker.checkOnLoadingFile
 import controller.util.serialization.ProgressSerializer
 import model.{Progress, StoryModel}
@@ -30,7 +30,7 @@ object ProgressSaverController {
       checkOnLoadingFile(() => {
         ProgressSerializer.serializeProgress(
           Progress(storyModel.history.map(n => n.id), storyModel.player),
-          ResourceName.storyProgressPath(storyModel.storyName)()
+          ResourceNames.storyProgressPath(storyModel.storyName)()
         )
         progressSaverView.showSuccessFeedback(_ => gameMasterController.executeOperation(OperationType.StoryOperation))
       }, "Error on saving progress")
