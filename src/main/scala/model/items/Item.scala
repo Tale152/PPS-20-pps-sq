@@ -21,7 +21,7 @@ sealed trait Item extends Serializable with Ordered[Item] {
 abstract class AbstractItem(override val name: String,
                             override val description: String) extends Item {
 
-  require(name != null && name.trim.nonEmpty && description != null && description.trim.nonEmpty)
+  require(Option(name).nonEmpty && name.trim.nonEmpty && Option(description).nonEmpty && description.trim.nonEmpty)
   /**
    * Template method that use [[model.items.AbstractItem#applyEffect(java.lang.Character)]]
    * and [[model.items.AbstractItem#postEffect(java.lang.Character)]].
@@ -90,7 +90,7 @@ case class EquipItem(override val name: String,
                      override val description: String,
                      statModifiers: Set[StatModifier],
                      equipItemType: EquipItemType) extends AbstractItem(name, description) {
-  require(equipItemType != null)
+  require(Option(equipItemType).nonEmpty)
 
   override def applyEffect(owner: Character)(target: Character = owner): Unit = equip(target)
 

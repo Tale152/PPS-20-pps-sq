@@ -4,8 +4,8 @@ import controller.editor.EditorController
 import controller.game.{GameMasterController, PlayerConfigurationController}
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceLoader
-import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.Resources.ResourceName.{storyDirectoryPath, storyProgressPath}
+import controller.util.ResourceNames.MainDirectory.RootGameDirectory
+import controller.util.ResourceNames.{storyDirectoryPath, storyProgressPath}
 import controller.util.FolderUtil.{deleteFolder, filesNameInFolder}
 import controller.util.audio.MusicPlayer
 import controller.util.serialization.ProgressSerializer

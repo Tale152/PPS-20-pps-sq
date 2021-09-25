@@ -2,7 +2,7 @@ package view.explorer.okButtonListener.noForms
 
 import controller.ExplorerController
 import controller.prolog.structs.StructsNames.Predicates.AllStoryWalkthroughPredicateName
-import controller.util.Resources.ResourceName.FileExtensions.TxtExtension
+import controller.util.ResourceNames.FileExtensions.TxtExtension
 import view.explorer.ExplorerFileTextBuilder
 import view.explorer.ExplorerDialogs.FileCreatedDialog
 

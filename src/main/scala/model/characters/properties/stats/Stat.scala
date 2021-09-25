@@ -17,7 +17,7 @@ sealed trait StatDescriptor extends Serializable {
  */
 case class StatModifier(override val statName: StatName, modifyStrategy: Int => Int)
   extends StatDescriptor {
-  require(statName != null && modifyStrategy != null)
+  require(Option(statName).nonEmpty && Option(modifyStrategy).nonEmpty)
 }
 
 /**
@@ -28,5 +28,5 @@ case class StatModifier(override val statName: StatName, modifyStrategy: Int => 
  * @return the Stat.
  */
 case class Stat(value: Int, override val statName: StatName) extends StatDescriptor {
-  require(statName != null)
+  require(Option(statName).nonEmpty)
 }

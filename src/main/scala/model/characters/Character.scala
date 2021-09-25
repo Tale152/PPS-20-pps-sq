@@ -30,10 +30,11 @@ sealed trait Character extends Serializable {
 abstract class AbstractCharacter(override val name: String, maxPS: Int, private val stats: Set[Stat])
   extends Character {
   require(
-    name != ""
-    && maxPS > 0
-    && stats.size == StatName.setOfValidStats.size
-    && StatName.setOfValidStats.subsetOf(stats.map(s => s.statName))
+      Option(name).nonEmpty
+      && name.trim.nonEmpty
+      && maxPS > 0
+      && stats.size == StatName.setOfValidStats.size
+      && StatName.setOfValidStats.subsetOf(stats.map(s => s.statName))
   )
 
   override val properties: PropertiesContainer = PropertiesContainer(maxPS, stats)

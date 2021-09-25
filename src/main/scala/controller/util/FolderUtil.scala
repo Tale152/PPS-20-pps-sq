@@ -32,9 +32,9 @@ object FolderUtil {
   def deleteFolder(folderName: String): Unit = {
     val folder = new File(folderName)
     if (folder.exists()) {
-      val files = folder.listFiles
-      if (files != null) { //some JVMs return null for empty dirs
-        for (f <- files) {
+      val files = Option(folder.listFiles) //some JVMs return null for empty dirs
+      if (files.nonEmpty) {
+        for (f <- files.get) {
           if (f.isDirectory) {
             deleteFolder(f.getPath)
           } else {

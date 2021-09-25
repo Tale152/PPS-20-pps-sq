@@ -1,12 +1,11 @@
 package controller.util
 
-import controller.util.Resources.ResourceName.FileExtensions.PrologExtension
-import controller.util.Resources.ResourceName.MainDirectory.RootGameDirectory
-import controller.util.Resources.ResourceName.interactionSoundEffectPath
 
+import controller.util.ResourceNames.interactionSoundEffectPath
 import java.awt.image.BufferedImage
 import java.io.{BufferedInputStream, File, InputStream}
 import java.net.{URI, URL}
+import java.nio.charset.StandardCharsets
 import java.nio.file._
 import javax.imageio.ImageIO
 import javax.sound.sampled.{AudioInputStream, AudioSystem, Clip}
@@ -20,6 +19,7 @@ object Resources {
 
   /**
    * Implicit class used to add a method to map a [[java.io.InputStream]] to a [[javax.sound.sampled.AudioInputStream]].
+   *
    * @param inputStream the implicit InputStream parameter.
    */
   implicit class RichInputStream(inputStream: InputStream) {
@@ -44,7 +44,7 @@ object Resources {
    * @param folderPath the folder path.
    * @return A set of (FileName, [[java.io.InputStream]]).
    */
-  def resourcesAsNamedInputStreamFromFolder(folderPath: String): Set[(String,InputStream)] = {
+  def resourcesAsNamedInputStreamFromFolder(folderPath: String): Set[(String, InputStream)] = {
     val url: Option[URL] = Option(getClass.getResource(folderPath))
     url match {
       case Some(url) =>
@@ -75,11 +75,14 @@ object Resources {
    * @return A set of (FileName, [[java.io.InputStream]])
    */
   private def resourceAsInputStreamFromJarFolder(folderPath: String): Set[(String, InputStream)] = {
-    val jarFile: Path = Paths.get(
-      getClass.getProtectionDomain.getCodeSource.getLocation.toString
-        .substring("file:".length()).replaceFirst("^/(.:/)", "$1")
-    )
-    val fs: FileSystem = FileSystems.newFileSystem(jarFile, getClass.getClassLoader)
+    val decodedFileSystemURL: String = {
+      java.net.URLDecoder.decode(
+        getClass.getProtectionDomain.getCodeSource.getLocation.toString.substring("file:".length())
+          .replaceFirst("^/(.:/)", "$1"),
+        StandardCharsets.UTF_8.name
+      )
+    }
+    val fs = FileSystems.newFileSystem(Paths.get(decodedFileSystemURL), getClass.getClassLoader)
     Files.newDirectoryStream(fs.getPath(folderPath))
       .iterator()
       .asScala
@@ -141,83 +144,4 @@ object Resources {
     lazy val interactionSoundClip: Clip = loadAudioClip(interactionSoundEffectPath)
   }
 
-  /**
-   * Component that stores the files and directories' name.
-   */
-  object ResourceName {
-
-    private object DirectoryNames {
-      val GameDirectoryName: String = ".sq"
-      val StoryDirectoryName: String = "stories"
-      val DefaultStoriesDirectoryName: String = "default_stories"
-      val SoundsEffectsDirectoryName: String = "sound_effects"
-      val StoryMusicDirectoryName: String = "story_music"
-      val BattleMusicDirectoryName: String = "battle_music"
-      val MenuMusicDirectoryName: String = "menu_music"
-    }
-
-    import controller.util.Resources.ResourceName.FileExtensions.{StoryFileExtension, StoryProgressFileExtension}
-
-    object FileExtensions {
-      val StoryFileExtension: String = "sqstr"
-      val StoryProgressFileExtension: String = "sqprg"
-      val TxtExtension = "txt"
-      val WavExtension = "wav"
-      val PrologExtension = "pl"
-    }
-
-    private object SoundNames {
-
-      import FileExtensions.WavExtension
-
-      val InteractionSoundEffectFileName: String = "interaction." + WavExtension
-    }
-
-    private object PrologNames {
-      val PrologTheoryFileName: String = "theory." + PrologExtension
-    }
-
-    object MainDirectory {
-      val RootGameDirectory: String = System.getProperty("user.home")
-      //use mostly for test purposes
-      private val ScalaQuestTestFolderName = "ScalaQuest_Test"
-      val TempDirectory: String = System.getProperty("java.io.tmpdir") + "/" + ScalaQuestTestFolderName
-    }
-
-    val testRandomStoryName: String = "test-random-story"
-
-    import controller.util.Resources.ResourceName.DirectoryNames._
-
-    def storyDirectoryPath(baseDirectory: String = RootGameDirectory): String =
-      gameDirectoryPath(baseDirectory) + "/" + StoryDirectoryName
-
-    def gameDirectoryPath(baseDirectory: String = RootGameDirectory): String =
-      baseDirectory + "/" + GameDirectoryName
-
-    private def storyPathWitNoExtension(storyName: String)(baseDirectory: String): String =
-      storyDirectoryPath(baseDirectory) + "/" + storyName + "/" + storyName
-
-    def storyPath(storyName: String)(baseDirectory: String = RootGameDirectory): String =
-      storyPathWitNoExtension(storyName)(baseDirectory) + "." + StoryFileExtension
-
-    def storyProgressPath(storyName: String)(baseDirectory: String = RootGameDirectory): String =
-      storyPathWitNoExtension(storyName)(baseDirectory) + "." + StoryProgressFileExtension
-
-    import controller.util.Resources.ResourceName.SoundNames._
-
-    def interactionSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
-
-    import controller.util.Resources.ResourceName.PrologNames.PrologTheoryFileName
-
-    def prologEngineTheoryPath: String = "/" + PrologTheoryFileName
-
-    def defaultStoriesDirectoryPath: String = "/" + DefaultStoriesDirectoryName
-
-    def storyMusicDirectoryPath(): String = "/" + SoundsEffectsDirectoryName + "/" + StoryMusicDirectoryName
-
-    def battleMusicDirectoryPath(): String = "/" + SoundsEffectsDirectoryName + "/" + BattleMusicDirectoryName
-
-    def menuMusicDirectoryPath(): String = "/" + SoundsEffectsDirectoryName + "/" + MenuMusicDirectoryName
-
-  }
 }

@@ -1,13 +1,13 @@
 package controller.util
 
-import controller.util.Resources.{ResourceName, resourcesAsNamedInputStreamFromFolder}
-import controller.util.Resources.ResourceName._
+import controller.util.ResourceNames.FileExtensions.StoryFileExtension
+import controller.util.ResourceNames._
 import FolderUtil.{createFolderIfNotPresent, filesNameInFolder}
-import controller.util.Resources.ResourceName.FileExtensions.StoryFileExtension
 import controller.util.serialization.StoryNodeSerializer.serializeStory
 import model.nodes.util.RandomStoryNodeGenerator
-
 import java.nio.file.{Files, Paths, StandardCopyOption}
+
+import controller.util.Resources.resourcesAsNamedInputStreamFromFolder
 
 object DirectoryInitializer {
 
@@ -27,7 +27,7 @@ object DirectoryInitializer {
       createFolderIfNotPresent(storyDirectoryPath(gameRootDirectory) + "/" + testRandomStoryName)
       serializeStory(
         RandomStoryNodeGenerator.Generator.generate(),
-        ResourceName.storyPath(testRandomStoryName)(gameRootDirectory)
+        ResourceNames.storyPath(testRandomStoryName)(gameRootDirectory)
       )
     }
   }
