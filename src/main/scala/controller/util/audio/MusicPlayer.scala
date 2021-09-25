@@ -58,15 +58,12 @@ object MusicPlayer {
   def stopMusic(): Unit = {
     if (currentlyPlayingMenu.isDefined) {
       currentlyPlayingMenu.get.stop()
-      println("Menu")
     }
     if (currentlyPlayingStory.isDefined) {
       currentlyPlayingStory.get.stop()
-      println("battle")
     }
     if (currentlyPlayingBattle.isDefined) {
       currentlyPlayingBattle.get.stop()
-      println("story")
     }
   }
 
