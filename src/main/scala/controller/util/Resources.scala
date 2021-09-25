@@ -1,10 +1,11 @@
 package controller.util
 
-import controller.util.ResourceNames.{interactionSoundEffectPath, navigationSoundEffectPath}
 
+import controller.util.ResourceNames.interactionSoundEffectPath
 import java.awt.image.BufferedImage
 import java.io.{BufferedInputStream, File, InputStream}
 import java.net.{URI, URL}
+import java.nio.charset.StandardCharsets
 import java.nio.file._
 import javax.imageio.ImageIO
 import javax.sound.sampled.{AudioInputStream, AudioSystem, Clip}
@@ -18,6 +19,7 @@ object Resources {
 
   /**
    * Implicit class used to add a method to map a [[java.io.InputStream]] to a [[javax.sound.sampled.AudioInputStream]].
+   *
    * @param inputStream the implicit InputStream parameter.
    */
   implicit class RichInputStream(inputStream: InputStream) {
@@ -37,12 +39,12 @@ object Resources {
   def resourceAsInputStream(resourcePath: String): InputStream = getClass.getResourceAsStream(resourcePath)
 
   /**
-   * Convert all the resources inside a folder to a Set of [[java.io.InputStream]].
+   * Convert all the resources inside a folder to a Set of (FileName, [[java.io.InputStream]]).
    *
    * @param folderPath the folder path.
-   * @return A set of [[java.io.InputStream]]
+   * @return A set of (FileName, [[java.io.InputStream]]).
    */
-  def resourcesAsInputStreamFromFolder(folderPath: String): Set[InputStream] = {
+  def resourcesAsNamedInputStreamFromFolder(folderPath: String): Set[(String, InputStream)] = {
     val url: Option[URL] = Option(getClass.getResource(folderPath))
     url match {
       case Some(url) =>
@@ -50,7 +52,7 @@ object Resources {
         if (uri.getScheme.contains("jar")) {
           resourceAsInputStreamFromJarFolder(folderPath)
         } else {
-          new File(uri).list().map(s => resourceAsInputStream(folderPath + "/" + s)).toSet
+          new File(uri).list().map(n => (n, resourceAsInputStream(folderPath + "/" + n))).toSet
         }
       case None => Set()
     }
@@ -58,21 +60,33 @@ object Resources {
 
   /**
    * Convert all the resources inside a folder to a Set of [[java.io.InputStream]].
-   * Works only if launched from inside a compiled jar.
    *
    * @param folderPath the folder path.
    * @return A set of [[java.io.InputStream]]
    */
-  private def resourceAsInputStreamFromJarFolder(folderPath: String): Set[InputStream] = {
-    val jarFile: Path = Paths.get(
-      getClass.getProtectionDomain.getCodeSource.getLocation.toString
-        .substring("file:".length()).replaceFirst("^/(.:/)", "$1")
-    )
-    val fs: FileSystem = FileSystems.newFileSystem(jarFile, getClass.getClassLoader)
+  def resourcesAsInputStreamFromFolder(folderPath: String): Set[InputStream] =
+    resourcesAsNamedInputStreamFromFolder(folderPath).map(t => t._2)
+
+  /**
+   * Convert all the resources inside a folder to a Set of (FileName, [[java.io.InputStream]]).
+   * Works only if launched from inside a compiled jar.
+   *
+   * @param folderPath the folder path.
+   * @return A set of (FileName, [[java.io.InputStream]])
+   */
+  private def resourceAsInputStreamFromJarFolder(folderPath: String): Set[(String, InputStream)] = {
+    val decodedFileSystemURL: String = {
+      java.net.URLDecoder.decode(
+        getClass.getProtectionDomain.getCodeSource.getLocation.toString.substring("file:".length())
+          .replaceFirst("^/(.:/)", "$1"),
+        StandardCharsets.UTF_8.name
+      )
+    }
+    val fs = FileSystems.newFileSystem(Paths.get(decodedFileSystemURL), getClass.getClassLoader)
     Files.newDirectoryStream(fs.getPath(folderPath))
       .iterator()
       .asScala
-      .map(p => resourceAsInputStream(p.toString))
+      .map(p => (p.getFileName.toString, resourceAsInputStream(p.toString)))
       .toSet
   }
 
@@ -128,7 +142,6 @@ object Resources {
 
   object SoundClip {
     lazy val interactionSoundClip: Clip = loadAudioClip(interactionSoundEffectPath)
-    lazy val navigationSoundClip: Clip = loadAudioClip(navigationSoundEffectPath)
   }
 
 }

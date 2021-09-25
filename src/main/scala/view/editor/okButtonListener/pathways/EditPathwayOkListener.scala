@@ -42,7 +42,7 @@ private case class EditPathwayNextFormOkListener(override val form: Form,
 
   override def performAction(): Unit = {
     val lastForm: Form = FormBuilder()
-      .addTextAreaField(
+      .addTextField(
         "Pathway description",
         controller.pathwaysControls
           .getPathway(originNodeId, form.elements(DestinationNodeIdIndex).value.toInt).get.description

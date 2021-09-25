@@ -23,7 +23,7 @@ object EngineTheory {
    */
   case class StoryNodeTheory(storyNode: StoryNode) extends Theory(generateFacts(storyNode).mkString("\n") + "\n")
 
-  def generateFacts(storyNode: StoryNode): Set[String] = {
+  private def generateFacts(storyNode: StoryNode): Set[String] = {
     var acc: Set[String] = Set()
 
     def _generateFacts(storyNode: StoryNode): Set[String] = {

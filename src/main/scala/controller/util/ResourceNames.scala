@@ -8,6 +8,7 @@ object ResourceNames {
   private object DirectoryNames {
     val GameDirectoryName: String = ".sq"
     val StoryDirectoryName: String = "stories"
+    val DefaultStoriesDirectoryName: String = "default_stories"
     val SoundsEffectsDirectoryName: String = "sound_effects"
     val StoryMusicDirectoryName: String = "story_music"
     val BattleMusicDirectoryName: String = "battle_music"
@@ -28,7 +29,6 @@ object ResourceNames {
     import FileExtensions.WavExtension
 
     val InteractionSoundEffectFileName: String = "interaction." + WavExtension
-    val NavigationSoundEffectFileName: String = "navigation." + WavExtension
   }
 
   private object PrologNames {
@@ -68,22 +68,17 @@ object ResourceNames {
 
   def interactionSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + InteractionSoundEffectFileName
 
-  def navigationSoundEffectPath: String = "/" + SoundsEffectsDirectoryName + "/" + NavigationSoundEffectFileName
-
   import controller.util.ResourceNames.PrologNames.PrologTheoryFileName
 
   def prologEngineTheoryPath: String = "/" + PrologTheoryFileName
 
-  def storyMusicDirectoryPath(): String = {
-    "/" + SoundsEffectsDirectoryName + "/" + StoryMusicDirectoryName
-  }
+  def defaultStoriesDirectoryPath: String = "/" + DefaultStoriesDirectoryName
 
-  def battleMusicDirectoryPath(): String = {
-    "/" + SoundsEffectsDirectoryName + "/" + BattleMusicDirectoryName
-  }
+  def storyMusicDirectoryPath(): String = "/" + SoundsEffectsDirectoryName + "/" + StoryMusicDirectoryName
 
-  def menuMusicDirectoryPath(): String = {
-    "/" + SoundsEffectsDirectoryName + "/" + MenuMusicDirectoryName
-  }
+
+  def battleMusicDirectoryPath(): String = "/" + SoundsEffectsDirectoryName + "/" + BattleMusicDirectoryName
+
+  def menuMusicDirectoryPath(): String =  "/" + SoundsEffectsDirectoryName + "/" + MenuMusicDirectoryName
 
 }

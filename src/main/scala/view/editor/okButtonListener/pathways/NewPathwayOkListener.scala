@@ -26,7 +26,7 @@ object NewPathwayOkListener {
             controller.pathwaysControls.isNewPathwayValid(originNodeId, d.id)
           ).map(id => id.toString)
         )
-        .addTextAreaField("What description should the pathway show?")
+        .addTextField("What description should the pathway show?")
         .get(controller)
       nextForm.setOkButtonListener(NewPathwayNextFormOkListener(nextForm, controller, originNodeId))
       nextForm.render()

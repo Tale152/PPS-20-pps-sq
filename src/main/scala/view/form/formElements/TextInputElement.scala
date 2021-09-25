@@ -7,9 +7,10 @@ import javax.swing.JTextField
  *
  * @param textLabel the label that describe the FormElement.
  */
-case class TextInputElement(textLabel: String) extends FormElement(textLabel) {
+case class TextInputElement(textLabel: String, oldText: String) extends FormElement(textLabel) {
 
   val jTextField: JTextField = new JTextField()
+  jTextField.setText(oldText)
   this.add(jTextField)
 
   override def value: String = jTextField.getText
