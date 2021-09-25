@@ -10,9 +10,10 @@ import view.mainMenu.MainMenu
 import view.mainMenu.buttonListeners.MainMenuButtonListeners.LoadStoryChooserButtonListener
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
-
 import java.awt.event.ActionEvent
 import java.io.File
+
+import controller.util.ResourceNames.FileExtensions.StoryFileExtension
 import javax.swing.filechooser.FileNameExtensionFilter
 
 /**
@@ -26,7 +27,7 @@ case class LoadStoryButtonListener(override val applicationController: Applicati
   extends LoadStoryChooserButtonListener(applicationController) {
 
   override def actionPerformed(e: ActionEvent): Unit = {
-    loadStoryFileChooser.setFileFilter(new FileNameExtensionFilter("SQSTR", "sqstr"))
+    loadStoryFileChooser.setFileFilter(new FileNameExtensionFilter("SQSTR", StoryFileExtension))
     loadStoryFileChooser.showOpenDialog(mainMenu)
     val file: Option[File] = Option(loadStoryFileChooser.getSelectedFile)
     if (file.nonEmpty) {
@@ -49,7 +50,7 @@ case class LoadStoryButtonListener(override val applicationController: Applicati
     SqSwingDialog("Story already present", "Do you want to override existing story?",
       List(
         SqSwingButton("ok", _ => {
-          new File(newStoryFolderPath + "/" + nameWithOutExtension + ".sqprg").delete()
+          new File(newStoryFolderPath + "/" + nameWithOutExtension + "." + StoryFileExtension).delete()
           loadNewStory(file, newStoryFolderPath)
         }),
         SqSwingButton("cancel", _ => {
