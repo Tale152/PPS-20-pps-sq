@@ -143,7 +143,44 @@ L'editor presenta lo stesso comportamento per tutte le operazioni possibili (con
 Viene dinamicamente generato un form finalizzato all'inserimento dei dati necessari al compimento dell'operazione; nel momento in cui l'utente desideri confermare l'inserimento dei dati questi ultimi vengono valutati e, in caso positivo, il model viene aggiornato (così come la rappresentazione grafica di tale model). 
 
 ### Scelte tecnologiche cruciali ai fini architetturali
+#### Tecnologie scartate
+In questa sezione verranno illustrate alcune tecnologie che in fase di analisi sono state prese in considerazione e successivamente abbandonate. Seguono descrizioni e motivazioni.
+##### Modello ad attori (Akka)
+Durante la progettazione della parte dei Controller sono state riscontrate alcune similarità tra il modello proposto (quello finale, già illustrato precedentemente) e il [modello ad attori](https://doc.akka.io/docs/akka/current/typed/actors.html#:~:text=com%2Fakka%2Fakka-,Akka%20Actors,correct%20concurrent%20and%20parallel%20systems).
+Per quanto riguarda la fase di gioco infatti, nel modello proposto un Controller principale (_GameMasterController_) si occupa di creare i sub controller e funge da loro coordinatore.
+I controller erano quindi inizialmente stati pensati in modo differente. Modificando sensibilmente la struttura del pattern MVC si puntava a far diventare i Controller degli Attori.
 
-<!-- NOTA: opzionalmente -->
+Nella struttura presentata _GameMasterController_ diventa un attore e tutti i sub controller diventano attori figli.
+Alcuni benefici di questa modellazione:
+- Una volta istanziati gli attori è possibile per ognuno di loro dialogare con altri attori del sistema conoscendo il loro identificativo in modo trasparente senza passare tramite l'attore padre.
+- Un'eventuale estensione del gioco nel distribuito sarebbe probabilmente più facilmente sviluppabile.
+- È possibile avere molta più varietà sui contenuti che i controller possono mandarsi tra loro; molto utile nel caso in cui i controller abbiano bisogno di coordinarsi tra loro e prendere decisioni in funzione dello stato degli altri.
+> **_Un esempio_** :  
+durante una battaglia è possibile utilizzare oggetti all'interno dell'inventario. Esistono quindi due controller, _InventoryController_ e _BattleController_ che dialogano tra loro. Grazie al modello ad attori _BattleController_ potrebbe capire se è stato utilizzato uno strumento o no in base al tipo o al contenuto di un messaggio inviat da _InventoryController_.
+
+Nelle fasi iniziali del progetto sono stati realizzati alcuni prototipi dell'applicazione aventi questa struttura e sono stati riscontrate le seguenti criticità:
+
+- Trasformare i Controller in attori significherebbe trasformare anche le View in attori, facendo venire ancora meno la struttura del pattern MVC.
+- Il comportamento dei Controller dipenderebbe fortemente dal tipo di messaggi che può ricevere. Questo tipo di architettura è particolarmente scalabile, ma mano a mano che il sistema cresce tende anche ad essere particolarmente dispersiva. Il numero di tipi di messaggi all'interno del sistema sarebbe molto elevato e la navigazione del codice di conseguenza più tediosa.
+- La natura dell'applicazione non richiede mai che più di un attore esegua il suo comportamento in contemporanea ad altri.
+- Il modello a scambio di messaggi pecca in performance: inviare messaggi è generalmente un'operazione più lenta rispetto alla chiamata di metodo.
+
+A seguito di questa analisi è stato unimamente deciso di non utilizzare il framework Akka e di seguire il pattern MVC.
+##### Serializzazione e deserializzazione tramite librerie json
+Le specifiche del progetto richiedono il salvataggio di alcune informazioni su dei supporti di memorizzazione, presumibilmente file.  
+L'idea iniziale è stata quella di utilizzare il linguaggio json come standard per la memorizzazione di contenuti su file.
+
+Alcuni benefici di questa scelta:
+- Modificare o addirittura creare storie per l'applicazione risulterebbe molto più semplice.
+- Il linguaggio json è largamente utilizzato non solo in ambito web.
+- L'utilizzo di questo standard renderebbe più semplice l'eventuale estensione del progetto nell'ambito web.
+
+Sono tuttavia state riscontrate anche le seguenti criticità:
+- Alcune delle librerie più famose per quanto riguarda la serializzazione e deserializzazione di classi Java (per esempio gson) non sono completamente compatibili con il linguaggio Scala.
+- Il linguaggio json non è fortemente tipato, sono quindi richiesti dei controlli in più.
+- La serializzazione e deserializzazione di strutture più complesse (come funzioni e stretegie) è difficilmente rappresentabile in json.
+
+Si è quindi optato per un approccio più semplice anche se meno flessibile.
+Grazie all'utilizzo della trait [Serializable](https://www.scala-lang.org/api/2.12.5/scala/Serializable.html) del linguaggio Scala è possibile serializzare facilmente quasi ogni classe. Anche classi che non era possibile serializzare in Java (come ad esempio [Optional](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html)) sono invece completamente supportate per questo genere di operazione su Scala ([Option](https://www.scala-lang.org/api/current/scala/Option.html) è serializzabile). È tuttavia importante ricordare che esiste una perdita di flessibilità perché modifiche alle strutture serializzabili possono essere causa di incompatibilità per oggetti serializzati precedentemente.
 
 ---
