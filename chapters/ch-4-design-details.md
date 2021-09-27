@@ -111,6 +111,34 @@ object GameMasterController {
   ...
 }
 ```
+### Builder Pattern
+Il design pattern Builder è un pattern creazionale attraverso il quale semplificare la creazione di un oggetto complesso, rendendo anche possibile creare diverse rappresentazioni di tale oggetto.
+L'algoritmo per la creazione di tale oggetto è indipendente dalle varie parti che lo compongono e da come vengono assemblate; ciò ha l'effetto immediato di rendere più semplice la classe, permettendo a una classe builder separata di focalizzarsi sulla corretta costruzione di un'istanza e lasciando che la classe originale si concentri sul funzionamento degli oggetti.  
+
+Come citato precedentemente, i Form dell'editor sono stati costruiti agilmente attraverso il ```FormBuilder```, che permette la creazione di form complessi semplicemente chiamando a catena i suoi metodi per aggiungere campi al form.
+
+``` scala
+case class FormBuilder() {
+
+    private val listBuffer: ListBuffer[FormElement] = ListBuffer()
+
+    def addTextAreaField(label: String, oldText: String = ""): FormBuilder =
+        addField(TextAreaInputElement(label, oldText))
+
+    def addIntegerField(label: String): FormBuilder =
+        addField(IntegerInputElement(label))
+
+    ...
+
+    private def addField(formElement: FormElement): FormBuilder = {
+        listBuffer += formElement
+        this
+    }
+
+  def get(controller: Controller): Form = Form(controller, listBuffer.toList)
+
+}
+```
 
 <!-- etc. -->
 
