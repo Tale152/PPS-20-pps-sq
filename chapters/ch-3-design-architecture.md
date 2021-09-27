@@ -111,10 +111,9 @@ Vediamo ora nel dettaglio lo stato "in a battle" (di complessità maggiore rispe
 
 ### In a battle
 <div align="center">
-<img src="https://images2.imgbox.com/1e/4f/EEJM41pe_o.png" alt="Diagramma di sequenza - in battaglia">
+<img src="https://images2.imgbox.com/97/ce/RABb77Vp_o.png" alt="Diagramma di sequenza - in battaglia">
 <p align="center">Diagramma degli stati - in battaglia</p>
 </div>
-
 All'interno di una battaglia l'utente è posto davanti a quattro possibili scelte:
 - Uscire dal gioco
 - Utilizzare un oggetto 
