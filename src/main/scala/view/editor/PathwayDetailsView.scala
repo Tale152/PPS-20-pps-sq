@@ -10,6 +10,12 @@ import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqTextArea}
 import java.awt.BorderLayout
 import javax.swing.BoxLayout
 
+/**
+ * A sub-view of the EditorView. Used to display info about a Pathway.
+ * @param originNode the StoryNode that originates the Pathway
+ * @param pathway the Pathway to display info about
+ * @param editorController the EditorController instance
+ */
 case class PathwayDetailsView(private val originNode: StoryNode,
                               private val pathway: Pathway,
                               private val editorController: EditorController) extends AbstractView{
