@@ -35,6 +35,8 @@ La struttura appena descritta verrà referenziata da uno **StoryModel**, nel qua
 - un riferimento allo StoryNode corrente;
 - un riferimento agli StoryNode visitati precedentemente di modo che sia ricostruibile uno storico.  
 
+Affinchè la struttura di una storia sia ritenuta valida, è stato imposto un vincolo per cui non possano essere presenti cicli all'interno di una storia; uno StoryNode visitato dunque non potrà mai più essere visitato (non esisteranno strade successive che torneranno nuovamente al nodo già visitato).
+
 <div align="center">
     <img src="https://images2.imgbox.com/54/66/WePb9Out_o.png" alt="Vista ad alto livello StoryModel">
     <p align="center">Vista ad alto livello StoryModel</p>
