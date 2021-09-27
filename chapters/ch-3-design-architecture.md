@@ -77,7 +77,7 @@ Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intrapre
 
 ## Stati del sistema
 <div align="center">
-<img src="https://images2.imgbox.com/95/ee/82VOQeYA_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
+<img src="https://images2.imgbox.com/73/62/WhxIIroY_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
 <p align="center">Diagramma degli stati - menu principale</p>
 </div>
 All'avvio dell'applicativo il sistema mostrerà il menu principale. Da qui vi è la possibilità di:
