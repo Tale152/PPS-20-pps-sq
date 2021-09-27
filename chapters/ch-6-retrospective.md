@@ -70,14 +70,27 @@ Utilizzando il model concluso nello sprint precedente sono state implementate le
 È inoltre cominciato lo sviluppo dell'editor, ottenendo una versione funzionante capace di eseguire le operazioni più basilari (le funzioni avanzate verranno implementate nel prossimo sprint).  
 I file di storie prodotte dall'editor, inoltre, possono ora essere aggiunti alle storie disponibili in maniera guidata evitando che l'utente vada manualmente ad inserire i file nella cartella giusta (è stata anche implementata una funzione per l'eliminazione guidata di storie).  
 
-Si è concluso lo studio di fattibilità descritto allo sprint precedente, confermando la possibilità di realizzare le feature desiderate (che verranno implementate nel prossimo sprint).
+Si è concluso lo studio di fattibilità del modulo prolog descritto nello sprint precedente, confermando la possibilità di realizzare le feature desiderate (che verranno implementate nel prossimo sprint).
 
 #### Considerazioni finali
 Il programma è in grado di eseguire la quasi totalità delle feature previste per la release finale, confermando le nostre previsioni sui tempi di sviluppo.  
 
-### Sprint 5 (date_start - date-end)
+### Sprint 5 (10/09/2021 - 20/09/2021)
 #### Obiettivo
+In questi 10 giorni sono stati portati a termine sostanziosi obiettivi nelle due macroaree rimanenti:
+- Editor  
+Sono state completate tutte le feature dell'editor rendendo possibile la creazione di una storia utilizzando esclusivamente tale tool (rendendo obsoleto il generatore randomico da codice sviluppato nei primi sprint).
+- Modulo prolog  
+Il modulo prolog permette di eseguire la totalità delle operazioni previste, fornendo uno strumento potente e versatile.  
+
+Nonostante il modulo prolog sia pronto, abbiamo scelto di non includerlo in questa release in quanto è stato ritenuto necessario svolgere ulteriori verifiche prima di renderlo disponibile.  
+
+Per quanto riguarda il core dell'applicativo sono state apportate piccole migliorie e bug fix; è stata inoltre predisposta la feature di riproduzione di brani musicali durante il gioco.
+
 #### Considerazioni finali
+Lo sviluppo dell'editor e del modulo prolog ha richiesto molto impegno per tutti i componenti del gruppo, ma fortunatamente tale impegno ha mostrato i suoi frutti.  
+Secondo le nostre previsioni però nel prossimo sprint potremo recuperare le forze con compiti più leggeri in quanto tutti i requisiti del sistema sono stati raggiunti.
+
 ### Sprint 6 (date_start - date-end)
 #### Obiettivo
 #### Considerazioni finali
