@@ -12,6 +12,11 @@ import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqTextArea}
 import java.awt.BorderLayout
 import javax.swing.BoxLayout
 
+/**
+ * A sub-view of the EditorView. Used to display info about a StoryNode.
+ * @param storyNode the StoryNode to display info about
+ * @param editorController the EditorController instance
+ */
 case class StoryNodeDetailsView(private val storyNode: StoryNode, private val editorController: EditorController)
   extends AbstractView {
 
