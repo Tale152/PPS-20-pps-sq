@@ -62,7 +62,7 @@ object ApplicationController extends ApplicationController {
 }
 ```
 
-### Adapter pattern
+### Adapter Pattern
 Conosciuto anche con il nome di Wrapper, Adapter è un pattern di design che punta a risolvere un problema di compatibilità tra due oggetti.  
 Non è raro che una libreria disponga di una funzionalità utile ma vi sia un problema ad interfacciare i propri dati con quanto richiesto dal framework. Tramite questo pattern viene dunque creato un oggetto che riesca ad adattare i dati di modo da mettere in comunicazione le due interfacce incompatibili.
 
@@ -81,6 +81,36 @@ protected case class EdgeInfo(private val startingNode: StoryNode,
 }
 ```
 
+### Facade pattern
+Facade è un design pattern usato per esporre una facciata molto semplice che mascheri un sistema complesso al fine di migliorare la leggibilità e usabilità del codice fornendo un unico punto di accesso.  
+
+Questo pattern è risultato fondamentale per gestire lo svolgimento del gioco; i vari SubController che si occupano di diversi aspetti relativi alla partita (StoryController, HistoryController, ProgressSaverController, ecc...) infatti sono messi in comunicazione tra loro tramite il ```GameMasterController``` che sfrutta questo pattern esponendo il metodo ```executeOperation``` così che sia possibile in modo facile cambiare quale Controller abbia la parola in quel momento richiamando.
+
+``` scala
+sealed trait GameMasterController extends Controller {
+
+  def executeOperation(operation: OperationType): Unit
+}
+
+object GameMasterController {
+
+  private class GameMasterControllerImpl(private val storyModel: StoryModel)
+    extends GameMasterController {
+
+    ...
+
+    override def executeOperation(op: OperationType): Unit = op match {
+      case OperationType.StoryOperation =>
+        subControllersContainer.storyController.execute()
+      case OperationType.HistoryOperation =>
+        subControllersContainer.historyController.execute()
+      ...
+    }
+  }
+
+  ...
+}
+```
 
 <!-- etc. -->
 
