@@ -11,16 +11,40 @@ Model-view-controller è un pattern architetturale in grado di separare la logic
 - Model: si occupa di catturare i comportamenti di sistema in termini di dominio del problema, al suo interno pertanto sono definiti dati e logica dell'applicativo.
 - View: si occupa di rappresentare le informazioni trattate che interessano l'utente in diversi modi, nel caso di
   ScalaQuest diverse GUI consentono la navigazione dei nodi durante l'attività di gioco e la visione della struttura vera e propria delle storie all'interno dell'editor.
-- Controller (nel nostro caso molteplici):  ha il compito di accettare l'input che generalmente deriva dalla view e convertirlo in comandi per il model o per la view stessa. Segue una descrizione dettagliata del funzionamento e delle interazioni dei vari controlli presenti nell'applicativo.
+- Controller (nel nostro caso molteplici):  ha il compito di accettare l'input che generalmente deriva dalla view e convertirlo in comandi per il model o per la view stessa.
 
 #### Model
+Ad alto livello possiamo inquadrare ogni storia come un grafo contenente nodi (**StoryNode**) interconnessi da archi (**Pathway**) unidirezionali.  
+Il giocatore si muoverà nella storia spostandosi tra i vari StoryNode scegliendo quali Pathway intraprendere.
+
+Ogni StoryNode conterrà al suo interno una *narrative*, identificabile come lo sviluppo testuale della storia che il giocatore potrà leggere; ogni nodo inoltre potrebbe contenere:
+- un nemico da affrontare;
+- degli eventi da sviluppare;
+- dei Pathway da esplorare per continuare la storia.
+
+Questi ultimi conterranno una *description* testuale ed uno StoryNode di destinazione, oltre che un eventuale prerequisito da soddisfare di modo che il Pathway sia selezionabile.
+
 <div align="center">
     <img src="https://images2.imgbox.com/de/81/SPwka4tu_o.png" alt="Vista ad alto livello StoryNodes e Pathways">
     <p align="center">Vista ad alto livello StoryNodes e Pathways</p>
 </div>
+
+La struttura appena descritta verrà referenziata da uno **StoryModel**, nel quale saranno contenuti:
+- il nome della storia;
+- le informazioni riguardanti il giocatore;
+- un riferimento allo StoryNode corrente;
+- un riferimento agli StoryNode visitati precedentemente di modo che sia ricostruibile uno storico.  
+
 <div align="center">
     <img src="https://images2.imgbox.com/54/66/WePb9Out_o.png" alt="Vista ad alto livello StoryModel">
     <p align="center">Vista ad alto livello StoryModel</p>
+</div>
+
+Segue diagramma delle classi ad alto livello del model (una vista più approfondità di tale diagramma verrà affrontata nel capitolo 4).
+
+<div align="center">
+    <img src="https://images2.imgbox.com/29/51/kKkzPT1V_o.png" alt="Diagramma classi Model ad alto livello">
+    <p align="center">Diagramma classi Model ad alto livello</p>
 </div>
 
 #### Flusso d'esecuzione dei controller
