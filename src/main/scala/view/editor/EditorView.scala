@@ -18,10 +18,18 @@ import java.awt.event.ActionEvent
 import java.io.File
 import javax.swing.{JComponent, JFileChooser}
 
+/**
+ * A View used by the EditorController to display all the possible operations on a story.
+ */
 trait EditorView extends AbstractView
 
 object EditorView {
 
+  /**
+   * Shows a dialog that informs the user that the action performed is forbidden
+   * @param message string to display
+   * @return the SqSingDialog instance
+   */
   def showForbiddenActionDialog(message: String): SqSwingDialog = SqSwingDialog(
     "Forbidden action",
     message,
