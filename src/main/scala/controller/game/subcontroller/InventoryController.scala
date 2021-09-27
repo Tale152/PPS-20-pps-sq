@@ -83,14 +83,14 @@ object InventoryController {
       }
 
     private def currentlyInBattle(): Boolean =
-      targets().size > 1 &&
+      storyModel.currentStoryNode.enemy.isDefined &&
         storyModel.currentStoryNode.enemy.get.properties.health.currentPS > 0
 
     /**
      * @return the list of all the possible targets.
      */
     override def targets(): Set[Character] =
-      if(storyModel.currentStoryNode.enemy.isDefined){
+      if(currentlyInBattle()){
         Set(storyModel.player, storyModel.currentStoryNode.enemy.get)
       } else {
         Set(storyModel.player)
