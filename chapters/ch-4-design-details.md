@@ -61,6 +61,27 @@ object ApplicationController extends ApplicationController {
     ...
 }
 ```
+
+### Adapter pattern
+Conosciuto anche con il nome di Wrapper, Adapter è un pattern di design che punta a risolvere un problema di compatibilità tra due oggetti.  
+Non è raro che una libreria disponga di una funzionalità utile ma vi sia un problema ad interfacciare i propri dati con quanto richiesto dal framework. Tramite questo pattern viene dunque creato un oggetto che riesca ad adattare i dati di modo da mettere in comunicazione le due interfacce incompatibili.
+
+L'editor fa largo uso della libreria GraphStream, utile per rappresentare a schermo dei grafi contenenti dei nodi; tale framework però è ha un'impostazione diversa rispetto ai nostri StoryNode e Pathway.  
+Al fine di poter rappresentare graficamente il nostro model dunque è stata creata la classe ```EdgeInfo``` che sopperisce al problema di incompatibilità dei dati.
+``` scala
+protected case class EdgeInfo(private val startingNode: StoryNode,
+                              private val pathway: Pathway) {
+
+  val isFinalNode: Boolean = pathway.destinationNode.pathways.isEmpty
+
+  val isConditionalEdge: Boolean = pathway.prerequisite.nonEmpty
+
+  ...
+
+}
+```
+
+
 <!-- etc. -->
 
 ---
