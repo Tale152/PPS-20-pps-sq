@@ -158,6 +158,20 @@ Nelle fasi iniziali del progetto sono stati realizzati alcuni prototipi dell'app
 
 A seguito di questa analisi è stato unimamente deciso di non utilizzare il framework Akka e di seguire il pattern MVC.
 ##### Serializzazione e deserializzazione tramite librerie json
-<!-- NOTA: opzionalmente -->
+Le specifiche del progetto richiedono il salvataggio di alcune informazioni su dei supporti di memorizzazione, presumibilmente file.  
+L'idea iniziale è stata quella di utilizzare il linguaggio json come standard per la memorizzazione di contenuti su file.
+
+Alcuni benefici di questa scelta:
+- Modificare o addirittura creare storie per l'applicazione risulterebbe molto più semplice.
+- Il linguaggio json è largamente utilizzato non solo in ambito web.
+- L'utilizzo di questo standard renderebbe più semplice l'eventuale estensione del progetto nell'ambito web.
+
+Sono tuttavia state riscontrate anche le seguenti criticità:
+- Alcune delle librerie più famose per quanto riguarda la serializzazione e deserializzazione di classi Java (per esempio gson) non sono completamente compatibili con il linguaggio Scala.
+- Il linguaggio json non è fortemente tipato, sono quindi richiesti dei controlli in più.
+- La serializzazione e deserializzazione di strutture più complesse (come funzioni e stretegie) è difficilmente rappresentabile in json.
+
+Si è quindi optato per un approccio più semplice anche se meno flessibile.
+Grazie all'utilizzo della trait [Serializable](https://www.scala-lang.org/api/2.12.5/scala/Serializable.html) del linguaggio Scala è possibile serializzare facilmente quasi ogni classe. Anche classi che non era possibile serializzare in Java (come ad esempio [Optional](https://docs.oracle.com/javase/8/docs/api/java/util/Optional.html)) sono invece completamente supportate per questo genere di operazione su Scala ([Option](https://www.scala-lang.org/api/current/scala/Option.html) è serializzabile). È tuttavia importante ricordare che esiste una perdita di flessibilità perché modifiche alle strutture serializzabili possono essere causa di incompatibilità per oggetti serializzati precedentemente.
 
 ---
