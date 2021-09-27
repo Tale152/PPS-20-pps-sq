@@ -13,6 +13,16 @@ Model-view-controller è un pattern architetturale in grado di separare la logic
   ScalaQuest diverse GUI consentono la navigazione dei nodi durante l'attività di gioco e la visione della struttura vera e propria delle storie all'interno dell'editor.
 - Controller (nel nostro caso molteplici):  ha il compito di accettare l'input che generalmente deriva dalla view e convertirlo in comandi per il model o per la view stessa. Segue una descrizione dettagliata del funzionamento e delle interazioni dei vari controlli presenti nell'applicativo.
 
+#### Model
+<div align="center">
+    <img src="https://images2.imgbox.com/de/81/SPwka4tu_o.png" alt="Vista ad alto livello StoryNodes e Pathways">
+    <p align="center">Vista ad alto livello StoryNodes e Pathways</p>
+</div>
+<div align="center">
+    <img src="https://images2.imgbox.com/54/66/WePb9Out_o.png" alt="Vista ad alto livello StoryModel">
+    <p align="center">Vista ad alto livello StoryModel</p>
+</div>
+
 #### Flusso d'esecuzione dei controller
 
 All'interno del sistema sono presenti più controller; ognuno di essi è associato ad una differente View mentre, per quanto riguarda il Model, le classi da manipolare sono le stesse in comune tra tutti i controller. L'effettivo controllo viene acquisito da un diverso controller dipendentemente dai servizi necessari in un dato momento.  
@@ -77,7 +87,7 @@ Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intrapre
 
 ## Stati del sistema
 <div align="center">
-<img src="https://images2.imgbox.com/95/ee/82VOQeYA_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
+<img src="https://images2.imgbox.com/73/62/WhxIIroY_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
 <p align="center">Diagramma degli stati - menu principale</p>
 </div>
 All'avvio dell'applicativo il sistema mostrerà il menu principale. Da qui vi è la possibilità di:
@@ -111,10 +121,9 @@ Vediamo ora nel dettaglio lo stato "in a battle" (di complessità maggiore rispe
 
 ### In a battle
 <div align="center">
-<img src="https://images2.imgbox.com/1e/4f/EEJM41pe_o.png" alt="Diagramma di sequenza - in battaglia">
+<img src="https://images2.imgbox.com/97/ce/RABb77Vp_o.png" alt="Diagramma di sequenza - in battaglia">
 <p align="center">Diagramma degli stati - in battaglia</p>
 </div>
-
 All'interno di una battaglia l'utente è posto davanti a quattro possibili scelte:
 - Uscire dal gioco
 - Utilizzare un oggetto 
