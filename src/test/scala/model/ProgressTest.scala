@@ -8,7 +8,7 @@ class ProgressTest extends FlatTestSpec with SerializableSpec{
 
   val serializableHistory: List[Int] = List(0,1,2)
   var undefinedSerializableHistory: List[Int] = _
-  val player: Player = Player("player", 1, CharacterFactory.mockSetOfStats())
+  val player: Player = CharacterFactory.mockPlayer()
   var undefinedPlayer: Player = _
   val progress: Progress = Progress(serializableHistory, player)
 
