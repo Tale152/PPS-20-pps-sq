@@ -18,9 +18,7 @@ class MutableStoryNodeTest extends FlatTestSpec with SerializableSpec {
   val emptyNarrative: String = ""
   var undefinedNarrative: String = _
 
-  val maxPS: Int = 100
-  val stats: Set[Stat] = CharacterFactory.mockSetOfStats()
-  val enemy: Option[Enemy] = Some(Enemy("Enemy", maxPS, stats))
+  val enemy: Option[Enemy] = Some(CharacterFactory.mockEnemy())
   val emptyEnemy: Option[Enemy] = None
   var undefinedEnemy: Option[Enemy] = _
 
