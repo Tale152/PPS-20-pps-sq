@@ -2,6 +2,13 @@
 
 ## Architettura complessiva
 
+<div align="center">
+    <img src="https://images2.imgbox.com/b2/c1/oq4wqOwC_o.png" alt="Vista ad alto livello StoryNodes e Pathways">
+    <p align="center">Architettura complessiva ad alto livello</p>
+</div>
+
+L'architettura del sistema segue il pattern MVC, con Controller multipli (ognuno associato ad una View) che manipolano però lo stesso Model.
+
 ### Descrizione di pattern architetturali utilizzati
 
 #### Pattern Model View Controller (MVC)
