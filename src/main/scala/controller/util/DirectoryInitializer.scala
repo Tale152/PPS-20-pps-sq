@@ -3,8 +3,6 @@ package controller.util
 import controller.util.ResourceNames.FileExtensions.StoryFileExtension
 import controller.util.ResourceNames._
 import FolderUtil.{createFolderIfNotPresent, filesNameInFolder}
-import controller.util.serialization.StoryNodeSerializer.serializeStory
-import model.nodes.util.RandomStoryNodeGenerator
 import java.nio.file.{Files, Paths, StandardCopyOption}
 
 import controller.util.Resources.resourcesAsNamedInputStreamFromFolder
@@ -19,17 +17,6 @@ object DirectoryInitializer {
   /** Don't insert any story. */
   case class NoStoryPopulation() extends StoryPopulationStrategy {
     def apply(gameRootDirectory: String): Unit = {/* does nothing */}
-  }
-
-  /** Insert a test story. */
-  case class TestStoryPopulation() extends StoryPopulationStrategy {
-    def apply(gameRootDirectory: String): Unit = {
-      createFolderIfNotPresent(storyDirectoryPath(gameRootDirectory) + "/" + testRandomStoryName)
-      serializeStory(
-        RandomStoryNodeGenerator.Generator.generate(),
-        ResourceNames.storyPath(testRandomStoryName)(gameRootDirectory)
-      )
-    }
   }
 
   /** Insert the default set of stories. */
