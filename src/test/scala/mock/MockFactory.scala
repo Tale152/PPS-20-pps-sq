@@ -5,7 +5,7 @@ import model.characters.{Character, Enemy, Player}
 import model.characters.properties.stats.{Stat, StatModifier, StatName}
 import model.characters.properties.stats.StatName.StatName
 import model.items.EquipItemType.EquipItemType
-import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
+import model.items.{ConsumableItem, EquipItem, KeyItem}
 import model.nodes.{Pathway, StoryNode}
 
 object MockFactory {
