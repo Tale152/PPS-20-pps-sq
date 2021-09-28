@@ -49,7 +49,7 @@ Segue diagramma delle classi ad alto livello del model (una vista più approfond
     <p align="center">Diagramma classi Model ad alto livello</p>
 </div>
 
-#### Flusso d'esecuzione dei controller
+#### Controller
 
 All'interno del sistema sono presenti più controller; ognuno di essi è associato ad una differente View mentre, per quanto riguarda il Model, le classi da manipolare sono le stesse in comune tra tutti i controller. L'effettivo controllo viene acquisito da un diverso controller dipendentemente dai servizi necessari in un dato momento.  
 Durante l'esecuzione del programma, il primo controller a prendere la parola è l'ApplicationControllerSingleton; la scelta di utilizzare un singleton deriva dal fatto che esisterà sempre una sola e unica istanza di tale controller in quanto esso si trova sulla cima della gerarchia di tutti i controller.
@@ -97,19 +97,7 @@ Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intrapre
 - Utilizzo dell'editor  
   Nel momento in cui l'utente selezioni l'editor, verrà aperta una dialog che chiederà se si voglia continuare a modificare una storia (caricandola da file) o se invece se ne voglia creare una nuova. Quale che sia la scelta dell'utente verrà creata una gerarchia di StoryNode (creandone una nuova o ricostruendola da file) sulla quale l'utente potrà eseguire operazioni attraverso la View.  
 
-  Vi sono in questo caso un solo Controller ed una sola View; per l'effettiva manipolazione dei dati, una volta che l'utente avrà selezionato l'operazione che intende compiere, la View creerà dei form attraverso il componente FormBuilder da noi implementato al fine di permettere all'utente di inserire dell'input.  
-
-  FormBuilder dunque si occuperà di creare dei form dinamici semplicemente specificando i componenti attraverso i quali fornire l'input e un listener che definisca cosa fare nel momento in cui i dati inseriti nel form vengono confermati (in questo caso richiamare i metodi dell'EditorController, ma è possibile riutilizzare FormBuilder in qualsiasi contesto).
-
-  ``` scala
-  val form: Form = FormBuilder()
-        .addIntegerField("Which story node is the starting node? (id)")
-        .addTextField("What description should the pathway to the new story node show?")
-        .addTextAreaField("What narrative should the new story node show?")
-        .get(editorController)
-  form.setOkButtonListener(NewStoryNodeOkListener(form, editorController))
-  form.render()
-  ```
+  Vi sono in questo caso un solo Controller ed una sola View; per l'effettiva manipolazione dei dati, una volta che l'utente avrà selezionato l'operazione che intende compiere, la View creerà dei form attraverso il componente FormBuilder da noi implementato al fine di permettere all'utente di inserire dell'input.
 
 ## Stati del sistema
 <div align="center">
