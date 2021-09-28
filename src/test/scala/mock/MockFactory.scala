@@ -4,10 +4,18 @@ import model.StoryModel
 import model.characters.{Enemy, Player}
 import model.characters.properties.stats.Stat
 import model.characters.properties.stats.StatName
+import model.characters.properties.stats.StatName.StatName
 import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import model.nodes.{Pathway, StoryNode}
 
 object MockFactory {
+
+  object StatFactory {
+    val defaultStrengthValue: Int = 10
+
+    var undefinedStatName: StatName = _
+    def strengthStat(value: Int = defaultStrengthValue): Stat = Stat(value, StatName.Strength)
+  }
 
   object CharacterFactory {
 
