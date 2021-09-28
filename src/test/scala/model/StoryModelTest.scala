@@ -1,6 +1,6 @@
 package model
 
-import mock.MockFactory
+import mock.MockFactory.CharacterFactory
 import model.characters.Player
 import model.characters.properties.stats.Stat
 import model.nodes.{Pathway, StoryNode}
@@ -8,7 +8,7 @@ import specs.FlatTestSpec
 
 class StoryModelTest extends FlatTestSpec {
   val maxPS: Int = 100
-  val stats: Set[Stat] = MockFactory.mockSetOfStats()
+  val stats: Set[Stat] = CharacterFactory.mockSetOfStats()
   val mainPlayer: Player = Player("Jonathan", maxPS, stats)
 
   val nextStoryNode: StoryNode = StoryNode(1, "nextNarrative", None, Set.empty, List())

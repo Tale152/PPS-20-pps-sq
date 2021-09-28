@@ -1,6 +1,6 @@
 package model.nodes
 
-import mock.MockFactory
+import mock.MockFactory.CharacterFactory
 import model.characters.Enemy
 import model.characters.properties.stats.StatName.Dexterity
 import model.characters.properties.stats.Stat
@@ -19,7 +19,7 @@ class MutableStoryNodeTest extends FlatTestSpec with SerializableSpec {
   var undefinedNarrative: String = _
 
   val maxPS: Int = 100
-  val stats: Set[Stat] = MockFactory.mockSetOfStats()
+  val stats: Set[Stat] = CharacterFactory.mockSetOfStats()
   val enemy: Option[Enemy] = Some(Enemy("Enemy", maxPS, stats))
   val emptyEnemy: Option[Enemy] = None
   var undefinedEnemy: Option[Enemy] = _

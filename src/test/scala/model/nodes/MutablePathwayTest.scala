@@ -1,6 +1,6 @@
 package model.nodes
 
-import mock.MockFactory
+import mock.MockFactory.CharacterFactory
 import model.characters.Player
 import model.StoryModel
 import model.characters.properties.stats.Stat
@@ -13,7 +13,7 @@ class MutablePathwayTest extends FlatTestSpec with SerializableSpec {
 
   val playerName: String = "prerequisite"
   val maxPS: Int = 100
-  val stats: Set[Stat] = MockFactory.mockSetOfStats()
+  val stats: Set[Stat] = CharacterFactory.mockSetOfStats()
   val item: KeyItem = KeyItem("key", "description")
   val storyNodeNarrative: String = "storyNodeNarrative"
   val pathwayDescription: String = "pathwayDescription"

@@ -1,6 +1,6 @@
 package model.nodes
 
-import mock.MockFactory
+import mock.MockFactory.CharacterFactory
 import model.StoryModel
 import model.characters.Player
 import model.characters.properties.stats.StatModifier
@@ -16,7 +16,7 @@ class EventTest extends FlatTestSpec with SerializableSpec{
   val item: Item = KeyItem("tester", "an item for testing purpose")
   val itemEvent: ItemEvent = ItemEvent("item-event-description", item)
 
-  val player: Player = Player("player", 1, MockFactory.mockSetOfStats())
+  val player: Player = Player("player", 1, CharacterFactory.mockSetOfStats())
   val storyModel: StoryModel =
     StoryModel("s", player, StoryNode(0, "narrative", None, Set(), List(statEvent, itemEvent)))
 

@@ -1,6 +1,6 @@
 package model.nodes.util
 
-import mock.MockFactory
+import mock.MockFactory.CharacterFactory
 import model.StoryModel
 import model.characters.Player
 import model.characters.properties.stats.StatName
@@ -11,7 +11,7 @@ import specs.{FlatTestSpec, SerializableSpec}
 class PrerequisiteTest extends FlatTestSpec with SerializableSpec {
 
   val keyItem: KeyItem = KeyItem("name", "description")
-  val player: Player = Player("player", 1, MockFactory.mockSetOfStats())
+  val player: Player = Player("player", 1, CharacterFactory.mockSetOfStats())
   val storyModel: StoryModel = StoryModel("story", player, StoryNode(0, "narrative", None, Set(), List()))
   player.inventory = player.inventory :+ keyItem
 
