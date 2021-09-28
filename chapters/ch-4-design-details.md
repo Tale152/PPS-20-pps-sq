@@ -138,20 +138,13 @@ protected case class EdgeInfo(private val startingNode: StoryNode,
 }
 ```
 
-### Facade pattern
-Facade è un design pattern usato per esporre una facciata molto semplice che mascheri un sistema complesso al fine di migliorare la leggibilità e usabilità del codice fornendo un unico punto di accesso.  
+### Proxy Pattern
+TODO descrizione proxy
 
 Questo pattern è risultato fondamentale per gestire lo svolgimento del gioco; i vari SubController che si occupano di diversi aspetti relativi alla partita (StoryController, HistoryController, ProgressSaverController, ecc...) infatti sono messi in comunicazione tra loro tramite il ```GameMasterController``` che sfrutta questo pattern esponendo il metodo ```executeOperation``` così che sia possibile in modo facile cambiare quale Controller abbia la parola in quel momento richiamando.
 
 ``` scala
-sealed trait GameMasterController extends Controller {
-
-  def executeOperation(operation: OperationType): Unit
-}
-
-object GameMasterController {
-
-  private class GameMasterControllerImpl(private val storyModel: StoryModel)
+private class GameMasterControllerImpl(private val storyModel: StoryModel)
     extends GameMasterController {
 
     ...
@@ -164,9 +157,6 @@ object GameMasterController {
       ...
     }
   }
-
-  ...
-}
 ```
 ### Builder Pattern
 Il design pattern Builder è un pattern creazionale attraverso il quale semplificare la creazione di un oggetto complesso, rendendo anche possibile creare diverse rappresentazioni di tale oggetto.
@@ -195,6 +185,40 @@ case class FormBuilder() {
   def get(controller: Controller): Form = Form(controller, listBuffer.toList)
 
 }
+```
+### Facade Pattern
+Facade è un design pattern usato per esporre una facciata molto semplice che mascheri un sistema complesso al fine di migliorare la leggibilità e usabilità del codice fornendo un unico punto di accesso.
+
+Il Pattern è stato utilizzato all'interno di ``SqPrologEngine``, ovvero la classe che rappresenta il motore del lingugagio Prolog che si occupa di fornire alcuni fatti in output data una certa richiesta in input tramite il metodo ``resolve``.  
+Il funzionamente del sistema è particolarmente complesso, ma l'utilizzatore riesce a fruirne in maniera trasparente. L'utente deve solo saper maneggiare le strutture dati di input e output per utilizzare la classe. Se nel nome della classe non venisse menzionato il linguaggio Prolog, probabilmente l'utilizzatore non sarebbe al corrente che viene utilizzato un altro linguagggio per effettuare le computazioni richieste.
+
+``` scala
+case class SqPrologEngine(storyNode: StoryNode) {
+
+  ...
+
+  def resolve[A <: Term](goal: A): Stream[A] = ...
+
+  ...
+}
+```
+
+### Iterator Pattern
+Iterator è un pattern comportamentale che viene utilizzato quando si vuole accedere agli elementi di una collezione senza dover esporne la struttura. L’obiettivo è la creazione di un oggetto che esponga sempre gli stessi metodi indipendentemente dall’aggregato di dati.
+
+Il pattern è stato per esempio utilizzato per il reperimento delle soluzioni nella classe ``SqPrologEngine``.  
+L'iteratore in questo caso viene utilizzato per aggregare le diverse soluzioni che la libreria tuProlog restituisce.
+``` scala
+private case class PrologEngineIterator[A <: Term](engine: Prolog, goal: A) extends Iterator[A] {
+
+    override def hasNext: Boolean = {
+      // check if there are pending solutions
+    }
+
+    override def next(): A = {
+      // return a pending solution
+    }
+
 ```
 
 <!-- etc. -->
