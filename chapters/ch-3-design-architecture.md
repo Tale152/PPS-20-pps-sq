@@ -99,6 +99,17 @@ Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intrapre
 
   Vi sono in questo caso un solo Controller ed una sola View; per l'effettiva manipolazione dei dati, una volta che l'utente avrà selezionato l'operazione che intende compiere, la View creerà dei form attraverso il componente FormBuilder da noi implementato al fine di permettere all'utente di inserire dell'input.
 
+#### View
+L'organizzazione del lato View è molto semplice: esiste un'unica interfaccia (chiamata per l'appunto View) che vincola le sue implementazioni concrete ad implementare il metodo render.  
+
+Ogni View lavorerà in concomitanza con un'implementazione concreta di Controller.  
+Quando verrà chiamato il metodo execute su un Controller, quest'ultimo richiamerà il metodo render della View concreta associata.
+
+<div align="center">
+<img src="https://images2.imgbox.com/16/17/fzT9Bn5Q_o.png" alt="Diagramma classi alto livello - View">
+<p align="center">Diagramma classi alto livello - View</p>
+</div>
+
 ## Stati del sistema
 <div align="center">
 <img src="https://images2.imgbox.com/73/62/WhxIIroY_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
