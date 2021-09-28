@@ -1,6 +1,63 @@
-# Design di dettaglio
+# 4 - Design di dettaglio
 
 ## Scelte rilevanti
+
+## Stati del sistema
+<div align="center">
+<img src="https://images2.imgbox.com/73/62/WhxIIroY_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
+<p align="center">Diagramma degli stati - menu principale</p>
+</div>
+All'avvio dell'applicativo il sistema mostrerà il menu principale. Da qui vi è la possibilità di:
+
+- Giocare ad una delle storie disponibili caricando (se possibile) progressi precedentemente svolti all'interno della stessa o iniziando una nuova partita;
+- Utilizzare l'editor di storie riprendendo il lavoro da dove lo si era lasciato (ricostruendo il model attraverso un file precedentemente salvato) o cominciando un nuovo editing da zero;
+- Aggiungere nuove storie utilizzando i file generati dall'editor;
+- Rimuovere storie precedentemente aggiunte.
+
+### Playing
+<div align="center">
+<img src="https://images2.imgbox.com/c7/07/IQBeAYQ8_o.png" alt="Diagramma di sequenza - in gioco">
+<p align="center">Diagramma degli stati - in gioco</p>
+</div>
+Avviata l'esplorazione di una storia, innanzitutto il sistema permetterà all'utente di creare un personaggio da impersonare all'interno dell'avventura (solo se la partita è iniziata senza caricare progressi predenti).  
+
+Caricato il nodo corrente, viene innanzitutto controllato se questo contiene un nemico; in caso affermativo verrà avviata una battaglia.  
+
+Nel caso in cui non vi sia stata una battaglia o il giocatore sia uscito vittorioso da quest'ultima, verrà controllato se il nodo corrente contiene degli eventi. Nel caso vi siano degli eventi da svolgere essi verranno eseguiti in sequenza.  
+
+Una volta gestiti gli eventuali eventi verranno presentate all'utente le varie strade che egli potrà intraprendere partendo da questo nodo (oltre che la possibilità di accedere all'inventario, salvare i progressi, visualizzare le statistiche, ecc...); saranno visualizzate solo le strade che soddisfino eventuali condizioni imposte sulle stesse.  
+
+Scelta la strada attraverso la quale continuare la storia, viene caricato un nuovo StoryNode, ripetendo quanto descritto precedentemente.  
+
+Tale ciclo continuerà finchè non si verificherà una di queste tre condizioni:
+- Viene raggiunto un nodo finale (cioè che non contiene alcuna strada percorribile);
+- Il giocatore viene sconfitto in una battaglia;
+- L'utente sceglie di uscire dalla partita.
+
+Vediamo ora nel dettaglio lo stato "in a battle" (di complessità maggiore rispetto agli altri stati composti).
+
+### In a battle
+<div align="center">
+<img src="https://images2.imgbox.com/97/ce/RABb77Vp_o.png" alt="Diagramma di sequenza - in battaglia">
+<p align="center">Diagramma degli stati - in battaglia</p>
+</div>
+All'interno di una battaglia l'utente è posto davanti a quattro possibili scelte:
+- Uscire dal gioco
+- Utilizzare un oggetto 
+L'utente, attraverso l'inventario (opportunamente filtrato per mostrare solo oggetti utilizzabili in battaglia), utilizza un oggetto. Successivamente a tale azione, il nemico attacca il giocatore. 
+- Tentare la fuga
+Il giocatore sceglie la fuga che, però, non è garantita. Attraverso un algoritmo (che utilizza le caratteristiche dei due personaggi sfidanti), viene determinato se il tentativo di fuga ha avuto successo (nel caso di insuccesso il giocatore verrà colpito dal nemico).
+- Attaccare il nemico
+In questo caso, un algoritmo (di natura simile al precedente), determina l'ordine in cui avverranno gli attacchi dei due personaggi coinvolti in battaglia. Verranno dunque gestite l'eventuale morte del giocatore (game over) o del nemico (vittoria).
+
+### Using editor
+<div align="center">
+<img src="https://images2.imgbox.com/dc/ed/YvFHrJgV_o.png" alt="Diagramma di sequenza - editor">
+<p align="center">Diagramma degli stati - editor</p>
+</div>
+L'editor presenta lo stesso comportamento per tutte le operazioni possibili (con diversi effetti sul model in base all'operazione selezionata).  
+
+Viene dinamicamente generato un form finalizzato all'inserimento dei dati necessari al compimento dell'operazione; nel momento in cui l'utente desideri confermare l'inserimento dei dati questi ultimi vengono valutati e, in caso positivo, il model viene aggiornato (così come la rappresentazione grafica di tale model). 
 
 ## Organizzazione del codice
 

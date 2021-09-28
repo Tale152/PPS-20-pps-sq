@@ -1,4 +1,4 @@
-# Restrospettiva
+# 6 - Restrospettiva
 <!-- NOTA: (descrizione finale dettagliata dell'andamento dello sviluppo, del backlog, delle iterazioni; commenti finali) -->
 ## Descrizione degli sprint
 In questo capitolo si tratterà della descrizione dettagliata degli Sprint effettuati, con una particolare attenzione agli obiettivi posti per ogni sprint e agli effettivi risultati ottenuti.  
