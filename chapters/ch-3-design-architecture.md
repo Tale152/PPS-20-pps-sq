@@ -1,4 +1,5 @@
 # 3 - Design architetturale
+Questo capitolo punta a descrivere il design architetturale del sistema ad alto livello, per poi riprendere una vista ancora più dettagliata nel capitolo 4.  
 
 ## Architettura complessiva
 
