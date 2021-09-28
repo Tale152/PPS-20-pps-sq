@@ -1,10 +1,11 @@
 package mock
 
 import model.StoryModel
-import model.characters.{Enemy, Player}
+import model.characters.{Character, Enemy, Player}
 import model.characters.properties.stats.{Stat, StatModifier, StatName}
 import model.characters.properties.stats.StatName.StatName
-import model.items.{ConsumableItem, EquipItem, EquipItemType, Item, KeyItem}
+import model.items.EquipItemType.EquipItemType
+import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import model.nodes.{Pathway, StoryNode}
 
 object MockFactory {
@@ -57,22 +58,21 @@ object MockFactory {
   }
 
   object ItemFactory {
+    var undefinedEquipItemType: EquipItemType = _
     var undefinedItemName: String = _
     var undefinedItemDescription: String = _
+    val itemName: String = "name"
+    val itemDescription: String = "description"
 
-    val mockKeyItem: KeyItem = KeyItem("key", "it's a key")
-    val mockEquipItem: EquipItem = EquipItem("sword", "it's a sword", Set(), EquipItemType.Socks)
-    val mockConsumableItem: ConsumableItem = ConsumableItem("potion",
-      "it's a potion",
-      c => c.properties.health.currentPS += 10)
-    val mockSuperConsumableItem: ConsumableItem = ConsumableItem("super potion",
-      "it's a super potion",
-      c => c.properties.health.currentPS += 50)
+    val consumableStrategy: Character => Unit = c => c.properties.health.currentPS += 10
+    val superConsumableStrategy: Character => Unit = c => c.properties.health.currentPS += 50
 
-    def insertItemInInventory(item: Item){
-      player.inventory = item :: player.inventory
-      player.inventory should contain (item)
-    }
+    val mockKeyItem: KeyItem = KeyItem(itemName, itemDescription)
+    val mockConsumableItem: ConsumableItem = ConsumableItem(itemName, itemDescription, consumableStrategy)
+    val mockSuperConsumableItem: ConsumableItem = ConsumableItem(itemName, itemDescription, superConsumableStrategy)
+
+    def mockEquipItem(equipType: EquipItemType): EquipItem =
+      EquipItem(itemName, itemDescription, Set(), equipType)
 
   }
 

@@ -1,5 +1,7 @@
 package model.characters.items
 
+import mock.MockFactory.ItemFactory
+import mock.MockFactory.ItemFactory._
 import model.items.ConsumableItem
 import org.scalatest.BeforeAndAfterEach
 import specs.{FlatTestSpec, ItemSpec, SerializableSpec}
@@ -12,24 +14,22 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
     player.equippedItems = Set()
   }
 
-  val consumableItemName : String = "Potion"
-  val consumableItemDescription : String = "Restore 10 PS"
-  val consumableItem : ConsumableItem = ConsumableItem(
-    consumableItemName,
-    consumableItemDescription,
-    c => c.properties.health.currentPS += 10
-  )
+  val consumableItem : ConsumableItem = ItemFactory.mockConsumableItem
 
   "A Consumable Item" should "have a name" in {
-    consumableItem.name shouldEqual consumableItemName
+    consumableItem.name shouldEqual itemName
+  }
+
+  it should "have a description" in {
+    consumableItem.description shouldEqual itemDescription
   }
 
   it should "not have a undefined name" in {
     intercept[IllegalArgumentException] {
       ConsumableItem(
         undefinedItemName,
-        consumableItemDescription,
-        c => c.properties.health.currentPS += 10
+        itemDescription,
+        consumableStrategy
       )
     }
   }
@@ -37,23 +37,19 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
   it should "not have an empty name" in {
     intercept[IllegalArgumentException] {
       ConsumableItem(
-        emptyItemName,
-        consumableItemDescription,
-        c => c.properties.health.currentPS += 10
+        "",
+        itemDescription,
+        consumableStrategy
       )
     }
-  }
-
-  it should "have a description" in {
-    consumableItem.description shouldEqual consumableItemDescription
   }
 
   it should "not have a undefined description" in {
     intercept[IllegalArgumentException] {
       ConsumableItem(
-        consumableItemName,
+        itemName,
         undefinedItemDescription,
-        c => c.properties.health.currentPS += 10
+        consumableStrategy
       )
     }
   }
@@ -61,9 +57,9 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
   it should "not have an empty description" in {
     intercept[IllegalArgumentException] {
       ConsumableItem(
-        consumableItemName,
-        emptyItemDescription,
-        c => c.properties.health.currentPS += 10
+        itemName,
+        "",
+        consumableStrategy
       )
     }
   }
@@ -90,9 +86,9 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
 
   it should "be removed from inventory preserving other items" in {
     val secondConsumableItem : ConsumableItem = ConsumableItem(
-      consumableItemName,
-      consumableItemDescription,
-      c => c.properties.health.currentPS += 10
+      itemName,
+      itemDescription,
+      superConsumableStrategy
     )
     insertItemInInventory(consumableItem)
     insertItemInInventory(secondConsumableItem)
@@ -105,4 +101,5 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
   }
 
   it should behave like serializationTest(consumableItem)
+
 }

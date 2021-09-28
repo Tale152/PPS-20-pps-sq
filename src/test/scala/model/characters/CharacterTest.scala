@@ -3,8 +3,8 @@ package model.characters
 import mock.MockFactory.{CharacterFactory, ItemFactory}
 import model.characters.properties.stats.Stat
 import model.characters.properties.stats.StatName
-import model.items.{AbstractItem, ConsumableItem, EquipItem, KeyItem}
-import mock.MockFactory.CharacterFactory.{maxPs, negativeMaxPs, playerName, enemyName}
+import model.items.{AbstractItem, ConsumableItem, EquipItem, EquipItemType, KeyItem}
+import mock.MockFactory.CharacterFactory.{enemyName, maxPs, negativeMaxPs, playerName}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class CharacterTest extends FlatTestSpec with SerializableSpec {
@@ -80,7 +80,7 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     mainPlayer.inventory.size shouldEqual 2
   }
 
-  val equipItem: EquipItem = ItemFactory.mockEquipItem
+  val equipItem: EquipItem = ItemFactory.mockEquipItem(EquipItemType.Armor)
   val consumableItem: ConsumableItem = ItemFactory.mockConsumableItem
   val consumableItemSuper: ConsumableItem = ItemFactory.mockSuperConsumableItem
 
