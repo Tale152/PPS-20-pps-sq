@@ -8,7 +8,7 @@ class StatTest extends FlatTestSpec with SerializableSpec {
   val strengthStat: Stat = StatFactory.strengthStat()
 
   "The stat" should "have a value" in {
-    strengthStat.value shouldEqual StatFactory.defaultStrengthValue
+    strengthStat.value shouldEqual StatFactory.defaultValue
   }
 
   it should "have a stat name it is referred to" in {
@@ -21,7 +21,7 @@ class StatTest extends FlatTestSpec with SerializableSpec {
 
   it should "not have undefined name" in {
     intercept[IllegalArgumentException] {
-      Stat(StatFactory.defaultStrengthValue, StatFactory.undefinedStatName)
+      Stat(StatFactory.defaultValue, StatFactory.undefinedStatName)
     }
   }
 
