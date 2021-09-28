@@ -39,4 +39,5 @@ class PrerequisiteTest extends FlatTestSpec with SerializableSpec {
   it should behave like serializationTest(itemPrerequisite)
 
   it should behave like serializationTest(statPrerequisite)
+
 }
