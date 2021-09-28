@@ -118,6 +118,11 @@ Durante la progettazione della parte dei Controller sono state riscontrate alcun
 Per quanto riguarda la fase di gioco infatti, nel modello proposto un Controller principale (_GameMasterController_) si occupa di creare i sub controller e funge da loro coordinatore.
 I controller erano quindi inizialmente stati pensati in modo differente. Modificando sensibilmente la struttura del pattern MVC si puntava a far diventare i Controller degli Attori.
 
+<div align="center">
+  <img src="https://images2.imgbox.com/4e/9a/SU8kXMWy_o.png" alt="Struttura degli attori">
+  <p align="center">Struttura degli attori</p>
+</div>
+
 Nella struttura presentata _GameMasterController_ diventa un attore e tutti i sub controller diventano attori figli.
 Alcuni benefici di questa modellazione:
 - Una volta istanziati gli attori è possibile per ognuno di loro dialogare con altri attori del sistema conoscendo il loro identificativo in modo trasparente senza passare tramite l'attore padre.
