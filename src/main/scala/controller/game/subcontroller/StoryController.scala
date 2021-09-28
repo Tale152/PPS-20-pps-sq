@@ -57,6 +57,7 @@ object StoryController {
   class StoryControllerImpl(private val gameMasterController: GameMasterController, private val storyModel: StoryModel)
     extends StoryController {
 
+    private var eventsAlreadyProcessed = false
     private val storyView: StoryView = StoryView(this)
     MusicPlayer.playStoryMusic()
 
@@ -67,7 +68,10 @@ object StoryController {
           p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
       )
       storyView.render()
-      processEvents()
+      if(!eventsAlreadyProcessed){
+        eventsAlreadyProcessed = true
+        processEvents()
+      }
     }
 
     override def close(): Unit = {
@@ -76,6 +80,7 @@ object StoryController {
     }
 
     override def choosePathway(pathway: Pathway): Unit = {
+      eventsAlreadyProcessed = false
       storyModel.appendToHistory(pathway.destinationNode)
       redirect()
     }
@@ -111,7 +116,6 @@ object StoryController {
           storyModel.player.inventory = storyModel.player.inventory :+ item
           swingFormatted(eventDescription + SwingNewLine + "New Item found: " + item.name)
       })
-      storyModel.currentStoryNode.removeAllEvents()
     }
 
     /**

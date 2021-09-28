@@ -33,11 +33,6 @@ sealed trait StoryNode extends Serializable {
    * @return A list of [[model.nodes.Event]] contained in the node.
    */
   def events: List[Event]
-
-  /**
-   * Remove all the [[model.nodes.Event]] in the story node.
-   */
-  def removeAllEvents(): Unit
 }
 
 object StoryNode {
@@ -69,8 +64,6 @@ object StoryNode {
     private var _events: List[Event] = eventList
 
     override def events: List[Event] = _events
-
-    override def removeAllEvents(): Unit = _events = List()
   }
 
   sealed trait MutableStoryNode extends StoryNode {
@@ -99,8 +92,6 @@ object StoryNode {
       ArgsChecker.check(id, narrative, enemy, pathways, events)
 
       override def pathways: Set[Pathway] = for (p <- mutablePathways) yield p.asInstanceOf[Pathway]
-
-      override def removeAllEvents(): Unit =  events = List()
     }
   }
 
