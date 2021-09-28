@@ -2,8 +2,7 @@ package mock
 
 import model.StoryModel
 import model.characters.{Enemy, Player}
-import model.characters.properties.stats.Stat
-import model.characters.properties.stats.StatName
+import model.characters.properties.stats.{Stat, StatModifier, StatName}
 import model.characters.properties.stats.StatName.StatName
 import model.items.{ConsumableItem, EquipItem, EquipItemType, KeyItem}
 import model.nodes.{Pathway, StoryNode}
@@ -11,10 +10,27 @@ import model.nodes.{Pathway, StoryNode}
 object MockFactory {
 
   object StatFactory {
-    val defaultStrengthValue: Int = 10
-
+    val defaultValue: Int = 10
     var undefinedStatName: StatName = _
-    def strengthStat(value: Int = defaultStrengthValue): Stat = Stat(value, StatName.Strength)
+
+    def strengthStat(value: Int = defaultValue): Stat = Stat(value, StatName.Strength)
+    def wisdomStat(value: Int = defaultValue): Stat = Stat(value, StatName.Wisdom)
+    def dexterityStat(value: Int = defaultValue): Stat = Stat(value, StatName.Dexterity)
+  }
+
+  object StatModifierFactory {
+    var undefinedModifierStrategy: Int => Int = _
+    val modifierStrategy: Int => Int = value => value * 2
+
+    def statModifier(statName: StatName): StatModifier = StatModifier(statName, modifierStrategy)
+
+    def statModifiers(statNames: StatName*): Set[StatModifier] = {
+      var modifiers: Set[StatModifier] = Set()
+      for (stat <- statNames){
+        modifiers += statModifier(stat)
+      }
+      modifiers
+    }
   }
 
   object CharacterFactory {
