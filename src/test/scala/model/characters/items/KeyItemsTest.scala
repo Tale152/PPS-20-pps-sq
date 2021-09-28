@@ -2,6 +2,7 @@ package model.characters.items
 
 import mock.MockFactory.ItemFactory
 import mock.MockFactory.ItemFactory._
+import model.characters.properties.PropertiesContainer
 import model.items.KeyItem
 import org.scalatest.BeforeAndAfterEach
 import specs.{FlatTestSpec, ItemSpec, SerializableSpec}
@@ -65,6 +66,12 @@ class KeyItemsTest extends FlatTestSpec with SerializableSpec with BeforeAndAfte
     intercept[UnsupportedOperationException] {
       keyItem.use(player)()
     }
+  }
+
+  it should "do nothing in post effect" in {
+    val properties: PropertiesContainer = player.properties
+    keyItem.postEffect(player)()
+    player.properties shouldEqual properties
   }
 
   it should behave like serializationTest(keyItem)
