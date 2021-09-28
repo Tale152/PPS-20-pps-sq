@@ -3,7 +3,6 @@ package model.nodes
 import mock.MockFactory.CharacterFactory
 import model.characters.Enemy
 import model.characters.properties.stats.StatName.Dexterity
-import model.characters.properties.stats.Stat
 import model.nodes.util.StatPrerequisite
 import specs.{FlatTestSpec, SerializableSpec}
 

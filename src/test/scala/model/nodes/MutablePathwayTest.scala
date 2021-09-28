@@ -1,9 +1,7 @@
 package model.nodes
 
 import mock.MockFactory.{CharacterFactory, ItemFactory}
-import model.characters.Player
 import model.StoryModel
-import model.characters.properties.stats.Stat
 import model.items.KeyItem
 import model.nodes.StoryNode.MutableStoryNode
 import model.nodes.util.{ItemPrerequisite, Prerequisite}
