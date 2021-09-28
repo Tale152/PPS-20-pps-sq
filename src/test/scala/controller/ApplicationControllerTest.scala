@@ -35,5 +35,4 @@ class ApplicationControllerTest extends FlatTestSpec with BeforeAndAfterAll {
     ApplicationController.isProgressAvailable(testRandomStoryName)(applicationControllerTestDirectory) shouldBe true
   }
 
-
 }
