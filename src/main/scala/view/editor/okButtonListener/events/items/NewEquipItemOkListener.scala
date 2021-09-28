@@ -1,14 +1,14 @@
 package view.editor.okButtonListener.events.items
 
 import controller.editor.EditorController
-import model.characters.properties.stats.StatModifier
+import model.characters.properties.stats.{DecrementStatModifierStrategy, IncrementStatModifierStrategy, StatModifier}
 import model.characters.properties.stats.StatName._
 import model.items.EquipItem
 import model.nodes.ItemEvent
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheDescription, TheName, TheNarrative}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerStateless
 import view.editor.okButtonListener.events.items.NewItemCategoryOkListener._
 import view.editor.util.EquipItemTypeUtil.getEquipItemType
 import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
@@ -17,13 +17,13 @@ import view.form.Form
 case class NewEquipItemOkListener(override val form: Form,
                                   nodeId: Int,
                                   override val controller: EditorController)
-  extends EditorOkFormButtonListener(form, controller) {
+  extends EditorOkFormButtonListenerStateless(form, controller) {
 
   override def editorControllerAction(): Unit = {
 
     def getModifierStrategy(selectedStrategyStr: String, value: Int): Int => Int = selectedStrategyStr match {
-      case IncrementOption => v => v + value
-      case DecrementOption => v => v - value
+      case IncrementOption => IncrementStatModifierStrategy(value)
+      case DecrementOption => DecrementStatModifierStrategy(value)
     }
 
     controller.nodesControls.addEventToNode(nodeId, ItemEvent(
@@ -56,5 +56,4 @@ case class NewEquipItemOkListener(override val form: Form,
     (NonEmptyString(form.elements(ItemRetrieveNarrativeIndex).value), mustBeSpecified(TheNarrative))
   )
 
-  override def stateConditions: List[(Boolean, String)] = List()
 }
