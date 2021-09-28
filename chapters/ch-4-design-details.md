@@ -2,7 +2,7 @@
 
 ## Scelte rilevanti
 
-### Stati del sistema
+## Stati del sistema
 <div align="center">
 <img src="https://images2.imgbox.com/73/62/WhxIIroY_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
 <p align="center">Diagramma degli stati - menu principale</p>
@@ -14,7 +14,7 @@ All'avvio dell'applicativo il sistema mostrerà il menu principale. Da qui vi è
 - Aggiungere nuove storie utilizzando i file generati dall'editor;
 - Rimuovere storie precedentemente aggiunte.
 
-#### Playing
+### Playing
 <div align="center">
 <img src="https://images2.imgbox.com/c7/07/IQBeAYQ8_o.png" alt="Diagramma di sequenza - in gioco">
 <p align="center">Diagramma degli stati - in gioco</p>
@@ -36,7 +36,7 @@ Tale ciclo continuerà finchè non si verificherà una di queste tre condizioni:
 
 Vediamo ora nel dettaglio lo stato "in a battle" (di complessità maggiore rispetto agli altri stati composti).
 
-#### In a battle
+### In a battle
 <div align="center">
 <img src="https://images2.imgbox.com/97/ce/RABb77Vp_o.png" alt="Diagramma di sequenza - in battaglia">
 <p align="center">Diagramma degli stati - in battaglia</p>
@@ -50,7 +50,7 @@ Il giocatore sceglie la fuga che, però, non è garantita. Attraverso un algorit
 - Attaccare il nemico
 In questo caso, un algoritmo (di natura simile al precedente), determina l'ordine in cui avverranno gli attacchi dei due personaggi coinvolti in battaglia. Verranno dunque gestite l'eventuale morte del giocatore (game over) o del nemico (vittoria).
 
-#### Using editor
+### Using editor
 <div align="center">
 <img src="https://images2.imgbox.com/dc/ed/YvFHrJgV_o.png" alt="Diagramma di sequenza - editor">
 <p align="center">Diagramma degli stati - editor</p>
