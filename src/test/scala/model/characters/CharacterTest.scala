@@ -10,8 +10,8 @@ import specs.{FlatTestSpec, SerializableSpec}
 class CharacterTest extends FlatTestSpec with SerializableSpec {
 
   val correctSetOfStats: Set[Stat] = CharacterFactory.mockSetOfStats()
-  val mainPlayer: Player = CharacterFactory.mockPlayer(maxPs)
-  val enemy: Enemy = CharacterFactory.mockEnemy(maxPs)
+  val mainPlayer: Player = CharacterFactory.mockPlayer()
+  val enemy: Enemy = CharacterFactory.mockEnemy()
 
   "The player" should "have name player" in {
     mainPlayer.name shouldEqual playerName

@@ -1,6 +1,5 @@
 package model.characters.properties.stats
 
-import model.characters.properties.stats.StatName.StatName
 import mock.MockFactory.{StatFactory, StatModifierFactory}
 import specs.{FlatTestSpec, SerializableSpec}
 
