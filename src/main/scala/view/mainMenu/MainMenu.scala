@@ -3,7 +3,7 @@ package view.mainMenu
 import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.ResourceNames
-import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
+import controller.util.StringUtil.StringFormatUtil.swingFormatted
 import view.AbstractView
 import view.mainMenu.buttonListeners._
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}

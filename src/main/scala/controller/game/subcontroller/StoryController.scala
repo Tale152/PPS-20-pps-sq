@@ -1,8 +1,8 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
-import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
-import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
+import controller.util.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
+import controller.util.StringUtil.StringFormatUtil.swingFormatted
 import controller.util.audio.MusicPlayer
 import model.StoryModel
 import model.characters.properties.stats.StatName.StatName

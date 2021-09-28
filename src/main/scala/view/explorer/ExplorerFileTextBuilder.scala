@@ -1,11 +1,11 @@
 package view.explorer
 
-import controller.util.serialization.FileUtil.TextFileBuilder
-import controller.util.serialization.StringUtil.traversableFormattedLikeArray
+import controller.util.FileUtil.TextFileBuilder
+import controller.util.StringUtil.traversableFormattedLikeArray
 import view.explorer.ExplorerFileTextBuilder.ExplorerFileTextBuilderOrderingTraits._
 
 /**
- * Object that uses a [[controller.util.serialization.FileUtil.TextFileBuilder]] to create a custom TextFileBuilder
+ * Object that uses a [[controller.util.FileUtil.TextFileBuilder]] to create a custom TextFileBuilder
  * useful to create Explorer files.
  */
 object ExplorerFileTextBuilder {
