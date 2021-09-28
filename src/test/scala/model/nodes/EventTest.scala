@@ -7,7 +7,7 @@ import model.StoryModel
 import model.characters.Player
 import model.characters.properties.stats.StatModifier
 import model.characters.properties.stats.StatName
-import model.items.{Item, KeyItem}
+import model.items.Item
 import specs.{FlatTestSpec, SerializableSpec}
 
 class EventTest extends FlatTestSpec with SerializableSpec{
