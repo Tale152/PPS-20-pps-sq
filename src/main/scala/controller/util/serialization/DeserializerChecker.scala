@@ -16,7 +16,7 @@ object DeserializerChecker {
     try {
       action()
     } catch {
-      case _: Exception =>
+      case e: Exception =>
         SqSwingDialog(
           dialogTitle, "File structure is not suitable or corrupted",
           List(SqSwingButton("ok", _ => {}))
