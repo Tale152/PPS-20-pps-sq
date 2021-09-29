@@ -1,6 +1,7 @@
 package controller.editor.editorControllerParts
 
-import controller.editor.{EditorController, StoryNodeConverter}
+import controller.editor.StoryNodeConverter.ImmutableStoryNodeConverter
+import controller.editor.EditorController
 import model.characters.Enemy
 import model.items.KeyItem
 import model.nodes.{Event, ItemEvent, StoryNode}
@@ -115,7 +116,7 @@ object EditorControllerStoryNodes {
       editorController.nodes._2.filter(n => n.mutablePathways.exists(p => p.destinationNode.id == id))
         .foreach(n => n.mutablePathways = n.mutablePathways.filter(p => p.destinationNode.id != id))
       //recreating structure implicitly deleting unreachable nodes
-      editorController.nodes = StoryNodeConverter.fromImmutableToMutable(editorController.nodes._1)
+      editorController.nodes = editorController.nodes._1.toMutable
       //removing the target node from the GUI graph
       editorController.graph.removeNode(id.toString)
       //removing all other deleted nodes from the GUI graph

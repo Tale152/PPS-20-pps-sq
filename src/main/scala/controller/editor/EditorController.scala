@@ -1,6 +1,6 @@
 package controller.editor
 
-import controller.editor.StoryNodeConverter.fromMutableToImmutable
+import controller.editor.StoryNodeConverter.{ImmutableStoryNodeConverter, MutableStoryNodeConverter}
 import controller.editor.editorControllerParts.{EditorControllerPathways, EditorControllerStoryNodes}
 import controller.editor.graph.GraphBuilder
 import controller.editor.graph.util.{ElementLabel, ElementStyle, StringUtils}
@@ -74,7 +74,7 @@ object EditorController {
     private val editorView: EditorView = EditorView(this)
     override val nodesControls: EditorControllerStoryNodes = EditorControllerStoryNodes(this)
     override val pathwaysControls: EditorControllerPathways = EditorControllerPathways(this)
-    override var nodes: (MutableStoryNode, Set[MutableStoryNode]) = StoryNodeConverter.fromImmutableToMutable(routeNode)
+    override var nodes: (MutableStoryNode, Set[MutableStoryNode]) = routeNode.toMutable
     override val graph: Graph = GraphBuilder.build(nodes._1)
 
     private val graphViewer: Viewer = graph.display() //opens the graph GUI and return a Viewer instance
@@ -89,7 +89,7 @@ object EditorController {
     }
 
     override def save(path: String): Unit =
-      StoryNodeSerializer.serializeStory(StoryNodeConverter.fromMutableToImmutable(nodes._1)._1, path)
+      StoryNodeSerializer.serializeStory(nodes._1.toImmutable._1, path)
 
     override def switchNodesNarrativeVisibility(): Unit = {
       printNodeNarrative = !printNodeNarrative
@@ -159,7 +159,7 @@ object EditorController {
     }
 
     override def goToExplorer(): Unit =
-      ExplorerController(this, fromMutableToImmutable(nodes._1)._1).execute()
+      ExplorerController(this, nodes._1.toImmutable._1).execute()
 
   }
 

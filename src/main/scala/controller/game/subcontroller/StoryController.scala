@@ -1,8 +1,8 @@
 package controller.game.subcontroller
 
 import controller.game.{GameMasterController, OperationType}
-import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
-import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
+import controller.util.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
+import controller.util.StringUtil.StringFormatUtil.swingFormatted
 import controller.util.audio.MusicPlayer
 import model.StoryModel
 import model.characters.properties.stats.StatName.StatName
@@ -57,6 +57,7 @@ object StoryController {
   class StoryControllerImpl(private val gameMasterController: GameMasterController, private val storyModel: StoryModel)
     extends StoryController {
 
+    private var eventsAlreadyProcessed = false
     private val storyView: StoryView = StoryView(this)
     MusicPlayer.playStoryMusic()
 
@@ -67,7 +68,10 @@ object StoryController {
           p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
       )
       storyView.render()
-      processEvents()
+      if(!eventsAlreadyProcessed){
+        eventsAlreadyProcessed = true
+        processEvents()
+      }
     }
 
     override def close(): Unit = {
@@ -76,6 +80,7 @@ object StoryController {
     }
 
     override def choosePathway(pathway: Pathway): Unit = {
+      eventsAlreadyProcessed = false
       storyModel.appendToHistory(pathway.destinationNode)
       redirect()
     }
@@ -102,7 +107,7 @@ object StoryController {
     private def processEvents(): Unit = {
       storyView.displayEvent(storyModel.currentStoryNode.events.map {
         case StatEvent(eventDescription, statModifier) =>
-          storyModel.player.properties.statModifiers += statModifier
+          storyModel.player.properties.statModifiers = storyModel.player.properties.statModifiers :+ statModifier
           swingFormatted(eventDescription + SwingNewLine +
             "Stat " + statModifier.statName + " modified " +
             "(" + getStatDifferences(statModifier.statName, statModifier.modifyStrategy) + ")"
@@ -111,7 +116,6 @@ object StoryController {
           storyModel.player.inventory = storyModel.player.inventory :+ item
           swingFormatted(eventDescription + SwingNewLine + "New Item found: " + item.name)
       })
-      storyModel.currentStoryNode.removeAllEvents()
     }
 
     /**

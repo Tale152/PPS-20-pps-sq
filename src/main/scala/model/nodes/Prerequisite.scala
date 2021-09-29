@@ -1,4 +1,4 @@
-package model.nodes.util
+package model.nodes
 
 import model.StoryModel
 import model.characters.properties.stats.StatName.StatName

@@ -1,23 +1,27 @@
 package view.editor.okButtonListener.events.statModifiers
 
 import controller.editor.EditorController
-import model.characters.properties.stats.StatName
+import model.characters.properties.stats.{
+  DecrementStatModifierStrategy,
+  IncrementStatModifierStrategy,
+  StatModifier,
+  StatName
+}
 import model.characters.properties.stats.StatName._
-import model.characters.properties.stats.StatModifier
 import model.nodes.StatEvent
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.TheDescription
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerStateless
 import view.editor.okButtonListener.events.NewEventOkListener._
 import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
 import view.editor.util.StatsNameStringUtil._
 import view.form.Form
 
 case class NewStatModifierOkListener(override val form: Form,
-                                             nodeId: Int,
-                                             override val controller: EditorController)
-  extends EditorOkFormButtonListener(form, controller) {
+                                     nodeId: Int,
+                                     override val controller: EditorController)
+  extends EditorOkFormButtonListenerStateless(form, controller) {
 
   override def editorControllerAction(): Unit = {
     controller.nodesControls.addEventToNode(
@@ -38,8 +42,6 @@ case class NewStatModifierOkListener(override val form: Form,
     (NonEmptyString(form.elements(StatModifierDescriptionIndex).value), mustBeSpecified(TheDescription))
   )
 
-  override def stateConditions: List[(Boolean, String)] = List()
-
   private def getSelectedStatName(statNameStr: String): StatName = statNameStr match {
     case WisdomString => StatName.Wisdom
     case CharismaString => StatName.Charisma
@@ -50,8 +52,8 @@ case class NewStatModifierOkListener(override val form: Form,
   }
 
   private def getStatModifierStrategy(selectedStrategyStr: String, value: Int): Int => Int = selectedStrategyStr match {
-    case IncrementOption => v => v + value
-    case DecrementOption => v => v - value
+    case IncrementOption => IncrementStatModifierStrategy(value)
+    case DecrementOption => DecrementStatModifierStrategy(value)
   }
 
 }

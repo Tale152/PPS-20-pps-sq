@@ -1,7 +1,7 @@
 package view.inventory.panels.inventoryPanel
 
 import controller.game.subcontroller.InventoryController
-import controller.util.serialization.StringUtil.StringFormatUtil.{swingFormatted, swingTitle}
+import controller.util.StringUtil.StringFormatUtil.{swingFormatted, swingTitle}
 import model.items.{EquipItem, Item}
 import view.inventory.panels.inventoryPanel.InventoryPanelButtons.{discardButton, goBackButton, useButton}
 import view.util.common.{Scrollable, VerticalButtons}

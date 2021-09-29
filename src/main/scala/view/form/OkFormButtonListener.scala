@@ -1,8 +1,8 @@
 package view.form
 
 import controller.Controller
-import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
-import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
+import controller.util.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
+import controller.util.StringUtil.StringFormatUtil.swingFormatted
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 

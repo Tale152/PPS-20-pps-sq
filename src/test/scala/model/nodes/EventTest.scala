@@ -1,36 +1,42 @@
 package model.nodes
 
-import mock.MockFactory
+import mock.MockFactory.CharacterFactory
+import mock.MockFactory.StatModifierFactory
+import mock.MockFactory.ItemFactory
 import model.StoryModel
 import model.characters.Player
 import model.characters.properties.stats.StatModifier
 import model.characters.properties.stats.StatName
-import model.items.{Item, KeyItem}
+import model.items.Item
 import specs.{FlatTestSpec, SerializableSpec}
 
 class EventTest extends FlatTestSpec with SerializableSpec{
 
-  val statModifier: StatModifier = StatModifier(StatName.Intelligence, v => v + 1)
+  val statModifier: StatModifier = StatModifierFactory.statModifier(StatName.Intelligence)
   val statEvent: StatEvent = StatEvent("stat-event-description", statModifier)
 
-  val item: Item = KeyItem("tester", "an item for testing purpose")
+  val item: Item = ItemFactory.mockKeyItem
   val itemEvent: ItemEvent = ItemEvent("item-event-description", item)
 
-  val player: Player = Player("player", 1, MockFactory.mockSetOfStats())
+  val player: Player = CharacterFactory.mockPlayer(1)
+
   val storyModel: StoryModel =
     StoryModel("s", player, StoryNode(0, "narrative", None, Set(), List(statEvent, itemEvent)))
 
-  "The Events" should "have a description" in {
+  "The StatEvent" should "have a description" in {
     itemEvent.description shouldEqual "item-event-description"
-    statEvent.description shouldEqual "stat-event-description"
   }
 
-  "The StatEvent, when executed," should "put a StatModifier into the player" in {
+  it should "put a StatModifier into the player when executed" in {
     statEvent(storyModel)
     player.properties.statModifiers.contains(statModifier) shouldEqual true
   }
 
-  "The ItemEvent, when executed," should "put an Item into the player's inventory" in {
+  "The ItemEvent" should "have a description" in {
+    statEvent.description shouldEqual "stat-event-description"
+  }
+
+  it should "put an Item into the player's inventory when executed" in {
     itemEvent(storyModel)
     storyModel.player.inventory.contains(item) shouldEqual true
   }
@@ -38,4 +44,5 @@ class EventTest extends FlatTestSpec with SerializableSpec{
   it should behave like serializationTest(statEvent)
 
   it should behave like serializationTest(itemEvent)
+
 }

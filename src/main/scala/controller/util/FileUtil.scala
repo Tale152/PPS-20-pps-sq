@@ -1,4 +1,4 @@
-package controller.util.serialization
+package controller.util
 
 import java.io.{BufferedWriter, File, FileWriter}
 import scala.collection.mutable.ListBuffer
@@ -12,7 +12,7 @@ object FileUtil {
 
     private val content: ListBuffer[String] = ListBuffer()
 
-    def addText(string: String) : TextFileBuilder = {
+    def addText(string: String): TextFileBuilder = {
       content += string
       this
     }

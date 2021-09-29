@@ -3,7 +3,7 @@ package view.editor.okButtonListener.prerequisites
 import controller.editor.EditorController
 import model.characters.properties.stats.StatName
 import model.characters.properties.stats.StatName.StatName
-import model.nodes.util.{Prerequisite, StatPrerequisite}
+import model.nodes.{Prerequisite, StatPrerequisite}
 import view.editor.okButtonListener.EditorOkFormButtonListenerUnconditional
 import view.editor.okButtonListener.prerequisites.NewPathwayPrerequisiteNextFormOkListener._
 import view.editor.util.StatsNameStringUtil._

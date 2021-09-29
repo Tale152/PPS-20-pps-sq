@@ -1,19 +1,21 @@
 package model.nodes.util
 
-import mock.MockFactory
+import mock.MockFactory.CharacterFactory
+import mock.MockFactory.ItemFactory
 import model.StoryModel
 import model.characters.Player
 import model.characters.properties.stats.StatName
 import model.items.KeyItem
-import model.nodes.StoryNode
+import model.nodes.{ItemPrerequisite, StatPrerequisite, StoryNode}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class PrerequisiteTest extends FlatTestSpec with SerializableSpec {
 
-  val keyItem: KeyItem = KeyItem("name", "description")
-  val player: Player = Player("player", 1, MockFactory.mockSetOfStats())
-  val storyModel: StoryModel = StoryModel("story", player, StoryNode(0, "narrative", None, Set(), List()))
+  val keyItem: KeyItem = ItemFactory.mockKeyItem
+  val player: Player = CharacterFactory.mockPlayer(1)
   player.inventory = player.inventory :+ keyItem
+
+  val storyModel: StoryModel = StoryModel("story", player, StoryNode(0, "narrative", None, Set(), List()))
 
   val itemPrerequisite: ItemPrerequisite = ItemPrerequisite(keyItem)
   val statPrerequisite: StatPrerequisite = StatPrerequisite(StatName.Intelligence, 1)
@@ -37,4 +39,5 @@ class PrerequisiteTest extends FlatTestSpec with SerializableSpec {
   it should behave like serializationTest(itemPrerequisite)
 
   it should behave like serializationTest(statPrerequisite)
+
 }

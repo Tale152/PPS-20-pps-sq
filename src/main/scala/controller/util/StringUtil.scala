@@ -1,4 +1,4 @@
-package controller.util.serialization
+package controller.util
 
 /**
  * Utility object used for string manipulation.

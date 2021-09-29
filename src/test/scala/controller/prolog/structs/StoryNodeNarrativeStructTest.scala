@@ -26,7 +26,6 @@ class StoryNodeNarrativeStructTest extends FlatTestSpec {
     val solutions = engine.resolve(StoryNodeNarrativeStruct(new Var(), "narrative"))
     solutions.size shouldEqual 1
     solutions.head.id shouldEqual 0
-
   }
 
   it should "find no solution using wrong ids or description" in {

@@ -1,6 +1,6 @@
 package controller.util
 
-import controller.util.DirectoryInitializer.{TestStoryPopulation, initializeGameFolderStructure}
+import controller.util.DirectoryInitializer.{DefaultStoryPopulation, initializeGameFolderStructure}
 import controller.util.ResourceNames.MainDirectory.TempDirectory
 import controller.util.ResourceNames._
 import FolderUtil.createFolderIfNotPresent
@@ -23,7 +23,7 @@ class DirectoryInitializerTest extends FlatTestSpec {
     createFolderIfNotPresent(initializerTestDirectory)
     gameDirectory.exists() shouldBe false
     storiesDirectory.exists() shouldBe false
-    initializeGameFolderStructure(initializerTestDirectory, TestStoryPopulation())
+    initializeGameFolderStructure(initializerTestDirectory, DefaultStoryPopulation())
     gameDirectory.isDirectory shouldBe true
     storiesDirectory.isDirectory shouldBe true
   }
