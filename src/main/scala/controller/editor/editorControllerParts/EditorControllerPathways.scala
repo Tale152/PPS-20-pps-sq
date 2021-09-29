@@ -4,8 +4,7 @@ import controller.editor.EditorController
 import controller.editor.graph.util.StringUtils
 import model.items.Item
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.util.{ItemPrerequisite, Prerequisite}
-import model.nodes.{MutablePathway, StoryNode}
+import model.nodes.{ItemPrerequisite, MutablePathway, Prerequisite, StoryNode}
 
 trait EditorControllerPathways {
 
@@ -211,7 +210,7 @@ object EditorControllerPathways {
           case itemPrerequisite: ItemPrerequisite
             if !editorController.nodesControls.getAllKeyItemsBeforeNode(n).contains(itemPrerequisite.item) =>
             editorController.pathwaysControls.deletePrerequisiteFromPathway(n.id, p.destinationNode.id)
-          case _ => { /*does nothing on other type of prerequisite */ }
+          case _ => /*does nothing on other type of prerequisite */
         }
       }
     }
