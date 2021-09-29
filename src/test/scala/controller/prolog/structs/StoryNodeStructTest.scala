@@ -32,8 +32,8 @@ class StoryNodeStructTest extends FlatTestSpec {
     })
     engine.resolve(predicates(0)).head.pathways.head._1 shouldEqual 1
     engine.resolve(predicates(1)).head.pathways.head._1 shouldEqual 2
-    engine.resolve(predicates(2)).head.pathways shouldBe empty
-    engine.resolve(predicates(2)).head.pathways shouldBe empty
+    engine.resolve(predicates(2)).head.pathways shouldBe Set.empty
+    engine.resolve(predicates(2)).head.pathways shouldBe Set.empty
   }
 
   it should "find all the solution passing only vars" in {

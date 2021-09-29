@@ -1,62 +1,61 @@
 package model.characters
 
-import mock.MockFactory
+import mock.MockFactory.{CharacterFactory, ItemFactory}
 import model.characters.properties.stats.Stat
 import model.characters.properties.stats.StatName
 import model.items.{AbstractItem, ConsumableItem, EquipItem, EquipItemType, KeyItem}
+import mock.MockFactory.CharacterFactory.{enemyName, maxPs, negativeMaxPs, playerName}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class CharacterTest extends FlatTestSpec with SerializableSpec {
 
-  val maxPS: Int = 100
-  val wrongMaxPS: Int = -3
-  val correctSetOfStats: Set[Stat] = MockFactory.mockSetOfStats()
-  val mainPlayer: Player = Player("Jonathan", maxPS, correctSetOfStats)
-  val easyEnemy: Enemy = Enemy("Yoshikage Kira", maxPS, correctSetOfStats)
+  val correctSetOfStats: Set[Stat] = CharacterFactory.mockSetOfStats()
+  val mainPlayer: Player = CharacterFactory.mockPlayer()
+  val enemy: Enemy = CharacterFactory.mockEnemy()
 
-  "The player" should "have name Jonathan" in {
-    mainPlayer.name shouldEqual "Jonathan"
+  "The player" should "have name player" in {
+    mainPlayer.name shouldEqual playerName
   }
 
   it should "throw IllegalArgumentException if the name is left empty" in {
     intercept[IllegalArgumentException] {
-      Player("", maxPS, correctSetOfStats)
+      Player("", maxPs, correctSetOfStats)
     }
   }
 
-  it should "throw IllegalArgumentException if maxPS is zero" in {
+  it should "throw IllegalArgumentException if maxPs is zero" in {
     intercept[IllegalArgumentException] {
-      Player("Jolyne", 0, correctSetOfStats)
+      Player(playerName, 0, correctSetOfStats)
     }
   }
 
   it should "throw IllegalArgumentException if maxPS is negative" in {
     intercept[IllegalArgumentException] {
-      Player("Jolyne", wrongMaxPS, correctSetOfStats)
+      Player(playerName, negativeMaxPs, correctSetOfStats)
     }
   }
 
   it should "throw IllegalArgumentException if stats are empty" in {
     intercept[IllegalArgumentException] {
-      Player("Joseph", maxPS, Set())
+      Player(playerName, maxPs, Set())
     }
   }
 
   it should "throw IllegalArgumentException if stats are not enough" in {
     intercept[IllegalArgumentException] {
-      Player("Joseph", maxPS, Set(Stat(1, StatName.Intelligence)))
+      Player(playerName, maxPs, Set(Stat(1, StatName.Intelligence)))
     }
   }
 
   it should "throw IllegalArgumentException if multiple stats with same name are passed" in {
     intercept[IllegalArgumentException] {
-      Player("Joseph", maxPS, (for (n <- 0 to 5) yield Stat(n, StatName.Charisma)).toSet)
+      Player(playerName, maxPs, (for (n <- 0 to 5) yield Stat(n, StatName.Charisma)).toSet)
     }
   }
 
   it should "throw IllegalArgumentException if the correct number of stats is passed but now all 6 are present" in {
     intercept[IllegalArgumentException] {
-      Player("Joseph", maxPS, Set(
+      Player(playerName, maxPs, Set(
         Stat(1, StatName.Strength),
         Stat(1, StatName.Constitution),
         Stat(1, StatName.Wisdom),
@@ -67,7 +66,7 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     }
   }
 
-  val keyItem: KeyItem = KeyItem("key", "it's a key")
+  val keyItem: KeyItem = ItemFactory.mockKeyItem
 
   it should "be able to add and remove items from inventory" in {
     mainPlayer.inventory = List(keyItem)
@@ -81,14 +80,9 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     mainPlayer.inventory.size shouldEqual 2
   }
 
-  val equipItem: EquipItem = EquipItem("sword", "it's a sword", Set(), EquipItemType.Socks)
-  val consumableItem: ConsumableItem = ConsumableItem("potion",
-    "it's a potion",
-    c => c.properties.health.currentPS += 10)
-  val consumableItemSuper: ConsumableItem = ConsumableItem("super potion",
-    "it's a super potion",
-    c => c.properties.health.currentPS += 50)
-
+  val equipItem: EquipItem = ItemFactory.mockEquipItem(EquipItemType.Armor)
+  val consumableItem: ConsumableItem = ItemFactory.mockConsumableItem
+  val consumableItemSuper: ConsumableItem = ItemFactory.mockSuperConsumableItem
 
   it should "have a ordered inventory" in {
     mainPlayer.inventory = List(consumableItemSuper, consumableItem, keyItem, equipItem)
@@ -106,18 +100,18 @@ class CharacterTest extends FlatTestSpec with SerializableSpec {
     }
   }
 
-  "The enemy" should "have name Yoshikage Kira" in {
-    easyEnemy.name shouldEqual "Yoshikage Kira"
+  "The enemy" should "have name enemy" in {
+    enemy.name shouldEqual enemyName
   }
 
   it should "throw IllegalArgumentException if the name is left empty" in {
     intercept[IllegalArgumentException] {
-      Enemy("", maxPS, correctSetOfStats)
+      Enemy("", maxPs, correctSetOfStats)
     }
   }
 
   it should behave like serializationTest(mainPlayer)
 
-  it should behave like serializationTest(easyEnemy)
+  it should behave like serializationTest(enemy)
 
 }

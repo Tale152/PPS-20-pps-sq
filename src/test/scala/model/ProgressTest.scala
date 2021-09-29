@@ -1,6 +1,6 @@
 package model
 
-import mock.MockFactory
+import mock.MockFactory.CharacterFactory
 import model.characters.Player
 import specs.{FlatTestSpec, SerializableSpec}
 
@@ -8,7 +8,7 @@ class ProgressTest extends FlatTestSpec with SerializableSpec{
 
   val serializableHistory: List[Int] = List(0,1,2)
   var undefinedSerializableHistory: List[Int] = _
-  val player: Player = Player("player", 1, MockFactory.mockSetOfStats())
+  val player: Player = CharacterFactory.mockPlayer()
   var undefinedPlayer: Player = _
   val progress: Progress = Progress(serializableHistory, player)
 
@@ -45,6 +45,5 @@ class ProgressTest extends FlatTestSpec with SerializableSpec{
   }
 
   it should behave like serializationTest(progress)
-
 
 }

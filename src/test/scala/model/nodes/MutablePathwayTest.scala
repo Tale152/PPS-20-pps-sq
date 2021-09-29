@@ -1,9 +1,7 @@
 package model.nodes
 
-import mock.MockFactory
-import model.characters.Player
+import mock.MockFactory.{CharacterFactory, ItemFactory}
 import model.StoryModel
-import model.characters.properties.stats.Stat
 import model.items.KeyItem
 import model.nodes.StoryNode.MutableStoryNode
 import model.nodes.util.{ItemPrerequisite, Prerequisite}
@@ -11,10 +9,7 @@ import specs.{FlatTestSpec, SerializableSpec}
 
 class MutablePathwayTest extends FlatTestSpec with SerializableSpec {
 
-  val playerName: String = "prerequisite"
-  val maxPS: Int = 100
-  val stats: Set[Stat] = MockFactory.mockSetOfStats()
-  val item: KeyItem = KeyItem("key", "description")
+  val item: KeyItem = ItemFactory.mockKeyItem
   val storyNodeNarrative: String = "storyNodeNarrative"
   val pathwayDescription: String = "pathwayDescription"
 
@@ -32,7 +27,7 @@ class MutablePathwayTest extends FlatTestSpec with SerializableSpec {
   val startingNode: MutableStoryNode =
     MutableStoryNode(0, storyNodeNarrative, None, Set(pathwayPrerequisite, pathwayNoPrerequisite), List())
 
-  it should "have description \"pathwayDescription\"" in {
+  "A mutable pathway" should "have description \"pathwayDescription\"" in {
     pathwayPrerequisite.description shouldEqual pathwayDescription
   }
 
@@ -64,7 +59,7 @@ class MutablePathwayTest extends FlatTestSpec with SerializableSpec {
 
   it should "be true if condition is present and is met" in {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
-    val player = Player(playerName, maxPS, stats)
+    val player = CharacterFactory.mockPlayer()
     player.inventory = List(item)
     pathwayPrerequisite
       .prerequisite
@@ -75,7 +70,7 @@ class MutablePathwayTest extends FlatTestSpec with SerializableSpec {
     pathwayPrerequisite.prerequisite.nonEmpty shouldEqual true
     pathwayPrerequisite
       .prerequisite
-      .get(StoryModel("s", Player("should be false", maxPS, stats), startingNode)) shouldEqual false
+      .get(StoryModel("s", CharacterFactory.mockPlayer(), startingNode)) shouldEqual false
   }
 
   it should behave like serializationTest(pathwayPrerequisite)

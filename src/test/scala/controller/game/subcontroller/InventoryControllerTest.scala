@@ -2,32 +2,22 @@ package controller.game.subcontroller
 
 import controller.game.GameMasterController
 import mock.MockFactory.mockStoryModel
+import mock.MockFactory.ItemFactory
 import model.StoryModel
 import model.characters.properties.stats.StatName
 import model.characters.properties.stats.StatModifier
-import model.items.{ConsumableItem, EquipItem, EquipItemType, Item}
+import model.items.{EquipItem, EquipItemType, Item}
 import org.scalatest.BeforeAndAfterEach
 import specs.FlatTestSpec
 import specs.Tags.IgnoreGitHubAction
-
 
 class InventoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
 
   val playerMaxPS: Int = 100
   val storyModel: StoryModel = mockStoryModel(playerMaxPS)
 
-
-  val consumableItem: Item = ConsumableItem(
-    "potion",
-    "restore 10 ps",
-    c => c.properties.health.currentPS += 10
-  )
-  val equipItem: Item = EquipItem(
-    "socks",
-    "gives +1 Intelligence",
-    Set(StatModifier(StatName.Intelligence, s => s + 1)),
-    EquipItemType.Socks
-  )
+  val consumableItem: Item = ItemFactory.mockConsumableItem
+  val equipItem: Item = ItemFactory.mockEquipItem(EquipItemType.Socks)
   val anotherEquipItem: Item = EquipItem(
     "socksButBetter",
     "gives +5 Intelligence",
