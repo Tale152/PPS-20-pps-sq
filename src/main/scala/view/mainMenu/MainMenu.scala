@@ -6,15 +6,14 @@ import controller.util.ResourceNames
 import controller.util.serialization.StringUtil.StringFormatUtil.swingFormatted
 import view.AbstractView
 import view.mainMenu.buttonListeners._
+import view.mainMenu.panels.TopPanel
+import view.util.common.StandardKeyListener.quitKeyListener
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
+import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
-import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
 
 import java.awt.BorderLayout
 import java.awt.event.ActionEvent
-import javax.swing.SwingConstants
-import view.util.StringUtil.TitleSize
-import view.util.common.StandardKeyListener.quitKeyListener
 
 /**
  * Trait that represents the main menu of the game.
@@ -40,10 +39,7 @@ object MainMenu {
     override def setStories(stories: Set[String]): Unit = _stories = stories
 
     override def populateView(): Unit = {
-      this.add(
-        SqSwingLabel("Please select a story", labelSize = TitleSize, alignment = SwingConstants.CENTER),
-        BorderLayout.NORTH
-      )
+      this.add(TopPanel(),BorderLayout.NORTH)
       this.add(Scrollable(VerticalButtons(generateButtons())))
       this.add(ControlsPanel(
         List(
