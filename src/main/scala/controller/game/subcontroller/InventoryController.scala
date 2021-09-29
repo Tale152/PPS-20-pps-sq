@@ -48,9 +48,18 @@ object InventoryController {
     private val inventoryView: InventoryView = InventoryView(this)
 
     private def updateView(): Unit = {
-      inventoryView.setItems(storyModel.player.inventory)
-      inventoryView.render()
+      if(isPlayerDead){
+        inventoryView.setSuicide()
+      } else {
+        inventoryView.setItems(storyModel.player.inventory)
+        inventoryView.render()
+      }
     }
+
+    /**
+     * @return true of the player health is now 0 after the usage of an item.
+     */
+    private def isPlayerDead: Boolean = storyModel.player.properties.health.currentPS == 0
 
     override def use(item: Item)(target: Character): Unit = {
       item.use(storyModel.player)(target)
@@ -76,7 +85,9 @@ object InventoryController {
      * Defines the actions to do when the Controller execution is over.
      */
     override def close(): Unit =
-      if(currentlyInBattle()) {
+      if(isPlayerDead) {
+        gameMasterController.close()
+      } else if(currentlyInBattle()) {
         gameMasterController.executeOperation(OperationType.BattleOperation)
       } else {
         gameMasterController.executeOperation(OperationType.StoryOperation)
