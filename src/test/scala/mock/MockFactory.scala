@@ -25,10 +25,10 @@ object MockFactory {
 
     def statModifier(statName: StatName): StatModifier = StatModifier(statName, modifierStrategy)
 
-    def statModifiers(statNames: StatName*): Set[StatModifier] = {
-      var modifiers: Set[StatModifier] = Set()
+    def statModifiers(statNames: StatName*): List[StatModifier] = {
+      var modifiers: List[StatModifier] = List()
       for (stat <- statNames){
-        modifiers += statModifier(stat)
+        modifiers = modifiers :+ statModifier(stat)
       }
       modifiers
     }
@@ -72,7 +72,7 @@ object MockFactory {
     val mockSuperConsumableItem: ConsumableItem = ConsumableItem(itemName, itemDescription, superConsumableStrategy)
 
     def mockEquipItem(equipType: EquipItemType): EquipItem =
-      EquipItem(itemName, itemDescription, Set(), equipType)
+      EquipItem(itemName, itemDescription, List(), equipType)
 
   }
 

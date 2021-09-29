@@ -31,7 +31,7 @@ case class NewEquipItemOkListener(override val form: Form,
       EquipItem(
         form.elements(ItemNameIndex).value,
         form.elements(ItemDescriptionIndex).value,
-        Set(
+        List(
           StatModifier(Charisma, getModifierStrategy(
             form.elements(EquipEffectCharismaIndex).value, form.elements(EquipCharismaValueIndex).value.toInt)),
           StatModifier(Constitution, getModifierStrategy(

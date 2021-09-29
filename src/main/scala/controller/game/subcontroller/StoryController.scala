@@ -107,7 +107,7 @@ object StoryController {
     private def processEvents(): Unit = {
       storyView.displayEvent(storyModel.currentStoryNode.events.map {
         case StatEvent(eventDescription, statModifier) =>
-          storyModel.player.properties.statModifiers += statModifier
+          storyModel.player.properties.statModifiers = storyModel.player.properties.statModifiers :+ statModifier
           swingFormatted(eventDescription + SwingNewLine +
             "Stat " + statModifier.statName + " modified " +
             "(" + getStatDifferences(statModifier.statName, statModifier.modifyStrategy) + ")"

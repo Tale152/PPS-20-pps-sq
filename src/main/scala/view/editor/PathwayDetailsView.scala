@@ -1,8 +1,8 @@
 package view.editor
 
 import controller.editor.EditorController
-import model.nodes.util.{ItemPrerequisite, StatPrerequisite}
-import model.nodes.{Pathway, StoryNode}
+import model.nodes.StatPrerequisite
+import model.nodes.{ItemPrerequisite, Pathway, StoryNode}
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable}
 import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqTextArea}

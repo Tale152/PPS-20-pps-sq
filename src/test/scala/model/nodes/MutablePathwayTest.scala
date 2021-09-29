@@ -4,7 +4,6 @@ import mock.MockFactory.{CharacterFactory, ItemFactory}
 import model.StoryModel
 import model.items.KeyItem
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.util.{ItemPrerequisite, Prerequisite}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class MutablePathwayTest extends FlatTestSpec with SerializableSpec {

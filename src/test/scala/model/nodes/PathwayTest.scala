@@ -3,7 +3,6 @@ package model.nodes
 import mock.MockFactory.{CharacterFactory, ItemFactory}
 import model.StoryModel
 import model.items.KeyItem
-import model.nodes.util.{ItemPrerequisite, Prerequisite}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class PathwayTest extends FlatTestSpec with SerializableSpec {

@@ -1,7 +1,6 @@
 package model.nodes
 
 import model.nodes.StoryNode.MutableStoryNode
-import model.nodes.util.Prerequisite
 
 /**
  * Trait that represents a pathway, which is the data structure of a possible choice that the player can make to

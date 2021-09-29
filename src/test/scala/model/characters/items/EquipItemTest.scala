@@ -29,7 +29,7 @@ class EquipItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAft
       EquipItem(
         undefinedItemName,
         itemDescription,
-        Set(),
+        List(),
         EquipItemType.Armor
       )
     }
@@ -40,7 +40,7 @@ class EquipItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAft
       EquipItem(
         "",
         itemDescription,
-        Set(),
+        List(),
         EquipItemType.Gloves
       )
     }
@@ -51,7 +51,7 @@ class EquipItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAft
       EquipItem(
         itemName,
         undefinedItemDescription,
-        Set(),
+        List(),
         EquipItemType.Boots
       )
     }
@@ -62,14 +62,14 @@ class EquipItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAft
       EquipItem(
         itemName,
         "",
-        Set(),
+        List(),
         EquipItemType.Helmet
       )
     }
   }
 
-  it should "have a set of stat modifier" in {
-    firstArmorEquipItem.statModifiers shouldEqual Set()
+  it should "have a list of stat modifier" in {
+    firstArmorEquipItem.statModifiers shouldEqual List()
   }
 
   it should "have a type" in {
@@ -81,7 +81,7 @@ class EquipItemTest extends FlatTestSpec with SerializableSpec with BeforeAndAft
       EquipItem(
         itemName,
         itemDescription,
-        Set(),
+        List(),
         undefinedEquipItemType
       )
     }

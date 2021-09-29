@@ -6,7 +6,7 @@ import model.StoryModel
 import model.characters.Player
 import model.characters.properties.stats.StatName
 import model.items.KeyItem
-import model.nodes.StoryNode
+import model.nodes.{ItemPrerequisite, StatPrerequisite, StoryNode}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class PrerequisiteTest extends FlatTestSpec with SerializableSpec {

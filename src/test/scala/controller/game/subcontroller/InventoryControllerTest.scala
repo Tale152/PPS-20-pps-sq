@@ -21,7 +21,7 @@ class InventoryControllerTest extends FlatTestSpec with BeforeAndAfterEach {
   val anotherEquipItem: Item = EquipItem(
     "socksButBetter",
     "gives +5 Intelligence",
-    Set(StatModifier(StatName.Intelligence, s => s + 5)),
+    List(StatModifier(StatName.Intelligence, s => s + 5)),
     EquipItemType.Socks
   )
   storyModel.player.inventory = List(consumableItem, equipItem, anotherEquipItem)
