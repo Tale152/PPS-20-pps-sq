@@ -88,7 +88,7 @@ object ApplicationController extends ApplicationController {
       action = () => PlayerConfigurationController(
         ProgressSerializer.extractStoryName(storyURI),
         deserializeStory(storyURI)).execute(),
-      failAction = () => mainMenu.showDeserializationErrorDialog("Error on story loading")
+      failAction = () => mainMenu.showDeserializationError("Error on story loading")
     )
 
   override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit =
@@ -96,7 +96,7 @@ object ApplicationController extends ApplicationController {
       action = () => GameMasterController(
         ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
       ).execute(),
-      failAction = () => mainMenu.showDeserializationErrorDialog("Error on story loading story and progress")
+      failAction = () => mainMenu.showDeserializationError("Error on story loading story and progress")
     )
 
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =

@@ -32,7 +32,7 @@ sealed trait MainMenu extends AbstractView {
    * Show an error message if a certain file cannot be deserialized.
    * @param errorTitle the error Title.
    */
-  def showDeserializationErrorDialog(errorTitle: String): Unit
+  def showDeserializationError(errorTitle: String): Unit
 }
 
 object MainMenu {
@@ -81,7 +81,7 @@ object MainMenu {
         (_: ActionEvent) => loadStoryNewGame(storyPath))
     }
 
-    override def showDeserializationErrorDialog(errorTitle: String): Unit =
+    override def showDeserializationError(errorTitle: String): Unit =
       SqSwingDialog(
         errorTitle, "File structure is not suitable or corrupted",
         List(SqSwingButton("ok", _ => {}))
