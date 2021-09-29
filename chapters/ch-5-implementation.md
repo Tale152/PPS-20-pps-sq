@@ -18,8 +18,7 @@ Il pattern Strategy è stato utilizzato massivamente in diverse classi del proge
 Dove possibile si è preferito utilizzare campi o parametri opzionali.
 Questo ha permesso la creazione di una struttura del sistema più robusta ed in grado di saper rispondere in maniera migliore ai fallimenti delle operazione.
 L'uso degli Optional permette anche di azzerare completamente l'utilizzo della keyword _null_, la quale è spesso fonte di bug o comportamenti non desiderati.
-## Utilizzo del paradigma logico
-Come requisito opzionale il team si era proposto di realizzare uno strumento in grado di fornire dati su una determinata storia in Prolog, realizzando una sorta di "esploratore di storie".
+
 #### Utilizzo del currying
 Il linguaggio Scala mette a disposizione nella sua parte funzionale una funzionalità denominata currying, ovvero l'applicazione di una funzione a solo una parte dei suoi argomenti.  
 I casi d'uso del currying possono essere molteplici. Durante lo sviluppo del progetto è stato particolarmente utile nella stesura del codice della classe di model _Item_ per specificare che di base il bersaglio di uno strumento è colui che lo possiede.  
@@ -30,6 +29,9 @@ def use(owner: Character)(target: Character = owner): Unit
 Un ulteriore beneficio nello strutturare in questo modo il metodo è che è molto più difficile dimenticarsi di impostare il parametro _target_ in quanto, nonostante sia un parametro di default, è comunque necessario utilizzare un paio di parentesi addizionale per richiamare la funzione.
 Dimenticarsi di impostare un parametro di default in un metodo scritto in maniera convenzionale risulta invece più semplice, e può essere fonte di bug.
 
+## Utilizzo del paradigma logico
+Come requisito opzionale il team si era proposto di realizzare uno strumento in grado di fornire dati su una determinata storia in Prolog, realizzando una sorta di "esploratore di storie".
+
 #### Requisiti
 Si desidera realizzare una sorta di "esploratore", in grado di percorrere tutti i possibili percorsi presenti all'interno di una storia.
 L'idea iniziale consisteva nel mostrare solo quali nodi sono stati attraversati in ciascun percorso intrapreso.  
@@ -38,7 +40,7 @@ L'esploratore è stato però arricchito, e nella sua versione finale possiede le
 - Acquisizione della descrizione di un pathway dato l'id del nodo di partenza e l'id del nodo di arrivo.
 - Acquisizione dei percorsi possibili dato l'id del nodo di partenza e l'id del nodo di arrivo.
 - Acquisizione dei percorsi possibili a partire dal nodo radice (inizio della storia) o da un determinato nodo successivo. 
-- Acquisizione di tutte le narrazioni dei nodi e delle descrizioni dei pathway dei percorsi possibili (in ordine) a partire dal nodo radice (inizio della storia) o da un determinato nodo successivo.
+- Acquisizione di tutte le narrazioni dei nodi e delle descrizioni dei pathway dei percorsi possibili (in ordine) a partire dal nodo radice (inizio della storia) o da un determinato nodo successivo verso tutti i nodi finali.
 
 Iterando su tutte le soluzione si ottiene gratuitamente anche quante sono in totale (vale ovviamente per ciascun predicato).
 #### Integrazione in Scala
@@ -49,7 +51,7 @@ L'output rappresenta le soluzioni trovate dall'engine che sono poi facilmente ma
 ##### Strutture
 Sono state create diverse classi Scala (una per ogni predicato), per semplificare la creazione e la manipolazione dei termini.  
 L'API offerta è infatti stata sviluppata per essere il più generale possibile. Lavorare sui risultati grezzi risulta essere molto macchinoso, verboso e spesso è poco comprensibile l'intento o l'obiettivo che si vuole raggiungere.
-Il recupero dei dati e la loro conversione è quidi stata incapsulata e nascosta all'interno di queste classi in modo da rendere più semplice e rapido l'utilizzo dall'esterno, oltre che a favorire il principio DRY.
+Il recupero dei dati e la loro conversione è quindi stata incapsulata e nascosta all'interno di queste classi in modo da rendere più semplice e rapido l'utilizzo dall'esterno, oltre che a favorire il principio DRY.
 
 ##### Teoria generata
 Per poter lavorare su storie già esistenti è stato necessaria una sorta di mapping da classi (Scala) a fatti (Prolog).  
@@ -73,7 +75,7 @@ premettessero di garantire qualità del sistema realizzato e che fossero anche u
 Per quanto riguarda il testing automatizzato si è cercato si seguire un approccio quanto più possibile TDD (Test Driven Development), cercando di seguire il ciclo Red - Green - Refactor. Questo è stato possibile soprattuto nelle fasi inziali del progetto, dove la maggior parte delle classi sviluppate appartenevano al model.  
 Nelle fasi successive questo approccio è venuto meno. Diversi test sono stati realizzati seguendo un approccio più tradizionale, meno stringente di quanto richiesto normalmente dalle politiche del TDD.  
 Inoltre alcuni componenti del sistema sono risultati particolarmente tediosi da testare in modo automatizzato a causa dell'incapsulamento dello stato, il quale non è spesso visibile dall'esterno. Lo strumento utilizzato per effettuare il testing è [ScalaTest](#scalatest).
-In particolare è stata utilizzata la specifica _FlatSpec_ per la maggior parte dei test.
+In particolare è stata utilizzata la specifica _FlatSpec_ come stile dei test prodotti.
 
 ##### Suites di Testing
 Tra le funzionalità di ScalaTest utilizzate vi sono le [Suites](https://www.scalatest.org/scaladoc/1.8/org/scalatest/Suites.html).
