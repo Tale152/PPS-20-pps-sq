@@ -26,11 +26,11 @@ sealed trait PropertiesContainer extends Serializable {
    * @param statName the statName of the stat.
    * @return a set of every modifier of statName.
    */
-  def statModifiers(statName: StatName): Set[StatModifier]
+  def statModifiers(statName: StatName): List[StatModifier]
 
-  def statModifiers: Set[StatModifier]
+  def statModifiers: List[StatModifier]
 
-  def statModifiers_=(statModifierSet: Set[StatModifier]): Unit
+  def statModifiers_=(statModifierSet: List[StatModifier]): Unit
 
   /**
    * Returns a stat with actually the modified stat.
@@ -50,14 +50,14 @@ object PropertiesContainer {
    */
   private class PropertiesContainerImpl(private val maxPS: Int,
                                         val stats: Set[Stat],
-                                        var statModifiers: Set[StatModifier])
+                                        var statModifiers: List[StatModifier])
     extends PropertiesContainer {
 
     val health: Health = Health(maxPS)
 
     override def stat(statName: StatName): Stat = stats.find(s => s.statName == statName).get
 
-    override def statModifiers(st: StatName): Set[StatModifier] = statModifiers.filter(s => s.statName == st)
+    override def statModifiers(st: StatName): List[StatModifier] = statModifiers.filter(s => s.statName == st)
 
     override def modifiedStat(statName: StatName): Stat =
       statModifiers(statName)
@@ -65,7 +65,7 @@ object PropertiesContainer {
 
   }
 
-  def apply(maxPS: Int, stats: Set[Stat], statModifiers: Set[StatModifier] = Set()): PropertiesContainer =
+  def apply(maxPS: Int, stats: Set[Stat], statModifiers: List[StatModifier] = List()): PropertiesContainer =
     new PropertiesContainerImpl(maxPS, stats, statModifiers)
 
 }

@@ -33,11 +33,6 @@ sealed trait StoryNode extends Serializable {
    * @return A list of [[model.nodes.Event]] contained in the node.
    */
   def events: List[Event]
-
-  /**
-   * Remove all the [[model.nodes.Event]] in the story node.
-   */
-  def removeAllEvents(): Unit
 }
 
 object StoryNode {
@@ -49,7 +44,7 @@ object StoryNode {
    * @param narrative is the text that the player will read, which is the actual story.
    * @param enemy     is the enemy that might be found in a story node, with whom the player must battle.
    * @param pathways  are the possible pathways that the player can see and choose, to progress in the story.
-   * @param eventList    an ordered list containing eventual events to handle while entering this node.
+   * @param eventList an ordered list containing eventual events to handle while entering this node.
    * @return the story node.
    */
   def apply(id: Int,
@@ -62,15 +57,10 @@ object StoryNode {
                               override val narrative: String,
                               override val enemy: Option[Enemy],
                               override val pathways: Set[Pathway],
-                              eventList: List[Event]) extends StoryNode {
+                              override val events: List[Event]) extends StoryNode {
 
-    ArgsChecker.check(id, narrative, enemy, pathways, eventList)
+    ArgsChecker.check(id, narrative, enemy, pathways, events)
 
-    private var _events: List[Event] = eventList
-
-    override def events: List[Event] = _events
-
-    override def removeAllEvents(): Unit = _events = List()
   }
 
   sealed trait MutableStoryNode extends StoryNode {
@@ -99,15 +89,13 @@ object StoryNode {
       ArgsChecker.check(id, narrative, enemy, pathways, events)
 
       override def pathways: Set[Pathway] = for (p <- mutablePathways) yield p.asInstanceOf[Pathway]
-
-      override def removeAllEvents(): Unit =  events = List()
     }
   }
 
   private object ArgsChecker {
     def check(id: Int, narrative: String, enemy: Option[Enemy], pathways: Set[Pathway], eventList: List[Event]): Unit =
       require(
-          !id.isNaN
+        !id.isNaN
           && Option(narrative).nonEmpty
           && narrative.trim.nonEmpty
           && Option(enemy).nonEmpty

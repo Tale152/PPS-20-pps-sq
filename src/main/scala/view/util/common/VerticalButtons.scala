@@ -1,6 +1,6 @@
 package view.util.common
 
-import controller.util.serialization.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
+import controller.util.StringUtil.StringFormatUtil.FormatElements.SwingNewLine
 import view.Frame.frame
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingGridBagPanel}
 

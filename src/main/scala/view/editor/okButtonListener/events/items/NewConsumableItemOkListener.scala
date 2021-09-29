@@ -2,12 +2,12 @@ package view.editor.okButtonListener.events.items
 
 import controller.editor.EditorController
 import model.characters.Character
-import model.items.ConsumableItem
+import model.items.{ConsumableItem, DecrementHealthStrategy, IncrementHealthStrategy}
 import model.nodes.ItemEvent
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects._
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
-import view.editor.okButtonListener.EditorOkFormButtonListener
+import view.editor.okButtonListener.EditorOkFormButtonListenerStateless
 import view.editor.okButtonListener.events.items.NewItemCategoryOkListener._
 import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
 import view.form.Form
@@ -15,13 +15,13 @@ import view.form.Form
 case class NewConsumableItemOkListener(override val form: Form,
                                        nodeId: Int,
                                        override val controller: EditorController)
-  extends EditorOkFormButtonListener(form, controller) {
+  extends EditorOkFormButtonListenerStateless(form, controller) {
 
   override def editorControllerAction(): Unit = {
 
     def getConsumableStrategy(selectedStrategyStr: String, value: Int): Character => Unit = selectedStrategyStr match {
-      case IncrementOption => c => c.properties.health.currentPS = c.properties.health.currentPS + value
-      case DecrementOption => c => c.properties.health.currentPS = c.properties.health.currentPS - value
+      case IncrementOption => IncrementHealthStrategy(value)
+      case DecrementOption => DecrementHealthStrategy(value)
     }
 
     controller.nodesControls.addEventToNode(nodeId, ItemEvent(
@@ -42,5 +42,4 @@ case class NewConsumableItemOkListener(override val form: Form,
     (NonEmptyString(form.elements(ItemRetrieveNarrativeIndex).value), mustBeSpecified(TheNarrative))
   )
 
-  override def stateConditions: List[(Boolean, String)] = List()
 }

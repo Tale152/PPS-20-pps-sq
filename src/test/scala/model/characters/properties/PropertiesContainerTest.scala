@@ -11,7 +11,7 @@ class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
   val stats: Set[Stat] = CharacterFactory.mockSetOfStats()
   val propContainer: PropertiesContainer = PropertiesContainer(maxPs, stats)
 
-  val statMods: Set[StatModifier] = StatModifierFactory.statModifiers(
+  val statMods: List[StatModifier] = StatModifierFactory.statModifiers(
     StatName.Intelligence, StatName.Intelligence, StatName.Wisdom, StatName.Dexterity)
 
   "The Properties Container" should "initialize maxPS to 100" in {
@@ -26,17 +26,17 @@ class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
     propContainer.stat(StatName.Intelligence) shouldEqual Stat(1, StatName.Intelligence)
   }
 
-  it should "return an empty set calling StatModifiers on creation" in {
-    propContainer.statModifiers shouldEqual Set()
+  it should "return an empty list calling StatModifiers on creation" in {
+    propContainer.statModifiers shouldEqual List()
   }
 
   it should "be able to add a statModifier" in {
-    propContainer.statModifiers ++= statMods
+    propContainer.statModifiers = propContainer.statModifiers ++ statMods
     propContainer.statModifiers shouldEqual statMods
   }
 
   it should "return every modifier for the specific statName" in {
-    propContainer.statModifiers(StatName.Intelligence) shouldEqual Set(
+    propContainer.statModifiers(StatName.Intelligence) shouldEqual List(
       StatModifierFactory.statModifier(StatName.Intelligence), StatModifierFactory.statModifier(StatName.Intelligence))
   }
 
