@@ -1,5 +1,27 @@
 # 5 - Implementazione
 
+## Git workflow accordato
+All'inizio del progetto, un momento cruciale è stato quello della scelta del workflow da seguire su Git.  
+In conseguenza alla scelta di sfruttare il meccanismo delle pull-request, ogni membro del gruppo era responsabile della propria fork, e questo ha reso ancora più fondamentale scegliere come strutturare il repository sul quale effettuare le pull-request.  
+Si è deciso di utilizzare diversi branch, al fine di mantere il lavoro ben organizzato:
+- __docs__: il branch docs è un branch orfano nel quale abbiamo prodotto tutta la documentazione. In questo branch non è presente infatti il codice dell'applicativo.
+- __master__:  si è deciso di utilizzare il branch master solo alla fine di ogni Sprint, con l'obiettivo di rilasciare una versione funzionante del gioco, contrassegnata dal rispettivo tag; prima di rilascire la versione su master, veniva fatto il merge di tutto il codice sul branch develop, al fine di verificare il corretto funzionamento.
+- __develop__: è il branch di appoggio sul quale sono stati svolti tutti gli sviluppi. Durante i primi Sprint le push non sono mai state effettuate sul branch develop ma nei suoi "sotto-branch", in quanto i task erano molto specifici di una certa area del progetto e quindi indipendenti.  
+L'utilizzo del pattern di progettazione MVC descritto in precedenza ha permesso una facile suddivisione del lavoro sotto questo punto di vista.  
+Per questa ragione develop è stato organizzato a livello logico nei seguenti branch:
+    - model  
+    - view  
+    - controller  
+
+<div align="center">
+<img src="https://images2.imgbox.com/f3/a8/dSzb8hTW_o.png" alt="Workflow durante i primi 3 Sprint"/>
+<p align="center">Workflow durante i primi 3 Sprint</p>
+</div>
+
+Una volta che il model è stato completato, i task hanno iniziato a riguardare porzioni di codice più dipendenti tra loro, che ad esempio coinvolgevano sia view che controller.  
+Per questa ragione, dal quarto Sprint abbiamo deciso di eliminare i branch model, view e controller e continuare il lavoro su develop.  
+Riteniamo che sia stata la scelta più opportuna da prendere, in quanto lavorare completamente su branch separati non permetteva più a quel punto di essere agili nell'effettuare modifiche.
+
 ## Utilizzo del paradigma funzionale
 
 #### Limitazione dei side-effects
