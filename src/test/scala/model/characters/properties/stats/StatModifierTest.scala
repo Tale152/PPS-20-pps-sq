@@ -22,13 +22,13 @@ class StatModifierTest extends FlatTestSpec with SerializableSpec {
 
   "The stat name" should "not be undefined" in {
     intercept[IllegalArgumentException] {
-      StatModifier(StatFactory.undefinedStatName, StatModifierFactory.modifierStrategy)
+      StatModifier(StatFactory.undefinedStatName, StatModifierFactory.onApply)
     }
   }
 
-  "The modifier strategy" should "not be undefined" in {
+  "The onApply method" should "not be undefined" in {
     intercept[IllegalArgumentException]{
-      StatModifier(StatName.Dexterity, StatModifierFactory.undefinedModifierStrategy)
+      StatModifier(StatName.Dexterity, StatModifierFactory.undefinedOnApply)
     }
   }
 
