@@ -30,5 +30,3 @@ trait SerializableSpec { this: FlatTestSpec =>
     }
   }
 }
-
-

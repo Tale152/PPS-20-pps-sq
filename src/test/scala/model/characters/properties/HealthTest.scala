@@ -1,37 +1,33 @@
 package model.characters.properties
 
 import specs.{FlatTestSpec, SerializableSpec}
+import mock.MockFactory.CharacterFactory.{maxPs, negativeMaxPs}
 
 class HealthTest extends FlatTestSpec with SerializableSpec {
 
-  val defaultPlayerMaxPS = 100
-  val incorrectCurrentPS = 110
-  val incorrectNegativeCurrentPs: Int = -10
-  val correctCurrentPS = 50
-
-  val health: Health = Health(defaultPlayerMaxPS)
+  val health: Health = Health(maxPs)
 
   "The Health" should "have maximum PS" in {
-    health.maxPS shouldEqual defaultPlayerMaxPS
+    health.maxPS shouldEqual maxPs
   }
 
-  it should behave like serializationTest(health)
-
-  "The current PS" should "be equal to max PS at the beginning" in {
+  "The current PS" should "be equal to maxPs at the beginning" in {
     health.currentPS shouldEqual health.maxPS
   }
 
-  it should "take maxPS value if set higher than max PS" in {
-    health.currentPS = incorrectCurrentPS
+  it should "take maxPs value if set higher than max PS" in {
+    val higherPs: Int = 110
+    health.currentPS = higherPs
     health.currentPS shouldEqual health.maxPS
   }
 
   it should "take value 0 if set lower than 0" in {
-    health.currentPS = incorrectNegativeCurrentPs
+    health.currentPS = negativeMaxPs
     health.currentPS shouldEqual 0
   }
 
   it should "update value" in {
+    val correctCurrentPS = 50
     health.currentPS = correctCurrentPS
     health.currentPS shouldEqual correctCurrentPS
   }
@@ -42,15 +38,16 @@ class HealthTest extends FlatTestSpec with SerializableSpec {
     }
   }
 
-  val healthEquals: Health = Health(defaultPlayerMaxPS)
+  val healthEquals: Health = Health(maxPs)
 
   "Health equals" should "work properly passing equal health" in {
-    val healthRight: Health = Health(defaultPlayerMaxPS)
+    val healthRight: Health = Health(maxPs)
     healthEquals == healthRight shouldBe true
     healthEquals.hashCode() shouldEqual healthRight.hashCode()
   }
 
   it should "fail passing different health" in {
+    val incorrectCurrentPS: Int = 30
     val healthWrong: Health = Health(incorrectCurrentPS)
     healthEquals == healthWrong shouldBe false
     healthEquals.hashCode() should not equal healthWrong.hashCode()
@@ -59,5 +56,7 @@ class HealthTest extends FlatTestSpec with SerializableSpec {
   it should "fail passing different object" in {
     healthEquals should not equal "jojo"
   }
+
+  it should behave like serializationTest(health)
 
 }
