@@ -14,7 +14,7 @@ object DeleteEnemy {
 case class DeleteEnemy() extends EditorForm {
 
   override def show(editorController: EditorController): Unit = {
-    val targetNodes = editorController.nodesControls.getNodesIds(n => n.enemy.nonEmpty).map(n => n.toString)
+    val targetNodes = editorController.nodesControls.nodesIds(n => n.enemy.nonEmpty).map(n => n.toString)
     if(targetNodes.nonEmpty){
       val form: Form = FormBuilder()
         .addComboField("From what node you want to delete an existing enemy?", targetNodes)

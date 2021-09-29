@@ -15,7 +15,7 @@ object DeleteEventOkListener {
     extends OkFormButtonListenerUnconditional(form, controller) {
 
     private def createComboList(id: Int): List[String] =
-      controller.nodesControls.getStoryNode(id).get
+      controller.nodesControls.storyNode(id).get
         .events.zipWithIndex.map(x => createIndexedOption(x._2, x._1.description))
 
     private def showDeleteEventForm(id: Int): Unit = {
@@ -44,7 +44,7 @@ private case class DeleteEventNextFormOkListener(override val form: Form,
     val selectedIndex: Int = extractIndexFromOption(form.elements(EventComboIndex).value)
     controller.nodesControls.deleteEventFromNode(
       nodeId,
-      controller.nodesControls.getStoryNode(nodeId).get.events(selectedIndex)
+      controller.nodesControls.storyNode(nodeId).get.events(selectedIndex)
     )
   }
 

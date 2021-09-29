@@ -12,7 +12,7 @@ object EquipItemTypeUtil {
   val NecklaceString: String = Necklace.toString
   val HelmetString: String = Helmet.toString
 
-  def getEquipItemType(selectedEquipItemTypeStr: String): EquipItemType = selectedEquipItemTypeStr match {
+  def equipItemType(selectedEquipItemTypeStr: String): EquipItemType = selectedEquipItemTypeStr match {
     case BootsString => Boots
     case ArmorString => Armor
     case SocksString => Socks

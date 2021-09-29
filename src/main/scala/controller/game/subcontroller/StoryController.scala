@@ -110,7 +110,7 @@ object StoryController {
           storyModel.player.properties.statModifiers = storyModel.player.properties.statModifiers :+ statModifier
           swingFormatted(eventDescription + SwingNewLine +
             "Stat " + statModifier.statName + " modified " +
-            "(" + getStatDifferences(statModifier.statName, statModifier.onApply) + ")"
+            "(" + statDifferences(statModifier.statName, statModifier.onApply) + ")"
           )
         case ItemEvent(eventDescription, item) =>
           storyModel.player.inventory = storyModel.player.inventory :+ item
@@ -124,7 +124,7 @@ object StoryController {
      * @return the difference between the stat value before and after the application of onApply
      *         formatted with + or - sign.
      */
-    private def getStatDifferences(statName: StatName, onApply: Int => Int): String = {
+    private def statDifferences(statName: StatName, onApply: Int => Int): String = {
       val modifiedStatValue = storyModel.player.properties.modifiedStat(statName).value
       val difference = onApply(modifiedStatValue) - modifiedStatValue
       if (difference >= 0) {

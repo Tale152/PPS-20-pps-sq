@@ -19,7 +19,7 @@ case class PathwaysPanel(paths: Seq[Pathway], onPathwayChosen: Pathway => Unit)
   this.add(Scrollable(VerticalButtons(buttons.toList)))
 
   override def getMinimumSize: Dimension =
-    new Dimension(Frame.getSquareDimension.getWidth.toInt, (Frame.getSquareDimension.getHeight * 0.4).toInt)
+    new Dimension(Frame.squareDimension.getWidth.toInt, (Frame.squareDimension.getHeight * 0.4).toInt)
 
   override def getMaximumSize: Dimension = getMinimumSize
 

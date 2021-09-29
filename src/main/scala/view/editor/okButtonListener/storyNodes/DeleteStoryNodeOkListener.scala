@@ -14,7 +14,7 @@ case class DeleteStoryNodeOkListener(override val form: Form, override val contr
     controller.nodesControls.deleteExistingStoryNode(form.elements(StoryNodeIdIndex).value.toInt)
 
   override def editorControllerAction(): Unit =
-    if (controller.nodesControls.getStoryNode(form.elements(StoryNodeIdIndex).value.toInt).get.pathways.nonEmpty) {
+    if (controller.nodesControls.storyNode(form.elements(StoryNodeIdIndex).value.toInt).get.pathways.nonEmpty) {
       SqYesNoSwingDialog(
         "Really delete this node?",
         "All subsequent unreachable nodes will also be deleted in cascade",

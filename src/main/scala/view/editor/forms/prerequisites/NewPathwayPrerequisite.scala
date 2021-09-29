@@ -14,12 +14,12 @@ object NewPathwayPrerequisite {
 case class NewPathwayPrerequisite() extends EditorForm {
 
   override def show(editorController: EditorController): Unit = {
-    if(editorController.nodesControls.getStoryNode(0).get.pathways.isEmpty){
+    if(editorController.nodesControls.storyNode(0).get.pathways.isEmpty){
       EditorView.showForbiddenActionDialog("There are no pathways")
     } else {
       val targetNodes = editorController
         .nodesControls
-        .getNodesIds(n => n.pathways.count(p => p.prerequisite.isEmpty) >= 2)
+        .nodesIds(n => n.pathways.count(p => p.prerequisite.isEmpty) >= 2)
         .map(n => n.toString)
       if(targetNodes.nonEmpty){
         val form: Form = FormBuilder()

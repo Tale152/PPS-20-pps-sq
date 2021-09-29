@@ -107,15 +107,15 @@ object EditorControllerPathways {
     extends EditorControllerPathways {
 
     override def getPathway(startNodeId: Int, endNodeId: Int): Option[MutablePathway] =
-      editorController.nodesControls.getStoryNode(startNodeId) match {
+      editorController.nodesControls.storyNode(startNodeId) match {
         case None => None
-        case _ => editorController.nodesControls.getStoryNode(startNodeId).get
+        case _ => editorController.nodesControls.storyNode(startNodeId).get
           .mutablePathways.find(p => p.destinationNode.id == endNodeId)
       }
 
     override def addNewPathway(startNodeId: Int, endNodeId: Int, pathwayDescription: String): Unit = {
-      val startNode: Option[MutableStoryNode] = editorController.nodesControls.getStoryNode(startNodeId)
-      val endNode: Option[MutableStoryNode] = editorController.nodesControls.getStoryNode(endNodeId)
+      val startNode: Option[MutableStoryNode] = editorController.nodesControls.storyNode(startNodeId)
+      val endNode: Option[MutableStoryNode] = editorController.nodesControls.storyNode(endNodeId)
       startNode.get.mutablePathways =
         startNode.get.mutablePathways + MutablePathway(pathwayDescription, endNode.get, None)
       editorController.graph.addEdge(
@@ -133,7 +133,7 @@ object EditorControllerPathways {
     }
 
     override def deleteExistingPathway(startNodeId: Int, endNodeId: Int): Unit = {
-      val startNode = editorController.nodesControls.getStoryNode(startNodeId)
+      val startNode = editorController.nodesControls.storyNode(startNodeId)
       startNode.get.mutablePathways = startNode.get.mutablePathways.filter(p => p.destinationNode.id != endNodeId)
       editorController.graph.removeEdge(startNodeId + StringUtils.PathwayIdSeparator + endNodeId)
       applyKeyItemPrerequisiteIntegrity()
@@ -147,8 +147,8 @@ object EditorControllerPathways {
           p => searchForDestination(searchedNode, p.destinationNode)
         )
 
-      val startNode = editorController.nodesControls.getStoryNode(startNodeId)
-      val endNode = editorController.nodesControls.getStoryNode(endNodeId)
+      val startNode = editorController.nodesControls.storyNode(startNodeId)
+      val endNode = editorController.nodesControls.storyNode(endNodeId)
       if (startNode.isEmpty ||
         endNode.isEmpty ||
         /* cannot create two pathways with same origin and destination */
@@ -187,7 +187,7 @@ object EditorControllerPathways {
     }
 
     override def getAllOriginNodes(id: Int): List[MutableStoryNode] = {
-      val targetNode = editorController.nodesControls.getStoryNode(id).get
+      val targetNode = editorController.nodesControls.storyNode(id).get
       editorController.nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == targetNode)).toList
     }
 
@@ -208,7 +208,7 @@ object EditorControllerPathways {
       for (n <- editorController.nodes._2; p <- n.mutablePathways if p.prerequisite.nonEmpty) {
         p.prerequisite.get match {
           case itemPrerequisite: ItemPrerequisite
-            if !editorController.nodesControls.getAllKeyItemsBeforeNode(n).contains(itemPrerequisite.item) =>
+            if !editorController.nodesControls.allKeyItemsBeforeNode(n).contains(itemPrerequisite.item) =>
             editorController.pathwaysControls.deletePrerequisiteFromPathway(n.id, p.destinationNode.id)
           case _ => /*does nothing on other type of prerequisite */
         }

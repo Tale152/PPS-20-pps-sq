@@ -15,7 +15,7 @@ object DeletePathwayOkListener {
 
     override def performAction(): Unit = {
       var originNodePathways = controller
-        .nodesControls.getStoryNode(form.elements(OriginNodeIdIndex).value.toInt)
+        .nodesControls.storyNode(form.elements(OriginNodeIdIndex).value.toInt)
         .get.mutablePathways
       if(originNodePathways.exists(p => p.prerequisite.nonEmpty) &&
         originNodePathways.count(p => p.prerequisite.isEmpty) == 1){

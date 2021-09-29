@@ -14,7 +14,7 @@ object DeleteEvent {
 case class DeleteEvent() extends EditorForm {
 
   override def show(editorController: EditorController): Unit = {
-    val targetNodes = editorController.nodesControls.getNodesIds(n => n.events.nonEmpty).map(id => id.toString)
+    val targetNodes = editorController.nodesControls.nodesIds(n => n.events.nonEmpty).map(id => id.toString)
     if(targetNodes.nonEmpty){
       val form: Form = FormBuilder()
         .addComboField("Which story node contains the event?", targetNodes)

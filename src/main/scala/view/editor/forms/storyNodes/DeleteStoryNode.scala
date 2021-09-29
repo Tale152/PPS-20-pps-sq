@@ -14,7 +14,7 @@ object DeleteStoryNode {
 case class DeleteStoryNode() extends EditorForm {
 
   override def show(editorController: EditorController): Unit = {
-    val targetNodes = editorController.nodesControls.getNodesIds(n =>
+    val targetNodes = editorController.nodesControls.nodesIds(n =>
       editorController.nodesControls.isStoryNodeDeletable(n.id)
     )
     if(targetNodes.nonEmpty){

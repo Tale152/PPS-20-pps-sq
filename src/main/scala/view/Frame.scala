@@ -53,11 +53,11 @@ object Frame {
     box.add(squarePanel)
     box.add(Box.createVerticalGlue())
     masterPanel.add(box)
-    frame.setMinimumSize(scaleDimension(getSquareDimension, MinScreenSizePercentage))
+    frame.setMinimumSize(scaleDimension(squareDimension, MinScreenSizePercentage))
     frame.pack()
   }
 
-  def getSquareDimension: Dimension = {
+  def squareDimension: Dimension = {
     val screenSize = Toolkit.getDefaultToolkit.getScreenSize
     val side: Int = (Math.min(screenSize.height, screenSize.width) * SquareScreenPercentage).toInt
     new Dimension(side, side)
@@ -70,7 +70,7 @@ object Frame {
 
     this.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 3))
 
-    override def getMinimumSize: Dimension = getSquareDimension
+    override def getMinimumSize: Dimension = squareDimension
 
     override def getMaximumSize: Dimension = getMinimumSize
 

@@ -14,7 +14,7 @@ trait EditorControllerStoryNodes {
    * @return the MutableStoryNode associated with the id (if present)
    * @see [[model.nodes.StoryNode.MutableStoryNode]]
    */
-  def getStoryNode(id: Int): Option[MutableStoryNode]
+  def storyNode(id: Int): Option[MutableStoryNode]
 
   /**
    * Creates a new node in the story.
@@ -50,7 +50,7 @@ trait EditorControllerStoryNodes {
    * @param filter to apply to the StoryNodes
    * @return ordered StoryNodes id that satisfy the provided filter
    */
-  def getNodesIds(filter: StoryNode => Boolean): List[Int]
+  def nodesIds(filter: StoryNode => Boolean): List[Int]
 
   /**
    * Adds an Event to a StoryNode.
@@ -86,7 +86,7 @@ trait EditorControllerStoryNodes {
    * @param targetNode the node to target
    * @return the list of all the KeyItems found
    */
-  def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem]
+  def allKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem]
 
 }
 
@@ -95,7 +95,7 @@ object EditorControllerStoryNodes {
   private case class EditorControllerStoryNodesImpl(private val editorController: EditorController)
     extends EditorControllerStoryNodes {
 
-    override def getStoryNode(id: Int): Option[MutableStoryNode] = editorController.nodes._2.find(n => n.id == id)
+    override def storyNode(id: Int): Option[MutableStoryNode] = editorController.nodes._2.find(n => n.id == id)
 
     override def addNewStoryNode(startNodeId: Int, pathwayDescription: String, newNodeNarrative: String): Unit = {
       val newId: Int = editorController.nodes._2.maxBy(n => n.id).id + 1
@@ -107,7 +107,7 @@ object EditorControllerStoryNodes {
     }
 
     override def editExistingStoryNode(id: Int, nodeNarrative: String): Unit = {
-      getStoryNode(id).get.narrative = nodeNarrative
+      storyNode(id).get.narrative = nodeNarrative
       editorController.decorateGraphGUI()
     }
 
@@ -134,7 +134,7 @@ object EditorControllerStoryNodes {
     }
 
     override def isStoryNodeDeletable(id: Int): Boolean = {
-      val mutableStoryNode = getStoryNode(id)
+      val mutableStoryNode = storyNode(id)
       if (mutableStoryNode.isEmpty) {
         false
       } else {
@@ -154,33 +154,33 @@ object EditorControllerStoryNodes {
       }
     }
 
-    override def getNodesIds(filter: StoryNode => Boolean): List[Int] =
+    override def nodesIds(filter: StoryNode => Boolean): List[Int] =
       editorController.nodes._2.filter(n => filter(n)).map(n => n.id).toList.sortWith((i, j) => i < j)
 
     override def addEventToNode(nodeId: Int, event: Event): Unit = {
-      val node = getStoryNode(nodeId)
+      val node = storyNode(nodeId)
       node.get.events = node.get.events :+ event
       editorController.decorateGraphGUI()
     }
 
     override def deleteEventFromNode(nodeId: Int, event: Event): Unit = {
-      val node = getStoryNode(nodeId)
+      val node = storyNode(nodeId)
       node.get.events = node.get.events.filter(e => e != event)
       editorController.pathwaysControls.applyKeyItemPrerequisiteIntegrity()
       editorController.decorateGraphGUI()
     }
 
     override def addEnemyToNode(nodeId: Int, enemy: Enemy): Unit = {
-      getStoryNode(nodeId).get.enemy = Some(enemy)
+      storyNode(nodeId).get.enemy = Some(enemy)
       editorController.decorateGraphGUI()
     }
 
     override def deleteEnemyFromNode(nodeId: Int): Unit = {
-      getStoryNode(nodeId).get.enemy = None
+      storyNode(nodeId).get.enemy = None
       editorController.decorateGraphGUI()
     }
 
-    override def getAllKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem] = {
+    override def allKeyItemsBeforeNode(targetNode: MutableStoryNode): List[KeyItem] = {
 
       def stepBack(node: MutableStoryNode,
                    visitedNodes: Set[MutableStoryNode]): (List[KeyItem], Set[MutableStoryNode]) = {

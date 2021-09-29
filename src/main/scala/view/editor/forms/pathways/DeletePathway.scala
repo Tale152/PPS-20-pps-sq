@@ -14,7 +14,7 @@ object DeletePathway {
 case class DeletePathway() extends EditorForm {
 
   override def show(editorController: EditorController): Unit = {
-    val targetOriginNodes = editorController.nodesControls.getNodesIds(n =>
+    val targetOriginNodes = editorController.nodesControls.nodesIds(n =>
       editorController.pathwaysControls.containsDeletablePathways(n)
     )
     if(targetOriginNodes.nonEmpty){

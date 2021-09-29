@@ -28,8 +28,8 @@ case class NewStatModifierOkListener(override val form: Form,
       nodeId,
       StatEvent(form.elements(StatModifierDescriptionIndex).value,
         StatModifier(
-          getSelectedStatName(form.elements(StatModifierFormStatIndex).value),
-          getOnApplyStatModifier(
+          selectedStatName(form.elements(StatModifierFormStatIndex).value),
+          onApplyStatModifier(
             form.elements(StatModifierIncDecIndex).value,
             form.elements(StatModifierValueIndex).value.toInt
           )
@@ -42,7 +42,7 @@ case class NewStatModifierOkListener(override val form: Form,
     (NonEmptyString(form.elements(StatModifierDescriptionIndex).value), mustBeSpecified(TheDescription))
   )
 
-  private def getSelectedStatName(statNameStr: String): StatName = statNameStr match {
+  private def selectedStatName(statNameStr: String): StatName = statNameStr match {
     case WisdomString => StatName.Wisdom
     case CharismaString => StatName.Charisma
     case StrengthString => StatName.Strength
@@ -51,7 +51,7 @@ case class NewStatModifierOkListener(override val form: Form,
     case ConstitutionString => StatName.Constitution
   }
 
-  private def getOnApplyStatModifier(onApplyString: String, value: Int): Int => Int = onApplyString match {
+  private def onApplyStatModifier(onApplyString: String, value: Int): Int => Int = onApplyString match {
     case IncrementOption => IncrementOnApplyStatModifier(value)
     case DecrementOption => DecrementOnApplyStatModifier(value)
   }

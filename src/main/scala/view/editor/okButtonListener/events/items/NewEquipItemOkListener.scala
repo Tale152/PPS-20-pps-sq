@@ -10,7 +10,7 @@ import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.editor.okButtonListener.EditorOkFormButtonListenerStateless
 import view.editor.okButtonListener.events.items.NewItemCategoryOkListener._
-import view.editor.util.EquipItemTypeUtil.getEquipItemType
+import view.editor.util.EquipItemTypeUtil.equipItemType
 import view.editor.util.OperationStringUtil.{DecrementOption, IncrementOption}
 import view.form.Form
 
@@ -45,7 +45,7 @@ case class NewEquipItemOkListener(override val form: Form,
           StatModifier(Wisdom, getOnApplyStatModifier(
             form.elements(EquipEffectWisdomIndex).value, form.elements(EquipWisdomValueIndex).value.toInt))
         ),
-        getEquipItemType(form.elements(EquipTypeIndex).value)
+        equipItemType(form.elements(EquipTypeIndex).value)
       )
     ))
   }

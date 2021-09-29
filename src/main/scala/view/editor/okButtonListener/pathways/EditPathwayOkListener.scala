@@ -20,7 +20,7 @@ object EditPathwayOkListener {
       val newForm: Form = FormBuilder()
         .addComboField(
           "Which story node the pathway ends to?",
-          controller.nodesControls.getStoryNode(form.elements(OriginNodeIdIndex).value.toInt).get
+          controller.nodesControls.storyNode(form.elements(OriginNodeIdIndex).value.toInt).get
             .mutablePathways.toList.map(p => p.destinationNode.id.toString))
         .get(controller)
       newForm.setOkButtonListener(
