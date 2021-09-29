@@ -46,11 +46,20 @@ class HealthTest extends FlatTestSpec with SerializableSpec {
     healthEquals.hashCode() shouldEqual healthRight.hashCode()
   }
 
+
   it should "fail passing different health" in {
     val incorrectCurrentPS: Int = 30
     val healthWrong: Health = Health(incorrectCurrentPS)
     healthEquals == healthWrong shouldBe false
     healthEquals.hashCode() should not equal healthWrong.hashCode()
+  }
+
+  it should "work properly if the current PS are the same" in {
+    val healthRight: Health = Health(maxPs)
+    healthRight.currentPS = 1
+    healthEquals.currentPS = 1
+    healthEquals == healthRight shouldBe true
+    healthEquals.hashCode() shouldEqual healthRight.hashCode()
   }
 
   it should "fail passing different object" in {

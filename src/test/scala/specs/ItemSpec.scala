@@ -9,7 +9,7 @@ trait ItemSpec { this: FlatTestSpec =>
   val player : Character = CharacterFactory.mockPlayer()
   val enemy : Character = CharacterFactory.mockEnemy()
 
-  def insertItemInInventory(item: Item){
+  def insertItemInInventory(item: Item): Unit = {
     player.inventory = item :: player.inventory
     player.inventory should contain (item)
   }

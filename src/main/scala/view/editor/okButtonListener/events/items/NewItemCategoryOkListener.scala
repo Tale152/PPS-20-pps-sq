@@ -1,7 +1,12 @@
 package view.editor.okButtonListener.events.items
 
 import controller.editor.EditorController
-import view.editor.okButtonListener.events.NewEventOkListener.{ConsumableItemString, EquipItemString, ItemFormCategoryIndex, KeyItemString}
+import view.editor.okButtonListener.events.NewEventOkListener.{
+  ConsumableItemString,
+  EquipItemString,
+  ItemFormCategoryIndex,
+  KeyItemString
+}
 import view.editor.util.EquipItemTypeUtil
 import view.editor.util.OperationStringUtil.IncrementDecrementOptions
 import view.form.{Form, FormBuilder, OkFormButtonListener, OkFormButtonListenerUnconditional}

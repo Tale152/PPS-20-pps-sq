@@ -13,14 +13,14 @@ sealed trait Health extends Serializable {
 
 object Health {
 
-  def apply(maxPS: Int): Health = new HealthImpl(maxPS: Int)
+  def apply(maxPS: Int): Health = HealthImpl(maxPS: Int)
 
   /**
    * The implementation of Health.
    *
    * @param maxPS the max amount of total PS reachable.
    */
-  private class HealthImpl(override val maxPS: Int) extends Health {
+  private case class HealthImpl(override val maxPS: Int) extends Health {
     require(maxPS > 0)
     private var _currentPS = maxPS
 
@@ -34,19 +34,6 @@ object Health {
       } else {
         _currentPS = newCurrentPS
       }
-
-    def canEqual(other: Any): Boolean = other.isInstanceOf[HealthImpl]
-
-    override def equals(other: Any): Boolean = other match {
-      case that: HealthImpl =>
-        (that canEqual this) &&
-          _currentPS == that._currentPS &&
-          maxPS == that.maxPS
-      case _ => false
-    }
-
-    override def hashCode(): Int =
-      Seq(_currentPS, maxPS).map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
   }
 
 }

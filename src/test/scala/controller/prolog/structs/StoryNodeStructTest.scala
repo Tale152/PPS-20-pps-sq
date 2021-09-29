@@ -18,7 +18,7 @@ class StoryNodeStructTest extends FlatTestSpec {
    * Please @see [[controller.prolog.structs.StructUtil]] for a better understanding of the structure.
    */
   val startingNode: StoryNode = storyNodeWithAMiddleNodeAndTwoFinalNodes()
-  var engine: SqPrologEngine =  prolog.SqPrologEngine(startingNode)
+  val engine: SqPrologEngine =  prolog.SqPrologEngine(startingNode)
 
   "The Prolog engine" should "not find solution for a node with index 3" in {
     val invalidIndex = 4

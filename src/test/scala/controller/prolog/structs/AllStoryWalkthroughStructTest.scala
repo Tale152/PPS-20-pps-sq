@@ -20,7 +20,7 @@ class AllStoryWalkthroughStructTest extends FlatTestSpec {
    */
   val startingNode: StoryNode = storyNodeWithAMiddleNodeAndTwoFinalNodes()
 
-  var engine: SqPrologEngine = prolog.SqPrologEngine(startingNode)
+  val engine: SqPrologEngine = prolog.SqPrologEngine(startingNode)
 
   "The Prolog Engine" should "calculate correctly all the stories walkthrough" in {
     val solutions = engine.resolve(AllStoryWalkthroughStruct(0, new Var()))
