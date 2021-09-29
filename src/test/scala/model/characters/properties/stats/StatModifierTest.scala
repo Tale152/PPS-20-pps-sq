@@ -13,7 +13,7 @@ class StatModifierTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "change correctly the value of the stat it is referred to" in {
-    wisdomStatModifier.modifyStrategy(wisdomStat.value) shouldEqual 20
+    wisdomStatModifier.onApply(wisdomStat.value) shouldEqual 20
   }
 
   it should "not match other stat name" in {

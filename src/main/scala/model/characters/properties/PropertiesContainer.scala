@@ -61,7 +61,7 @@ object PropertiesContainer {
 
     override def modifiedStat(statName: StatName): Stat =
       statModifiers(statName)
-        .foldLeft(stat(statName))((stat, modifier) => Stat(modifier.modifyStrategy(stat.value),stat.statName))
+        .foldLeft(stat(statName))((stat, modifier) => Stat(modifier.onApply(stat.value),stat.statName))
 
   }
 

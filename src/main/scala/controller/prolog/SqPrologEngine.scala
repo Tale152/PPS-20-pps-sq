@@ -44,9 +44,9 @@ case class SqPrologEngine(storyNode: StoryNode) {
       }
     }
 
-    private def getNextSolution(getStrategy: () => SolveInfo): Option[A] = {
+    private def getNextSolution(onNextSolution: () => SolveInfo): Option[A] = {
       try {
-        Some(Structs(getStrategy().getSolution).asInstanceOf[A])
+        Some(Structs(onNextSolution().getSolution).asInstanceOf[A])
       } catch {
         case _: NoSolutionException => None
         case _: NoMoreSolutionException => None

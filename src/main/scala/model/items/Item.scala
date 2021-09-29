@@ -10,6 +10,13 @@ import model.items.EquipItemType.EquipItemType
 sealed trait Item extends Serializable with Ordered[Item] {
   val name: String
   val description: String
+
+  /**
+   * Template method that uses [[model.items.AbstractItem#applyEffect(java.lang.Character)]]
+   * and [[model.items.AbstractItem#postEffect(java.lang.Character)]].
+   * @param owner thw owner of the item.
+   * @param target the target of the item effect.
+   */
   def use(owner: Character)(target: Character = owner): Unit
 }
 
@@ -22,12 +29,7 @@ abstract class AbstractItem(override val name: String,
                             override val description: String) extends Item {
 
   require(Option(name).nonEmpty && name.trim.nonEmpty && Option(description).nonEmpty && description.trim.nonEmpty)
-  /**
-   * Template method that use [[model.items.AbstractItem#applyEffect(java.lang.Character)]]
-   * and [[model.items.AbstractItem#postEffect(java.lang.Character)]].
-   * @param owner thw owner of the item.
-   * @param target the target of the item effect.
-   */
+
   override def use(owner: Character)(target: Character = owner): Unit = {
     applyEffect(owner)(target)
     postEffect(owner)(target)
@@ -68,12 +70,12 @@ case class KeyItem(override val name: String,
  * An item that can be consumed during the storyline.
  * @param name the item name.
  * @param description the item description.
- * @param consumableStrategy the actual effect of the item when it's consumed.
+ * @param onConsume the actual effect of the item when it's consumed.
  */
 case class ConsumableItem(override val name: String,
                           override val description: String,
-                          consumableStrategy: Character => Unit) extends AbstractItem(name, description) {
-  override def applyEffect(owner: Character)(target: Character = owner): Unit = consumableStrategy(target)
+                          onConsume: Character => Unit) extends AbstractItem(name, description) {
+  override def applyEffect(owner: Character)(target: Character = owner): Unit = onConsume(target)
 
   override def postEffect(owner: Character)(target: Character = owner): Unit =
     owner.inventory = owner.inventory.filter(_ != this)
