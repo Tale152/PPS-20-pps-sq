@@ -2,7 +2,7 @@ package view.progressSaver
 
 import controller.game.subcontroller.ProgressSaverController
 import view.util.common.ControlsPanel
-import view.AbstractView
+import view.DeserializationView
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
@@ -15,7 +15,12 @@ import java.awt.event.ActionEvent
  *
  * @see [[controller.game.subcontroller.ProgressSaverController]]
  */
-sealed trait ProgressSaverView extends AbstractView {
+sealed trait ProgressSaverView extends DeserializationView {
+
+  /**
+   * Show a success feedback if the game is saved correctly.
+   * @param onOk function to apply when the game is saved correctly.
+   */
   def showSuccessFeedback(onOk: Unit => Unit): Unit
 }
 
@@ -36,14 +41,13 @@ object ProgressSaverView {
       )
     }
 
-    private def showFeedBackAndExecute(message: String, onOk: Unit => Unit): Unit = {
-      SqSwingDialog("Save progress", message, List(SqSwingButton("ok", (_: ActionEvent) => onOk())))
-    }
-
     override def showSuccessFeedback(onOk: Unit => Unit): Unit = {
-      showFeedBackAndExecute("Progress saved successfully", onOk)
+      SqSwingDialog(
+        "Save progress",
+        "Progress saved successfully",
+        List(SqSwingButton("ok", (_: ActionEvent) => onOk()))
+      )
     }
-
   }
 
   def apply(progressSaverController: ProgressSaverController): ProgressSaverView = {

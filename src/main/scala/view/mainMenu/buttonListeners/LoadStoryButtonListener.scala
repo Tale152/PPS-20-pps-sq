@@ -4,7 +4,7 @@ import controller.ApplicationController
 import controller.util.ResourceNames.{FileExtensions, storyDirectoryPath}
 import controller.util.ResourceNames.MainDirectory.RootGameDirectory
 import controller.util.FolderUtil.createFolderIfNotPresent
-import controller.util.serialization.DeserializerChecker.checkOnLoadingFile
+import controller.util.Checker.ActionChecker
 import controller.util.serialization.StoryNodeSerializer.{deserializeStory, serializeStory}
 import view.mainMenu.MainMenu
 import view.mainMenu.buttonListeners.MainMenuButtonListeners.LoadStoryChooserButtonListener
@@ -59,12 +59,16 @@ case class LoadStoryButtonListener(override val applicationController: Applicati
   }
 
   private def loadNewStory(file: File, newStoryFolderPath: String): Unit = {
-    checkOnLoadingFile(() => {
-      val deserialized = deserializeStory(file.getPath)
-      createFolderIfNotPresent(newStoryFolderPath)
-      serializeStory(deserialized, newStoryFolderPath + "/" + file.getName)
-      ApplicationController.execute()
-    }, "Error on story loading")
+    val deserializeNewStory: () => Unit =
+      () => {
+        createFolderIfNotPresent(newStoryFolderPath)
+        serializeStory(deserializeStory(file.getPath), newStoryFolderPath + "/" + file.getName)
+        ApplicationController.execute()
+      }
+    val deserializationError: () => Unit =
+      () => mainMenu.showDeserializationError("Error on story loading.")
+
+    deserializeNewStory ifFails deserializationError
   }
 
 }
