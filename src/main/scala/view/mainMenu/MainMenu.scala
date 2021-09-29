@@ -7,7 +7,7 @@ import controller.util.StringUtil.StringFormatUtil.swingFormatted
 import view.AbstractView
 import view.mainMenu.buttonListeners._
 import view.util.common.{ControlsPanel, Scrollable, VerticalButtons}
-import view.util.scalaQuestSwingComponents.dialog.SqYesNoSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
 import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingLabel}
 
 import java.awt.BorderLayout
@@ -28,6 +28,11 @@ sealed trait MainMenu extends AbstractView {
    */
   def setStories(stories: Set[String]): Unit
 
+  /**
+   * Show an error message if a certain file cannot be deserialized.
+   * @param errorTitle the error Title.
+   */
+  def showDeserializationErrorDialog(errorTitle: String): Unit
 }
 
 object MainMenu {
@@ -75,6 +80,12 @@ object MainMenu {
         (_: ActionEvent) => loadStoryWithProgress(storyPath, progressPath),
         (_: ActionEvent) => loadStoryNewGame(storyPath))
     }
+
+    override def showDeserializationErrorDialog(errorTitle: String): Unit =
+      SqSwingDialog(
+        errorTitle, "File structure is not suitable or corrupted",
+        List(SqSwingButton("ok", _ => {}))
+      )
   }
 
   def apply(applicationController: ApplicationController): MainMenu = new MainMenuImpl(applicationController)

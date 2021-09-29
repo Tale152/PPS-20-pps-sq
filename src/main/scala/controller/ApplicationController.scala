@@ -84,14 +84,20 @@ object ApplicationController extends ApplicationController {
   override def close(): Unit = System.exit(0)
 
   override def loadStoryNewGame(storyURI: String): Unit =
-    checkOnLoadingFile(() => PlayerConfigurationController(
-      ProgressSerializer.extractStoryName(storyURI),
-      deserializeStory(storyURI)).execute(), "Error on story loading")
+    checkOnLoadingFile(
+      action = () => PlayerConfigurationController(
+        ProgressSerializer.extractStoryName(storyURI),
+        deserializeStory(storyURI)).execute(),
+      failAction = () => mainMenu.showDeserializationErrorDialog("Error on story loading")
+    )
 
   override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit =
-    checkOnLoadingFile(() => GameMasterController(
-      ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
-    ).execute(), "Error on story loading story and progress")
+    checkOnLoadingFile(
+      action = () => GameMasterController(
+        ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
+      ).execute(),
+      failAction = () => mainMenu.showDeserializationErrorDialog("Error on story loading story and progress")
+    )
 
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
     Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))

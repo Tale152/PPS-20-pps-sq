@@ -12,15 +12,11 @@ object DeserializerChecker {
    * @param action      The action the caller is trying to perform.
    * @param dialogTitle the title of the dialog displayed in case the action throws exceptions.
    */
-  def checkOnLoadingFile(action: () => Unit, dialogTitle: String): Unit = {
+  def checkOnLoadingFile(action: () => Unit, failAction: () => Unit): Unit = {
     try {
       action()
     } catch {
-      case _: Exception =>
-        SqSwingDialog(
-          dialogTitle, "File structure is not suitable or corrupted",
-          List(SqSwingButton("ok", _ => {}))
-        )
+      case _: Exception => failAction()
     }
   }
 
