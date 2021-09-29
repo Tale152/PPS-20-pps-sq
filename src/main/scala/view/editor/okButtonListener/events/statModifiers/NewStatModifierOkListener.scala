@@ -2,8 +2,8 @@ package view.editor.okButtonListener.events.statModifiers
 
 import controller.editor.EditorController
 import model.characters.properties.stats.{
-  DecrementStatModifierStrategy,
-  IncrementStatModifierStrategy,
+  DecrementOnApplyStatModifier,
+  IncrementOnApplyStatModifier,
   StatModifier,
   StatName
 }
@@ -29,7 +29,7 @@ case class NewStatModifierOkListener(override val form: Form,
       StatEvent(form.elements(StatModifierDescriptionIndex).value,
         StatModifier(
           getSelectedStatName(form.elements(StatModifierFormStatIndex).value),
-          getStatModifierStrategy(
+          getOnApplyStatModifier(
             form.elements(StatModifierIncDecIndex).value,
             form.elements(StatModifierValueIndex).value.toInt
           )
@@ -51,9 +51,9 @@ case class NewStatModifierOkListener(override val form: Form,
     case ConstitutionString => StatName.Constitution
   }
 
-  private def getStatModifierStrategy(selectedStrategyStr: String, value: Int): Int => Int = selectedStrategyStr match {
-    case IncrementOption => IncrementStatModifierStrategy(value)
-    case DecrementOption => DecrementStatModifierStrategy(value)
+  private def getOnApplyStatModifier(onApplyString: String, value: Int): Int => Int = onApplyString match {
+    case IncrementOption => IncrementOnApplyStatModifier(value)
+    case DecrementOption => DecrementOnApplyStatModifier(value)
   }
 
 }

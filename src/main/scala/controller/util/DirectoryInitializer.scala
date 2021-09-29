@@ -12,15 +12,15 @@ object DirectoryInitializer {
   /**
    * Choose how to populate the story folder on first run.
    */
-  sealed trait StoryPopulationStrategy extends (String => Unit)
+  sealed trait StoryPopulation extends (String => Unit)
 
   /** Don't insert any story. */
-  case class NoStoryPopulation() extends StoryPopulationStrategy {
+  case class NoStoryPopulation() extends StoryPopulation {
     def apply(gameRootDirectory: String): Unit = {/* does nothing */}
   }
 
   /** Insert the default set of stories. */
-  case class DefaultStoryPopulation() extends StoryPopulationStrategy {
+  case class DefaultStoryPopulation() extends StoryPopulation {
     def apply(gameRootDirectory: String): Unit = {
       resourcesAsNamedInputStreamFromFolder(defaultStoriesDirectoryPath)
         .foreach(i => {
@@ -38,11 +38,11 @@ object DirectoryInitializer {
    * @param gameRootDirectory the root directory where all game data are stored.
    */
   def initializeGameFolderStructure(gameRootDirectory: String,
-                                    populationStrategy: StoryPopulationStrategy = DefaultStoryPopulation()): Unit = {
+                                    populate: StoryPopulation = DefaultStoryPopulation()): Unit = {
     createFolderIfNotPresent(gameDirectoryPath(gameRootDirectory))
     createFolderIfNotPresent(storyDirectoryPath(gameRootDirectory))
     if (filesNameInFolder(storyDirectoryPath(gameRootDirectory)).isEmpty) {
-      populationStrategy(gameRootDirectory)
+      populate(gameRootDirectory)
     }
   }
 }

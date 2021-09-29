@@ -1,7 +1,7 @@
 package view.editor.okButtonListener.events.items
 
 import controller.editor.EditorController
-import model.characters.properties.stats.{DecrementStatModifierStrategy, IncrementStatModifierStrategy, StatModifier}
+import model.characters.properties.stats.{DecrementOnApplyStatModifier, IncrementOnApplyStatModifier, StatModifier}
 import model.characters.properties.stats.StatName._
 import model.items.EquipItem
 import model.nodes.ItemEvent
@@ -21,9 +21,9 @@ case class NewEquipItemOkListener(override val form: Form,
 
   override def editorControllerAction(): Unit = {
 
-    def getModifierStrategy(selectedStrategyStr: String, value: Int): Int => Int = selectedStrategyStr match {
-      case IncrementOption => IncrementStatModifierStrategy(value)
-      case DecrementOption => DecrementStatModifierStrategy(value)
+    def getOnApplyStatModifier(onApplyString: String, value: Int): Int => Int = onApplyString match {
+      case IncrementOption => IncrementOnApplyStatModifier(value)
+      case DecrementOption => DecrementOnApplyStatModifier(value)
     }
 
     controller.nodesControls.addEventToNode(nodeId, ItemEvent(
@@ -32,17 +32,17 @@ case class NewEquipItemOkListener(override val form: Form,
         form.elements(ItemNameIndex).value,
         form.elements(ItemDescriptionIndex).value,
         List(
-          StatModifier(Charisma, getModifierStrategy(
+          StatModifier(Charisma, getOnApplyStatModifier(
             form.elements(EquipEffectCharismaIndex).value, form.elements(EquipCharismaValueIndex).value.toInt)),
-          StatModifier(Constitution, getModifierStrategy(
+          StatModifier(Constitution, getOnApplyStatModifier(
             form.elements(EquipEffectConstitutionIndex).value, form.elements(EquipConstitutionValueIndex).value.toInt)),
-          StatModifier(Dexterity, getModifierStrategy(
+          StatModifier(Dexterity, getOnApplyStatModifier(
             form.elements(EquipEffectDexterityIndex).value, form.elements(EquipDexterityValueIndex).value.toInt)),
-          StatModifier(Intelligence, getModifierStrategy(
+          StatModifier(Intelligence, getOnApplyStatModifier(
             form.elements(EquipEffectIntelligenceIndex).value, form.elements(EquipIntelligenceValueIndex).value.toInt)),
-          StatModifier(Strength, getModifierStrategy(
+          StatModifier(Strength, getOnApplyStatModifier(
             form.elements(EquipEffectStrengthIndex).value, form.elements(EquipStrengthValueIndex).value.toInt)),
-          StatModifier(Wisdom, getModifierStrategy(
+          StatModifier(Wisdom, getOnApplyStatModifier(
             form.elements(EquipEffectWisdomIndex).value, form.elements(EquipWisdomValueIndex).value.toInt))
         ),
         getEquipItemType(form.elements(EquipTypeIndex).value)

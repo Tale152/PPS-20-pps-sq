@@ -19,7 +19,7 @@ case class NewConsumableItemOkListener(override val form: Form,
 
   override def editorControllerAction(): Unit = {
 
-    def getConsumableStrategy(selectedStrategyStr: String, value: Int): Character => Unit = selectedStrategyStr match {
+    def getOnConsume(onConsumeString: String, value: Int): Character => Unit = onConsumeString match {
       case IncrementOption => IncrementHealthOnConsume(value)
       case DecrementOption => DecrementHealthOnConsume(value)
     }
@@ -29,7 +29,7 @@ case class NewConsumableItemOkListener(override val form: Form,
       ConsumableItem(
         form.elements(ItemNameIndex).value,
         form.elements(ItemDescriptionIndex).value,
-        getConsumableStrategy(
+        getOnConsume(
           form.elements(ConsumableEffectHealthIndex).value,
           form.elements(consumableHealthValueIndex).value.toInt)
       )

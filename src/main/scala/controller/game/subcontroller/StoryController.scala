@@ -120,8 +120,8 @@ object StoryController {
 
     /**
      * @param statName The name of the stat to consider.
-     * @param onApply  The strategy to apply last.
-     * @return the difference between the stat value before and after the application of statModifierStrategy
+     * @param onApply  The function to apply last.
+     * @return the difference between the stat value before and after the application of onApply
      *         formatted with + or - sign.
      */
     private def getStatDifferences(statName: StatName, onApply: Int => Int): String = {
