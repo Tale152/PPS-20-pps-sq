@@ -2,7 +2,7 @@ package view.editor.okButtonListener.events.items
 
 import controller.editor.EditorController
 import model.characters.Character
-import model.items.{ConsumableItem, DecrementHealthStrategy, IncrementHealthStrategy}
+import model.items.{ConsumableItem, DecrementHealthOnConsume, IncrementHealthOnConsume}
 import model.nodes.ItemEvent
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects._
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
@@ -19,9 +19,9 @@ case class NewConsumableItemOkListener(override val form: Form,
 
   override def editorControllerAction(): Unit = {
 
-    def getConsumableStrategy(selectedStrategyStr: String, value: Int): Character => Unit = selectedStrategyStr match {
-      case IncrementOption => IncrementHealthStrategy(value)
-      case DecrementOption => DecrementHealthStrategy(value)
+    def onConsume(onConsumeString: String, value: Int): Character => Unit = onConsumeString match {
+      case IncrementOption => IncrementHealthOnConsume(value)
+      case DecrementOption => DecrementHealthOnConsume(value)
     }
 
     controller.nodesControls.addEventToNode(nodeId, ItemEvent(
@@ -29,7 +29,7 @@ case class NewConsumableItemOkListener(override val form: Form,
       ConsumableItem(
         form.elements(ItemNameIndex).value,
         form.elements(ItemDescriptionIndex).value,
-        getConsumableStrategy(
+        onConsume(
           form.elements(ConsumableEffectHealthIndex).value,
           form.elements(consumableHealthValueIndex).value.toInt)
       )

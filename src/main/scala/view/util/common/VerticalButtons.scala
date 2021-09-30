@@ -28,11 +28,11 @@ case class VerticalButtons(buttonsList: List[SqSwingButton]) extends SqSwingGrid
   c.insets = new Insets(verticalPadding, 0, verticalPadding, 0)
 
   buttonsList.foreach(b => {
-    b.setText(getWrappedText(b, b.getText))
+    b.setText(wrappedText(b, b.getText))
     this.add(b, c)
   })
 
-  private def getWrappedText(button: AbstractButton, str: String): String = {
+  private def wrappedText(button: AbstractButton, str: String): String = {
     var newStr: String = str
     if (!str.contains(SwingNewLine) && (frame.getWidth - 5) <
       button.getFont.getStringBounds(str, fontRenderContext).getWidth.intValue

@@ -4,7 +4,7 @@ import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.ResourceNames
 import controller.util.StringUtil.StringFormatUtil.swingFormatted
-import view.AbstractView
+import view.DeserializationView
 import view.mainMenu.buttonListeners._
 import view.mainMenu.panels.TopPanel
 import view.util.common.StandardKeyListener.quitKeyListener
@@ -18,7 +18,7 @@ import java.awt.event.ActionEvent
 /**
  * Trait that represents the main menu of the game.
  */
-sealed trait MainMenu extends AbstractView {
+sealed trait MainMenu extends DeserializationView {
 
   /**
    * Method to display all the existing adventures.

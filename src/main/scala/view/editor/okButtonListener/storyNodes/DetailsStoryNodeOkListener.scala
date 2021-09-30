@@ -10,7 +10,7 @@ case class DetailsStoryNodeOkListener(override val form: Form, override val cont
 
   override def performAction(): Unit =
     StoryNodeDetailsView(
-      controller.nodesControls.getStoryNode(form.elements(StoryNodeIdIndex).value.toInt).get,
+      controller.nodesControls.storyNode(form.elements(StoryNodeIdIndex).value.toInt).get,
       controller
     ).render()
 }

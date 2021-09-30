@@ -9,7 +9,7 @@ import controller.util.ResourceNames.{storyDirectoryPath, storyProgressPath}
 import controller.util.FolderUtil.{deleteFolder, filesNameInFolder}
 import controller.util.audio.MusicPlayer
 import controller.util.serialization.ProgressSerializer
-import controller.util.serialization.DeserializerChecker.checkOnLoadingFile
+import controller.util.Checker.ActionChecker
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
 import view.mainMenu.MainMenu
@@ -83,15 +83,25 @@ object ApplicationController extends ApplicationController {
 
   override def close(): Unit = System.exit(0)
 
-  override def loadStoryNewGame(storyURI: String): Unit =
-    checkOnLoadingFile(() => PlayerConfigurationController(
+  override def loadStoryNewGame(storyURI: String): Unit = {
+    val deserializationOfStory: () => Unit = () => PlayerConfigurationController(
       ProgressSerializer.extractStoryName(storyURI),
-      deserializeStory(storyURI)).execute(), "Error on story loading")
+      deserializeStory(storyURI)).execute()
+    val deserializationError: () => Unit = () => mainMenu.showDeserializationError("Error on story loading")
 
-  override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit =
-    checkOnLoadingFile(() => GameMasterController(
-      ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
-    ).execute(), "Error on story loading story and progress")
+    deserializationOfStory ifFails deserializationError
+  }
+
+  override def loadStoryWithProgress(storyUri: String, progressUri: String): Unit = {
+    val deserializationOfStory: () => Unit =
+      () => GameMasterController(
+        ProgressSerializer.deserializeProgress(deserializeStory(storyUri), progressUri)
+      ).execute()
+    val deserializationError: () => Unit =
+      () => mainMenu.showDeserializationError("Error on story loading story and progress")
+
+    deserializationOfStory ifFails deserializationError
+  }
 
   override def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean =
     Files.exists(Paths.get(storyProgressPath(storyName)(baseDirectory)))

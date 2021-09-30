@@ -2,14 +2,14 @@ package model.items
 
 import model.characters.Character
 
-sealed trait ConsumableItemStrategy extends (Character => Unit)
+sealed trait OnConsume extends (Character => Unit)
 
-case class IncrementHealthStrategy(value: Int) extends ConsumableItemStrategy {
+case class IncrementHealthOnConsume(value: Int) extends OnConsume {
   override def apply(character: Character): Unit =
     character.properties.health.currentPS = character.properties.health.currentPS + value
 }
 
-case class DecrementHealthStrategy(value: Int) extends ConsumableItemStrategy {
+case class DecrementHealthOnConsume(value: Int) extends OnConsume {
   override def apply(character: Character): Unit =
     character.properties.health.currentPS = character.properties.health.currentPS - value
 }

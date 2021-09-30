@@ -23,7 +23,7 @@ abstract class FormElement(textLabel: String) extends SqSwingBoxPanel(BoxLayout.
   def value: String
 
   override def getMinimumSize: Dimension = new Dimension(
-    (Frame.getSquareDimension.width * 0.8).toInt,
+    (Frame.squareDimension.width * 0.8).toInt,
     super.getMinimumSize.height
   )
 

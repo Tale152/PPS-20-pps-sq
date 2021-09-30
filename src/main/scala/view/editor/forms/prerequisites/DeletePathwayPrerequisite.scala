@@ -16,7 +16,7 @@ case class DeletePathwayPrerequisite() extends EditorForm{
   override def show(editorController: EditorController): Unit = {
     val targetNodes = editorController
       .nodesControls
-      .getNodesIds(n => n.pathways.exists(p => p.prerequisite.nonEmpty))
+      .nodesIds(n => n.pathways.exists(p => p.prerequisite.nonEmpty))
       .map(n => n.toString)
     if(targetNodes.nonEmpty){
       val form: Form = FormBuilder()

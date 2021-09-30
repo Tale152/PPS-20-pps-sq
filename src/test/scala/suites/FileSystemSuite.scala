@@ -17,7 +17,7 @@ class FileSystemSuite extends Suites(new ApplicationControllerTest, new Director
     createFolderIfNotPresent(TempDirectory)
   }
 
-  override def afterAll() {
+  override def afterAll(): Unit = {
     super.afterAll()
     deleteFolder(TempDirectory)
   }

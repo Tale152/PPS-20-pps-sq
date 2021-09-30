@@ -29,7 +29,7 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
       ConsumableItem(
         undefinedItemName,
         itemDescription,
-        consumableStrategy
+        onConsume
       )
     }
   }
@@ -39,7 +39,7 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
       ConsumableItem(
         "",
         itemDescription,
-        consumableStrategy
+        onConsume
       )
     }
   }
@@ -49,7 +49,7 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
       ConsumableItem(
         itemName,
         undefinedItemDescription,
-        consumableStrategy
+        onConsume
       )
     }
   }
@@ -59,7 +59,7 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
       ConsumableItem(
         itemName,
         "",
-        consumableStrategy
+        onConsume
       )
     }
   }
@@ -88,7 +88,7 @@ class ConsumableItemTest extends FlatTestSpec with SerializableSpec with BeforeA
     val secondConsumableItem : ConsumableItem = ConsumableItem(
       itemName,
       itemDescription,
-      superConsumableStrategy
+      superOnConsume
     )
     insertItemInInventory(consumableItem)
     insertItemInInventory(secondConsumableItem)

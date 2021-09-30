@@ -13,7 +13,7 @@ class StatModifierTest extends FlatTestSpec with SerializableSpec {
   }
 
   it should "change correctly the value of the stat it is referred to" in {
-    wisdomStatModifier.modifyStrategy(wisdomStat.value) shouldEqual 20
+    wisdomStatModifier.onApply(wisdomStat.value) shouldEqual 20
   }
 
   it should "not match other stat name" in {
@@ -22,13 +22,13 @@ class StatModifierTest extends FlatTestSpec with SerializableSpec {
 
   "The stat name" should "not be undefined" in {
     intercept[IllegalArgumentException] {
-      StatModifier(StatFactory.undefinedStatName, StatModifierFactory.modifierStrategy)
+      StatModifier(StatFactory.undefinedStatName, StatModifierFactory.onApply)
     }
   }
 
-  "The modifier strategy" should "not be undefined" in {
+  "The onApply method" should "not be undefined" in {
     intercept[IllegalArgumentException]{
-      StatModifier(StatName.Dexterity, StatModifierFactory.undefinedModifierStrategy)
+      StatModifier(StatName.Dexterity, StatModifierFactory.undefinedOnApply)
     }
   }
 

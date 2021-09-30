@@ -27,7 +27,7 @@ object EditStoryNodeOkListener {
     override def performAction(): Unit =
       showEditStoryNodeFormFields(
         form.elements(NodeToEditIdIndex).value.toInt,
-        controller.nodesControls.getStoryNode(form.elements(NodeToEditIdIndex).value.toInt).get.narrative
+        controller.nodesControls.storyNode(form.elements(NodeToEditIdIndex).value.toInt).get.narrative
       )
   }
 

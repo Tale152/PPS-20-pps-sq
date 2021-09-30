@@ -22,7 +22,7 @@ object NewPathwayOkListener {
       val nextForm: Form = FormBuilder()
         .addComboField(
           "Which story node is the destination node?",
-          controller.nodesControls.getNodesIds(d =>
+          controller.nodesControls.nodesIds(d =>
             controller.pathwaysControls.isNewPathwayValid(originNodeId, d.id)
           ).map(id => id.toString)
         )

@@ -27,7 +27,7 @@ sealed trait InventoryView extends AbstractView {
   /**
    * Shows a dialog that inform the player that he suicide himself using an item.
    */
-  def setSuicide(): Unit
+  def committedSuicide(): Unit
 }
 
 object InventoryView {
@@ -51,7 +51,7 @@ object InventoryView {
       this.add(ControlsPanel(List(("b", ("[B] Back", _ => inventoryController.close())))), BorderLayout.SOUTH)
     }
 
-    override def setSuicide(): Unit = {
+    override def committedSuicide(): Unit = {
       SqSwingDialog("Oh no... You committed suicide!" ,
         "You used an item that ended your life... Be more careful next time...",
         List(SqSwingButton("ok", _ => inventoryController.close())),

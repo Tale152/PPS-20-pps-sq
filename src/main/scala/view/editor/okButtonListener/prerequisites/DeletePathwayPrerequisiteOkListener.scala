@@ -18,7 +18,7 @@ object DeletePathwayPrerequisiteOkListener {
       val nextForm: Form = FormBuilder()
         .addComboField(
           "Select the destination node of the pathway (id)",
-          controller.nodesControls.getStoryNode(form.elements.head.value.toInt).get
+          controller.nodesControls.storyNode(form.elements.head.value.toInt).get
             .mutablePathways.filter(p => p.prerequisite.nonEmpty)
             .map(p => p.destinationNode.id.toString).toSeq.toList
         )

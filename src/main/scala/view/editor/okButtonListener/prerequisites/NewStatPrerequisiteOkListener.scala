@@ -15,7 +15,7 @@ case class NewStatPrerequisiteOkListener(override val form: Form,
                                          destinationNodeId: Int)
   extends EditorOkFormButtonListenerUnconditional(form, controller) {
 
-  private def getPrerequisite(selectedPrerequisiteStr: String, requiredValue: Int): Prerequisite = {
+  private def prerequisite(selectedPrerequisiteStr: String, requiredValue: Int): Prerequisite = {
 
     def strToStatName(selectedPrerequisiteStr: String): StatName = selectedPrerequisiteStr match {
       case WisdomString => StatName.Wisdom
@@ -30,7 +30,7 @@ case class NewStatPrerequisiteOkListener(override val form: Form,
   }
 
   override def editorControllerAction(): Unit = controller.pathwaysControls.addPrerequisiteToPathway(
-    originNodeId, destinationNodeId, getPrerequisite(
+    originNodeId, destinationNodeId, prerequisite(
       form.elements(StatValueFormStatIndex).value, form.elements(StatValueFormValueIndex).value.toInt
     )
   )

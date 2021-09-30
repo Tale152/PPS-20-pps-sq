@@ -12,12 +12,12 @@ sealed trait StatDescriptor extends Serializable {
 /**
  * Implementation of StatModifier.
  * @param statName is the name of the stat the StatModifier is going to modify.
- * @param modifyStrategy is the function apply to the value of the stat. Returns the modified value of the stat.
+ * @param onApply is the function apply to the value of the stat. Returns the modified value of the stat.
  * @return the StatModifier.
  */
-case class StatModifier(override val statName: StatName, modifyStrategy: Int => Int)
+case class StatModifier(override val statName: StatName, onApply: Int => Int)
   extends StatDescriptor {
-  require(Option(statName).nonEmpty && Option(modifyStrategy).nonEmpty)
+  require(Option(statName).nonEmpty && Option(onApply).nonEmpty)
 }
 
 /**

@@ -19,7 +19,7 @@ class AllFinalNodeSolutionsStructTest extends FlatTestSpec {
    */
   val startingNode: StoryNode = storyNodeWithAMiddleNodeAndTwoFinalNodes()
 
-  var engine: SqPrologEngine =  prolog.SqPrologEngine(startingNode)
+  val engine: SqPrologEngine =  prolog.SqPrologEngine(startingNode)
 
   "The prolog engine" should " find all the solutions calling AllFinalNodeSolutions on the starting node" in {
     val solutions = engine.resolve(AllFinalNodeSolutionsStruct(0, new Var()))

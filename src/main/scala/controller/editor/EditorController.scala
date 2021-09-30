@@ -36,6 +36,7 @@ trait EditorController extends Controller {
 
   /**
    * Saves the current nodes structure serializing said structure in the provided path.
+   *
    * @param path where to serialize the nodes structure
    */
   def save(path: String): Unit
@@ -67,14 +68,15 @@ object EditorController {
   //used to tell to the GraphStream framework to collaborate with Swing
   System.setProperty("org.graphstream.ui", "swing")
 
-  private class EditorControllerImpl(routeNode: StoryNode) extends EditorController {
+  private class EditorControllerImpl
+  (routeNode: StoryNode)(override var nodes: (MutableStoryNode, Set[MutableStoryNode]) = routeNode.toMutable)
+    extends EditorController {
 
     private var printNodeNarrative: Boolean = false
     private var printEdgeLabel: Boolean = false
     private val editorView: EditorView = EditorView(this)
     override val nodesControls: EditorControllerStoryNodes = EditorControllerStoryNodes(this)
     override val pathwaysControls: EditorControllerPathways = EditorControllerPathways(this)
-    override var nodes: (MutableStoryNode, Set[MutableStoryNode]) = routeNode.toMutable
     override val graph: Graph = GraphBuilder.build(nodes._1)
 
     private val graphViewer: Viewer = graph.display() //opens the graph GUI and return a Viewer instance
@@ -103,7 +105,7 @@ object EditorController {
 
     def decorateGraphGUI(): Unit = {
       graph.nodes().forEach(n => {
-        if(n.getId != nodes._1.id.toString) {
+        if (n.getId != nodes._1.id.toString) {
           setupNonRouteNode(n.getId)
         } else {
           setupRouteNode()
@@ -163,5 +165,5 @@ object EditorController {
 
   }
 
-  def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)
+  def apply(routeNode: StoryNode): EditorController = new EditorControllerImpl(routeNode)()
 }

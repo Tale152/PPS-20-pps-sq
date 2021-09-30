@@ -49,7 +49,7 @@ object InventoryController {
 
     private def updateView(): Unit = {
       if(isPlayerDead){
-        inventoryView.setSuicide()
+        inventoryView.committedSuicide()
       } else {
         inventoryView.setItems(storyModel.player.inventory)
         inventoryView.render()

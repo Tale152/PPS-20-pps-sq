@@ -68,7 +68,7 @@ object StoryController {
           p => p.prerequisite.isEmpty || (p.prerequisite.nonEmpty && p.prerequisite.get(storyModel)))
       )
       storyView.render()
-      if(!eventsAlreadyProcessed){
+      if (!eventsAlreadyProcessed) {
         eventsAlreadyProcessed = true
         processEvents()
       }
@@ -110,7 +110,7 @@ object StoryController {
           storyModel.player.properties.statModifiers = storyModel.player.properties.statModifiers :+ statModifier
           swingFormatted(eventDescription + SwingNewLine +
             "Stat " + statModifier.statName + " modified " +
-            "(" + getStatDifferences(statModifier.statName, statModifier.modifyStrategy) + ")"
+            "(" + statDifferences(statModifier.statName, statModifier.onApply) + ")"
           )
         case ItemEvent(eventDescription, item) =>
           storyModel.player.inventory = storyModel.player.inventory :+ item
@@ -119,14 +119,14 @@ object StoryController {
     }
 
     /**
-     * @param statName             The name of the stat to consider.
-     * @param statModifierStrategy The strategy to apply last.
-     * @return the difference between the stat value before and after the application of statModifierStrategy
+     * @param statName The name of the stat to consider.
+     * @param onApply  The function to apply last.
+     * @return the difference between the stat value before and after the application of onApply
      *         formatted with + or - sign.
      */
-    private def getStatDifferences(statName: StatName, statModifierStrategy: Int => Int): String = {
+    private def statDifferences(statName: StatName, onApply: Int => Int): String = {
       val modifiedStatValue = storyModel.player.properties.modifiedStat(statName).value
-      val difference = statModifierStrategy(modifiedStatValue) - modifiedStatValue
+      val difference = onApply(modifiedStatValue) - modifiedStatValue
       if (difference >= 0) {
         "+" + difference
       } else {

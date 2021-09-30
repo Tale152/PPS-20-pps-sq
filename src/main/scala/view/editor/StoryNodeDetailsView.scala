@@ -84,12 +84,12 @@ case class StoryNodeDetailsView(private val storyNode: StoryNode, private val ed
 
   private def equipItemEventString(equipItem: EquipItem, itemEvent: ItemEvent): String = {
     val equipItemAdditionalText = "\nType: " + equipItem.equipItemType.toString +
-      "\nCharisma: " + equipItem.statModifiers.filter(m => m.statName == Charisma).head.modifyStrategy(0) +
-      "\nConstitution: " + equipItem.statModifiers.filter(m => m.statName == Constitution).head.modifyStrategy(0) +
-      "\nDexterity: " + equipItem.statModifiers.filter(m => m.statName == Dexterity).head.modifyStrategy(0) +
-      "\nIntelligence: " + equipItem.statModifiers.filter(m => m.statName == Intelligence).head.modifyStrategy(0) +
-      "\nStrength: " + equipItem.statModifiers.filter(m => m.statName == Strength).head.modifyStrategy(0) +
-      "\nWisdom: " + equipItem.statModifiers.filter(m => m.statName == Wisdom).head.modifyStrategy(0)
+      "\nCharisma: " + equipItem.statModifiers.filter(m => m.statName == Charisma).head.onApply(0) +
+      "\nConstitution: " + equipItem.statModifiers.filter(m => m.statName == Constitution).head.onApply(0) +
+      "\nDexterity: " + equipItem.statModifiers.filter(m => m.statName == Dexterity).head.onApply(0) +
+      "\nIntelligence: " + equipItem.statModifiers.filter(m => m.statName == Intelligence).head.onApply(0) +
+      "\nStrength: " + equipItem.statModifiers.filter(m => m.statName == Strength).head.onApply(0) +
+      "\nWisdom: " + equipItem.statModifiers.filter(m => m.statName == Wisdom).head.onApply(0)
     itemEventString(equipItem, itemEvent, equipItemAdditionalText)
   }
 
@@ -98,7 +98,7 @@ case class StoryNodeDetailsView(private val storyNode: StoryNode, private val ed
 
   private def statEventString(statEvent: StatEvent): String =
     "Stat modifier:" +
-      "\nEffect: " + statEvent.statModifier.statName.toString + " " + statEvent.statModifier.modifyStrategy(0) +
+      "\nEffect: " + statEvent.statModifier.statName.toString + " " + statEvent.statModifier.onApply(0) +
       "\nDescription:\n" + statEvent.description
 
 }

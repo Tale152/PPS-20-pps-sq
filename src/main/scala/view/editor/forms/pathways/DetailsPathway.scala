@@ -16,7 +16,7 @@ case class DetailsPathway() extends EditorForm {
     val form: Form = FormBuilder()
       .addComboField(
         "Which is the starting node?",
-        editorController.nodesControls.getNodesIds(n => n.pathways.nonEmpty).map(id => id.toString)
+        editorController.nodesControls.nodesIds(n => n.pathways.nonEmpty).map(id => id.toString)
       )
       .get(editorController)
     form.setOkButtonListener(DetailsPathwayOkListener(form, editorController))

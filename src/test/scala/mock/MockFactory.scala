@@ -20,10 +20,10 @@ object MockFactory {
   }
 
   object StatModifierFactory {
-    var undefinedModifierStrategy: Int => Int = _
-    val modifierStrategy: Int => Int = value => value * 2
+    var undefinedOnApply: Int => Int = _
+    val onApply: Int => Int = value => value * 2
 
-    def statModifier(statName: StatName): StatModifier = StatModifier(statName, modifierStrategy)
+    def statModifier(statName: StatName): StatModifier = StatModifier(statName, onApply)
 
     def statModifiers(statNames: StatName*): List[StatModifier] = {
       var modifiers: List[StatModifier] = List()
@@ -64,12 +64,12 @@ object MockFactory {
     val itemName: String = "name"
     val itemDescription: String = "description"
 
-    val consumableStrategy: Character => Unit = c => c.properties.health.currentPS += 10
-    val superConsumableStrategy: Character => Unit = c => c.properties.health.currentPS += 50
+    val onConsume: Character => Unit = c => c.properties.health.currentPS += 10
+    val superOnConsume: Character => Unit = c => c.properties.health.currentPS += 50 // 💪
 
     val mockKeyItem: KeyItem = KeyItem(itemName, itemDescription)
-    val mockConsumableItem: ConsumableItem = ConsumableItem(itemName, itemDescription, consumableStrategy)
-    val mockSuperConsumableItem: ConsumableItem = ConsumableItem(itemName, itemDescription, superConsumableStrategy)
+    val mockConsumableItem: ConsumableItem = ConsumableItem(itemName, itemDescription, onConsume)
+    val mockSuperConsumableItem: ConsumableItem = ConsumableItem(itemName, itemDescription, superOnConsume)
 
     def mockEquipItem(equipType: EquipItemType): EquipItem =
       EquipItem(itemName, itemDescription, List(), equipType)

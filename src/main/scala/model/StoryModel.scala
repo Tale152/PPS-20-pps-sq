@@ -91,10 +91,10 @@ object StoryModel {
 
       private def checkNoDuplicateIdInNodes(nodes: Set[StoryNode]): Boolean = nodes.size == nodes.map(n => n.id).size
 
-      private def getReachableNodes(node: StoryNode): Set[StoryNode] = {
+      private def reachableNodes(node: StoryNode): Set[StoryNode] = {
 
         def _visitAllPathways(node: StoryNode): Set[Set[StoryNode]] = {
-          for (pathway <- node.pathways) yield getReachableNodes(pathway.destinationNode)
+          for (pathway <- node.pathways) yield reachableNodes(pathway.destinationNode)
         }
 
         Set(node) ++ _visitAllPathways(node).foldLeft[Set[StoryNode]](Set.empty[StoryNode])(_ ++ _)
@@ -109,7 +109,7 @@ object StoryModel {
         require(
             storyName.trim.nonEmpty
             && currentHistory.nonEmpty
-            && checkNoDuplicateIdInNodes(getReachableNodes(currentHistory.head))
+            && checkNoDuplicateIdInNodes(reachableNodes(currentHistory.head))
             && isHistoryValid(currentHistory)
         )
     }

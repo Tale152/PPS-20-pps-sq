@@ -5,8 +5,7 @@ import model.characters.properties.stats.StatModifier
 import model.items.Item
 
 /**
- * Contains the strategy to pass to StoryNode's events.
- *
+ * Trait that represents an Event inside a StoryNode.
  * @see [[model.nodes.StoryNode]]
  */
 sealed trait Event extends (StoryModel => Unit) with Serializable {

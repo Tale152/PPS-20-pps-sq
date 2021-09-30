@@ -1,6 +1,7 @@
 package view
 
-import view.util.scalaQuestSwingComponents.SqSwingPanel
+import view.util.scalaQuestSwingComponents.{SqSwingButton, SqSwingPanel}
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 /**
  * A trait that represents a visual interface. The user interacts with the View.
@@ -35,3 +36,17 @@ abstract class AbstractView extends SqSwingPanel with View {
   def populateView(): Unit
 
 }
+
+trait DeserializationView extends AbstractView {
+
+  /**
+   * Show an error message if a certain file cannot be deserialized.
+   * @param errorTitle the error Title.
+   */
+  def showDeserializationError(errorTitle: String): Unit =
+    SqSwingDialog(
+      errorTitle, "File structure is not suitable or corrupted",
+      List(SqSwingButton("ok", _ => {}))
+    )
+}
+

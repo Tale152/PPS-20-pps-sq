@@ -16,7 +16,7 @@ case class EditStoryNode() extends EditorForm {
     val form: Form = FormBuilder()
       .addComboField(
         "Which story node would you like to edit? (id)",
-        editorController.nodesControls.getNodesIds(_ => true).map(id => id.toString)
+        editorController.nodesControls.nodesIds(_ => true).map(id => id.toString)
       )
       .get(editorController)
     form.setOkButtonListener(EditStoryNodeOkListener(form, editorController))
