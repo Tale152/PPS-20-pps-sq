@@ -59,6 +59,123 @@ L'editor presenta lo stesso comportamento per tutte le operazioni possibili (con
 
 Viene dinamicamente generato un form finalizzato all'inserimento dei dati necessari al compimento dell'operazione; nel momento in cui l'utente desideri confermare l'inserimento dei dati questi ultimi vengono valutati e, in caso positivo, il model viene aggiornato (così come la rappresentazione grafica di tale model). 
 
+## Scelte Rilevanti (Model)
+
+<div align="center">
+<img src="https://images2.imgbox.com/09/fd/EfyJaqYw_o.png" alt="Diagramma delle classi - Model">
+<p align="center">Diagramma delle classi - Model</p>
+</div>
+Nelle prossime sezioni verranno approfondite delle sotto parti specifiche del Model e le motivazioni alla base delle scelte adottate.
+
+#### Character
+
+<div align="center">
+<img src="https://images2.imgbox.com/85/ab/DVS26CFp_o.png" alt="Diagramma delle classi - Sezione Character">
+<p align="center">Diagramma delle classi - Sezione Character</p>
+</div>
+
+Un _Character_ rappresenta un personaggio all'interno di una storia.
+Esistono due possibili implementazioni di _Character_:
+- __Player__: Rappresenta l'utente reale, ne esiste solo uno all'interno di una partita.
+- __Enemy__: Rappresenta un avversario che si può incontrare all'interno di una storia.
+
+Ogni _Character_ è definito da alcune caratteristiche:
+- un nome;
+- un inventario, ovvero una collezione di _Item_;
+- un equipaggiamento, ovvero una collezione di _EquipItem_ (gli oggetti possono essere equipaggiati solo se si trovano all'interno dell'inventario).
+
+Inoltre ogni _Character_ possiede delle proprietà, le quali sono racchiuse all'interno di un componente wrapper denominato _PropertiesContainer_, al cui interno sono presenti:
+
+- Un ulteriore componente utilizzato per la gestione dei punti vita, denominato _Health_, il quale contiene:
+  * Il valore massimo di punti vita del personaggio;
+  * Il valore corrente di punti vita del personaggio;
+- Le _Stat_, ovvero delle statistiche che influiscono sulla storia in base al loro valore;
+- Gli _StatModifier_, ovvero dei modificatori che influenzano sui valori delle statistiche originali.
+
+#### Stat
+<div align="center">
+<img src="https://images2.imgbox.com/a4/e9/RnHNUk4O_o.png" alt="Diagramma delle classi - Sezione Stat">
+<p align="center">Diagramma delle classi - Sezione Stat</p>
+</div>
+
+L'interfaccia _StatDescriptor_ rappresenta un construtto comune per le implementazioni che agiscono sulle statistiche:
+- __Stat__: Rappresenta la statistica di un Character.
+- __StatModifier__: Rappresenta il modificatore di una statistica, modificando le _Stat_ tramite una strategy.
+  
+Attualmente esistono sei tipi di statistiche (_StatName_) ed ogni Character deve obbligatoriamente possedere una _Stat_ per ognuna:
+- Charisma
+- Constitution
+- Dexterity
+- Intelligence
+- Strength
+- Wisdom
+  
+Ciò però non vincola però l'aggiunta o la rimozioni di nuove statistiche nel sistema.
+
+#### Item
+
+<div align="center">
+<img src="https://images2.imgbox.com/38/2b/VMq0ckAG_o.png" alt="Diagramma delle classi - Sezione Item">
+<p align="center">Diagramma delle classi - Sezione Item</p>
+</div>
+
+L'interfaccia Item rappresenta uno strumento all'interno di una storia.  
+Un Character può possedere zero o tanti Item che possono essere utilizzati durante la navigazione della storia o in battaglia.
+Esistono tre possibili implementazioni dell'interfaccia:
+
+- __EquipItem__: Uno strumento che può essere equipaggiato. Un _Character_ può equipaggiare diversi _EquipItem_, ma solo se sono di tipi (_EquipItemType_) diversi (non si possono per esempio equipaggiare due _EquipItem_ di tipo _Weapon_ contemporaneamente). Un EquipItem applica degli _StatModifier_ al Character che lo equipaggia, influenzando quindi le sue statistische;
+- __ConsumableItem__: Uno strumento a singolo utilizzo. Una volta utilizzato verrà rimosso dall'inventario del possessore. L'oggetto ha un effetto sul bersaglio che viene scelto tramite l'interfaccia _OnConsume_, che rappresenta la strategy da applicare;
+- __KeyItem__: Uno strumento che non si può utilizzare, ma può essere richiesta la sua presenza all'interno dell'inventario per soddisfare dei Prerequisite all'interno della storia.
+
+La classe __AbstractItem__ è una classe astratta utilizzata per definire la struttura del metodo _use()_, il quale diventa un template method diviso in due fasi:
+1. Tramite il metodo _applyEffect()_ si applicano gli effetti dello strumento;
+2. Tramite il metodo _postEffect()_ si specifica cosa accade una volta che gli effetti sono stati applicati.
+
+#### Event
+
+<div align="center">
+<img src="https://images2.imgbox.com/b3/11/Ih55E50Y_o.png" alt="Diag ramma delle classi - Sezione Event">
+<p align="center">Diagramma delle classi - Sezione Event</p>
+</div>
+
+La classe _Event_ rappresenta un'evento che può essere contenuto all'interno di uno _StoryNode_. Quando si accede ad uno _StoryNode_ vengono eseguiti tutti gli eventi contenuti tramite il rispettivo metodo _handle()_, che può potenzialmente agire su ogni aspetto dello _StoryModel_ corrente.
+Gli eventi sono irreversibili e non si può evitare che vengano eseguiti se si entra nello _StoryNode_ che li contiene.
+Sono state realizzate due implementazioni:
+- __StatEvent__: Un evento che influenza le statistiche del _Player_ tramite uno _StatModifier_ (es: "Sei inciampato cercando di fuggire" [-5 Dexterity])
+- __ItemEvent__: Un evento che inserisce nell'inventario del _Player_ uno strumento. (es: "Hai trovato il Sacro Graal")
+
+#### Storia 
+<div align="center">
+<img src="https://images2.imgbox.com/b5/35/UqT5Vidt_o.png" alt="Diagramma delle classi - Sezione Storia">
+<p align="center">Diagramma delle classi - Sezione Storia</p>
+</div>
+
+La struttura principale da cui è composta una storia è _StoryNode_.  
+Uno _StoryNode_ rappresenta un nodo all'interno della storia, in cui il giocatore legge gli avvenimenti (denominati _narrative_) e sceglie di conseguenza un _Pathway_ che lo porterà in un altro _StoryNode_.  
+Lo _StoryNode_ è definito univocamente da un ID numerico non visibile durante il gioco e può opzionalmente contenere degli eventi ed un nemico.  
+  
+Con _Pathway_ definiamo il percorso da uno _StoryNode_ al successivo; la descrizione esprime l'azione che si è deciso di intraprendere.  
+Non tutti i _Pathway_ sono sempre visibili all'utente mentre gioca: alcuni compaiono solo se un determinato _Prerequisite_ è soddisfatto.
+_Prerequisite_ può potenzialmente agire su ogni aspetto dello _StoryModel_ corrente. 
+   
+Le interfacce _MutableStoryNode_ e _MutablePathway_ sono versioni mutabili delle interfacce apena illustrate, utilizzate solo all'interno dell'editor per facilitare le operazioni di creazione di una nuova storia.  
+
+L'interfaccia _StoryModel_ rappresenta il contenitore in cui sono presenti tutte le informazioni utilizzate dai Controller per effettuare operazioni durante una partita.
+In particolare contiene:
+- Il nodo corrente della storia.
+- Una lista di tutti i nodi attraversati fino al nodo corrente.
+- Il nome della storia.
+- L'istanza di _Player_ che sta giocando.
+
+_Progress_ è una classe che serve per salvare il progresso di una partita. Non tutte le informazioni contenute nello StoryModel sono necessarie, vengono salvati solo:
+- Lo stato del _Player_;
+- Tutti gli ID dei nodi visitati, in ordine.
+
+
+## Scelte Rilevanti (Controller)
+
+## Scelte Rilevanti (View)
+
 ## Organizzazione del codice
 
 <!-- NOTA: corredato da pochi ma efficaci diagrammi -->
