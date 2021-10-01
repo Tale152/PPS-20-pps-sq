@@ -174,6 +174,36 @@ _Progress_ è una classe che serve per salvare il progresso di una partita. Non 
 
 ## Scelte Rilevanti (Controller)
 
+<div align="center">
+<img src="https://images2.imgbox.com/58/e0/Xd6b4LFE_o.png" alt="Diagramma delle classi - Controller">
+<p align="center">Diagramma delle classi - Controller</p>
+</div>
+Nelle prossime sezioni verranno approfondite delle sotto parti specifiche del Controller e le motivazioni alla base delle scelte adottate.
+
+#### Application Controller
+
+<div align="center">
+<img src="https://images2.imgbox.com/f9/f5/OYt2n0p5_o.png" alt="Diagramma delle classi - Sezione Menu Principale">
+<p align="center">Diagramma delle classi - Sezione Menu Principale</p>
+ 
+#### Game Controller
+
+<div align="center">
+<img src="https://images2.imgbox.com/b3/87/K9t2eOcm_o.png" alt="Diagramma delle classi - Sezione di Gioco">
+<p align="center">Diagramma delle classi - Sezione di Gioco</p>
+
+#### Editor Controller
+
+<div align="center">
+<img src="https://images2.imgbox.com/56/51/GRSsNAHM_o.png" alt="Diagramma delle classi - Sezione Editor">
+<p align="center">Diagramma delle classi - Sezione Editor</p>
+
+#### Explorer Controller
+<div align="center">
+<img src="https://images2.imgbox.com/c2/4a/Z0DYiB5i_o.png" alt="Diagramma delle classi - Sezione Esploratore">
+<p align="center">Diagramma delle classi - Sezione Esploratore</p>
+
+
 ## Scelte Rilevanti (View)
 
 ## Organizzazione del codice
