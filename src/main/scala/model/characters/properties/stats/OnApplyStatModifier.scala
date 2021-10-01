@@ -10,7 +10,7 @@ sealed trait OnApplyStatModifier extends (Int => Int)
  *
  * @param value the value to add to the current Stat value.
  */
-case class IncrementOnApplyStatModifier(value: Int) extends OnApplyStatModifier {
+case class IncrementOnApplyStatModifier(private val value: Int) extends OnApplyStatModifier {
   override def apply(v: Int): Int = v + value
 }
 
@@ -19,6 +19,6 @@ case class IncrementOnApplyStatModifier(value: Int) extends OnApplyStatModifier 
  *
  * @param value the value to subtract to the current Stat value.
  */
-case class DecrementOnApplyStatModifier(value: Int) extends OnApplyStatModifier {
+case class DecrementOnApplyStatModifier(private val value: Int) extends OnApplyStatModifier {
   override def apply(v: Int): Int = v - value
 }
