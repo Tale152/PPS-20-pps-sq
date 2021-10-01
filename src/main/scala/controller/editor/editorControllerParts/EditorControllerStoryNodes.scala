@@ -68,16 +68,16 @@ trait EditorControllerStoryNodes {
 
   /**
    * Adds an Enemy to a StoryNode.
-   * @param nodeId the id of the StoryNode where the Enemy will be added
+   * @param id the id of the StoryNode where the Enemy will be added
    * @param enemy the Enemy to add to the target StoryNode
    */
-  def addEnemyToNode(nodeId: Int, enemy: Enemy): Unit
+  def addEnemyToNode(id: Int, enemy: Enemy): Unit
 
   /**
    * Deletes an Enemy from a StoryNode.
-   * @param nodeId the id of the StoryNode where the Enemy will be deleted
+   * @param id the id of the StoryNode where the Enemy will be deleted
    */
-  def deleteEnemyFromNode(nodeId: Int): Unit
+  def deleteEnemyFromNode(id: Int): Unit
 
   /**
    * Returns all KeyItems in the StoryNodes that come before the targetNode (included).
@@ -170,13 +170,13 @@ object EditorControllerStoryNodes {
       editorController.decorateGraphGUI()
     }
 
-    override def addEnemyToNode(nodeId: Int, enemy: Enemy): Unit = {
-      storyNode(nodeId).get.enemy = Some(enemy)
+    override def addEnemyToNode(id: Int, enemy: Enemy): Unit = {
+      storyNode(id).get.enemy = Some(enemy)
       editorController.decorateGraphGUI()
     }
 
-    override def deleteEnemyFromNode(nodeId: Int): Unit = {
-      storyNode(nodeId).get.enemy = None
+    override def deleteEnemyFromNode(id: Int): Unit = {
+      storyNode(id).get.enemy = None
       editorController.decorateGraphGUI()
     }
 
