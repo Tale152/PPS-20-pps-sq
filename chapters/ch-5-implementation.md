@@ -120,8 +120,12 @@ Per alcuni componenti del sistema non è stato possibile creare test automatizza
 Durante queste sessioni, verificatesi soprattuto durante gli sprint finali, si è cercato di portare il sistema in molti casi limite per verificare che il comportamento effettivo fosse anche quello previsto.
 
 ##### Sistemi operativi utilizzati
-Il sistema è stato utilizzato e testare su diversi sistemi operativi, in particolare:
-- Windows 10 è stato il sistema operativo di riferimento per quanto riguarda ambienti Windows.
+Il sistema è stato utilizzato e testato in equal misura su diversi sistemi operativi, in particolare:
+- Windows 10 è stato il sistema operativo di riferimento per quanto riguarda gli ambienti Windows.
+- Per gli ambienti Linux sono stati utilizzati due diverse distribuzioni:
+  * Manjaro KDE Plasma 21.1.4
+  * Ubuntu 21.04
+- Per quanto riguarda gli ambienti macOS è stato utilizzato macOS High Sierra 10.13.6
 
 ## Suddivisione del lavoro
 <!-- NOTA: per ogni studente, una sotto-sezione descrittiva di cosa fatto/co-fatto e con chi, e descrizione di aspetti implementativi importanti non già presenti nel design)-->
