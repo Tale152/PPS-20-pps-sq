@@ -187,6 +187,16 @@ Nelle prossime sezioni verranno approfondite delle sotto parti specifiche del Co
 <p align="center">Diagramma delle classi - Sezione Menu Principale</p>
 </div>
 
+_ApplicationController_ è il controller collegato al Menu principale del gioco.
+
+La sua funzione principale e fornire metodi per manipolare l'insieme di storie disponibili o per spostarsi ad altre schermate passando il controllo ad altri _Controller_.
+
+In particolare:
+- permette di andare alla schermata dell'Editor (passando il controllo a _EditorController_);
+- permette di controllare se è disponibile un file di salvataggio per una determinata storia;
+- permette di caricare una storia disponibile, con o senza salvataggio, passando successivamente il controllo a _GameMasterController_.
+- permette di aggiungere il file di una storia sul file system alla collezione di storie disponibili.
+- permette di cancellare una storia dalla collezione di storie disponibili.
 #### Game Controller
 
 <div align="center">
@@ -194,12 +204,16 @@ Nelle prossime sezioni verranno approfondite delle sotto parti specifiche del Co
 <p align="center">Diagramma delle classi - Sezione di Gioco</p>
 </div>
 
+TODO
+
 #### Editor Controller
 
 <div align="center">
 <img src="https://images2.imgbox.com/56/51/GRSsNAHM_o.png" alt="Diagramma delle classi - Sezione Editor">
 <p align="center">Diagramma delle classi - Sezione Editor</p>
 </div>
+
+TODO
 
 #### Explorer Controller
 
@@ -212,7 +226,7 @@ _ExplorerController_ è il controller che si occupa di effettuare operazioni e r
 > **_Significato dei termini utilizzati_** :
 > - __Path__: con il termine Path si intende un percorso esistente tra un nodo ed un altro. Non coincide con il termine Pathway, utilizzato per indicare il collegamento esistente tra due nodi. Il termine Path si può vedere come un insieme ordinato composto da almeno un Pathway.
 > - __Outcome__: con il termine Outcome si intende un insieme ordinato di ID, dove ogni ID corrisponde all'identificativo di uno _StoryNode_.
-> - __Walkthrough__: con il termine Walkthrough di indica invece un insieme ordinato di stringhe, dove ogni stringa rappresenta la narrazione di uno _StoryNode_ seguita dalla descrizione di un _Pathway_ e così via. 
+> - __Walkthrough__: con il termine Walkthrough si indica invece un insieme ordinato di stringhe, dove ogni stringa rappresenta la narrazione di uno _StoryNode_ seguita dalla descrizione di un _Pathway_ e così via. 
 
 L'interfaccia mette a disposizione metodi utili per reperire informazioni come:
 
