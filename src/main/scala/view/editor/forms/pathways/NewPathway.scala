@@ -14,7 +14,7 @@ object NewPathway {
 case class NewPathway() extends EditorForm {
 
   override def show(editorController: EditorController): Unit = {
-    val targetNodes = editorController.pathwaysControls.getValidNodesForPathwayOrigin
+    val targetNodes = editorController.pathwaysControls.getValidNodesForPathwayStart
     if(targetNodes.nonEmpty){
       val form: Form = FormBuilder()
         .addComboField(

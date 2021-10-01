@@ -138,7 +138,7 @@ object EditorControllerStoryNodes {
       if (mutableStoryNode.isEmpty) {
         false
       } else {
-        val precedingNodes = editorController.pathwaysControls.getAllOriginNodes(mutableStoryNode.get.id)
+        val precedingNodes = editorController.pathwaysControls.getAllStartNodes(mutableStoryNode.get.id)
         if (precedingNodes.isEmpty) {
           //is route node
           false
@@ -190,7 +190,7 @@ object EditorControllerStoryNodes {
           .collect { case itemEvent: ItemEvent => itemEvent.item }
           .collect { case keyItem: KeyItem => keyItem }
         //for each predecessor of this node
-        editorController.pathwaysControls.getAllOriginNodes(node.id).foreach(n => {
+        editorController.pathwaysControls.getAllStartNodes(node.id).foreach(n => {
           //only if the predecessor hasn't been visited yet
           if (!visitedNodes.contains(n)) {
             val nodeRes = stepBack(n, _visitedNodes)

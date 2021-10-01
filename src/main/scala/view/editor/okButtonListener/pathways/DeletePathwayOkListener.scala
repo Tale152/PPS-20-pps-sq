@@ -22,7 +22,7 @@ object DeletePathwayOkListener {
           originNodePathways = originNodePathways.filter(p => p.prerequisite.isEmpty)
       }
       originNodePathways = originNodePathways.filter(p =>
-        controller.pathwaysControls.getAllOriginNodes(p.destinationNode.id).size > 1
+        controller.pathwaysControls.getAllStartNodes(p.destinationNode.id).size > 1
       )
       val newForm: Form = FormBuilder()
         .addComboField(
