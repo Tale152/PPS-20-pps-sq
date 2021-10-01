@@ -119,6 +119,10 @@ Come illustrato [precedentemente](#test-automatizzati) non è stato possibile au
 Per alcuni componenti del sistema non è stato possibile creare test automatizzati. Sono comunque state realizzate delle sessioni di testing in cui si è scandagliato il sistema in funzione per cercare bug, inesattezze o comportamenti non attesi.  
 Durante queste sessioni, verificatesi soprattuto durante gli sprint finali, si è cercato di portare il sistema in molti casi limite per verificare che il comportamento effettivo fosse anche quello previsto.
 
+##### Sistemi operativi utilizzati
+Il sistema è stato utilizzato e testare su diversi sistemi operativi, in particolare:
+- Windows 10 è stato il sistema operativo di riferimento per quanto riguarda ambienti Windows.
+
 ## Suddivisione del lavoro
 <!-- NOTA: per ogni studente, una sotto-sezione descrittiva di cosa fatto/co-fatto e con chi, e descrizione di aspetti implementativi importanti non già presenti nel design)-->
 ### Filaseta Angelo
