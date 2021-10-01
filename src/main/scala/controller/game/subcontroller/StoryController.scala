@@ -28,7 +28,7 @@ sealed trait StoryController extends SubController {
    * Calls the [[controller.game.GameMasterController]] to grant control to the
    * [[controller.game.subcontroller.PlayerInfoController]].
    */
-  def goToStatStatus(): Unit
+  def goToPlayerInfo(): Unit
 
   /**
    * Calls the [[controller.game.GameMasterController]] to grant control to the
@@ -85,7 +85,7 @@ object StoryController {
       redirect()
     }
 
-    override def goToStatStatus(): Unit = gameMasterController.executeOperation(OperationType.PlayerInfoOperation)
+    override def goToPlayerInfo(): Unit = gameMasterController.executeOperation(OperationType.PlayerInfoOperation)
 
     override def goToHistory(): Unit = gameMasterController.executeOperation(OperationType.HistoryOperation)
 
