@@ -25,11 +25,11 @@ object MainMenuButtonListeners {
    * [[javax.swing.JFileChooser]] used to load a Story.
    * @param applicationController The Application Controller.
    */
-  private[mainMenu] abstract class LoadStoryChooserButtonListener
+  private[mainMenu] abstract class AddStoryChooserButtonListener
     (override val applicationController: ApplicationController)
     extends MainMenuButtonListener(applicationController) {
 
-    val loadStoryFileChooser: JFileChooser = SqSwingStoryFileChooser("Load story")
+    val addStoryFileChooser: JFileChooser = SqSwingStoryFileChooser("Add story")
 
   }
 }
