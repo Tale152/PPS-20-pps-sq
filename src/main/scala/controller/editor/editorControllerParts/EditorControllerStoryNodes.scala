@@ -68,16 +68,16 @@ trait EditorControllerStoryNodes {
 
   /**
    * Adds an Enemy to a StoryNode.
-   * @param nodeId the id of the StoryNode where the Enemy will be added
+   * @param id the id of the StoryNode where the Enemy will be added
    * @param enemy the Enemy to add to the target StoryNode
    */
-  def addEnemyToNode(nodeId: Int, enemy: Enemy): Unit
+  def addEnemyToNode(id: Int, enemy: Enemy): Unit
 
   /**
    * Deletes an Enemy from a StoryNode.
-   * @param nodeId the id of the StoryNode where the Enemy will be deleted
+   * @param id the id of the StoryNode where the Enemy will be deleted
    */
-  def deleteEnemyFromNode(nodeId: Int): Unit
+  def deleteEnemyFromNode(id: Int): Unit
 
   /**
    * Returns all KeyItems in the StoryNodes that come before the targetNode (included).
@@ -138,7 +138,7 @@ object EditorControllerStoryNodes {
       if (mutableStoryNode.isEmpty) {
         false
       } else {
-        val precedingNodes = editorController.pathwaysControls.getAllOriginNodes(mutableStoryNode.get.id)
+        val precedingNodes = editorController.pathwaysControls.getAllStartNodes(mutableStoryNode.get.id)
         if (precedingNodes.isEmpty) {
           //is route node
           false
@@ -170,13 +170,13 @@ object EditorControllerStoryNodes {
       editorController.decorateGraphGUI()
     }
 
-    override def addEnemyToNode(nodeId: Int, enemy: Enemy): Unit = {
-      storyNode(nodeId).get.enemy = Some(enemy)
+    override def addEnemyToNode(id: Int, enemy: Enemy): Unit = {
+      storyNode(id).get.enemy = Some(enemy)
       editorController.decorateGraphGUI()
     }
 
-    override def deleteEnemyFromNode(nodeId: Int): Unit = {
-      storyNode(nodeId).get.enemy = None
+    override def deleteEnemyFromNode(id: Int): Unit = {
+      storyNode(id).get.enemy = None
       editorController.decorateGraphGUI()
     }
 
@@ -190,7 +190,7 @@ object EditorControllerStoryNodes {
           .collect { case itemEvent: ItemEvent => itemEvent.item }
           .collect { case keyItem: KeyItem => keyItem }
         //for each predecessor of this node
-        editorController.pathwaysControls.getAllOriginNodes(node.id).foreach(n => {
+        editorController.pathwaysControls.getAllStartNodes(node.id).foreach(n => {
           //only if the predecessor hasn't been visited yet
           if (!visitedNodes.contains(n)) {
             val nodeRes = stepBack(n, _visitedNodes)

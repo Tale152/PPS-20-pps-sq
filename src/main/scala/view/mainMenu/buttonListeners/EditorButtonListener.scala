@@ -5,7 +5,7 @@ import controller.util.Checker.ActionChecker
 import controller.util.serialization.StoryNodeSerializer.deserializeStory
 import model.nodes.StoryNode
 import view.mainMenu.MainMenu
-import view.mainMenu.buttonListeners.MainMenuButtonListeners.LoadStoryChooserButtonListener
+import view.mainMenu.buttonListeners.MainMenuButtonListeners.AddStoryChooserButtonListener
 import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
@@ -21,7 +21,7 @@ import javax.swing.JFileChooser
  */
 case class EditorButtonListener(override val applicationController: ApplicationController,
                                 mainMenu: MainMenu)
-  extends LoadStoryChooserButtonListener(applicationController) {
+  extends AddStoryChooserButtonListener(applicationController) {
 
   override def actionPerformed(e: ActionEvent): Unit = {
     SqSwingDialog(
@@ -32,9 +32,9 @@ case class EditorButtonListener(override val applicationController: ApplicationC
           StoryNode(0, "start", None, Set(), List()))
         ),
         SqSwingButton("Load story", _ =>
-          if (loadStoryFileChooser.showOpenDialog(mainMenu) == JFileChooser.APPROVE_OPTION) {
+          if (addStoryFileChooser.showOpenDialog(mainMenu) == JFileChooser.APPROVE_OPTION) {
             val deserializeLoadedStory: () => Unit =
-              () => ApplicationController.goToEditor(deserializeStory(loadStoryFileChooser.getSelectedFile.getPath))
+              () => ApplicationController.goToEditor(deserializeStory(addStoryFileChooser.getSelectedFile.getPath))
             val deserializationError: () => Unit =
               () => mainMenu.showDeserializationError("Error on story loading.")
             deserializeLoadedStory ifFails deserializationError

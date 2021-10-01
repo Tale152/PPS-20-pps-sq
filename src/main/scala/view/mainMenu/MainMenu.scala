@@ -43,7 +43,7 @@ object MainMenu {
       this.add(Scrollable(VerticalButtons(generateButtons())))
       this.add(ControlsPanel(
         List(
-          ("l", ("[L] Load story", LoadStoryButtonListener(applicationController, this))),
+          ("a", ("[A] Add story", AddStoryButtonListener(applicationController, this))),
           ("d", ("[D] Delete story", DeleteStoryButtonListener(applicationController))),
           ("e", ("[E] Editor", EditorButtonListener(applicationController, this))),
           quitKeyListener("Do you really want to exit the game?",

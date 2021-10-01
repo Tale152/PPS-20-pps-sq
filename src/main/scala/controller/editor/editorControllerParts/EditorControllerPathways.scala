@@ -52,23 +52,23 @@ trait EditorControllerPathways {
 
   /**
    * Adds a Prerequisite to a Pathway.
-   * @param originNodeId the id of the StoryNode that originates the Pathway
+   * @param startNodeId the id of the StoryNode that starts the Pathway
    * @param destinationNodeId the id of the StoryNode where the Pathway ends
    * @param prerequisite the Prerequisite to add to the Pathway
    */
-  def addPrerequisiteToPathway(originNodeId: Int, destinationNodeId: Int, prerequisite: Prerequisite): Unit
+  def addPrerequisiteToPathway(startNodeId: Int, destinationNodeId: Int, prerequisite: Prerequisite): Unit
 
   /**
    * Deletes a Prerequisite from a Pathway.
-   * @param originNodeId the id of the StoryNode that originates the Pathway
+   * @param startNodeId the id of the StoryNode that starts the Pathway
    * @param destinationNodeId the id of the StoryNode where the Pathway ends
    */
-  def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Unit
+  def deletePrerequisiteFromPathway(startNodeId: Int, destinationNodeId: Int): Unit
 
   /**
-   * @return a list of StoryNodes that can be used to be the origin of a new Pathway without breaking integrity rules
+   * @return a list of StoryNodes that can be used to be the start of a new Pathway without breaking integrity rules
    */
-  def getValidNodesForPathwayOrigin: List[MutableStoryNode]
+  def getValidNodesForPathwayStart: List[MutableStoryNode]
 
   /**
    * @param node the target StoryNode
@@ -80,15 +80,15 @@ trait EditorControllerPathways {
    * Example: giving pathways {(A -> B), (A -> C), (B -> D), (B -> E), (D -> F)},
    * targeting the node 'D' will return a list with StoryNodes D, B and A.
    * @param id the target StoryNode's id
-   * @return the list of origin StoryNodes (including target)
+   * @return the list of start StoryNodes (including target)
    */
-  def getAllOriginNodes(id: Int): List[MutableStoryNode]
+  def getAllStartNodes(id: Int): List[MutableStoryNode]
 
   /**
    * Given an Item, returns all the Pathways containing a Prerequisite that depends on said Item.
    * @param item the item used to obtain the dependent Prerequisites
    * @return a Set of tuples with the Pathway containing the dependent Prerequisite (second)
-   *         and the StoryNode that originates that Pathway (first)
+   *         and the StoryNode that starts that Pathway (first)
    */
   def getAllDependentPrerequisites(item: Item): Set[(MutableStoryNode, MutablePathway)]
 
@@ -151,7 +151,7 @@ object EditorControllerPathways {
       val endNode = editorController.nodesControls.storyNode(endNodeId)
       if (startNode.isEmpty ||
         endNode.isEmpty ||
-        /* cannot create two pathways with same origin and destination */
+        /* cannot create two pathways with same start and destination */
         startNode.get.mutablePathways.exists(p => p.destinationNode == endNode.get)
       ) {
         false
@@ -161,19 +161,19 @@ object EditorControllerPathways {
       }
     }
 
-    override def addPrerequisiteToPathway(originNodeId: Int,
+    override def addPrerequisiteToPathway(startNodeId: Int,
                                           destinationNodeId: Int,
                                           prerequisite: Prerequisite): Unit = {
-      getPathway(originNodeId, destinationNodeId).get.prerequisite = Some(prerequisite)
+      getPathway(startNodeId, destinationNodeId).get.prerequisite = Some(prerequisite)
       editorController.decorateGraphGUI()
     }
 
-    override def deletePrerequisiteFromPathway(originNodeId: Int, destinationNodeId: Int): Unit = {
-      getPathway(originNodeId, destinationNodeId).get.prerequisite = None
+    override def deletePrerequisiteFromPathway(startNodeId: Int, destinationNodeId: Int): Unit = {
+      getPathway(startNodeId, destinationNodeId).get.prerequisite = None
       editorController.decorateGraphGUI()
     }
 
-    override def getValidNodesForPathwayOrigin: List[MutableStoryNode] =
+    override def getValidNodesForPathwayStart: List[MutableStoryNode] =
       editorController.nodes._2
         .filter(i => editorController.nodes._2.exists(j => isNewPathwayValid(i.id, j.id)))
         .toList.sortWith((i, j) => i.id < j.id)
@@ -183,10 +183,10 @@ object EditorControllerPathways {
       (node.pathways.count(p => p.prerequisite.nonEmpty) == 0 || node.pathways.size >= 2) &&
         /* and at least one pathway starting from the node points to a destination node that would still be reachable
         after deleting the pathway*/
-        node.pathways.exists(p => getAllOriginNodes(p.destinationNode.id).size > 1)
+        node.pathways.exists(p => getAllStartNodes(p.destinationNode.id).size > 1)
     }
 
-    override def getAllOriginNodes(id: Int): List[MutableStoryNode] = {
+    override def getAllStartNodes(id: Int): List[MutableStoryNode] = {
       val targetNode = editorController.nodesControls.storyNode(id).get
       editorController.nodes._2.filter(n => n.pathways.exists(p => p.destinationNode == targetNode)).toList
     }

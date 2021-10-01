@@ -5,14 +5,17 @@ import controller.game.{GameMasterController, PlayerConfigurationController}
 import controller.util.DirectoryInitializer.initializeGameFolderStructure
 import controller.util.ResourceLoader
 import controller.util.ResourceNames.MainDirectory.RootGameDirectory
-import controller.util.ResourceNames.{storyDirectoryPath, storyProgressPath}
-import controller.util.FolderUtil.{deleteFolder, filesNameInFolder}
+import controller.util.ResourceNames.{FileExtensions, storyDirectoryPath, storyProgressPath}
+import controller.util.FolderUtil.{createFolderIfNotPresent, deleteFolder, filesNameInFolder}
 import controller.util.audio.MusicPlayer
 import controller.util.serialization.ProgressSerializer
 import controller.util.Checker.ActionChecker
-import controller.util.serialization.StoryNodeSerializer.deserializeStory
+import controller.util.ResourceNames.FileExtensions.StoryFileExtension
+import controller.util.serialization.StoryNodeSerializer.{deserializeStory, serializeStory}
 import model.nodes.StoryNode
 import view.mainMenu.MainMenu
+import view.util.scalaQuestSwingComponents.SqSwingButton
+import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
 
 import java.io.File
 import java.nio.file.{Files, Paths}
@@ -56,6 +59,13 @@ sealed trait ApplicationController extends Controller {
    * @return true if progress is available, false otherwise.
    */
   def isProgressAvailable(storyName: String)(baseDirectory: String = RootGameDirectory): Boolean
+
+  /**
+   * Add a new story to the stories collection.
+   *
+   * @param storyFile a file containing a story to add.
+   */
+  def addNewStory(storyFile: File): Unit
 
   /**
    * Deletes an existing story's directory and files.
@@ -114,4 +124,41 @@ object ApplicationController extends ApplicationController {
   }
 
   override def goToEditor(routeNode: StoryNode): Unit = EditorController(routeNode).execute()
+
+  override def addNewStory(storyFile: File): Unit = {
+    val nameWithOutExtension =
+      storyFile.getName.substring(0, storyFile.getName.length - FileExtensions.StoryFileExtension.length - 1)
+    val newStoryFolderPath = storyDirectoryPath(RootGameDirectory) + "/" + nameWithOutExtension
+    if (new File(newStoryFolderPath).exists()) {
+      overrideStoryDialog(storyFile, newStoryFolderPath, nameWithOutExtension)
+    } else {
+      loadNewStory(storyFile, newStoryFolderPath)
+    }
+  }
+
+  private def overrideStoryDialog(file: File, newStoryFolderPath: String, nameWithOutExtension: String) = {
+    SqSwingDialog("Story already present", "Do you want to override existing story?",
+      List(
+        SqSwingButton("ok", _ => {
+          new File(newStoryFolderPath + "/" + nameWithOutExtension + "." + StoryFileExtension).delete()
+          loadNewStory(file, newStoryFolderPath)
+        }),
+        SqSwingButton("cancel", _ => {
+          /*does nothing*/
+        })))
+  }
+
+  private def loadNewStory(file: File, newStoryFolderPath: String): Unit = {
+    val deserializeNewStory: () => Unit =
+      () => {
+        createFolderIfNotPresent(newStoryFolderPath)
+        serializeStory(deserializeStory(file.getPath), newStoryFolderPath + "/" + file.getName)
+        ApplicationController.execute()
+      }
+    val deserializationError: () => Unit =
+      () => mainMenu.showDeserializationError("Error on adding story.")
+
+    deserializeNewStory ifFails deserializationError
+  }
+
 }

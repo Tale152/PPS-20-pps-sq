@@ -28,7 +28,7 @@ case class StoryNodeDetailsView(private val storyNode: StoryNode, private val ed
       "ID: " + storyNode.id +
         "\n\nNarrative:\n" + storyNode.narrative +
         "\n\nNumber of nodes reaching this node: " +
-        editorController.pathwaysControls.getAllOriginNodes(storyNode.id).size +
+        editorController.pathwaysControls.getAllStartNodes(storyNode.id).size +
         "\nNumber of nodes reached by this node: " + storyNode.pathways.size
     ))
     if (storyNode.enemy.nonEmpty) {

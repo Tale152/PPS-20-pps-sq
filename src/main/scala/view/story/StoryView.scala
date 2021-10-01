@@ -62,7 +62,7 @@ object StoryView {
       this.add(
         ControlsPanel(
           List(
-            ("s", ("[S] Status", _ => storyController.goToStatStatus())),
+            ("s", ("[S] Status", _ => storyController.goToPlayerInfo())),
             ("h", ("[H] History", _ => storyController.goToHistory())),
             ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
             ("i", ("[I] Inventory", _ => storyController.goToInventory())),
