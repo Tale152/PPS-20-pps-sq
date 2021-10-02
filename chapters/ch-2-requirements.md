@@ -2,7 +2,7 @@
 
 Questo capitolo sarà dedicato alla descrizione dei requisiti che il progetto dovrà soddisfare. Le sezioni sottostanti definiranno le varie tipologie di requisiti più in dettaglio.
 
-## Requisiti di business
+## 2.1 - Requisiti di business
 
 L'applicazione dovrà disporre delle seguenti caratteristiche:
 
@@ -13,12 +13,12 @@ L'applicazione dovrà disporre delle seguenti caratteristiche:
 - sistema che consenta al giocatore di consultare le proprie statistiche in itinere. Esse potranno infatti subire variazioni dovute all'equipaggiamento di oggetti o all'accadimento di eventi;
 - battle system che proporrà scontri 1 vs 1 contro nemici controllati dal sistema.
 
-## Requisiti utente
+## 2.2 - Requisiti utente
 I requisiti utente esprimono i bisogni degli utenti e descrivono quali sono le azioni che l’utente deve poter effettuare interagendo con il sistema.  
 
 Al fine di esprimere in maniera concisa tali requisiti sono state impiegate le User stories e i Casi d'uso.
 
-### User stories
+### 2.2.1 - User stories
 Le user stories sono delle specifiche informali, scritte dal punto di vista dell'utente finale, che descrivono ad alto livello le funzionalità che il sistema dovrà possedere.
 
 **WHO:**  
@@ -71,7 +71,7 @@ In quanto giocatore
 <br/><br/>
 
  
-### Casi d'uso
+### 2.2.2 - Casi d'uso
 Il diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimere ciò che l'utente finale può fare interagendo con il sistema allo scopo di giocare.
 
 <div align="center">
@@ -81,7 +81,7 @@ Il diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimer
 
 Un aspetto di grande importanza nella progettazione del sistema è sicuramente la possibilità di aggiungere potenzialmente un numero illimitato di storie; il sistema riuscirà ad interpretare queste ultime e farà navigare l'utente all'interno di esse. È dunque fondamentale che l'utente possa aggiungere nuove storie (reperendole da fonti esterne) e navigare tra esse scegliendo quale giocare.
 
-## Requisiti funzionali
+## 2.3 - Requisiti funzionali
 I requisiti funzionali riguardano le funzionalità che il sistema deve mettere a disposizione all'utente. Per la loro definizione è necessario basarsi sui requisiti utente estratti in precedenza.  
 
 I requisiti funzionali che il sistema dovrà rispettare sono i seguenti:
@@ -97,7 +97,7 @@ I requisiti funzionali che il sistema dovrà rispettare sono i seguenti:
 11. salvataggio di tutte le scelte intraprese dall'utente.
 12. consentire la visualizzazione di: storie presenti, eventuali salvataggi di storie già iniziate, statistiche attuali, inventario e scelte disponibili nel nodo della storia corrente.
 
-## Requisiti non funzionali
+## 2.4 - Requisiti non funzionali
 - **Cross-platform**  
 Il sistema deve funzionare correttamente sui sistemi operativi Windows, Linux e MacOS.
 - **Interfaccia utente intuitiva**  
@@ -105,7 +105,7 @@ L'utente deve poter navigare all'interno del sistema attraverso un'interfaccia u
 - **Shortcut**  
 Un utente esperto può navigare all'interno del sistema utilizzando shortcut da tastiera.
 
-## Requisiti di implementazione
+## 2.5 - Requisiti di implementazione
 I requisiti di implementazione vincolano l'intera fase di realizzazione del sistema, ad esempio richiedendo l'uso di uno specifico linguaggio di programmazione e/o di uno specifico tool software.  
 
 I requisiti di implementazione sono i seguenti, divisi per categoria: 
