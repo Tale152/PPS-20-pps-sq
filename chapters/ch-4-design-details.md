@@ -185,24 +185,58 @@ Nelle prossime sezioni verranno approfondite delle sotto parti specifiche del Co
 <div align="center">
 <img src="https://images2.imgbox.com/f9/f5/OYt2n0p5_o.png" alt="Diagramma delle classi - Sezione Menu Principale">
 <p align="center">Diagramma delle classi - Sezione Menu Principale</p>
- 
+</div>
+
+_ApplicationController_ è il controller collegato al Menu principale del gioco.
+
+La sua funzione principale e fornire metodi per manipolare l'insieme di storie disponibili o per spostarsi ad altre schermate passando il controllo ad altri _Controller_.
+
+In particolare:
+- permette di andare alla schermata dell'Editor (passando il controllo a _EditorController_);
+- permette di controllare se è disponibile un file di salvataggio per una determinata storia;
+- permette di caricare una storia disponibile, con o senza salvataggio, passando successivamente il controllo a _GameMasterController_.
+- permette di aggiungere il file di una storia sul file system alla collezione di storie disponibili.
+- permette di cancellare una storia dalla collezione di storie disponibili.
 #### Game Controller
 
 <div align="center">
 <img src="https://images2.imgbox.com/b3/87/K9t2eOcm_o.png" alt="Diagramma delle classi - Sezione di Gioco">
 <p align="center">Diagramma delle classi - Sezione di Gioco</p>
+</div>
+
+TODO
 
 #### Editor Controller
 
 <div align="center">
 <img src="https://images2.imgbox.com/56/51/GRSsNAHM_o.png" alt="Diagramma delle classi - Sezione Editor">
 <p align="center">Diagramma delle classi - Sezione Editor</p>
+</div>
+
+TODO
 
 #### Explorer Controller
+
 <div align="center">
 <img src="https://images2.imgbox.com/c2/4a/Z0DYiB5i_o.png" alt="Diagramma delle classi - Sezione Esploratore">
 <p align="center">Diagramma delle classi - Sezione Esploratore</p>
+</div>
 
+_ExplorerController_ è il controller che si occupa di effettuare operazioni e reperire dati da una storia esplorandola.  
+> **_Significato dei termini utilizzati_** :
+> - __Path__: con il termine Path si intende un percorso esistente tra un nodo ed un altro. Non coincide con il termine Pathway, utilizzato per indicare il collegamento esistente tra due nodi. Il termine Path si può vedere come un insieme ordinato composto da almeno un Pathway.
+> - __Outcome__: con il termine Outcome si intende un insieme ordinato di ID, dove ogni ID corrisponde all'identificativo di uno _StoryNode_.
+> - __Walkthrough__: con il termine Walkthrough si indica invece un insieme ordinato di stringhe, dove ogni stringa rappresenta la narrazione di uno _StoryNode_ seguita dalla descrizione di un _Pathway_ e così via. 
+
+L'interfaccia mette a disposizione metodi utili per reperire informazioni come:
+
+- Se esiste almeno un Path tra un nodo ed un altro.
+- Quanti e quali Path ci sono tra un nodo ed un altro.
+- Quanti e quali Outcome ci sono partendo da un determinato nodo o dal nodo iniziale di una storia.
+- Quanti e quali Walkthrough ci sono partendo da un determinato nodo o dal nodo iniziale di una storia.
+
+ L'implementazione di _ExplorerController_ è stata realizzata grazie all'interoperabilità tra due linguaggi, Scala e Prolog, tramite la libreria tuProlog.  
+ Le modalità sono illustrate nella sezione dedicata all'[utilizzo del paradigma logico](#utilizzo-del-paradigma-logico)
 
 ## Scelte Rilevanti (View)
 
