@@ -130,7 +130,24 @@ Il sistema è stato utilizzato e testato in equal misura su diversi sistemi oper
 ## Suddivisione del lavoro
 <!-- NOTA: per ogni studente, una sotto-sezione descrittiva di cosa fatto/co-fatto e con chi, e descrizione di aspetti implementativi importanti non già presenti nel design)-->
 ### Filaseta Angelo
-<!-- Lista di componenti -->
+Durante lo sviluppo del progetto mi sono occupato di diversi aspetti motlo variegati:
+
+1. In una fase preliminare del progetto mi sono occupato dell'impostazione dei parametri del tool sbt. Mi sono occupato dell'aggiunta delle dipendenze e dei plugin principali (ScalaTest, Scoverage, sbt-github-action, sbt-assembly) e della relativa configurazione.
+   
+2. Nella fase iniziale del progetto ho realizzato insieme a [Talmi](#talmi-alessandro) la struttura principale dei controller di gioco, ovvero il modo in cui i controller interagiscono tra loro all'interno dell'attuale package __controller.game__.
+
+3. Mi sono poi autonomamente occupato della creazione della struttura di componenti di utilità per il recupero di risorse e per la serializzazione, realizzando la maggior parte del package __controller.util__.
+   
+4. Nella fase intermedia del progetto ho realizzato insieme a [Tronetti](#tronetti-elisa) la parte di Model relativa al package __model.items__. Una volta terminata ho potuto dedicarmi alla creazione del controller __controller.game.subcontroller.InventoryController__ e della relativa view contenuta nel package __view.inventory__ grazie anche all'aiuto di [Sanchi](#sanchi-piero).
+   
+5. Successivamente ho aiutato [Talmi](#talmi-alessandro) nella realizzazione dell'editor creando i componenti all'interno del package __view.form__. Il package contiene strumenti utili per le View che necessitano di richiedere alcune informazioni all'utente tramite appunto dei Form. Il componente principale __view.form.FormBuilder__ è stato successivamente utilizzato anche all'esterno dell'Editor. Le classi sono strutturate in modo da effettuare anche controlli sull'input e su eventuali stati del sistema dipendenti dai valori inseriti.
+   
+6. Insieme a [Tronetti](#tronetti-elisa) ho realizzati alcuni predicati Prolog. Una volta ottenuta una parte di logica funzionante mi sono occupato di creare i componenti all'interno del package __controller.prolog__ facendo quindi interoperare i due linguaggi. Una  volta ottenuto un motore completamente funzionante ho potuto stendere il controller __controller.ExplorerController__ e la relativa view contenuta nel package __view.explorer__.
+   
+7. In una fase finale del progetto mi sono occupato della risoluzione di alcuni bug minori riscontrati e ho effettuato piccole operazioni di refactor ai componenti che presentavano inconsistenze nei termini utilizzati.
+
+Durante tutta la realizzazione del progetto inoltre mi sono occupato della stesura dei test relativi ai sorgenti da me realizzati, utilizzando anche meccanismi di ScalaTest come le Suites e i Tag.
+
 ### Sanchi Piero
 <!-- Lista di componenti -->
 ### Talmi Alessandro
