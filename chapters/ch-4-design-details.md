@@ -204,7 +204,27 @@ In particolare:
 <p align="center">Diagramma delle classi - Sezione di Gioco</p>
 </div>
 
-TODO
+Come già introdotto nella sezione 3.2.3, una volta che il giocatore abbia selezionato una storia, il controllo verrà passato al PlayerConfigurationController (nel caso di una nuova partita) o direttamente al GameMasterController (nel caso di una partita che ripreda un progresso precedente).  
+
+Come suggerito dal nome, __PlayerConfigurationController__ permette all'utente di configurare il personaggio da usare all'interno della storia, impostando nome e statistiche iniziali. Una volta terminata la configurazione il controllo verrà passato al GameMasterController.
+
+Il __GameMasterController__ dunque funge da orchestratore tra i vari __SubController__ collegati.  
+
+Prendiamo ad esempio il caso in cui sia lo StoryController ad avere il controllo; nel momento in cui il giocatore voglia visionare il suo inventario, verrà richiamato il metodo _goToInventory()_ che a sua volta invocherà la _executeOparation_ del GameMasterController specificando "Inventory" come __OperationType__. In questo modo GameMasterController richiamerà il metodo _execute()_ (di cui tutti i controller dispongono in quanto ereditano dalla classe Controller) di InventoryController, che prenderà dunque il controllo.  
+
+Tra i SubController che compongono le funzionalità di gioco vi sono:
+- _StoryController_  
+Controller principale di una storia. Si occupa a schermo la narrative di uno StoryNode e i possibili Pathway tramite i quali proseguire, oltre che gestire i possibili eventi o nemici (chiamando il BattleController). Da qui l'utente potrà raggiungere le altre voci del menu (che corrispondono ad altri SubController).
+- _BattleController_  
+Controller dedicato alla gestione delle battaglie con gli eventuali nemici contenuti all interno di uno StoryNode. L'utente durante la battaglia avrà la possibilità di attaccare, tentare la fuga, oppure di usare degli strumenti.
+- _InventoryController_  
+Attraverso questo Controller viene gestito l'inventario del giocatore. L'utente potrà visionare gli strumenti da lui posseduti ed eventualmente utilizzarli.
+- _ProgressSaverController_  
+Controller molto semplice dedicato al salvataggio dei progressi all'interno della storia corrente.
+- _PlayerInfoController_  
+Usato per prendere visione di tutte le info riguardanti il giocatore (nome, salute e statistiche).
+- _HistoryController_  
+Questo controller permette di visionare la history corrente della storia, creando una sorta di log che visualizzi in maniera ordinata le narrative dei nodi attraversati (oltre che le descrizioni dei Pathway scelti).
 
 #### Editor Controller
 
