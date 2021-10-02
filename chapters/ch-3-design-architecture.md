@@ -1,7 +1,7 @@
 # 3 - Design architetturale
 Questo capitolo punta a descrivere il design architetturale del sistema ad alto livello, per poi riprendere una vista ancora più dettagliata nel capitolo 4.  
 
-## Architettura complessiva
+## 3.1 - Architettura complessiva
 
 <div align="center">
     <img src="https://images2.imgbox.com/b2/c1/oq4wqOwC_o.png" alt="Vista ad alto livello StoryNodes e Pathways">
@@ -10,9 +10,9 @@ Questo capitolo punta a descrivere il design architetturale del sistema ad alto 
 
 L'architettura del sistema segue il pattern MVC, con Controller multipli (ognuno associato ad una View) che manipolano però lo stesso Model.
 
-### Descrizione di pattern architetturali utilizzati
+## 3.2 - Descrizione di pattern architetturali utilizzati
 
-#### Pattern Model View Controller (MVC)
+### 3.2.1 - Pattern Model View Controller (MVC)
 
 Model-view-controller è un pattern architetturale in grado di separare la logica di presentazione dei dati (di cui si occupa la view) dalla logica di business (di cui si occupano model e controller), utilizzando una architettura multi-tier (basata quindi sui tre livelli da cui prende il nome).
 
@@ -21,7 +21,7 @@ Model-view-controller è un pattern architetturale in grado di separare la logic
   ScalaQuest diverse GUI consentono la navigazione dei nodi durante l'attività di gioco e la visione della struttura vera e propria delle storie all'interno dell'editor.
 - Controller (nel nostro caso molteplici):  ha il compito di accettare l'input che generalmente deriva dalla view e convertirlo in comandi per il model o per la view stessa.
 
-#### Model
+### 3.2.2 - Model
 Ad alto livello possiamo inquadrare ogni storia come un grafo contenente nodi (**StoryNode**) interconnessi da archi (**Pathway**) unidirezionali.  
 Il giocatore si muoverà nella storia spostandosi tra i vari StoryNode scegliendo quali Pathway intraprendere.
 
@@ -57,7 +57,7 @@ Segue diagramma delle classi ad alto livello del model (una vista più approfond
     <p align="center">Diagramma classi Model ad alto livello</p>
 </div>
 
-#### Controller
+### 3.2.3 - Controller
 
 All'interno del sistema sono presenti più controller; ognuno di essi è associato ad una differente View mentre, per quanto riguarda il Model, le classi da manipolare sono le stesse in comune tra tutti i controller. L'effettivo controllo viene acquisito da un diverso controller dipendentemente dai servizi necessari in un dato momento.  
 Durante l'esecuzione del programma, il primo controller a prendere la parola è l'ApplicationControllerSingleton; la scelta di utilizzare un singleton deriva dal fatto che esisterà sempre una sola e unica istanza di tale controller in quanto esso si trova sulla cima della gerarchia di tutti i controller.
@@ -107,7 +107,7 @@ Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intrapre
 
   Vi sono in questo caso un solo Controller ed una sola View; per l'effettiva manipolazione dei dati, una volta che l'utente avrà selezionato l'operazione che intende compiere, la View creerà dei form attraverso il componente FormBuilder da noi implementato al fine di permettere all'utente di inserire dell'input.
 
-#### View
+### 3.2.4 - View
 L'organizzazione del lato View è molto semplice: esiste un'unica interfaccia (chiamata per l'appunto View) che vincola le sue implementazioni concrete ad implementare il metodo render.  
 
 Ogni View lavorerà in concomitanza con un'implementazione concreta di Controller.  
@@ -118,10 +118,10 @@ Quando verrà chiamato il metodo execute su un Controller, quest'ultimo richiame
 <p align="center">Diagramma classi alto livello - View</p>
 </div>
 
-### Scelte tecnologiche cruciali ai fini architetturali
-#### Tecnologie scartate
+## 3.3 - Scelte tecnologiche cruciali ai fini architetturali
+### 3.3.1 - Tecnologie scartate
 In questa sezione verranno illustrate alcune tecnologie che in fase di analisi sono state prese in considerazione e successivamente abbandonate. Seguono descrizioni e motivazioni.
-##### Modello ad attori (Akka)
+### 3.3.2 - Modello ad attori (Akka)
 Durante la progettazione della parte dei Controller sono state riscontrate alcune similarità tra il modello proposto (quello finale, già illustrato precedentemente) e il [modello ad attori](https://doc.akka.io/docs/akka/current/typed/actors.html#:~:text=com%2Fakka%2Fakka-,Akka%20Actors,correct%20concurrent%20and%20parallel%20systems).
 Per quanto riguarda la fase di gioco infatti, nel modello proposto un Controller principale (_GameMasterController_) si occupa di creare i sub controller e funge da loro coordinatore.
 I controller erano quindi inizialmente stati pensati in modo differente. Modificando sensibilmente la struttura del pattern MVC si puntava a far diventare i Controller degli Attori.
@@ -147,7 +147,7 @@ Nelle fasi iniziali del progetto sono stati realizzati alcuni prototipi dell'app
 - Il modello a scambio di messaggi pecca in performance: inviare messaggi è generalmente un'operazione più lenta rispetto alla chiamata di metodo.
 
 A seguito di questa analisi è stato unimamente deciso di non utilizzare il framework Akka e di seguire il pattern MVC.
-##### Serializzazione e deserializzazione tramite librerie json
+### 3.3.3 - Serializzazione e deserializzazione tramite librerie json
 Le specifiche del progetto richiedono il salvataggio di alcune informazioni su dei supporti di memorizzazione, presumibilmente file.  
 L'idea iniziale è stata quella di utilizzare il linguaggio json come standard per la memorizzazione di contenuti su file.
 
