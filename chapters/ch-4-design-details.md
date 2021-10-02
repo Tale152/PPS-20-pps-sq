@@ -233,7 +233,18 @@ Questo controller permette di visionare la history corrente della storia, creand
 <p align="center">Diagramma delle classi - Sezione Editor</p>
 </div>
 
-TODO
+__EditorController__ è il controller che si occupa della gestione dell'editor.  
+In quanto editor, per sua natura dispone di molte funzionalità; per una più chiara organizzazione si è dunque deciso di dividere il controller in sottoparti:
+- EditorController  
+Contiene i metodi relativi a funzionalità generali.
+- __EditorControllerStoryNodes__  
+Contiene i metodi relativi a funzionalità inerenti alla manipolazione degli StoryNode e del loro contenuto.
+- __EditorControllerPathways__  
+Contiene i metodi relativi a funzionalità inerenti alla manipolazione dei Pathway e del loro contenuto.
+
+L'EditorController utilizzerà internamente i __MutableStoryNode__ e i __MutablePathway__, versioni mutabili delle rispettive controparti; si è scelto di creare tali strutture in quanto più versatili in un contesto dove i dati coinvolti vengono costantemente modificati.  
+
+Attraverso il meccanismo degli impliciti è possibile convertire agilmente la struttura da mutabile ad immutabile e viceversa. 
 
 #### Explorer Controller
 
