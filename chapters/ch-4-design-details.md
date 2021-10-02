@@ -273,6 +273,13 @@ L'interfaccia mette a disposizione metodi utili per reperire informazioni come:
 
 ## Organizzazione del codice
 
+<div align="center">
+<img src="https://images2.imgbox.com/fe/21/okrKrW7s_o.png" alt="Diagramma delle classi - Sezione Esploratore">
+<p align="center">Diagramma dei package</p>
+</div>
+
+TODO
+
 <!-- NOTA: corredato da pochi ma efficaci diagrammi -->
 <!-- Lista dei vari componenti del sistema -->
 
