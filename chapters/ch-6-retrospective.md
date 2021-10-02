@@ -99,3 +99,20 @@ Secondo le nostre previsioni però nel prossimo sprint potremo recuperare le for
 ### Breve sintesi
 
 ### Sviluppi futuri
+Il gruppo evidenzia i seguenti aspetti per poter aggiungere ulteriori funzionalità al
+sistema realizzato:
+
+- Estensione dell'applicazione ad un sistema multiplayer (locale o online).
+- Estesione alle possibilità di aggiungere storie
+  * per esempio fornendo agli utenti un servizio web da cui poter reperire storie create da altri utenti,  e che permetta anche di caricarne.
+- Estensione degli elementi della storia:
+  * aggiunta di un sistema di classi che conferiscono caratteristiche speciali ai personaggi;
+  * aggiunta di nuove classi di strumenti.
+- Estensione del sistema di combattimento:
+  * inserendo  un sistema di Skill (mosse speciali), Mana etc.
+- Estensione dell'editor:
+  * consentire una personalizzazione maggiore degli strumenti e degli eventi;
+  * consentire all'utente di effettaure operazioni direttamente sul grafo renderizzato.
+- Estensione del sistema di musica:
+  * permettere all'utente che crea la storia di scegliere anche la musica da riprodurre in certi nodi o in determinate situazioni.
+- Miglioramento dell'estetica e della user experience in generale.
