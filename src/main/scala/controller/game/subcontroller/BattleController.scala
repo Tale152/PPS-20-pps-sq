@@ -8,6 +8,8 @@ import model.characters.{Character, Enemy, Player}
 import model.items.Item
 import view.battle.BattleView
 
+import scala.util.Random
+
 /**
  * Controller used to handle a full battle, taking the player input and handling the enemy actions.
  * Associated with [[view.battle.BattleView]].
@@ -41,6 +43,8 @@ object BattleController {
 
   private class BattleControllerImpl(private val gameMasterController: GameMasterController,
                                      private val storyModel: StoryModel) extends BattleController {
+
+    private val failAttackChance: Int = 10
 
     private val battleView: BattleView = BattleView(this)
     private val player: Player = storyModel.player
@@ -92,29 +96,47 @@ object BattleController {
 
     private def enemyAttack(): Unit = {
       if (!isBattleOver) {
-        val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
-        val damageInflicted: Int = damage(enemy.get, player)
-        player.properties.health.currentPS -= damageInflicted
-        roundNarrative += enemy.get.name + " inflicted " + damageInflicted + " damage to " + player.name + "!\n"
-        checkBattleResult()
+        executeAttack(storyModel.currentStoryNode.enemy.get, player)
       }
     }
 
     private def playerAttack(): Unit = {
       if (!isBattleOver) {
-        val enemy: Option[Enemy] = storyModel.currentStoryNode.enemy
-        val damageInflicted: Int = damage(player, enemy.get)
-        enemy.get.properties.health.currentPS -= damageInflicted
-        roundNarrative += player.name + " inflicted " + damageInflicted + " damage to " + enemy.get.name + "!\n"
-        checkBattleResult()
+        executeAttack(player, storyModel.currentStoryNode.enemy.get)
       }
     }
 
+    private def executeAttack(attacker: Character, target: Character): Unit = {
+      val fail = failedAttack(attacker, target)
+      println(attacker.name + " " + fail)
+      if(fail){
+        roundNarrative += attacker.name + " attack failed!\n"
+      } else {
+        val damageInflicted: Int = damage(attacker, target)
+        target.properties.health.currentPS -= damageInflicted
+        roundNarrative += attacker.name + " inflicted " + damageInflicted + " damage to " + target.name + "!\n"
+      }
+      checkBattleResult()
+    }
+
+    //used to randomly generate a number to establish if an attack is successful or not
+    private def failedAttack(attacker: Character, target: Character): Boolean = {
+      val attackProbabilityBaseValue: Int =
+        (attacker.properties.stat(StatName.Dexterity).value -
+          target.properties.stat(StatName.Dexterity).value) +
+          failAttackChance
+
+      Random.nextInt(
+        if (attackProbabilityBaseValue > 0) attackProbabilityBaseValue else 1
+      ) == 0
+    }
+
     private def damage(attacker: Character, target: Character): Int = {
-      val damageInflicted = (attacker.properties.modifiedStat(StatName.Strength).value +
-        attacker.properties.modifiedStat(StatName.Dexterity).value) -
+      val damageInflicted: Int = attacker.properties.modifiedStat(StatName.Strength).value -
         target.properties.modifiedStat(StatName.Constitution).value
-      if (damageInflicted > 0) damageInflicted else 1
+      val actualDamage: Int = if (damageInflicted > 0) damageInflicted else 1
+
+      actualDamage + Random.nextInt(attacker.properties.stat(StatName.Dexterity).value)
     }
 
     private def checkBattleResult(): Unit = {
