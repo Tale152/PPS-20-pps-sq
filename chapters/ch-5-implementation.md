@@ -130,7 +130,7 @@ Il sistema è stato utilizzato e testato in equal misura su diversi sistemi oper
 ## Suddivisione del lavoro
 <!-- NOTA: per ogni studente, una sotto-sezione descrittiva di cosa fatto/co-fatto e con chi, e descrizione di aspetti implementativi importanti non già presenti nel design)-->
 ### Filaseta Angelo
-Durante lo sviluppo del progetto mi sono occupato di diversi aspetti motlo variegati:
+Durante lo sviluppo del progetto mi sono occupato di diversi aspetti molto variegati:
 
 1. In una fase preliminare del progetto mi sono occupato dell'impostazione dei parametri del tool sbt. Mi sono occupato dell'aggiunta delle dipendenze e dei plugin principali (ScalaTest, Scoverage, sbt-github-action, sbt-assembly) e della relativa configurazione.
    
@@ -151,7 +151,33 @@ Durante tutta la realizzazione del progetto inoltre mi sono occupato della stesu
 ### Sanchi Piero
 <!-- Lista di componenti -->
 ### Talmi Alessandro
-<!-- Lista di componenti -->
+Durante questi due mesi ho avuto modo di lavorare a molteplici aspetti del progetto:
+
+1. Per prima cosa, insieme a [Tronetti](#tronetti-elisa), [Filaseta](#filaseta-angelo) e [Sanchi](#sanchi-piero), ho condotto un'analisi del problema, del dominio applicativo e delle possibili tecnologie coinvolte.  
+Ciò ci ha portato ad effettuare una progettazione preliminare utile a porre le fodamenta del progetto.  
+L'aspetto più fondamentale di questa fase è stata la produzione di modellistica (la stessa che, evolutasi nel tempo, compone parte di questa relazione).
+
+2. In fase di setup mi sono occupato dello studio e dell'integrazione del plugin Scalafix.  
+Collaborando con [Tronetti](#tronetti-elisa), inoltre, ho effettuato ricerche sulle modalità di gestione del Git workflow; ciò si è rivelato fondamentale in quanto il repository principale, dalla quale il resto dei componenti del team avrebbe creato delle fork, è stato gestito da me (in collaborazione con [Filaseta](#filaseta-angelo) nel caso in cui non fossi stato momentaneamente reperibile).
+
+3. Terminate le fasi preliminari, in collaborazione con [Tronetti](#tronetti-elisa) ho realizzato le interfacce e le implementazioni di StoryNode e StoryModel.  
+All'interno dello stesso sprint inoltre, affiancato da [Filaseta](#filaseta-angelo), ho realizzato la struttura principale dei controller di gioco, predisponendo l'architettura estendibile basata su GameMasterController e molteplici SubController.
+
+4. In autonomia ho successivamente realizzato la feature della History (log) di una storia, sviluppando i necessari componenti di model, view e controller; al fine di poter ottenere rapidamente delle storie, seppur basilari, ho implementato un generatore randomico che sfruttasse le classi da noi create. Ho inoltre integrato all'interno dei Pathway la possibilità di introdurre dei prerequisiti.  
+Ho avuto poi modo di concentrarmi sulla view dedicata alla visualizzazione delle info del giocatore; da qui ho cominciato a coordinarmi con [Sanchi](#sanchi-piero) per ottenere uniformità nei moduli che sarebbero andati a comporre le varie view.
+
+5. Terminato il processo per ottenere uniformità all'interno del comparto view, sfruttando i componenti per la serializzazione implementati da [Filaseta](#filaseta-angelo), ho implementato la funzione di salvataggio dei progressi di una storia.  
+Ho infine posto le basi per la classe Event.
+
+6. Da questo punto in poi mi sono allontanato dallo sviluppo del gioco (tornandovi solo per modifiche migliori o per fornire aiuto ai miei compagni) e mi sono dunque concentrato sulla realizzazione di un editor che permetta la creazione di nuove storie agilmente attraverso l'interfaccia grafica direttamente dall'interno dell'applicativo in esecuzione.  
+Innanzitutto vi è stata una prima fase in cui ho dovuto effettuare ricerche e test al fine di trovare una libreria grafica che permettesse di esprimere in modo chiaro il grafico di una storia.  
+Successivamente ho convenuto che, per questa particolare feature, fosse conveniente creare una versione mutabile delle principali classi che compongono la struttura di una storia.  
+Lo sviluppo dell'editor è stato un processo particolarmente lungo, dettato non tanto dalle molte operazioni eseguibili durante la creazione e la modifica di una storia, quanto più dai controlli logici per prevedere tutte le situazioni in cui una storia poteva rompere i vincoli da noi imposti; è stato inoltre necessario ottimizzare gli algoritmi usati in questa feature, in quanto l'esplorazione della struttura di una storia per eseguirvi sopra delle operazioni poteva richiedere tempi computazionali spesso non trascurabili. 
+
+7. Durante tutto lo svolgimento del progetto si è cercato di mantenere uno standard qualitativo alto nell'organizzazione e implementazione del codice; per ulteriormente migliorare tale aspetto nelle fasi finali del progetto (insieme ad i miei compagni) mi sono dedicato alla revisione di quanto fatto fin ora alla ricerca di potenziali migliorie.
+
+Durante questi mesi di lavoro mi sono occupato dei test riguardanti alcuni componenti da me sviluppati, oltre che aver sempre effettuato una prima revisione del codice durante l'approvazione delle pull request effettuate dai miei compagni.
+
 ### Tronetti Elisa
 <!-- Lista di componenti -->
 
