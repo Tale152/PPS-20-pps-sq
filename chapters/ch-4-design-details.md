@@ -59,17 +59,38 @@ Viene dinamicamente generato un form finalizzato all'inserimento dei dati necess
 
 ## Organizzazione del codice
 
+Il diagramma dei package sottostante mostra in che modo si è deciso di organizzare il codice.  
+La prima scelta rilevante presa è stata quella di suddividere tutti i sorgenti in 3 package principali (model, view e controller); questo è stato permesso anche grazie al pattern di progettazione MVC adottato. Le dipendenze che intercorrono tra questi 3 package principali infatti rispecchiano tale pattern.  
+
 <div align="center">
-<img src="https://images2.imgbox.com/fe/21/okrKrW7s_o.png" alt="Diagramma delle classi - Sezione Esploratore">
+<img src="https://images2.imgbox.com/a4/6c/0NLa7gly_o.png" alt="Diagramma dei package">
 <p align="center">Diagramma dei package</p>
 </div>
 
-TODO
+Il package __model__ è stato suddiviso ulteriormente in 3 macro-aree: 
+- character  
+Contiene tutte le informazioni relative ai personaggi presenti nella storia. Al fine di rendere l'organizzazione più chiara, abbiamo aggiunto un'ulteriore divisione che contiene le proprietà.
+- nodes  
+In questo package sono presenti le strutture dati che permettono di rappresentare e navigare correttamente la storia.
+- items  
+Utilizzato per contenere tutti gli oggetti che possono essere creati.  
 
-<!-- NOTA: corredato da pochi ma efficaci diagrammi -->
-<!-- Lista dei vari componenti del sistema -->
+Il package __controller__ è stato ulteriormente frazionato in sotto-package, ognuno dei quali costituisce una funzionalità dell'applicativo:
+- editor  
+Relativo all'editor delle storie.
+- game  
+Riguarda l'effettiva esecuzione del gioco e per questa ragione contiene a sua volta i subcontroller, che gestiscono le sotto fasi della partita.
+- prolog  
+Contiene il motore che permette di interpretare il liguaggio prolog e il codice che ne espone le funzionalità.
+- util  
+Il contenuto di questo package è più generico e va infatti a toccare più ambiti dell'applicativo. Ad esempio, il suo sotto-package serialization fornisce classi di utilità per la serializzazione e deserializzazione delle storie, la quale viene sfruttata da diversi controller.  
 
-## Scelte rilevanti
+Infine l'organizzazione del package __view__ segue le effettive schermate presenti nel gioco, di modo che sia facile orientarsi anche all'interno dei vari package.  
+A questo livello di dettaglio si è deciso di non mostrare le uteriori suddivisioni all'interno del package di ogni schermata, in quanto ogni view è stata poi suddivisa secondo le esigenze, anche se l'entry point rilevante è sempre posizionato nel package principale della relativa schermata.  
+Dato che alcuni componenti grafici sono condivisi, si è decisono di creare il package util, al fine di renderli facilmente identificabili.  
+
+Il numero di package alla fine del progetto rimane comunque contenuto, grazie anche alla natura del linguaggio Scala. La convenzione infatti non è quella di separare la definizione dell'interfaccia dalla sua implementazione, ma di avere un unico file, il quale contiene tipicamente tutte le possibili implementazioni di tale interfaccia. La keyword __sealed trait__ infatti va a sottolineare l'utilizzo di tale feature offerta dal linguaggio.  
+La tendenza inoltre nel produrre codice breve, coinciso e efficace non ha reso le classi più verbose ed ha permesso di organizzare in questo modo i package.
 
 ## Scelte Rilevanti (Model)
 
@@ -82,7 +103,7 @@ Nelle prossime sezioni verranno approfondite delle sotto parti specifiche del Mo
 #### Character
 
 <div align="center">
-<img src="https://images2.imgbox.com/85/ab/DVS26CFp_o.png" alt="Diagramma delle classi - Sezione Character">
+<img src="https://images2.imgbox.com/df/9d/DskTETf6_o.png" alt="Diagramma delle classi - Sezione Character">
 <p align="center">Diagramma delle classi - Sezione Character</p>
 </div>
 
