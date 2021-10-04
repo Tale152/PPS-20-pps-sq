@@ -107,9 +107,7 @@ object BattleController {
     }
 
     private def executeAttack(attacker: Character, target: Character): Unit = {
-      val fail = failedAttack(attacker, target)
-      println(attacker.name + " " + fail)
-      if(fail){
+      if(failedAttack(attacker, target)){
         roundNarrative += attacker.name + " attack failed!\n"
       } else {
         val damageInflicted: Int = damage(attacker, target)
@@ -119,7 +117,7 @@ object BattleController {
       checkBattleResult()
     }
 
-    //used to randomly generate a number to establish if an attack is successful or not
+    //used to randomly generate a number to establish if an attack is successful or not (also base on character stats)
     private def failedAttack(attacker: Character, target: Character): Boolean = {
       val attackProbabilityBaseValue: Int =
         (attacker.properties.stat(StatName.Dexterity).value -
