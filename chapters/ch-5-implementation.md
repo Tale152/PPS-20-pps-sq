@@ -1,11 +1,11 @@
 # 5 - Implementazione
 
 ## Git workflow accordato
-All'inizio del progetto, un momento cruciale è stato quello della scelta del workflow da seguire su Git.  
-In conseguenza alla scelta di sfruttare il meccanismo delle pull-request, ogni membro del gruppo era responsabile della propria fork, e questo ha reso ancora più fondamentale scegliere come strutturare il repository sul quale effettuare le pull-request.  
+All'inizio del progetto, un momento cruciale è stato quello della scelta del workflow da seguire per cooperare su Git.  
+In conseguenza alla scelta di sfruttare il meccanismo delle pull-request, ogni membro del gruppo è stato responsabile della propria fork, e questo ha reso ancora più fondamentale scegliere come strutturare il repository sul quale effettuare le pull-request.  
 Si è deciso di utilizzare diversi branch, al fine di mantere il lavoro ben organizzato:
 - __docs__: il branch docs è un branch orfano nel quale abbiamo prodotto tutta la documentazione. In questo branch non è presente infatti il codice dell'applicativo.
-- __master__:  si è deciso di utilizzare il branch master solo alla fine di ogni Sprint, con l'obiettivo di rilasciare una versione funzionante del gioco, contrassegnata dal rispettivo tag; prima di rilascire la versione su master, veniva fatto il merge di tutto il codice sul branch develop, al fine di verificare il corretto funzionamento.
+- __master__:  si è deciso di utilizzare il branch master solo alla fine di ogni Sprint, con l'obiettivo di rilasciare una versione funzionante del gioco, contrassegnata dal rispettivo tag; prima di rilascire la versione su master, veniva fatto il merge di tutto il codice sul branch develop, al fine di verificarne il corretto funzionamento.
 - __develop__: è il branch di appoggio sul quale sono stati svolti tutti gli sviluppi. Durante i primi Sprint le push non sono mai state effettuate sul branch develop ma nei suoi "sotto-branch", in quanto i task erano molto specifici di una certa area del progetto e quindi indipendenti.  
 L'utilizzo del pattern di progettazione MVC descritto in precedenza ha permesso una facile suddivisione del lavoro sotto questo punto di vista.  
 Per questa ragione develop è stato organizzato a livello logico nei seguenti branch:
@@ -118,14 +118,6 @@ Come illustrato [precedentemente](#test-automatizzati) non è stato possibile au
 #### Test non Automatizzati
 Per alcuni componenti del sistema non è stato possibile creare test automatizzati. Sono comunque state realizzate delle sessioni di testing in cui si è scandagliato il sistema in funzione per cercare bug, inesattezze o comportamenti non attesi.  
 Durante queste sessioni, verificatesi soprattuto durante gli sprint finali, si è cercato di portare il sistema in molti casi limite per verificare che il comportamento effettivo fosse anche quello previsto.
-
-##### Sistemi operativi utilizzati
-Il sistema è stato utilizzato e testato in equal misura su diversi sistemi operativi, in particolare:
-- Windows 10 è stato il sistema operativo di riferimento per quanto riguarda gli ambienti Windows.
-- Per gli ambienti Linux sono stati utilizzati due diverse distribuzioni:
-  * Manjaro KDE Plasma 21.1.4
-  * Ubuntu 21.04
-- Per quanto riguarda gli ambienti macOS è stato utilizzato macOS High Sierra 10.13.6
 
 ## Suddivisione del lavoro
 <!-- NOTA: per ogni studente, una sotto-sezione descrittiva di cosa fatto/co-fatto e con chi, e descrizione di aspetti implementativi importanti non già presenti nel design)-->
