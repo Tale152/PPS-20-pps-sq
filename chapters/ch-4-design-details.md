@@ -1,7 +1,5 @@
 # 4 - Design di dettaglio
 
-## Scelte rilevanti
-
 ## Stati del sistema
 <div align="center">
 <img src="https://images2.imgbox.com/73/62/WhxIIroY_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
@@ -58,6 +56,20 @@ In questo caso, un algoritmo (di natura simile al precedente), determina l'ordin
 L'editor presenta lo stesso comportamento per tutte le operazioni possibili (con diversi effetti sul model in base all'operazione selezionata).  
 
 Viene dinamicamente generato un form finalizzato all'inserimento dei dati necessari al compimento dell'operazione; nel momento in cui l'utente desideri confermare l'inserimento dei dati questi ultimi vengono valutati e, in caso positivo, il model viene aggiornato (così come la rappresentazione grafica di tale model). 
+
+## Organizzazione del codice
+
+<div align="center">
+<img src="https://images2.imgbox.com/fe/21/okrKrW7s_o.png" alt="Diagramma delle classi - Sezione Esploratore">
+<p align="center">Diagramma dei package</p>
+</div>
+
+TODO
+
+<!-- NOTA: corredato da pochi ma efficaci diagrammi -->
+<!-- Lista dei vari componenti del sistema -->
+
+## Scelte rilevanti
 
 ## Scelte Rilevanti (Model)
 
@@ -270,18 +282,6 @@ L'interfaccia mette a disposizione metodi utili per reperire informazioni come:
  Le modalità sono illustrate nella sezione dedicata all'[utilizzo del paradigma logico](#utilizzo-del-paradigma-logico)
 
 ## Scelte Rilevanti (View)
-
-## Organizzazione del codice
-
-<div align="center">
-<img src="https://images2.imgbox.com/fe/21/okrKrW7s_o.png" alt="Diagramma delle classi - Sezione Esploratore">
-<p align="center">Diagramma dei package</p>
-</div>
-
-TODO
-
-<!-- NOTA: corredato da pochi ma efficaci diagrammi -->
-<!-- Lista dei vari componenti del sistema -->
 
 ## Pattern di progettazione
 <!-- Lista dei vari pattern utilizzati, perché e dove -->
