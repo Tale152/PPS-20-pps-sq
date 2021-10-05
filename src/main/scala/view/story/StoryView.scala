@@ -1,16 +1,18 @@
 package view.story
 
 import controller.game.subcontroller.StoryController
+import controller.util.audio.MusicPlayer.{playStoryMusic, stopMusic}
+import controller.util.audio.SoundPlayer.isMute
 import model.nodes.Pathway
 import view.AbstractView
 import view.story.panels.{NarrativePanel, PathwaysPanel}
 import view.util.common.ControlsPanel
 import view.util.common.StandardKeyListener.quitKeyListener
-import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.{SqOkSwingDialog, SqSwingDialog}
 import view.util.scalaQuestSwingComponents.SqSwingButton
 
 import java.awt.BorderLayout
-import java.awt.event.ActionEvent
+import java.awt.event.{ActionEvent, ActionListener}
 
 /**
  * Represents the GUI for the navigation between [[model.nodes.StoryNode]].
@@ -66,12 +68,33 @@ object StoryView {
             ("h", ("[H] History", _ => storyController.goToHistory())),
             ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
             ("i", ("[I] Inventory", _ => storyController.goToInventory())),
+            muteButton,
             quitKeyListener("Do you really want to exit the game?",
               (_: ActionEvent) => storyController.close()))
         ), BorderLayout.NORTH
       )
       this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
-      this.add(PathwaysPanel(_pathways, p => storyController.choosePathway(p)), BorderLayout.SOUTH)
+      if (_pathways.nonEmpty) {
+        this.add(PathwaysPanel(_pathways, p => storyController.choosePathway(p)), BorderLayout.SOUTH)
+      } else {
+        SqOkSwingDialog("Game over", "You reached a final node.", _ => {})
+      }
+    }
+
+    private def muteButton: (String, (String, ActionListener)) = {
+      ("m", ("[M] " + (if (isMute) {
+        "UnMute"
+      } else {
+        "Mute"
+      }), _ => {
+        isMute = !isMute
+        if (!isMute) {
+          playStoryMusic()
+        } else {
+          stopMusic()
+        }
+        this.render()
+      }))
     }
   }
 

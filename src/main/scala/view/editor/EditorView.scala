@@ -27,6 +27,7 @@ object EditorView {
 
   /**
    * Shows a dialog that informs the user that the action performed is forbidden
+   *
    * @param message string to display
    * @return the SqSingDialog instance
    */
@@ -52,8 +53,10 @@ object EditorView {
     override def populateView(): Unit = {
 
       this.add(ControlsPanel(List(
-        ("n", ("[N] Nodes narrative", _ => editorController.switchNodesNarrativeVisibility())),
-        ("p", ("[P] Pathways description", _ => editorController.switchPathwaysDescriptionVisibility())),
+        ("d", ("[D] Descriptions", _ => {
+          editorController.switchNodesNarrativeVisibility()
+          editorController.switchPathwaysDescriptionVisibility()
+        })),
         ("i", ("[I] Info", _ => editorController.goToExplorer()))
       )), BorderLayout.NORTH)
 

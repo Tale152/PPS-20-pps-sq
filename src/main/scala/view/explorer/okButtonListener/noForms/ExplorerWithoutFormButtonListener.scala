@@ -1,7 +1,7 @@
 package view.explorer.okButtonListener.noForms
 
 import controller.ExplorerController
-import view.explorer.ExplorerDialogs.NoSolutionDialog
+import view.explorer.ExplorerDialogs.noSolutionDialog
 import view.explorer.okButtonListener.ExplorerButtonListener
 
 import java.awt.event.{ActionEvent, ActionListener}
@@ -23,7 +23,6 @@ abstract class ExplorerWithoutFormButtonListener(explorerController: ExplorerCon
    */
   override def actionPerformed(e: ActionEvent): Unit = performAction()
 
-  override def showError(): Unit = NoSolutionDialog(explorerController)
-
+  override def showError(): Unit = noSolutionDialog(explorerController)
 }
 

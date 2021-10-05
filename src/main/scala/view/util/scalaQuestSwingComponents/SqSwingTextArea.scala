@@ -11,8 +11,7 @@ import view.util.StringUtil.DefaultFontSize
  * @param content  the text to display in the textarea.
  * @param editable true if the textArea needs to be editable.
  */
-case class SqTextArea(content: String, editable: Boolean = false) extends JTextArea(content) {
-
+case class SqSwingTextArea(content: String, editable: Boolean = false) extends JTextArea(content) {
   this.setEditable(editable)
   this.setFocusable(false)
   this.setLineWrap(true)

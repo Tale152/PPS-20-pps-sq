@@ -7,7 +7,7 @@ import model.items.{ConsumableItem, EquipItem, Item, KeyItem}
 import model.nodes.{ItemEvent, StatEvent, StoryNode}
 import view.AbstractView
 import view.util.common.{ControlsPanel, Scrollable}
-import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqTextArea}
+import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingTextArea}
 
 import java.awt.BorderLayout
 import javax.swing.BoxLayout
@@ -24,7 +24,7 @@ case class StoryNodeDetailsView(private val storyNode: StoryNode, private val ed
   private val centerPanel = new SqSwingBoxPanel(BoxLayout.Y_AXIS) {}
 
   override def populateView(): Unit = {
-    centerPanel.add(SqTextArea(
+    centerPanel.add(SqSwingTextArea(
       "ID: " + storyNode.id +
         "\n\nNarrative:\n" + storyNode.narrative +
         "\n\nNumber of nodes reaching this node: " +
@@ -32,7 +32,7 @@ case class StoryNodeDetailsView(private val storyNode: StoryNode, private val ed
         "\nNumber of nodes reached by this node: " + storyNode.pathways.size
     ))
     if (storyNode.enemy.nonEmpty) {
-      centerPanel.add(SqTextArea(enemyString(storyNode.enemy.get)))
+      centerPanel.add(SqSwingTextArea(enemyString(storyNode.enemy.get)))
     }
     if (storyNode.events.nonEmpty) {
       var str = "Events:\n"
@@ -40,7 +40,7 @@ case class StoryNodeDetailsView(private val storyNode: StoryNode, private val ed
         case statEvent: StatEvent => str = str + "\n" + statEventString(statEvent) + "\n"
         case itemEvent: ItemEvent => str = str + "\n" + itemEventString(itemEvent) + "\n"
       }
-      centerPanel.add(SqTextArea(str))
+      centerPanel.add(SqSwingTextArea(str))
     }
     this.add(Scrollable(centerPanel), BorderLayout.CENTER)
     this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => editorController.execute())))), BorderLayout.SOUTH)

@@ -3,8 +3,8 @@ package view.explorer.okButtonListener.noForms
 import controller.ExplorerController
 import controller.prolog.structs.StructsNames.Predicates.AllStoryWalkthroughPredicateName
 import controller.util.ResourceNames.FileExtensions.TxtExtension
+import view.explorer.ExplorerDialogs.fileCreatedDialog
 import view.explorer.ExplorerFileTextBuilder
-import view.explorer.ExplorerDialogs.FileCreatedDialog
 
 case class AllPossibleWalkthroughListenerWithoutForm(override val explorerController: ExplorerController)
   extends AllPossibleGenericListenerWithoutForm[String](explorerController) {
@@ -18,6 +18,6 @@ case class AllPossibleWalkthroughListenerWithoutForm(override val explorerContro
       .addStories(solutions)
       .size(solutions.size)
       .outputFile(filePath)
-    FileCreatedDialog(explorerController, filePath)
+    fileCreatedDialog(explorerController, filePath)
   }
 }

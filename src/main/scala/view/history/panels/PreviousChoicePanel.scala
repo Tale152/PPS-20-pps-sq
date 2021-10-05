@@ -1,6 +1,6 @@
 package view.history.panels
 
-import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqTextArea}
+import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingTextArea}
 
 import java.awt.Color
 import javax.swing.{BorderFactory, BoxLayout}
@@ -18,8 +18,8 @@ case class PreviousChoicePanel(nodeNarrative: String, chosenPathwayDescription: 
     val RightBorder: Int = 15
   }
 
-  this.add(SqTextArea(nodeNarrative))
-  val chosenPathway: SqTextArea = SqTextArea(chosenPathwayDescription)
+  this.add(SqSwingTextArea(nodeNarrative))
+  val chosenPathway: SqSwingTextArea = SqSwingTextArea(chosenPathwayDescription)
   chosenPathway.setForeground(Color.BLUE)
   this.add(chosenPathway)
 

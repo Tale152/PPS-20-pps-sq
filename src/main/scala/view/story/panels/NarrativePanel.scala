@@ -1,7 +1,7 @@
 package view.story.panels
 
 import view.util.common.Scrollable
-import view.util.scalaQuestSwingComponents.SqTextArea
+import view.util.scalaQuestSwingComponents.SqSwingTextArea
 
 import javax.swing.BorderFactory
 
@@ -19,7 +19,7 @@ case class NarrativePanel(text: String) extends StoryPanel("Narrative") {
 
   import Paddings._
 
-  val textArea: SqTextArea = SqTextArea(text)
+  val textArea: SqSwingTextArea = SqSwingTextArea(text)
   textArea.setBorder(BorderFactory.createEmptyBorder(OtherPaddings, OtherPaddings, OtherPaddings, RightPadding))
   this.add(Scrollable(textArea))
 }

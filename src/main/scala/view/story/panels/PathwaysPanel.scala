@@ -4,6 +4,7 @@ import model.nodes.Pathway
 import view.Frame
 import view.util.common.{Scrollable, VerticalButtons}
 import view.util.scalaQuestSwingComponents.SqSwingButton
+
 import java.awt.Dimension
 
 /**
