@@ -3,7 +3,6 @@ package view.mainMenu
 import controller.ApplicationController
 import controller.ApplicationController.{isProgressAvailable, loadStoryNewGame, loadStoryWithProgress}
 import controller.util.ResourceNames
-import controller.util.StringUtil.StringFormatUtil.swingFormatted
 import view.DeserializationView
 import view.mainMenu.buttonListeners._
 import view.mainMenu.panels.TopPanel
@@ -53,7 +52,7 @@ object MainMenu {
     }
 
     private def generateButtons(): List[SqSwingButton] = {
-      for (storyName <- _stories.toList) yield SqSwingButton(swingFormatted(storyName),
+      for (storyName <- _stories.toList) yield SqSwingButton(storyName,
         (_: ActionEvent) => {
           val storyPath = ResourceNames.storyPath(storyName)()
           if (isProgressAvailable(storyName)()) {

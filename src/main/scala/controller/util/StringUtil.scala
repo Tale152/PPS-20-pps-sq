@@ -27,31 +27,4 @@ object StringUtil {
 
   def traversableFormattedLikeArray[A](list: Traversable[A]): String = "[" + list.mkString(",") + "]"
 
-  /**
-   * Utility Object used to style strings in Java Swing.
-   */
-  object StringFormatUtil {
-
-    /**
-     * Contains HTML tags used to format a formatted string.
-     */
-    object FormatElements {
-      val SwingNewLine: String = "<br/>"
-    }
-
-    /**
-     * @param string the input string.
-     * @return a string that can be decorated with html tags for styling.
-     */
-    def swingFormatted(string: String): String = "<html>" + string + "</html>"
-
-    /**
-     * @param string the input string.
-     * @return a string that represent a title inside a
-     *         [[controller.util.serialization.StringUtil.StringFormatUtil#swingFormatted(java.lang.String)]] string.
-     */
-    def swingTitle(string: String): String = "<h1>" + string + "</h1>"
-
-  }
-
 }
