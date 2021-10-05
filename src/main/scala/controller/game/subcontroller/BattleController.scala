@@ -45,6 +45,7 @@ object BattleController {
                                      private val storyModel: StoryModel) extends BattleController {
 
     private val failAttackChance: Int = 10
+    private val escapeChance: Int = 20
 
     private val battleView: BattleView = BattleView(this)
     private val player: Player = storyModel.player
@@ -120,8 +121,8 @@ object BattleController {
     //used to randomly generate a number to establish if an attack is successful or not (also base on character stats)
     private def failedAttack(attacker: Character, target: Character): Boolean = {
       val attackProbabilityBaseValue: Int =
-        (attacker.properties.stat(StatName.Dexterity).value -
-          target.properties.stat(StatName.Dexterity).value) +
+        (attacker.properties.stat(StatName.Wisdom).value -
+          target.properties.stat(StatName.Intelligence).value) +
           failAttackChance
 
       Random.nextInt(
@@ -134,7 +135,9 @@ object BattleController {
         target.properties.modifiedStat(StatName.Constitution).value
       val actualDamage: Int = if (damageInflicted > 0) damageInflicted else 1
 
-      actualDamage + Random.nextInt(attacker.properties.stat(StatName.Dexterity).value)
+      actualDamage + Random.nextInt(
+        (attacker.properties.stat(StatName.Dexterity).value
+          + attacker.properties.stat(StatName.Constitution).value) / 2)
     }
 
     private def checkBattleResult(): Unit = {
@@ -176,9 +179,8 @@ object BattleController {
 
     private def escapeCondition: Boolean = {
       val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-      (storyModel.player.properties.modifiedStat(StatName.Dexterity).value +
-        player.properties.modifiedStat(StatName.Intelligence).value) >
-        enemy.properties.modifiedStat(StatName.Dexterity).value
+      Random.nextInt(escapeChance - (storyModel.player.properties.modifiedStat(StatName.Intelligence).value -
+        enemy.properties.modifiedStat(StatName.Dexterity).value)) == 0
     }
 
     private def escapeFailed(): Unit = {
