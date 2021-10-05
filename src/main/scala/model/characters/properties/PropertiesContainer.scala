@@ -59,9 +59,15 @@ object PropertiesContainer {
 
     override def statModifiers(st: StatName): List[StatModifier] = statModifiers.filter(s => s.statName == st)
 
-    override def modifiedStat(statName: StatName): Stat =
-      statModifiers(statName)
+    override def modifiedStat(statName: StatName): Stat = {
+      val res = statModifiers(statName)
         .foldLeft(stat(statName))((stat, modifier) => Stat(modifier.onApply(stat.value),stat.statName))
+      if(res.value > 0){
+        res
+      } else {
+        Stat(1, res.statName)
+      }
+    }
 
   }
 
