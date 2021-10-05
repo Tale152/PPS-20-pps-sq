@@ -17,13 +17,12 @@ case class TopPanel() extends SqSwingBorderPanel {
     } else {
       "mute"
     }, _ => {
-      if (isMute) {
+      isMute = !isMute
+      if (!isMute) {
         muteButton.setText("mute")
-        isMute = false
         playMenuMusic()
       } else {
         muteButton.setText("unMute")
-        isMute = true
         stopMusic()
       }
     }

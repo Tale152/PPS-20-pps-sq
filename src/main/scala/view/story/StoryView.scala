@@ -1,6 +1,8 @@
 package view.story
 
 import controller.game.subcontroller.StoryController
+import controller.util.audio.MusicPlayer.{playStoryMusic, stopMusic}
+import controller.util.audio.SoundPlayer.isMute
 import model.nodes.Pathway
 import view.AbstractView
 import view.story.panels.{NarrativePanel, PathwaysPanel}
@@ -66,6 +68,14 @@ object StoryView {
             ("h", ("[H] History", _ => storyController.goToHistory())),
             ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
             ("i", ("[I] Inventory", _ => storyController.goToInventory())),
+            ("m", ("[M] Mute/UnMute", _ => {
+              isMute = !isMute
+              if(!isMute) {
+                playStoryMusic()
+              } else {
+                stopMusic()
+              }
+            })),
             quitKeyListener("Do you really want to exit the game?",
               (_: ActionEvent) => storyController.close()))
         ), BorderLayout.NORTH
