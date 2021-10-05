@@ -1,4 +1,7 @@
 # Product Backlog
+Il contenuto di queste tabelle estrapola le informazioni principali del lavoro effettuato su Trello, nel quale sono stati tracciati tutti i task assegnati ed eseguiti in ogni sprint. Le tempistiche dei task sono state riportate in modo fedele a quanto annotato su Trello.  
+La board utilizzata può essere trovata al seguente link: https://trello.com/b/5M0cOIzN .  
+
 | Priority | Item                                               | Details                                                                                                                                     | Initial Size Estimates | Sprint 1 | Sprint 2 | Sprint 3 | Sprint 4 | Sprint 5 | Sprint 6 | Sprint 7 |
 |----------|----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|------------------------|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|
 |     1    | Implementazione elementi principali del Model      | Implementazione degli elementi basi del model, che costituiscono le strutture dati principali per il funzionamento del gioco                |           30           | 15       | 0        | 0        | 0        | 0        | 0        | -        |
