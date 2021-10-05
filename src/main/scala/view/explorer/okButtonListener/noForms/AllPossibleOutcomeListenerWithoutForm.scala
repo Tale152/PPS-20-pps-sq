@@ -4,7 +4,7 @@ import controller.ExplorerController
 import controller.prolog.structs.StructsNames.Predicates.AllFinalNodesSolutionsPredicateName
 import controller.util.ResourceNames.FileExtensions.TxtExtension
 import view.explorer.ExplorerFileTextBuilder
-import view.explorer.ExplorerDialogs.FileCreatedDialog
+import view.explorer.ExplorerDialogs.fileCreatedDialog
 
 case class AllPossibleOutcomeListenerWithoutForm(override val explorerController: ExplorerController)
   extends AllPossibleGenericListenerWithoutForm[Int](explorerController) {
@@ -18,6 +18,6 @@ case class AllPossibleOutcomeListenerWithoutForm(override val explorerController
       .addIterableOfIterables(solutions)
       .size(solutions.size)
       .outputFile(filePath)
-    FileCreatedDialog(explorerController, filePath)
+    fileCreatedDialog(explorerController, filePath)
   }
 }

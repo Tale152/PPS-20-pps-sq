@@ -2,7 +2,7 @@ package view.explorer.okButtonListener.forms
 
 import controller.ExplorerController
 import view.form.{Form, OkFormButtonListener}
-import view.explorer.ExplorerDialogs.NoSolutionDialog
+import view.explorer.ExplorerDialogs.noSolutionDialog
 import view.explorer.okButtonListener.ExplorerButtonListener
 
 /**
@@ -14,6 +14,6 @@ import view.explorer.okButtonListener.ExplorerButtonListener
 abstract class ExplorerFormButtonListener(form: Form, explorerController: ExplorerController)
   extends OkFormButtonListener(form, explorerController) with ExplorerButtonListener {
 
-  override def showError(): Unit = NoSolutionDialog(explorerController)
+  override def showError(): Unit = noSolutionDialog(explorerController)
 
 }

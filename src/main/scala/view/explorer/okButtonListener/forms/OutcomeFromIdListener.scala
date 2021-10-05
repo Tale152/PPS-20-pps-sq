@@ -9,7 +9,7 @@ import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.explorer.okButtonListener.ExplorerButtonListener
 import view.form.Form
 import view.explorer.ExplorerFileTextBuilder
-import view.explorer.ExplorerDialogs.FileCreatedDialog
+import view.explorer.ExplorerDialogs.fileCreatedDialog
 
 case class OutcomeFromIdListener(override val form: Form, override val controller: ExplorerController)
   extends ExplorerFormButtonListener(form, controller) with ExplorerButtonListener {
@@ -31,7 +31,7 @@ case class OutcomeFromIdListener(override val form: Form, override val controlle
       .addIterableOfIterables(solutions)
       .size(solutions.size)
       .outputFile(filePath)
-    FileCreatedDialog(controller, filePath)
+    fileCreatedDialog(controller, filePath)
   }
 
 }

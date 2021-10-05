@@ -8,7 +8,7 @@ import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
 import view.form.Form
 import view.explorer.ExplorerFileTextBuilder
-import view.explorer.ExplorerDialogs.FileCreatedDialog
+import view.explorer.ExplorerDialogs.fileCreatedDialog
 
 case class StoryWalkthroughFromIdListener(override val form: Form, override val controller: ExplorerController)
   extends ExplorerFormButtonListener(form, controller) {
@@ -31,7 +31,7 @@ case class StoryWalkthroughFromIdListener(override val form: Form, override val 
       .addStories(solutions)
       .size(solutions.size)
       .outputFile(filePath)
-    FileCreatedDialog(controller, filePath)
+    fileCreatedDialog(controller, filePath)
   }
 
 }

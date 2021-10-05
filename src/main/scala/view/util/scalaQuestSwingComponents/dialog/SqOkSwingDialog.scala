@@ -4,7 +4,7 @@ import view.util.scalaQuestSwingComponents.SqSwingButton
 
 import java.awt.event.ActionListener
 
-abstract class SqOkSwingDialog(titleText: String, phrase: String, okActionListener: ActionListener)
+case class SqOkSwingDialog(titleText: String, phrase: String, okActionListener: ActionListener)
   extends SqAbstractSwingDialog(
     titleText,
     phrase,

@@ -6,9 +6,9 @@ import controller.util.ResourceNames.FileExtensions.TxtExtension
 import view.editor.EditorConditionValues.ConditionDescriptions.Subjects.{TheEndingId, TheStartingId}
 import view.editor.EditorConditionValues.ConditionDescriptions.mustBeSpecified
 import view.editor.EditorConditionValues.InputPredicates.NonEmptyString
+import view.explorer.ExplorerDialogs.fileCreatedDialog
 import view.form.Form
 import view.explorer.ExplorerFileTextBuilder
-import view.explorer.ExplorerDialogs.FileCreatedDialog
 
 case class PathCheckerListener(override val form: Form, override val controller: ExplorerController)
   extends ExplorerFormButtonListener(form, controller) {
@@ -34,6 +34,6 @@ case class PathCheckerListener(override val form: Form, override val controller:
       .addIterableOfIterables(solutions)
       .size(solutions.size)
       .outputFile(filePath)
-    FileCreatedDialog(controller, filePath)
+    fileCreatedDialog(controller, filePath)
   }
 }
