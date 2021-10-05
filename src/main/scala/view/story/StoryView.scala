@@ -12,7 +12,7 @@ import view.util.scalaQuestSwingComponents.dialog.{SqOkSwingDialog, SqSwingDialo
 import view.util.scalaQuestSwingComponents.SqSwingButton
 
 import java.awt.BorderLayout
-import java.awt.event.ActionEvent
+import java.awt.event.{ActionEvent, ActionListener}
 
 /**
  * Represents the GUI for the navigation between [[model.nodes.StoryNode]].
@@ -68,14 +68,7 @@ object StoryView {
             ("h", ("[H] History", _ => storyController.goToHistory())),
             ("p", ("[P] Save Progress", _ => storyController.goToProgressSaver())),
             ("i", ("[I] Inventory", _ => storyController.goToInventory())),
-            ("m", ("[M] Mute/UnMute", _ => {
-              isMute = !isMute
-              if(!isMute) {
-                playStoryMusic()
-              } else {
-                stopMusic()
-              }
-            })),
+            muteButton,
             quitKeyListener("Do you really want to exit the game?",
               (_: ActionEvent) => storyController.close()))
         ), BorderLayout.NORTH
@@ -86,6 +79,22 @@ object StoryView {
       } else {
         SqOkSwingDialog("Game over", "You reached a final node.", _ => {})
       }
+    }
+
+    private def muteButton: (String, (String, ActionListener)) = {
+      ("m", ("[M] " + (if (isMute) {
+        "UnMute"
+      } else {
+        "Mute"
+      }), _ => {
+        isMute = !isMute
+        if (!isMute) {
+          playStoryMusic()
+        } else {
+          stopMusic()
+        }
+        this.render()
+      }))
     }
   }
 
