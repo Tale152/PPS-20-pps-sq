@@ -7,7 +7,6 @@ import view.util.scalaQuestSwingComponents.SqSwingButton
 import view.util.scalaQuestSwingComponents.dialog.{SqSwingDialog, SqYesNoSwingDialog}
 
 import java.awt.BorderLayout
-import java.awt.event.ActionEvent
 import view.battle.panels.OpponentsPanel
 import view.story.panels.NarrativePanel
 
@@ -91,7 +90,7 @@ object BattleView {
             ("i", ("[I] Inventory", _ => battleController.goToInventory())),
             ("q", ("[Q] Quit", _ =>
               SqYesNoSwingDialog("Exit Confirm", "Do you really want to exit the game?",
-                (_: ActionEvent) => battleController.close(), (_: ActionEvent) => battleController.close())))
+                _ => battleController.close(), _ => {/* does nothing */})))
           )),
         BorderLayout.SOUTH
       )
