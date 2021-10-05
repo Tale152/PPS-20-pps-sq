@@ -6,7 +6,7 @@ import view.AbstractView
 import view.story.panels.{NarrativePanel, PathwaysPanel}
 import view.util.common.ControlsPanel
 import view.util.common.StandardKeyListener.quitKeyListener
-import view.util.scalaQuestSwingComponents.dialog.SqSwingDialog
+import view.util.scalaQuestSwingComponents.dialog.{SqOkSwingDialog, SqSwingDialog}
 import view.util.scalaQuestSwingComponents.SqSwingButton
 
 import java.awt.BorderLayout
@@ -71,7 +71,11 @@ object StoryView {
         ), BorderLayout.NORTH
       )
       this.add(NarrativePanel(_narrative), BorderLayout.CENTER)
-      this.add(PathwaysPanel(_pathways, p => storyController.choosePathway(p)), BorderLayout.SOUTH)
+      if (_pathways.nonEmpty) {
+        this.add(PathwaysPanel(_pathways, p => storyController.choosePathway(p)), BorderLayout.SOUTH)
+      } else {
+        SqOkSwingDialog("Game over", "You reached a final node.", _ => {})
+      }
     }
   }
 
