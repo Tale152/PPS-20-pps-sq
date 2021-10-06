@@ -8,15 +8,37 @@ import model.items.{EquipItem, Item}
  * Trait that represents a Character.
  */
 sealed trait Character extends Serializable {
+
+  /**
+   * The name of the Character.
+   */
   val name: String
+
+  /**
+   * The instance of [[PropertiesContainer]] associated with this Character.
+   */
   val properties: PropertiesContainer
 
+  /**
+   * @return a list of Item owned by the Character
+   */
   def inventory: List[Item]
 
+  /**
+   * Changes the list of Item owned by the Character.
+   * @param itemList the new list of Item owned by the Character
+   */
   def inventory_=(itemList: List[Item]): Unit
 
+  /**
+   * @return a set containing all EquipItem equipped to the Character
+   */
   def equippedItems: Set[EquipItem]
 
+  /**
+   * Changes the set of EquipItem equipped to the Character.
+   * @param equippedItemSet the new Set of EquipItem equipped to the Character
+   */
   def equippedItems_=(equippedItemSet: Set[EquipItem]): Unit
 }
 
@@ -48,7 +70,6 @@ abstract class AbstractCharacter(override val name: String, maxPS: Int, private 
 }
 
 /**
- *
  * Case class that represents the one and only protagonist of the game.
  *
  * @param name  the name of the Player.
