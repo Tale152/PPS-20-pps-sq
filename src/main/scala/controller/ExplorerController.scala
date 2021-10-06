@@ -88,14 +88,8 @@ object ExplorerController {
     private val prologEngine = SqPrologEngine(routeNode)
     private val explorerView: ExplorerView = ExplorerView(this)
 
-    /**
-     * Start the Controller.
-     */
     override def execute(): Unit = explorerView.render()
 
-    /**
-     * Defines the actions to do when the Controller execution is over.
-     */
     override def close(): Unit = previousController.execute()
 
     private def pathStructResult(startId: Int, endId: Int): Stream[PathStruct] =
