@@ -256,6 +256,7 @@ molto eterogeneo.
    rapidamente modificata con una vera e propria GUI in Java Swing a partire dal secondo sprint. Nel primo periodo mi
    sono anche occupato della creazione di elementi core del model, come la definizione dei Character (contenenti
    dapprima solo la figura del "Player" a cui in un secondo tempo si è aggiunto anche "Enemy").
+
 2. Nel secondo sprint mi sono occupato della creazione di una GUI che fungesse da view di gioco e gettasse le basi per
    implementare tutto ciò che riguarda le schermate di gioco che sarebbero state implementate in un secondo momento, in
    questa fase l'attenzione è stata posta sull'utilizzo di meccanismi di scala, funzionali e non, nonostante la scelta
@@ -263,10 +264,12 @@ molto eterogeneo.
    integrazione delle proprietà appartenenti ai Character, tramite PropertiesContainer e dell'implementazione della
    struttura che mantiene lo stato di salute di un determinato personaggio, che assieme alle statistiche va a formare
    le "proprietà" di ogni Character.
+
 3. Nel terzo sprint mi sono occupato d'introdurre la figura del nemico di gioco, aggiungendo la classe "Enemy" al Model,
    dopodiché i miei sforzi si sono rivolti maggiormente a controller e view per la creazione delle interfacce del menù
    principale di gioco, entrypoint per l'utente e un refactor generale della struttura della view svolto assieme
    a [Talmi](#talmi-alessandro) per permettere maggior estensibilità futura.
+
 4. Nel quarto sprint sempre collaborando con [Talmi](#talmi-alessandro) mi sono occupato di aggiungere funzionalità
    essenziali come la possibilità di aggiungere nuove storie e cancellarne di già presenti. Per quanto riguarda i
    controller in questo sprint mi sono anche occupato di creare ed integrare la logica degli eventi, già implementati
@@ -274,17 +277,20 @@ molto eterogeneo.
    procedere con la creazione della logica dell'inventario, sia gestendolo lato controller che fornendo al giocatore una
    view apposita per controllare gli oggetti di gioco. Ulteriore aspetto gestito assieme a [Filaseta](#filaseta-angelo)
    è stata la corretta inizializzazione delle statistiche dei vari character.
+
 5. Nel quinto sprint mi sono occupato della aggiunta di musica durante il gioco distinguendola in diversi scenari:
    interazione con il menù principale, navigazione dei nodi di gioco e battaglia. In concomitanza alla aggiunta di
    musica ho rivisto assieme a Filaseta la gestione delle risorse in generale e la gestione di tutte le fonti di audio.
    In questo sprint ci siamo anche occupati di aspetti tralasciati in fasi pregresse poiché non essenziali da un punto
    di vista funzionale, ma utili per favorire una miglior esperienza utente, come la scelta del nome del personaggio.
+
 6. A partire dal sesto sprint abbiamo iniziato l'attività di esplorazione del codice in cerca di migliorie e
    troubleshooting dell'applicativo e abbiamo scelto le giuste risorse per il gioco. Il mio compito in questa fase è
    stato quello di implementare funzionalità utili per migliorare l'esperienza di gioco, come la possibilità di
    silenziare l'audio e ottimizzare la gestione di componenti di view utilizzati in maniera ricorrente in diverse
    porzioni di codice (ad esempio le Dialog che forniscono informazioni o permettono di catturare le decisioni
    dell'utente).
+
 7. Nel settimo sprint ci siamo occupati di identificare e gestire scenari difficilmente ricreabili giocando normalmente
    che tuttavia avrebbero potuto presentare dei problemi, come il caricamento di storie con codifica obsoleta o non
    conforme agli standard aggiornati al sesto sprint.
