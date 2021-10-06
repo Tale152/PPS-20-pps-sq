@@ -53,17 +53,17 @@ trait EditorControllerPathways {
   /**
    * Adds a Prerequisite to a Pathway.
    * @param startNodeId the id of the StoryNode that starts the Pathway
-   * @param destinationNodeId the id of the StoryNode where the Pathway ends
+   * @param endNodeId the id of the StoryNode where the Pathway ends
    * @param prerequisite the Prerequisite to add to the Pathway
    */
-  def addPrerequisiteToPathway(startNodeId: Int, destinationNodeId: Int, prerequisite: Prerequisite): Unit
+  def addPrerequisiteToPathway(startNodeId: Int, endNodeId: Int, prerequisite: Prerequisite): Unit
 
   /**
    * Deletes a Prerequisite from a Pathway.
    * @param startNodeId the id of the StoryNode that starts the Pathway
-   * @param destinationNodeId the id of the StoryNode where the Pathway ends
+   * @param endNodeId the id of the StoryNode where the Pathway ends
    */
-  def deletePrerequisiteFromPathway(startNodeId: Int, destinationNodeId: Int): Unit
+  def deletePrerequisiteFromPathway(startNodeId: Int, endNodeId: Int): Unit
 
   /**
    * @return a list of StoryNodes that can be used to be the start of a new Pathway without breaking integrity rules
@@ -162,14 +162,14 @@ object EditorControllerPathways {
     }
 
     override def addPrerequisiteToPathway(startNodeId: Int,
-                                          destinationNodeId: Int,
+                                          endNodeId: Int,
                                           prerequisite: Prerequisite): Unit = {
-      getPathway(startNodeId, destinationNodeId).get.prerequisite = Some(prerequisite)
+      getPathway(startNodeId, endNodeId).get.prerequisite = Some(prerequisite)
       editorController.decorateGraphGUI()
     }
 
-    override def deletePrerequisiteFromPathway(startNodeId: Int, destinationNodeId: Int): Unit = {
-      getPathway(startNodeId, destinationNodeId).get.prerequisite = None
+    override def deletePrerequisiteFromPathway(startNodeId: Int, endNodeId: Int): Unit = {
+      getPathway(startNodeId, endNodeId).get.prerequisite = None
       editorController.decorateGraphGUI()
     }
 
