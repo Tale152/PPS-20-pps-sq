@@ -9,8 +9,16 @@ import model.characters.Player
  * @see [[model.characters.Player]]
  */
 sealed trait Progress extends Serializable {
+
+  /**
+   * @return a List containing the ids of the StoryNodes that the player has visited while playing
+   *         (ordered by visit order)
+   */
   def serializableHistory: List[Int]
 
+  /**
+   * @return the [[Player]] instance to save
+   */
   def player: Player
 }
 
