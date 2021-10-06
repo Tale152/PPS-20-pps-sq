@@ -134,14 +134,14 @@ Durante lo sviluppo del progetto mi sono occupato di diversi aspetti molto varie
    
 5. Successivamente ho aiutato [Talmi](#talmi-alessandro) nella realizzazione dell'editor creando i componenti all'interno del package __view.form__. Il package contiene strumenti utili per le View che necessitano di richiedere alcune informazioni all'utente tramite appunto dei Form. Il componente principale __view.form.FormBuilder__ è stato successivamente utilizzato anche all'esterno dell'Editor. Le classi sono strutturate in modo da effettuare anche controlli sull'input e su eventuali stati del sistema dipendenti dai valori inseriti.
    
-6. Insieme a [Tronetti](#tronetti-elisa) ho realizzati alcuni predicati Prolog. Una volta ottenuta una parte di logica funzionante mi sono occupato di creare i componenti all'interno del package __controller.prolog__ facendo quindi interoperare i due linguaggi. Una  volta ottenuto un motore completamente funzionante ho potuto stendere il controller __controller.ExplorerController__ e la relativa view contenuta nel package __view.explorer__.
+6. Insieme a [Tronetti](#tronetti-elisa) ho realizzati alcuni predicati Prolog. Una volta ottenuta una parte di logica funzionante mi sono occupato di creare i componenti all'interno del package __controller.prolog__ facendo quindi interoperare i due linguaggi. Una volta ottenuto un motore completamente funzionante ho potuto stendere il controller __controller.ExplorerController__ e la relativa view contenuta nel package __view.explorer__.
    
 7. In una fase finale del progetto mi sono occupato della risoluzione di alcuni bug minori riscontrati e ho effettuato piccole operazioni di refactor ai componenti che presentavano inconsistenze nei termini utilizzati.
 
 Durante tutta la realizzazione del progetto inoltre mi sono occupato della stesura dei test relativi ai sorgenti da me realizzati, utilizzando anche meccanismi di ScalaTest come le Suites e i Tag.
 
 ### Sanchi Piero
-<!-- Lista di componenti -->
+
 ### Talmi Alessandro
 Durante questi due mesi ho avuto modo di lavorare a molteplici aspetti del progetto:
 
@@ -161,7 +161,7 @@ Ho avuto poi modo di concentrarmi sulla view dedicata alla visualizzazione delle
 5. Terminato il processo per ottenere uniformità all'interno del comparto view, sfruttando i componenti per la serializzazione implementati da [Filaseta](#filaseta-angelo), ho implementato la funzione di salvataggio dei progressi di una storia.  
 Ho infine posto le basi per la classe Event.
 
-6. Da questo punto in poi mi sono allontanato dallo sviluppo del gioco (tornandovi solo per modifiche migliori o per fornire aiuto ai miei compagni) e mi sono dunque concentrato sulla realizzazione di un editor che permetta la creazione di nuove storie agilmente attraverso l'interfaccia grafica direttamente dall'interno dell'applicativo in esecuzione.  
+6. Da questo punto in poi mi sono allontanato dallo sviluppo del gioco (tornandovi solo per modifiche minori o per fornire aiuto ai miei compagni) e mi sono dunque concentrato sulla realizzazione di un editor che permetta la creazione di nuove storie agilmente attraverso l'interfaccia grafica direttamente dall'interno dell'applicativo in esecuzione.  
 Innanzitutto vi è stata una prima fase in cui ho dovuto effettuare ricerche e test al fine di trovare una libreria grafica che permettesse di esprimere in modo chiaro il grafico di una storia.  
 Successivamente ho convenuto che, per questa particolare feature, fosse conveniente creare una versione mutabile delle principali classi che compongono la struttura di una storia.  
 Lo sviluppo dell'editor è stato un processo particolarmente lungo, dettato non tanto dalle molte operazioni eseguibili durante la creazione e la modifica di una storia, quanto più dai controlli logici per prevedere tutte le situazioni in cui una storia poteva rompere i vincoli da noi imposti; è stato inoltre necessario ottimizzare gli algoritmi usati in questa feature, in quanto l'esplorazione della struttura di una storia per eseguirvi sopra delle operazioni poteva richiedere tempi computazionali spesso non trascurabili. 
@@ -171,6 +171,33 @@ Lo sviluppo dell'editor è stato un processo particolarmente lungo, dettato non 
 Durante questi mesi di lavoro mi sono occupato dei test riguardanti alcuni componenti da me sviluppati, oltre che aver sempre effettuato una prima revisione del codice durante l'approvazione delle pull request effettuate dai miei compagni.
 
 ### Tronetti Elisa
-<!-- Lista di componenti -->
+
+Durante lo svolgimento di questo progetto ho affrontato diversi aspetti di progettazione e sviluppo:  
+
+1. Nel corso del primo Sprint mi sono occupata della ricerca approfondita di informazioni su __ScalaTest__, al fine di proporre agli altri membri del gruppo la soluzione più appropriata per il nostro progetto.  
+Insieme a [Talmi](#talmi-alessandro) abbiamo discusso l'organizzazione del __Git Workflow__ da seguire e abbiamo valutato i vantaggi e gli svantaggi dell'utilizzo delle __pull request__ per lo svolgimento del progetto.  
+Infine ho eseguito il set-up della board su __Trello__, cercando di creare una board organizzata e chiara; ho predisposto le varie liste, le label che avrebbero costituito il punto di riferimento per l'identificazione dei task e ho creato dei bottoni che automatizzavano il reset delle liste alla fine di ogni Sprint, di modo da non doverlo svolgere manualmente.  
+
+2. Sempre durante il primo Sprint, insieme a tutti i membri del gruppo, ho partecipato all'analisi del dominio applicativo e alla conseguente progettazione.  
+
+3. Il primo Sprint mi ha vista coinvolta insieme a [Talmi](#talmi-alessandro) nell'implementazione di __StoryNode__ e __StoryModel__. Ho inoltre lavorato in autonomia a __Pathway__, di modo da completare le classi che costituiscono la struttura base della struttura dati della storia.  
+
+4. Durante il secondo Sprint ho lavorato alle proprietà dei personaggi e nello specifico alle __Stats__ e __StatsModifier__, le quali permetto a un giocatore di avere le caratteristiche che potranno poi essere influenzate da eventi esterni.  
+
+5. Durante il terzo Sprint ho implementato insieme a [Filaseta](#filaseta-angelo) i vari tipi di oggetti, e nello specifico tutto ciò che è contenuto nel package __model.items__.  
+
+6. Nel quarto Sprint mi sono occupata della creazione del meccanismo delle battaglie con i nemici, creando sia il __BattleController__ che la __BattleView__. L'implementazione della BattleView ha richiesto la generalizzazione di alcuni componenti grafici già esistenti e la creazione di elementi propri di questa interfaccia grafica.  
+Il meccanismo della battaglia ha richiesto anche un'integrazione con l'__InventoryController__ implementato da [Filaseta](#filaseta-angelo); abbiamo quindi ragionato insieme per decidere come fare interagire correttamente le due logiche.  
+Il calcolo dei danni, della probabilità di fuggire dalla battaglia e di fallire l'attacco si sono evolute nel tempo, al fine di non renderlo banale e di fare in modo che il giocatore non possa utilizzare un'unica statistica per essere certo di poter vincere qualunque battaglia.  
+
+7. Il quinto Sprint mi ha vista coinvolta insieme a [Filaseta](#filaseta-angelo) nella realizzazione dei predicati __Prolog__ per l'esplorazione delle storie. Ho utilizzato il software tuProlog per implementare i vari predicati e verificarne il funzionamento. Una volta che il risulta era quello voluto, [Filaseta](#filaseta-angelo) si è occupato della sua integrazione su Scala.  
+
+8. L'ultimo Sprint ci ha visti tutti coinvolti nella ricerca di bug e nel refactor del codice.  
+Mi sono occupata principalmente di risolvere bug relativi all'inventario, alla battaglia e all'aggiornamento delle view quando le statistiche del giocatore venivano modificate.  
+Inoltre ho effettuato un refactor abbastanza minuzioso dei test, al fine di ridurre le ripetizioni di codice che li rendevano difficili da leggere.  
+
+9. Essendo stata la responsabile di Trello durante questo progetto, nell'ultimo Sprint mi sono anche dedicata nel produrre le tabelle dello __Scrum Backlog__ prensenti anche in questa documentazione, estraendo le informazioni principali dalla board di Trello.
+
+Nello svolgimento del progetto mi sono occupata dell'implementazione di test con __ScalaTest__ di tutti le classi di model da me prodotte, al fine di seguire nel modo più fedele possibile un approccio TDD.  
 
 ---
