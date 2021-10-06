@@ -47,7 +47,7 @@ sealed trait PropertiesContainer extends Serializable {
   def statModifiers_=(statModifierSet: List[StatModifier]): Unit
 
   /**
-   * Returns a stat with actually the modified stat.
+   * Returns a stat with actually the modified stat (if the resulting value is less than one, it will be raised to one).
    * @param statName the stat that is going to be returned with the actual current value.
    * @return a stat with the current stat value.
    */
