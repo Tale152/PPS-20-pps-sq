@@ -1,4 +1,4 @@
-package model.characters.items
+package model.items
 
 import mock.MockFactory.CharacterFactory
 import model.characters.Player

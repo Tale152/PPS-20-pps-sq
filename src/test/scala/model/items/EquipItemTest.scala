@@ -1,4 +1,4 @@
-package model.characters.items
+package model.items
 
 import mock.MockFactory.ItemFactory
 import mock.MockFactory.ItemFactory._
