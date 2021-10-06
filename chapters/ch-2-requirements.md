@@ -5,18 +5,19 @@ Questo capitolo sarà dedicato alla descrizione dei requisiti che il progetto do
 ## 2.1 - Requisiti di business
 
 L'applicazione dovrà disporre delle seguenti caratteristiche:
-
-- Visualizzazione di una GUI che permetta all'utente di giocare immettendo le proprie decisioni nel sistema;
+- visualizzazione di una GUI che permetta all'utente di giocare immettendo le proprie decisioni nel sistema;
 - architettura che consenta agevolmente di spostarsi tra i vari nodi della storia in base alle decisioni prese;
 - interfaccia che permetta all'utente di scegliere la storia da intraprendere tra quelle disponibili e gestire i salvataggi;
 - sistema che permetta al giocatore di allocare dei punti al fine di personalizzare statistiche del proprio personaggio;
 - sistema che consenta al giocatore di consultare le proprie statistiche in itinere. Esse potranno infatti subire variazioni dovute all'equipaggiamento di oggetti o all'accadimento di eventi;
-- battle system che proporrà scontri 1 vs 1 contro nemici controllati dal sistema.
+- battle system che proporrà scontri 1 vs 1 contro nemici controllati dal sistema;
+- sistema che permetta all'utente di creare ed modificare storie;
+- funzionalità per l'esplorazione delle storie create, per vedere tutte le possibili combinazioni.
 
 ## 2.2 - Requisiti utente
 I requisiti utente esprimono i bisogni degli utenti e descrivono quali sono le azioni che l’utente deve poter effettuare interagendo con il sistema.  
 
-Al fine di esprimere in maniera concisa tali requisiti sono state impiegate le User stories e i Casi d'uso.
+Al fine di esprimere in maniera concisa tali requisiti sono stati impiegati le User stories e i Casi d'uso.
 
 ### 2.2.1 - User stories
 Le user stories sono delle specifiche informali, scritte dal punto di vista dell'utente finale, che descrivono ad alto livello le funzionalità che il sistema dovrà possedere.
@@ -42,7 +43,7 @@ In quanto giocatore
 4.  - **WHAT**  
     vorrei poter selezionare le caratteristiche del mio personaggio
     - **WHY**  
-    per scegliere delle caratteristiche che avvantaggino una certo stile di gioco
+    per scegliere delle caratteristiche che avvantaggino un certo stile di gioco
 <br/><br/>
 5.  - **WHAT**  
     vorrei che le caratteristiche del mio personaggio influenzino la storia
@@ -69,6 +70,16 @@ In quanto giocatore
     - **WHY**  
     per sbloccare nuove scelte, personalizzare il mio personaggio e ricevere aiuto in situazioni critiche dovute a combattimenti
 <br/><br/>
+10. - **WHAT**  
+    vorrei poter creare nuove storie
+    - **WHY**  
+    per dare sfogo alla mia creatività e creare nuove avventure
+<br/><br/>
+10. - **WHAT**  
+    vorrei poter visualizzare i percorsi disponibili nella storia da me creata
+    - **WHY**  
+    per poter verificare velocemente che tutte le strade della storia siano coerenti tra loro
+<br/><br/>
 
  
 ### 2.2.2 - Casi d'uso
@@ -79,7 +90,7 @@ Il diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimer
   <p align="center">Diagramma dei casi d'uso - lato gaming</p>
 </div>
 
-Un aspetto di grande importanza nella progettazione del sistema è sicuramente la possibilità di aggiungere potenzialmente un numero illimitato di storie; il sistema riuscirà ad interpretare queste ultime e farà navigare l'utente all'interno di esse. È dunque fondamentale che l'utente possa aggiungere nuove storie (reperendole da fonti esterne) e navigare tra esse scegliendo quale giocare.
+Un aspetto di grande importanza nella progettazione del sistema è sicuramente la possibilità di aggiungere potenzialmente un numero illimitato di storie; il sistema riuscirà ad interpretare queste ultime e farà navigare l'utente all'interno di esse. È dunque fondamentale che l'utente possa aggiungere nuove storie (reperendole da fonti esterne o creandone di nuove attraverso l'editor) e navigare tra esse scegliendo quale giocare.
 
 ## 2.3 - Requisiti funzionali
 I requisiti funzionali riguardano le funzionalità che il sistema deve mettere a disposizione all'utente. Per la loro definizione è necessario basarsi sui requisiti utente estratti in precedenza.  
@@ -96,6 +107,8 @@ I requisiti funzionali che il sistema dovrà rispettare sono i seguenti:
 10. consentire all'utente di combattere in una battaglia.
 11. salvataggio di tutte le scelte intraprese dall'utente.
 12. consentire la visualizzazione di: storie presenti, eventuali salvataggi di storie già iniziate, statistiche attuali, inventario e scelte disponibili nel nodo della storia corrente.
+13. creare nuove storie o modificare quelle già create.
+14. esplorare la storia in tutte le sue combinazioni possibili.
 
 ## 2.4 - Requisiti non funzionali
 - **Cross-platform**  
@@ -103,7 +116,7 @@ Il sistema deve funzionare correttamente sui sistemi operativi Windows, Linux e 
 - **Interfaccia utente intuitiva**  
 L'utente deve poter navigare all'interno del sistema attraverso un'interfaccia utente curata e di facile utilizzo.
 - **Shortcut**  
-Un utente esperto può navigare all'interno del sistema utilizzando shortcut da tastiera.
+Un utente esperto può navigare all'interno di parte del sistema utilizzando shortcut da tastiera.
 
 ## 2.5 - Requisiti di implementazione
 I requisiti di implementazione vincolano l'intera fase di realizzazione del sistema, ad esempio richiedendo l'uso di uno specifico linguaggio di programmazione e/o di uno specifico tool software.  

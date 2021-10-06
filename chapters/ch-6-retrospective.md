@@ -51,11 +51,11 @@ Tra gli obiettivi raggiunti troviamo:
 - creazione di inventario e oggetti (model);
 - creazione dei nemici (model).
 
-È stata effettuata, a fine sprint, una revisione del codice prodotto fin ora al fine di garantire uno standard qualitativo elevato.  
+È stata effettuata, a fine sprint, una revisione del codice prodotto finora al fine di garantire uno standard qualitativo elevato.  
 Sotto il punto di vista ingegneristico inoltre, in questo sprint è cominciato lo studio di fattibilità per la realizzazione di un modulo prolog volto all'esplorazione di tutte le strade possibili all'interno di una storia.
 
 #### Considerazioni finali
-Questo sprint è stato molto denso di contenuti, con un notevole salto quantitativo a livello di feature introdotte. Anche sta volta i task sono stati svolti nei tempi previsti.  
+Questo sprint è stato molto denso di contenuti, con un notevole salto quantitativo a livello di feature introdotte. Anche questa volta i task sono stati svolti nei tempi previsti.  
 Poco prima della release è sorto un bug legato al caricamento da file quando il progetto veniva lanciato da sbt piuttosto che dal run integrato in IntelliJ.  
 Tramite un meeting comune siamo stati in grado di identificare il problema velocemente e porvi rimedio.
 
@@ -68,7 +68,7 @@ Utilizzando il model concluso nello sprint precedente sono state implementate le
 - gestione dei combattimenti.
 
 È inoltre cominciato lo sviluppo dell'editor, ottenendo una versione funzionante capace di eseguire le operazioni più basilari (le funzioni avanzate verranno implementate nel prossimo sprint).  
-I file di storie prodotte dall'editor, inoltre, possono ora essere aggiunti alle storie disponibili in maniera guidata evitando che l'utente vada manualmente ad inserire i file nella cartella giusta (è stata anche implementata una funzione per l'eliminazione guidata di storie).  
+I file di storie prodotte dall'editor, inoltre, possono ora essere aggiunti alle storie disponibili in maniera guidata evitando che l'utente vada manualmente a inserire i file nella cartella giusta (è stata anche implementata una funzione per l'eliminazione guidata di storie).  
 
 Si è concluso lo studio di fattibilità del modulo prolog descritto nello sprint precedente, confermando la possibilità di realizzare le feature desiderate (che verranno implementate nel prossimo sprint).
 
