@@ -93,14 +93,13 @@ object ExplorerController {
     override def close(): Unit = previousController.execute()
 
     private def pathStructResult(startId: Int, endId: Int): Stream[PathStruct] =
-      prologEngine.resolve(PathStruct(startId,endId, new Var()))
+      prologEngine.resolve(PathStruct(startId, endId, new Var()))
 
     override def pathExists(startId: Int, endId: Int): Boolean =
       pathStructResult(startId, endId).nonEmpty
 
-    override def paths(startId: Int, endId: Int): Stream[List[Int]] = {
+    override def paths(startId: Int, endId: Int): Stream[List[Int]] =
       pathStructResult(startId, endId).map(s => s.crossedIds)
-    }
 
     private def reachAllFinalNodesStructResult(startId: Int): Stream[ReachAllFinalNodesStruct] =
       prologEngine.resolve(ReachAllFinalNodesStruct(startId, new Var()))
@@ -120,9 +119,8 @@ object ExplorerController {
     override def allStoryOutcomes: List[List[Int]] =
       allFinalNodesSolutionsStructResult.head.allCrossedNodes
 
-    override def storyWalkthrough(startId: Int): Stream[List[String]] = {
+    override def storyWalkthrough(startId: Int): Stream[List[String]] =
       prologEngine.resolve(StoryWalkthroughStruct(startId, new Var())).map(s => s.walkthrough)
-    }
 
     override def allStoryWalkthrough: List[List[String]] =
       prologEngine.resolve(AllStoryWalkthroughStruct(routeNode.id, new Var())).head.result
