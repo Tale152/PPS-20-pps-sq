@@ -1,4 +1,4 @@
-# Product Backlog
+# 7 - Product Backlog
 Il contenuto di queste tabelle estrapola le informazioni principali del lavoro effettuato su Trello, nel quale sono stati tracciati tutti i task assegnati ed eseguiti in ogni sprint. Le tempistiche dei task sono state riportate in modo fedele a quanto annotato su Trello.  
 La board utilizzata può essere trovata al seguente link: https://trello.com/b/5M0cOIzN .  
 
@@ -15,7 +15,7 @@ La board utilizzata può essere trovata al seguente link: https://trello.com/b/5
 |     9    | Inserimento elementi aggiuntivi                    | Aggiunta di musica                                                                                                                          |            3           | 3        | 3        | 3        | 3        | 0        | 0        | -        |
 |    10    | Refactor generale                                  | Riguardare insieme le classi e refactorare se necessario                                                                                    |           15           | 15       | 15       | 15       | 15       | 15       | 0        | -        |
   
-## Sprint 1
+## 7.1 - Sprint 1
 1/08/2021 - 11/08/2021
 
 | Product Backlog Item                               | Sprint Task                                | Volunteer      | Initial Size Estimates | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Day 8 | Day 9 | Day 10 |
@@ -27,7 +27,7 @@ La board utilizzata può essere trovata al seguente link: https://trello.com/b/5
 | Implementazione View                               | Creazione StoryView                        | Sanchi         | 5                      | 5     | 4     | 4     | 2     | 1     | 0     | 0     | 0     | 0     | 0      |
 | Implementazione logica per la navigazione dei nodi | Creazione MasterController e SubController | Talmi/Filaseta | 10                     | 10    | 5     | 3     | 1     | 1     | 0     | 0     | 0     | 0     | 0      |
 
-## Sprint 2
+## 7.2 - Sprint 2
 11/08/2021 - 21/08/2021
 
 | Product Backlog Item                               | Sprint Task                             | Volunteer | Initial Size Estimates | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Day 8 | Day 9 | Day 10 |
@@ -45,7 +45,7 @@ La board utilizzata può essere trovata al seguente link: https://trello.com/b/5
 | Gestione serializzazione/deserializzazione storia  | Serializazione/Deserializzazione storia | Filaseta  | 9                      | 9     | 8     | 7     | 6     | 5     | 4     | 3     | 2     | 0     | 0      |
 |                                                    | Caricamento storia da file              | Filaseta  | 9                      | 9     | 8     | 7     | 6     | 5     | 4     | 3     | 2     | 1     | 0      |
 
-## Sprint 3
+## 7.3 - Sprint 3
 21/08/2021 - 31/08/2021
 
 | Product Backlog Item                              | Sprint Task                                         | Volunteer         | Initial Size Estimates | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Day 8 | Day 9 | Day 10 |
@@ -60,7 +60,7 @@ La board utilizzata può essere trovata al seguente link: https://trello.com/b/5
 |                                                   | Creazione EquipItemType                             | Tronetti          | 1                      | 1     | 1     | 0     | 0     | 0     | 0     | 0     | 0     | 0     | 0      |
 |                                                   | Creazione Item (EquipItem, ConsumableItem, KeyItem) | Tronetti/Filaseta | 6                      | 6     | 6     | 5     | 4     | 2     | 2     | 1     | 1     | 0     | 0      |
 
-## Sprint 4
+## 7.4 - Sprint 4
 31/08/2021 - 10/09/2021
 
 | Product Backlog Item                         | Sprint Task                                                                        | Volunteer         | Initial Size Estimates | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Day 8 | Day 9 | Day 10 |
@@ -77,7 +77,7 @@ La board utilizzata può essere trovata al seguente link: https://trello.com/b/5
 |                                              | Controlli per assicurarsi che nodi e pathway non vadano contro le regole del model | Talmi             | 10                     | 9     | 8     | 5     | 4     | 4     | 3     | 2     | 1     | 1     | 0      |
 |                                              | Implementazione Form Customizzati                                                  | Filaseta/Tronetti | 5                      | 5     | 4     | 2     | 0     | 0     | 0     | 0     | 0     | 0     | 0      |
 
-## Sprint 5
+## 7.5 - Sprint 5
 10/09/2021 - 20/09/2021
 
 | Product Backlog Item                          | Sprint Task                                                                               | Volunteer         | Initial Size Estimates | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Day 8 | Day 9 | Day 10 |
@@ -94,7 +94,7 @@ La board utilizzata può essere trovata al seguente link: https://trello.com/b/5
 |                                               | Estrarre da uno storynode la descrizione di un suo pathway                                | Tronetti/Filaseta | 6                      | 6     | 5     | 3     | 2     | 1     | 1     | 0     | 0     | 0     | 0      |
 | Inserimento elementi aggiuntivi               | Aggiunta musica                                                                           | Sanchi            | 3                      | 3     | 3     | 2     | 1     | 1     | 1     | 0     | 0     | 0     | 0      |
 
-## Sprint 6
+## 7.6 - Sprint 6
 20/09/2021 - 30/09/2021
 
 | Product Backlog Item            | Sprint Task                                                        | Volunteer                      | Initial Size Estimates | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 | Day 8 | Day 9 | Day 10 |
