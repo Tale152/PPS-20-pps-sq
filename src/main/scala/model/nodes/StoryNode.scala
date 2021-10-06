@@ -63,11 +63,33 @@ object StoryNode {
 
   }
 
+  /**
+   * Mutable version of [[StoryNode]] where is possible to change data.
+   */
   sealed trait MutableStoryNode extends StoryNode {
+    /**
+     * The story node ID.
+     */
     val id: Int
+
+    /**
+     * The story node narrative.
+     */
     var narrative: String
+
+    /**
+     * A [[scala.Option]] that contains the enemy if present.
+     */
     var enemy: Option[Enemy]
+
+    /**
+     * A set of possible [[MutablePathway]] reachable from this node.
+     */
     var mutablePathways: Set[MutablePathway]
+
+    /**
+     * A list of [[model.nodes.Event]] contained in the node.
+     */
     var events: List[Event]
   }
 
