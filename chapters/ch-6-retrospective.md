@@ -51,11 +51,11 @@ Tra gli obiettivi raggiunti troviamo:
 - creazione di inventario e oggetti (model);
 - creazione dei nemici (model).
 
-È stata effettuata, a fine sprint, una revisione del codice prodotto fin ora al fine di garantire uno standard qualitativo elevato.  
+È stata effettuata, a fine sprint, una revisione del codice prodotto finora al fine di garantire uno standard qualitativo elevato.  
 Sotto il punto di vista ingegneristico inoltre, in questo sprint è cominciato lo studio di fattibilità per la realizzazione di un modulo prolog volto all'esplorazione di tutte le strade possibili all'interno di una storia.
 
 #### Considerazioni finali
-Questo sprint è stato molto denso di contenuti, con un notevole salto quantitativo a livello di feature introdotte. Anche sta volta i task sono stati svolti nei tempi previsti.  
+Questo sprint è stato molto denso di contenuti, con un notevole salto quantitativo a livello di feature introdotte. Anche questa volta i task sono stati svolti nei tempi previsti.  
 Poco prima della release è sorto un bug legato al caricamento da file quando il progetto veniva lanciato da sbt piuttosto che dal run integrato in IntelliJ.  
 Tramite un meeting comune siamo stati in grado di identificare il problema velocemente e porvi rimedio.
 
@@ -68,7 +68,7 @@ Utilizzando il model concluso nello sprint precedente sono state implementate le
 - gestione dei combattimenti.
 
 È inoltre cominciato lo sviluppo dell'editor, ottenendo una versione funzionante capace di eseguire le operazioni più basilari (le funzioni avanzate verranno implementate nel prossimo sprint).  
-I file di storie prodotte dall'editor, inoltre, possono ora essere aggiunti alle storie disponibili in maniera guidata evitando che l'utente vada manualmente ad inserire i file nella cartella giusta (è stata anche implementata una funzione per l'eliminazione guidata di storie).  
+I file di storie prodotte dall'editor, inoltre, possono ora essere aggiunti alle storie disponibili in maniera guidata evitando che l'utente vada manualmente a inserire i file nella cartella giusta (è stata anche implementata una funzione per l'eliminazione guidata di storie).  
 
 Si è concluso lo studio di fattibilità del modulo prolog descritto nello sprint precedente, confermando la possibilità di realizzare le feature desiderate (che verranno implementate nel prossimo sprint).
 
@@ -91,10 +91,35 @@ Per quanto riguarda il core dell'applicativo sono state apportate piccole miglio
 Lo sviluppo dell'editor e del modulo prolog ha richiesto molto impegno per tutti i componenti del gruppo, ma fortunatamente tale impegno ha mostrato i suoi frutti.  
 Secondo le nostre previsioni però nel prossimo sprint potremo recuperare le forze con compiti più leggeri in quanto tutti i requisiti del sistema sono stati raggiunti.
 
-### Sprint 6 (date_start - date-end)
+### Sprint 6 (20/09/2021 - 30/09/2021)
 #### Obiettivo
-#### Considerazioni finali
+Questo è stato l'ultimo sprint tradizionale che abbiamo svolto, poiché alla fine di esso avevamo praticamente completato tutti i task relativi al progetto.  
 
+Durante lo sprint 6 le attività svolte sono state le seguenti:
+- per prima cosa abbiamo terminato lo sviluppo e l'integrazione del codice Prolog che non era stata effettuata nello sprint precedente, dato che avevamo avuto necessità di svolgere ulteriori test;
+- successivamente ogni membro del gruppo si è dedicato alla ricerca di comportamenti non attesi del sistema e a controllare eventuali inesattezze nel codice (ad esempio ScalaDoc non correttamente aggiornata o mancanza di commenti nel codice). Una volta identificate ed elencate tutte le problematiche trovate, abbiamo assegnato alcuni fix da fare a ognuno di noi.  
+Abbiamo inoltre refactorato alcuni parti di codice di comune accordo.
+
+La documentazione è stata prodotta durante tutto lo svolgimento del progetto, ma alcune parti di essa potevano essere completate solo nel momento in cui il progetto veniva dichiarato ufficialmente terminato. Per questa ragione durante questo sprint e parte del prossimo ci siamo dedicati ad aggiungere gli elementi mancanti della relazione e a rifinire quelli già prodotti.  
+#### Considerazioni finali
+Al termine dello sprint il progetto era completato e la documentazione era in fase di conclusione.  
+Ancora mancavano alcuni controlli finali e la creazione di storie di esempio da fornire insieme al software, alle quali ci siamo dedicati successivamente.
+
+### Sprint 7 (30/09/2021 - 10/10/2021)
+#### Obiettivo
+Come detto in precedenza, questo non è stato uno sprint tradizionale come tutti quelli fatti finora.  
+
+Abbiamo deciso di elencare su Trello tutte le parti della relazione che non erano ancora complete o che richiedevano una revisione.  
+Abbiamo anche controllato che i diagrammi fossero del tutto fedeli al codice prodotto, verificando quindi che in fase di dettaglio nessuna informazione fosse andata persa.   
+
+Inoltre abbiamo creato un storia che funge da tutorial per l'utente e una storia effettiva per esplorare davvero le potenzialità del software prodotto.  
+La creazione della storia ha messo in luce la necessità di calibrare i calcoli effettuati durante la battaglia, al fine di evitare che solo alcune statistiche del giocatore fossero determinanti per la vittoria.  
+
+Abbiamo poi selezionato delle canzoni adatte e le abbiamo normalizzate per evitare che il suono divergesse troppo tra di esse.  
+
+#### Considerazioni finali
+Alla conclusione di questo sprint tutto era finito, non erano rimasti task e tutto ciò che avevamo classificato come bug o debito tecnico era stato risolto con successo.  
+Nel complesso al termine di questo sprint siamo stati molto soddisfatti.
 ## Conclusioni
 ### Breve sintesi
 

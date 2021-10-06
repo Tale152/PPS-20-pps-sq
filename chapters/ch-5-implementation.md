@@ -1,6 +1,6 @@
 # 5 - Implementazione
 
-## Git workflow accordato
+## 5.1 - Git workflow accordato
 
 All'inizio del progetto, un momento cruciale è stato quello della scelta del workflow da seguire per cooperare su Git.  
 In conseguenza alla scelta di sfruttare il meccanismo delle pull-request, ogni membro del gruppo è stato responsabile
@@ -35,36 +35,39 @@ lavoro su develop.
 Riteniamo che sia stata la scelta più opportuna da prendere, in quanto lavorare completamente su branch separati non
 permetteva più a quel punto di essere agili nell'effettuare modifiche.
 
-## Utilizzo del paradigma funzionale
+## 5.2 - Utilizzo del paradigma funzionale
 
-#### Limitazione dei side-effects
+### 5.2.1 - Limitazione dei side-effects
 
 Si è cercato quanto più possibile di non utilizzare metodi con side effects. Si è quindi preferito utilizzare oggetti
 immutabili, preferendo la creazione di nuovi rispetto alla modifica dello stato di quelli già esistenti qualora fosse
 possibile.
 
-#### Utilizzo di ricorsione
+### 5.2.2 - Utilizzo di ricorsione
 
-In diversi casi si è fatto uso della ricorsione, meccanismo più frequentamente utilizzato in linguaggi funzionali
-proprio per garantire immutabilità. La strutture dati delle storie sono inoltre particolarmente indicate ed adatte
-all'utilizzo di metodi ricorsivi (basti pensare alla maggior parte degli algoritmi di esplorazione di alberi). Una buona
-parte degli algoritmi che effettuano controlli ed operazioni sulla struttura dati principali sono stati quindi scritti
-in forma ricorsiva.
+In diversi casi si è fatto uso della ricorsione, meccanismo più frequentemente utilizzato in linguaggi funzionali
+proprio per garantire immutabilità.  
+La strutture dati delle storie sono inoltre particolarmente indicate ed adatte all'utilizzo di metodi ricorsivi (basti
+pensare alla maggior parte degli algoritmi di esplorazione di alberi).  
+Una buona parte degli algoritmi che effettuano controlli e operazioni sulla struttura dati principali sono stati quindi
+scritti in forma ricorsiva.
 
-#### Utilizzo massivo del pattern Strategy
+### 5.2.3 - Utilizzo massivo del pattern Strategy
 
-Al fine di rendere il codice il più riutilizzabile e generico possibile si è cercato di definire deli metodi in grado di
-accettare strategie. Il pattern Strategy è stato utilizzato massivamente in diverse classi del progetto in modo da poter
-modellare diversamente alcuni comportamenti del sistema senza la necessità di modificare codice già esistente.
+Al fine di rendere il codice il più riutilizzabile e generico possibile si è cercato di definire dei metodi in grado di
+accettare strategie.  
+Il pattern Strategy è stato utilizzato massivamente in diverse classi del progetto in modo da poter modellare
+diversamente alcuni comportamenti del sistema senza la necessità di modificare codice già esistente.
 
-#### Utilizzo di Optional
+### 5.2.4 - Utilizzo di Optional
 
-Dove possibile si è preferito utilizzare campi o parametri opzionali. Questo ha permesso la creazione di una struttura
-del sistema più robusta ed in grado di saper rispondere in maniera migliore ai fallimenti delle operazione. L'uso degli
-Optional permette anche di azzerare completamente l'utilizzo della keyword _null_, la quale è spesso fonte di bug o
-comportamenti non desiderati.
+Dove possibile si è preferito utilizzare campi o parametri opzionali.  
+Questo ha permesso la creazione di una struttura del sistema più robusta e in grado di saper rispondere in maniera
+migliore ai fallimenti delle operazioni.  
+L'uso degli Optional permette anche di azzerare completamente l'utilizzo della keyword _null_, la quale è spesso fonte
+di bug o comportamenti non desiderati.
 
-#### Utilizzo del currying
+### 5.2.5 - Utilizzo del currying
 
 Il linguaggio Scala mette a disposizione nella sua parte funzionale una funzionalità denominata currying, ovvero
 l'applicazione di una funzione a solo una parte dei suoi argomenti.  
@@ -83,16 +86,16 @@ il parametro _target_ in quanto, nonostante sia un parametro di default, è comu
 parentesi addizionale per richiamare la funzione. Dimenticarsi di impostare un parametro di default in un metodo scritto
 in maniera convenzionale risulta invece più semplice, e può essere fonte di bug.
 
-## Utilizzo del paradigma logico
+## 5.3 - Utilizzo del paradigma logico
 
 Come requisito opzionale il team si era proposto di realizzare uno strumento in grado di fornire dati su una determinata
 storia in Prolog, realizzando una sorta di "esploratore di storie".
 
-#### Requisiti
+### 5.3.1 - Requisiti
 
 Si desidera realizzare una sorta di "esploratore", in grado di percorrere tutti i possibili percorsi presenti
-all'interno di una storia. L'idea iniziale consisteva nel mostrare solo quali nodi sono stati attraversati in ciascun
-percorso intrapreso.  
+all'interno di una storia.  
+L'idea iniziale consisteva nel mostrare solo quali nodi sono stati attraversati in ciascun percorso intrapreso.  
 L'esploratore è stato però arricchito, e nella sua versione finale possiede le seguenti funzionalità:
 
 - Acquisizione della narrazione di un nodo a partire dal suo id.
@@ -103,28 +106,28 @@ L'esploratore è stato però arricchito, e nella sua versione finale possiede le
 - Acquisizione di tutte le narrazioni dei nodi e delle descrizioni dei pathway dei percorsi possibili (in ordine) a
   partire dal nodo radice (inizio della storia) o da un determinato nodo successivo verso tutti i nodi finali.
 
-Iterando su tutte le soluzione si ottiene gratuitamente anche quante sono in totale (vale ovviamente per ciascun
+Iterando su tutte le soluzioni si ottiene gratuitamente anche quante sono in totale (vale ovviamente per ciascun
 predicato).
 
-#### Integrazione in Scala
+### 5.3.2 - Integrazione in Scala
 
-##### Prolog Engine
+#### 5.3.2.1 - Prolog Engine
 
 È stata sviluppata una classe Scala che, grazie all'API della libreria tuProlog, a partire dalla teoria passata e da un
 termine in input è in grado di restituire uno Stream di risultati in output.  
 L'output rappresenta le soluzioni trovate dall'engine che sono poi facilmente manipolabili grazie alle strutture
 personalizzate create.
 
-##### Strutture
+#### 5.3.2.2 - Strutture
 
 Sono state create diverse classi Scala (una per ogni predicato), per semplificare la creazione e la manipolazione dei
 termini.  
 L'API offerta è infatti stata sviluppata per essere il più generale possibile. Lavorare sui risultati grezzi risulta
-essere molto macchinoso, verboso e spesso è poco comprensibile l'intento o l'obiettivo che si vuole raggiungere. Il
-recupero dei dati e la loro conversione è quindi stata incapsulata e nascosta all'interno di queste classi in modo da
+essere molto macchinoso, verboso e spesso è poco comprensibile l'intento o l'obiettivo che si vuole raggiungere.  
+Il recupero dei dati e la loro conversione è quindi stata incapsulata e nascosta all'interno di queste classi in modo da
 rendere più semplice e rapido l'utilizzo dall'esterno, oltre che a favorire il principio DRY.
 
-##### Teoria generata
+#### 5.3.2.3 - Teoria generata
 
 Per poter lavorare su storie già esistenti è stato necessaria una sorta di mapping da classi (Scala) a fatti (Prolog).  
 Tramite l'utilizzo di impliciti sono stati aggiunti metodi alle strutture dati principali dell'applicazione per
@@ -139,7 +142,7 @@ story_node(0, 'narrative', [pathway(1, 'description'), ...])
 Ogni StoryNode di una storia viene convertito in una stringa di questo tipo, la lista ottenuta viene utilizzata dal
 Prolog Engine per generare parte della sua teoria.
 
-##### Teoria sviluppata
+#### 5.3.2.4 - Teoria sviluppata
 
 Oltre ai fatti generati a partire dalle strutture già presenti su Scala sono stati inseriti all'interno del Prolog
 Engine anche i fatti e i predicati presenti all'interno del file ``theory.pl`` situato all'interno della cartella delle
@@ -147,15 +150,13 @@ risorse.
 Al suo interno sono presenti i predicati che rappresentano l'effettiva logica che permette di ottenere le soluzioni
 desiderate.
 
-## Test
+## 5.4 -Test
 
-L’utilizzo di test si è rivelato fondamentale per la corretta realizzazione del progetto. Si è cercato di scrivere test
-che premettessero di garantire qualità del sistema realizzato e che fossero anche utilizzabili come documentazione dello
-stesso.
+L’utilizzo di test si è rivelato fondamentale per la corretta realizzazione del progetto.  
+Si è cercato di scrivere test che premettessero di garantire la qualità del sistema realizzato e che fossero anche
+utilizzabili come documentazione dello stesso.
 
-### Metodologie di testing
-
-#### Test Automatizzati
+### 5.4.1 - Test Automatizzati
 
 Per quanto riguarda il testing automatizzato si è cercato si seguire un approccio quanto più possibile TDD (Test Driven
 Development), cercando di seguire il ciclo Red - Green - Refactor. Questo è stato possibile soprattuto nelle fasi
@@ -163,11 +164,12 @@ inziali del progetto, dove la maggior parte delle classi sviluppate appartenevan
 Nelle fasi successive questo approccio è venuto meno. Diversi test sono stati realizzati seguendo un approccio più
 tradizionale, meno stringente di quanto richiesto normalmente dalle politiche del TDD.  
 Inoltre alcuni componenti del sistema sono risultati particolarmente tediosi da testare in modo automatizzato a causa
-dell'incapsulamento dello stato, il quale non è spesso visibile dall'esterno. Lo strumento utilizzato per effettuare il
-testing è [ScalaTest](#scalatest). In particolare è stata utilizzata la specifica _FlatSpec_ come stile dei test
-prodotti.
+dell'incapsulamento dello stato, il quale non è spesso visibile dall'esterno.
 
-##### Suites di Testing
+Lo strumento utilizzato per effettuare il testing è [ScalaTest](#scalatest). In particolare è stata utilizzata la
+specifica _FlatSpec_ come stile dei test prodotti.
+
+#### 5.4.1.1 - Suites di Testing
 
 Tra le funzionalità di ScalaTest utilizzate vi sono
 le [Suites](https://www.scalatest.org/scaladoc/1.8/org/scalatest/Suites.html). Ogni classe di Test creata è
@@ -179,36 +181,34 @@ bisogno di una cartella all'interno del file system per creare e manipolare file
 Grazie alla trait _BeforeAndAfterAll_ è possibile creare una cartella dedicata a questi test nella directory di Temp
 della macchina che li esegue e cancellarla una volta terminata l'operazione.
 
-##### Tags
+#### 5.4.1.2 - Tags
 
 I [Tag](https://www.scalatest.org/user_guide/tagging_your_tests) sono un'altra funzionalità di ScalaTest che permette di
 assegnare un tag (un'etichetta) a determinati test. Questo permette non solo una migliore catalogazione, ma anche di
 eseguire (o ignorare) determinati test utilizzando comandi specifici.  
 Questa funzione è stata molto utile per impedire a determinati test di venir eseguiti tramite GitHub Action, in quanto
 alcuni test hanno necessità di renderizzare View o caricare e riprodurre suoni.  
-Alcuni test, funzionanti su macchine locali, se eseguiti tramite GitHub actions erano infatti causa di eccezioni per
-colpa di limitazione imposte dall'ambiente virtuale.
+Alcuni test, funzionanti su macchine locali, se eseguiti tramite GitHub Action erano infatti causa di eccezioni per
+colpa di limitazioni imposte dall'ambiente virtuale.
 
-##### Coverage
+#### 5.4.1.3 - Coverage
 
 È stato utilizzato lo strumento Scoverage per verificare la percentuale di codice attraversato dai test rispetto al
 totale della code base.  
 Come illustrato [precedentemente](#test-automatizzati) non è stato possibile automatizzare i test per ogni componente
 del sistema, quindi sono stati esclusi alcuni file sorgenti e alcuni package dall'analisi della coverage.
 
-#### Test non Automatizzati
+### 5.4.2 - Test non Automatizzati
 
 Per alcuni componenti del sistema non è stato possibile creare test automatizzati. Sono comunque state realizzate delle
 sessioni di testing in cui si è scandagliato il sistema in funzione per cercare bug, inesattezze o comportamenti non
 attesi.  
 Durante queste sessioni, verificatesi soprattuto durante gli sprint finali, si è cercato di portare il sistema in molti
-casi limite per verificare che il comportamento effettivo fosse anche quello previsto.
+casi limite per verificare che il comportamento effettivo fosse sempre quello previsto.
 
-## Suddivisione del lavoro
+## 5.5 - Suddivisione del lavoro
 
-<!-- NOTA: per ogni studente, una sotto-sezione descrittiva di cosa fatto/co-fatto e con chi, e descrizione di aspetti implementativi importanti non già presenti nel design)-->
-
-### Filaseta Angelo
+### 5.5.1 - Filaseta Angelo
 
 Durante lo sviluppo del progetto mi sono occupato di diversi aspetti molto variegati:
 
@@ -245,7 +245,7 @@ Durante lo sviluppo del progetto mi sono occupato di diversi aspetti molto varie
 Durante tutta la realizzazione del progetto inoltre mi sono occupato della stesura dei test relativi ai sorgenti da me
 realizzati, utilizzando anche meccanismi di ScalaTest come le Suites e i Tag.
 
-### Sanchi Piero
+### 5.5.2 - Sanchi Piero
 
 Per quanto riguarda la suddivisione del lavoro tra i membri del gruppo si è cercato il più possibile di far prendere
 parte ognuno ad ogni diversa attività e area di lavoro (model, view e controller), pertanto il lavoro svolto è stato
@@ -292,43 +292,43 @@ molto eterogeneo.
 Per tutta la durata del progetto ci siamo concentrati sulla qualità del codice, sul team working e sul testing
 progressivo del codice aggiunto di volta in volta.
 
-### Talmi Alessandro
+### 5.5.3 - Talmi Alessandro
 
 Durante questi due mesi ho avuto modo di lavorare a molteplici aspetti del progetto:
 
 1. Per prima cosa, insieme a [Tronetti](#tronetti-elisa), [Filaseta](#filaseta-angelo) e [Sanchi](#sanchi-piero), ho
    condotto un'analisi del problema, del dominio applicativo e delle possibili tecnologie coinvolte.  
-   Ciò ci ha portato ad effettuare una progettazione preliminare utile a porre le fodamenta del progetto.  
-   L'aspetto più fondamentale di questa fase è stata la produzione di modellistica (la stessa che, evolutasi nel tempo,
-   compone parte di questa relazione).
+   Ciò ci ha portato ad effettuare una __progettazione preliminare__ utile a porre le fondamenta del progetto.  
+   L'aspetto più fondamentale di questa fase è stata la produzione di __modellistica__ (la stessa che, evolutasi nel
+   tempo, compone parte di questa relazione).
 
-2. In fase di setup mi sono occupato dello studio e dell'integrazione del plugin Scalafix.  
-   Collaborando con [Tronetti](#tronetti-elisa), inoltre, ho effettuato ricerche sulle modalità di gestione del Git
-   workflow; ciò si è rivelato fondamentale in quanto il repository principale, dalla quale il resto dei componenti del
-   team avrebbe creato delle fork, è stato gestito da me (in collaborazione con [Filaseta](#filaseta-angelo) nel caso in
-   cui non fossi stato momentaneamente reperibile).
+2. In fase di setup mi sono occupato dello studio e dell'integrazione del plugin __Scalafix__.  
+   Collaborando con [Tronetti](#tronetti-elisa), inoltre, ho effettuato ricerche sulle modalità di gestione del __Git
+   workflow__; ciò si è rivelato fondamentale in quanto il repository principale, dalla quale il resto dei componenti
+   del team avrebbe creato delle fork, è stato gestito da me (in collaborazione con [Filaseta](#filaseta-angelo) nel
+   caso in cui non fossi stato momentaneamente reperibile).
 
 3. Terminate le fasi preliminari, in collaborazione con [Tronetti](#tronetti-elisa) ho realizzato le interfacce e le
-   implementazioni di StoryNode e StoryModel.  
+   implementazioni di __StoryNode__ e __StoryModel__.  
    All'interno dello stesso sprint inoltre, affiancato da [Filaseta](#filaseta-angelo), ho realizzato la struttura
-   principale dei controller di gioco, predisponendo l'architettura estendibile basata su GameMasterController e
-   molteplici SubController.
+   principale dei controller di gioco, predisponendo l'architettura estendibile basata su __GameMasterController__ e
+   molteplici __SubController__.
 
-4. In autonomia ho successivamente realizzato la feature della History (log) di una storia, sviluppando i necessari
+4. In autonomia ho successivamente realizzato la feature della __History__ (log) di una storia, sviluppando i necessari
    componenti di model, view e controller; al fine di poter ottenere rapidamente delle storie, seppur basilari, ho
-   implementato un generatore randomico che sfruttasse le classi da noi create. Ho inoltre integrato all'interno dei
-   Pathway la possibilità di introdurre dei prerequisiti.  
-   Ho avuto poi modo di concentrarmi sulla view dedicata alla visualizzazione delle info del giocatore; da qui ho
-   cominciato a coordinarmi con [Sanchi](#sanchi-piero) per ottenere uniformità nei moduli che sarebbero andati a
-   comporre le varie view.
+   implementato un __generatore randomico__ che sfruttasse le classi da noi create. Ho inoltre integrato all'interno dei
+   Pathway la possibilità di introdurre dei __prerequisiti__.  
+   Ho avuto poi modo di concentrarmi sulla view dedicata alla __visualizzazione delle info del giocatore__; da qui ho
+   cominciato a coordinarmi con [Sanchi](#sanchi-piero) per ottenere __uniformità nei moduli che sarebbero andati a
+   comporre le varie view__.
 
 5. Terminato il processo per ottenere uniformità all'interno del comparto view, sfruttando i componenti per la
-   serializzazione implementati da [Filaseta](#filaseta-angelo), ho implementato la funzione di salvataggio dei
-   progressi di una storia.  
+   serializzazione implementati da [Filaseta](#filaseta-angelo), ho implementato la funzione di __salvataggio dei
+   progressi di una storia__.  
    Ho infine posto le basi per la classe Event.
 
-6. Da questo punto in poi mi sono allontanato dallo sviluppo del gioco (tornandovi solo per modifiche migliori o per
-   fornire aiuto ai miei compagni) e mi sono dunque concentrato sulla realizzazione di un editor che permetta la
+6. Da questo punto in poi mi sono allontanato dallo sviluppo del gioco (tornandovi solo per modifiche minori o per
+   fornire aiuto ai miei compagni) e mi sono dunque concentrato sulla realizzazione di un __editor__ che permettesse la
    creazione di nuove storie agilmente attraverso l'interfaccia grafica direttamente dall'interno dell'applicativo in
    esecuzione.  
    Innanzitutto vi è stata una prima fase in cui ho dovuto effettuare ricerche e test al fine di trovare una libreria
@@ -342,14 +342,65 @@ Durante questi due mesi ho avuto modo di lavorare a molteplici aspetti del proge
    operazioni poteva richiedere tempi computazionali spesso non trascurabili.
 
 7. Durante tutto lo svolgimento del progetto si è cercato di mantenere uno standard qualitativo alto nell'organizzazione
-   e implementazione del codice; per ulteriormente migliorare tale aspetto nelle fasi finali del progetto (insieme ad i
-   miei compagni) mi sono dedicato alla revisione di quanto fatto fin ora alla ricerca di potenziali migliorie.
+   e implementazione del codice; per ulteriormente migliorare tale aspetto nelle fasi finali del progetto (insieme ai
+   miei compagni) mi sono dedicato alla __revisione__ di quanto fatto finora alla ricerca di potenziali migliorie.
 
-Durante questi mesi di lavoro mi sono occupato dei test riguardanti alcuni componenti da me sviluppati, oltre che aver
-sempre effettuato una prima revisione del codice durante l'approvazione delle pull request effettuate dai miei compagni.
+Durante questi mesi di lavoro mi sono occupato dei __test__ riguardanti alcuni componenti da me sviluppati, oltre che
+aver sempre effettuato una prima revisione del codice durante l'approvazione delle pull request effettuate dai miei
+compagni.
 
-### Tronetti Elisa
+### 5.5.4 - Tronetti Elisa
 
-<!-- Lista di componenti -->
+Durante lo svolgimento di questo progetto ho affrontato diversi aspetti di progettazione e sviluppo:
+
+1. Nel corso del primo Sprint mi sono occupata della ricerca approfondita di informazioni su __ScalaTest__, al fine di
+   proporre agli altri membri del gruppo la soluzione più appropriata per il nostro progetto.  
+   Insieme a [Talmi](#talmi-alessandro) abbiamo discusso l'organizzazione del __Git Workflow__ da seguire e abbiamo
+   valutato i vantaggi e gli svantaggi dell'utilizzo delle __pull request__ per lo svolgimento del progetto.  
+   Infine ho eseguito il set-up della board su __Trello__, cercando di creare una board organizzata e chiara; ho
+   predisposto le varie liste, le label che avrebbero costituito il punto di riferimento per l'identificazione dei task
+   e ho creato dei bottoni che automatizzavano il reset delle liste alla fine di ogni Sprint, di modo da non doverlo
+   svolgere manualmente.
+
+2. Sempre durante il primo Sprint, insieme a tutti i membri del gruppo, ho partecipato all'analisi del dominio
+   applicativo e alla conseguente progettazione.
+
+3. Il primo Sprint mi ha vista coinvolta insieme a [Talmi](#talmi-alessandro) nell'implementazione di __StoryNode__ e __
+   StoryModel__. Ho inoltre lavorato in autonomia a __Pathway__, di modo da completare le classi che costituiscono
+   struttura dati di base della storia.
+
+4. Durante il secondo Sprint ho lavorato alle proprietà dei personaggi e nello specifico a __Stats__ e __StatsModifier__
+   , le quali permetto a un giocatore di avere le caratteristiche che potranno poi essere influenzate da eventi esterni.
+
+5. Durante il terzo Sprint ho implementato insieme a [Filaseta](#filaseta-angelo) i vari tipi di oggetti, e nello
+   specifico tutto ciò che è contenuto nel package __model.items__.
+
+6. Nel quarto Sprint mi sono occupata della creazione del meccanismo delle battaglie con i nemici, creando sia il __
+   BattleController__ che la __BattleView__. L'implementazione della BattleView ha richiesto la generalizzazione di
+   alcuni componenti grafici già esistenti e la creazione di elementi propri di questa interfaccia grafica.  
+   Il meccanismo della battaglia ha richiesto anche un'integrazione con l'__InventoryController__ implementato
+   da [Filaseta](#filaseta-angelo); abbiamo quindi ragionato insieme per decidere come fare interagire correttamente le
+   due logiche.  
+   Il calcolo dei danni, della probabilità di fuggire dalla battaglia e di fallire l'attacco si sono evolute nel tempo,
+   al fine di non renderlo banale e di fare in modo che il giocatore non possa utilizzare un'unica statistica per essere
+   certo di poter vincere qualunque battaglia.
+
+7. Il quinto Sprint mi ha vista coinvolta insieme a [Filaseta](#filaseta-angelo) nella realizzazione dei predicati __
+   Prolog__ per l'esplorazione delle storie. Ho utilizzato il software tuProlog per implementare i vari predicati e
+   verificarne il funzionamento. Una volta che il risultato era quello voluto, [Filaseta](#filaseta-angelo) si è
+   occupato della sua integrazione con Scala.
+
+8. L'ultimo Sprint ci ha visti tutti coinvolti nella ricerca di bug e nel refactor del codice.  
+   Mi sono occupata principalmente di risolvere bug relativi all'inventario, alla battaglia e all'aggiornamento delle
+   view quando le statistiche del giocatore venivano modificate.  
+   Inoltre ho effettuato un refactor abbastanza minuzioso dei test, al fine di ridurre le ripetizioni di codice che li
+   rendevano difficili da leggere.
+
+9. Essendo stata la responsabile di Trello durante questo progetto, nell'ultimo Sprint mi sono anche dedicata nel
+   produrre le tabelle dello __Scrum Backlog__ prensenti anche in questa documentazione, estraendo le informazioni
+   principali dalla board di Trello.
+
+Nello svolgimento del progetto mi sono occupata dell'implementazione di test con __ScalaTest__ di tutti le classi di
+model da me prodotte, al fine di seguire nel modo più fedele possibile un approccio TDD.
 
 ---

@@ -12,3 +12,4 @@
 {% include_relative chapters/ch-4-design-details.md %}  
 {% include_relative chapters/ch-5-implementation.md %}  
 {% include_relative chapters/ch-6-retrospective.md %}  
+{% include_relative progress/scrum-backlog-report.md %}  
