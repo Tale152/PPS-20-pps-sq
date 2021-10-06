@@ -41,12 +41,10 @@ object PrologImplicits {
      * @return a string formatted as a prolog fact for the [[model.nodes.StoryNode]] class:
      *         story_node(id,narrative,[pathway]).
      */
-    def toPrologFact: String = {
+    def toPrologFact: String =
       StoryNodePredicateName + "(" + storyNode.id + ",'" +
         storyNode.narrative.withoutNewLine.withoutContent("'") + "',[" +
         storyNode.pathways.map(p => p.toPrologRecord).mkString(",") + "])."
-    }
-
   }
 
   implicit class PrologPathway(pathway: Pathway) {
@@ -55,10 +53,9 @@ object PrologImplicits {
      * @return a string formatted as a prolog record for the [[model.nodes.StoryNode]] class:
      *         pathway(toId, description).
      */
-    def toPrologRecord: String = {
+    def toPrologRecord: String =
       PathwayRecord + "(" + pathway.destinationNode.id + ",'" +
         pathway.description.withoutNewLine.withoutContent("'") + "')"
-    }
   }
 
   /**
@@ -119,13 +116,11 @@ object PrologImplicits {
 
     def fromPrologToString: String = removeDelimiters(term.toString)
 
-    private val removeDelimiters: String => String = s => {
+    private val removeDelimiters: String => String = s =>
       if (s(0) == '\'' && s(s.length - 1) == '\'') {
         s.drop(1).dropRight(1)
-      } else{
+      } else {
         s
       }
-    }
-
   }
 }
