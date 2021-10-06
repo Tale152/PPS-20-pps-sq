@@ -1,6 +1,6 @@
 # 4 - Design di dettaglio
 
-## Stati del sistema
+## 4.1 - Stati del sistema
 <div align="center">
 <img src="https://images2.imgbox.com/73/62/WhxIIroY_o.png" alt="Diagramma degli stati - Menu principale">
 <p align="center">Diagramma degli stati - Menu principale</p>
@@ -12,7 +12,7 @@ All'avvio dell'applicativo il sistema mostrerà il menu principale. Da qui vi è
 - Aggiungere nuove storie utilizzando i file generati dall'editor;
 - Rimuovere storie precedentemente aggiunte.
 
-### Playing
+### 4.1.1 - Playing
 <div align="center">
 <img src="https://images2.imgbox.com/c7/07/IQBeAYQ8_o.png" alt="Diagramma degli stati - In gioco">
 <p align="center">Diagramma degli stati - In gioco</p>
@@ -34,7 +34,7 @@ Tale ciclo continuerà finchè non si verificherà una di queste tre condizioni:
 
 Vediamo ora nel dettaglio lo stato "in a battle" (di complessità maggiore rispetto agli altri stati composti).
 
-### In a battle
+### 4.1.2 - In a battle
 <div align="center">
 <img src="https://images2.imgbox.com/97/ce/RABb77Vp_o.png" alt="Diagramma degli stati - In battaglia">
 <p align="center">Diagramma degli stati - In battaglia</p>
@@ -50,7 +50,7 @@ Il giocatore sceglie la fuga che, però, non è garantita. Attraverso un algorit
 In questo caso, un algoritmo (di natura simile al precedente), determina l'ordine in cui avverranno gli attacchi dei due personaggi coinvolti in battaglia e un altro algoritmo andrà invece a calcolare gli effettivi danni inflitti. Inoltre, prima che un personaggio attacchi, viene calcolata la probabilità, data dalle caratteristiche degli sfidanti, che l'attacco fallisca.  
 Verranno dunque gestite l'eventuale morte del giocatore (game over) o del nemico (vittoria).
 
-### Using editor
+### 4.1.3 - Using editor
 <div align="center">
 <img src="https://images2.imgbox.com/dc/ed/YvFHrJgV_o.png" alt="Diagramma degli stati - Editor">
 <p align="center">Diagramma degli stati - Editor</p>
@@ -59,7 +59,7 @@ L'editor presenta lo stesso comportamento per tutte le operazioni possibili (con
 
 Viene dinamicamente generato un form finalizzato all'inserimento dei dati necessari al compimento dell'operazione; nel momento in cui l'utente desideri confermare l'inserimento dei dati questi ultimi vengono valutati e, in caso positivo, il model viene aggiornato (così come la rappresentazione grafica di tale model). 
 
-## Organizzazione del codice
+## 4.2 - Organizzazione del codice
 
 Il diagramma dei package sottostante mostra in che modo si è deciso di organizzare il codice.  
 La prima scelta rilevante presa è stata quella di suddividere tutti i sorgenti in 3 package principali (model, view e controller); questo è stato permesso anche grazie al pattern di progettazione MVC adottato. Le dipendenze che intercorrono tra questi 3 package principali infatti rispecchiano tale pattern.  
@@ -94,7 +94,7 @@ Dato che alcuni componenti grafici sono condivisi, si è decisono di creare il p
 Il numero di package alla fine del progetto rimane comunque contenuto, grazie anche alla natura del linguaggio Scala. La convenzione infatti non è quella di separare la definizione dell'interfaccia dalla sua implementazione, ma di avere un unico file, il quale contiene tipicamente tutte le possibili implementazioni di tale interfaccia. La keyword __sealed trait__ infatti va a sottolineare l'utilizzo di tale feature offerta dal linguaggio.  
 La tendenza inoltre nel produrre codice breve, coinciso e efficace non ha reso le classi più verbose ed ha permesso di organizzare in questo modo i package.
 
-## Scelte Rilevanti (Model)
+## 4.3 - Scelte Rilevanti Model
 
 <div align="center">
 <img src="https://images2.imgbox.com/09/fd/EfyJaqYw_o.png" alt="Diagramma delle classi - Model">
@@ -102,7 +102,7 @@ La tendenza inoltre nel produrre codice breve, coinciso e efficace non ha reso l
 </div>
 Nelle prossime sezioni verranno approfondite delle sotto parti specifiche del Model e le motivazioni alla base delle scelte adottate.
 
-#### Character
+### 4.3.1 - Character
 
 <div align="center">
 <img src="https://images2.imgbox.com/df/9d/DskTETf6_o.png" alt="Diagramma delle classi - Sezione Character">
@@ -127,7 +127,7 @@ Inoltre ogni _Character_ possiede delle proprietà, le quali sono racchiuse all'
 - Le _Stat_, ovvero delle statistiche che influiscono sulla storia in base al loro valore;
 - Gli _StatModifier_, ovvero dei modificatori che influenzano sui valori delle statistiche originali.
 
-#### Stat
+### 4.3.2 - Stat
 <div align="center">
 <img src="https://images2.imgbox.com/a4/e9/RnHNUk4O_o.png" alt="Diagramma delle classi - Sezione Stat">
 <p align="center">Diagramma delle classi - Sezione Stat</p>
@@ -147,7 +147,7 @@ Attualmente esistono sei tipi di statistiche (_StatName_) ed ogni Character deve
   
 Ciò però non vincola però l'aggiunta o la rimozioni di nuove statistiche nel sistema.
 
-#### Item
+### 4.3.3 -  Item
 
 <div align="center">
 <img src="https://images2.imgbox.com/38/2b/VMq0ckAG_o.png" alt="Diagramma delle classi - Sezione Item">
@@ -166,7 +166,7 @@ La classe __AbstractItem__ è una classe astratta utilizzata per definire la str
 1. Tramite il metodo _applyEffect()_ si applicano gli effetti dello strumento;
 2. Tramite il metodo _postEffect()_ si specifica cosa accade una volta che gli effetti sono stati applicati.
 
-#### Event
+### 4.3.4 -  Event
 
 <div align="center">
 <img src="https://images2.imgbox.com/b3/11/Ih55E50Y_o.png" alt="Diagramma delle classi - Sezione Event">
@@ -179,7 +179,7 @@ Sono state realizzate due implementazioni:
 - __StatEvent__: Un evento che influenza le statistiche del _Player_ tramite uno _StatModifier_ (es: "Sei inciampato cercando di fuggire" [-5 Dexterity])
 - __ItemEvent__: Un evento che inserisce nell'inventario del _Player_ uno strumento. (es: "Hai trovato il Sacro Graal")
 
-#### Storia 
+### 4.3.5 - Storia 
 <div align="center">
 <img src="https://images2.imgbox.com/b5/35/UqT5Vidt_o.png" alt="Diagramma delle classi - Sezione Storia">
 <p align="center">Diagramma delle classi - Sezione Storia</p>
@@ -207,7 +207,7 @@ _Progress_ è una classe che serve per salvare il progresso di una partita. Non 
 - Tutti gli ID dei nodi visitati, in ordine.
 
 
-## Scelte Rilevanti (Controller)
+## 4.4 - Scelte Rilevanti Controller
 
 <div align="center">
 <img src="https://images2.imgbox.com/58/e0/Xd6b4LFE_o.png" alt="Diagramma delle classi - Controller">
@@ -215,7 +215,7 @@ _Progress_ è una classe che serve per salvare il progresso di una partita. Non 
 </div>
 Nelle prossime sezioni verranno approfondite delle sotto parti specifiche del Controller e le motivazioni alla base delle scelte adottate.
 
-#### Application Controller
+### 4.4.1 - Application Controller
 
 <div align="center">
 <img src="https://images2.imgbox.com/f9/f5/OYt2n0p5_o.png" alt="Diagramma delle classi - Sezione Menu Principale">
@@ -232,7 +232,7 @@ In particolare:
 - permette di caricare una storia disponibile, con o senza salvataggio, passando successivamente il controllo a _GameMasterController_.
 - permette di aggiungere il file di una storia sul file system alla collezione di storie disponibili.
 - permette di cancellare una storia dalla collezione di storie disponibili.
-#### Game Controller
+### 4.4.2 - Game Controller
 
 <div align="center">
 <img src="https://images2.imgbox.com/b3/87/K9t2eOcm_o.png" alt="Diagramma delle classi - Sezione di Gioco">
@@ -261,7 +261,7 @@ Usato per prendere visione di tutte le informazioni riguardanti il giocatore (no
 - _HistoryController_  
 Questo Controller permette di visionare la history corrente della storia, creando una sorta di log che visualizza in maniera ordinata le narrative dei nodi attraversati (oltre che le descrizioni dei Pathway scelti).
 
-#### Editor Controller
+### 4.4.3 - Editor Controller
 
 <div align="center">
 <img src="https://images2.imgbox.com/56/51/GRSsNAHM_o.png" alt="Diagramma delle classi - Sezione Editor">
@@ -281,7 +281,7 @@ L'EditorController utilizzerà internamente i __MutableStoryNode__ e i __Mutable
 
 Attraverso il meccanismo degli impliciti è possibile convertire agilmente la struttura da mutabile ad immutabile e viceversa. 
 
-#### Explorer Controller
+### 4.4.4 - Explorer Controller
 
 <div align="center">
 <img src="https://images2.imgbox.com/c2/4a/Z0DYiB5i_o.png" alt="Diagramma delle classi - Sezione Esploratore">
@@ -304,22 +304,22 @@ L'interfaccia mette a disposizione metodi utili per reperire informazioni come:
  L'implementazione di _ExplorerController_ è stata realizzata grazie all'interoperabilità tra due linguaggi, Scala e Prolog, tramite la libreria tuProlog.  
  Le modalità sono illustrate nella sezione dedicata all'[utilizzo del paradigma logico](#utilizzo-del-paradigma-logico)
 
-## Scelte Rilevanti (View)
+## 4.5 - Scelte Rilevanti View
 
-## Pattern di progettazione
-<!-- Lista dei vari pattern utilizzati, perché e dove -->
-### Model View Controller (MVC)
+## 4.6 - Pattern di progettazione
+
+### 4.6.1 - Model View Controller (MVC)
 Model-View-Controller è un pattern architetturale che è stato trattato in precedenza nel capitolo __3.2.1__.  
 L'organizzazione di base del progetto segue infatti quanto discusso precedentemente, utilizzando quindi il suddetto pattern.  
 
-### Factory Pattern
+### 4.6.2 - Factory Pattern
 Factory è un pattern creazionale fondamentale per la creazione di oggetti.  
 Nel linguaggio Scala il metodo factory convenzionale è denominato ```apply()```.
 Il metodo viene utilizzato all'interno di oggetti denominati _companion object_, cioè oggetti che vengono affiancati ai trait e che proprio grazie al metodo ```apply()``` ritornano determinate instanze di classi sulla base degli argomenti passati.  
 
 In ScalaQuest vengono utilizzati abbondantemente i metodi factory per la creazione di tutti gli oggetti dell'applicazione.
 
-### Strategy Pattern
+### 4.6.3 - Strategy Pattern
 Il pattern strategy viene utilizzato per isolare un algoritmo (la strategia, la strategy) all'interno di un oggetto.  
 Strategy prevede che gli algoritmi siano intercambiabili tra loro, in base ad una specificata condizione, in modalità trasparente al client che ne fa uso.  
 
@@ -330,7 +330,7 @@ Nel linguaggio Scala una funzione di questo tipo è facilmente esprimibile grazi
 ``` scala
 def modifyStrategy: Int => Int
 ```
-### Template Method
+### 4.6.4 - Template Method
 Template method è un pattern comportamentale che permette di definire la struttura di un algoritmo lasciando alle sottoclassi il compito di implementarne i passi come preferiscono.  
 In questo modo si può ridefinire e personalizzare parte del comportamento nelle varie sottoclassi senza dover specificare ogni volta una struttura comune.  
 
@@ -348,7 +348,7 @@ def applyEffect(): Unit
 def postEffect(): Unit
 ```
 
-### Singleton Pattern
+### 4.6.5 - Singleton Pattern
 Singleton è un pattern creazionale che punta a far sì che, di una data classe, esista una ed una sola istanza globalmente accedibile.  
 Nonostante le comodità offerte da questo pattern, può risultare facile abusarne erroneamente; Singleton difatti andrebbe usato solo nei casi in cui si sia certi che non esisterà mai più di un'istanza di una certa classe e mai solo per ottenere un accesso comodo ad un oggetto.  
 
@@ -363,7 +363,7 @@ object ApplicationController extends ApplicationController {
 }
 ```
 
-### Adapter Pattern
+### 4.6.6 - Adapter Pattern
 Conosciuto anche con il nome di Wrapper, Adapter è un pattern di design che punta a risolvere un problema di compatibilità tra due oggetti.  
 Non è raro che una libreria disponga di una funzionalità utile ma vi sia un problema ad interfacciare i propri dati con quanto richiesto dal framework. Tramite questo pattern viene dunque creato un oggetto che riesca ad adattare i dati di modo da mettere in comunicazione le due interfacce incompatibili.
 
@@ -382,7 +382,7 @@ protected case class EdgeInfo(private val startingNode: StoryNode,
 }
 ```
 
-### Proxy Pattern
+### 4.6.7 - Proxy Pattern
 Questo pattern è risultato fondamentale per gestire lo svolgimento del gioco; i vari SubController che si occupano di diversi aspetti relativi alla partita (StoryController, HistoryController, ProgressSaverController, ecc...) infatti sono messi in comunicazione tra loro tramite il ```GameMasterController```. Quest'ultimo sfrutta questo pattern esponendo il metodo ```executeOperation``` così che sia possibile in modo facile cambiare quale Controller abbia la parola in quel momento richiamando.
 
 ``` scala
@@ -400,7 +400,7 @@ private class GameMasterControllerImpl(private val storyModel: StoryModel)
     }
   }
 ```
-### Builder Pattern
+### 4.6.8 - Builder Pattern
 Il design pattern Builder è un pattern creazionale attraverso il quale semplificare la creazione di un oggetto complesso, rendendo anche possibile creare diverse rappresentazioni di tale oggetto.  
 L'algoritmo per la creazione di tale oggetto è indipendente dalle varie parti che lo compongono e da come vengono assemblate; ciò ha l'effetto immediato di rendere più semplice la classe, permettendo a una classe builder separata di focalizzarsi sulla corretta costruzione di un'istanza e lasciando che la classe originale si concentri sul funzionamento degli oggetti.  
 
@@ -428,7 +428,7 @@ case class FormBuilder() {
 
 }
 ```
-### Facade Pattern
+### 4.6.9 - Facade Pattern
 Facade è un design pattern usato per esporre una facciata molto semplice che mascheri un sistema complesso al fine di migliorare la leggibilità e usabilità del codice fornendo un unico punto di accesso.
 
 Il Pattern è stato utilizzato all'interno di ``SqPrologEngine``, ovvero la classe che rappresenta il motore del lingugagio Prolog che si occupa di fornire alcuni fatti in output data una certa richiesta in input tramite il metodo ``resolve``.  
@@ -445,7 +445,7 @@ case class SqPrologEngine(storyNode: StoryNode) {
 }
 ```
 
-### Iterator Pattern
+### 4.6.10 - Iterator Pattern
 Iterator è un pattern comportamentale che viene utilizzato quando si vuole accedere agli elementi di una collezione senza dover esporne la struttura. L’obiettivo è la creazione di un oggetto che esponga sempre gli stessi metodi indipendentemente dall’aggregato di dati.
 
 Il pattern è stato per esempio utilizzato per il reperimento delle soluzioni nella classe ``SqPrologEngine``.  
