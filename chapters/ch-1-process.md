@@ -48,13 +48,13 @@ ScalaTest supporta diversi stili di test, ognuno dei quali è pensato per uno sc
 
 ### 1.4.3 - ScalaStyle
 
-ScalaStyle è uno strumento per esaminare codice Scala che permette di evidenziare potenziali problemi e mettere lo sviluppatore in grado di risolverli in modo tempestivo facendo si che non si propaghino, inoltre il suo impiego permette di uniformare il codice alle convenzioni del linguaggio.  
+ScalaStyle è uno strumento per esaminare codice Scala che permette di evidenziare potenziali problemi e mettere lo sviluppatore in grado di risolverli in modo tempestivo facendo sì che non si propaghino; inoltre il suo impiego permette di uniformare il codice alle convenzioni del linguaggio.  
 
 Il suo funzionamento è subordinanto ad un file di configurazione ``scalastyle_config.xml`` con indicate tutte le regole autoimposte da seguire per standardizzare la stesura di codice.  
 Gli eventuali problemi verrano segnalati allo sviluppatore sotto forma di warning.
 
 ### 1.4.4 - ScalaFix
-[ScalaFix](https://github.com/scalacenter/scalafix) è uno strumento orientato al linting ed al refactor automatico del codice.  
+[ScalaFix](https://github.com/scalacenter/scalafix) è uno strumento orientato al linting e al refactor automatico del codice.  
 Il tool si basa sulla definizione di regole; quest'ultime vengono applicate a tutti i sorgenti Scala del progetto alla ricerca di segmenti di codice che le violino. Quando tali violazioni vengono individuate, viene lanciato un messaggio di warning (per segnalarne la presenza allo sviluppatore) e il sorgente viene automaticamente corretto applicando la regola.  
 
 Esistono possibili regole applicabili fornite nativamente dal tool, oltre che alcune definite dalla community (questo approccio favorisce la standardizzazione). È inoltre possibile definire nuove regole custom.  
@@ -94,18 +94,17 @@ Il CPD è un componente di [PMD](https://pmd.github.io/latest/pmd_userdocs_cpd.h
 
 ### 1.4.7 - GitHub Actions
 
-Le GitHub Actions sono un meccanismo fornito da GitHub allo scopo di automatizare il workflow in continuous integration
-e deployment. Permettono di effettuare Build, Test e Deploy, oltre che code review e branch management direttamente da
-GitHub.  
+Le GitHub Actions sono un meccanismo fornito da GitHub allo scopo di automatizare il workflow in continuous integration e deployment.  
+Permettono di effettuare Build, Test e Deploy, oltre che code review e branch management direttamente da GitHub.  
 
 Per configurare il workflow è stato utilizzato un plug-in chiamato
-[sbt-github-actions](https://github.com/djspiewak/sbt-github-actions). Il plug-in permette di personalizzare e
-arricchire un workflow standard che si limita a:
+[sbt-github-actions](https://github.com/djspiewak/sbt-github-actions).  
+Il plug-in permette di personalizzare e arricchire un workflow standard che si limita a:
 - predisporre una macchina virtuale Linux (ubuntu-latest)
 - scricare ed installare ambienti Java e Scala
 - fare il checkout del progetto
 - eseguire la build del progetto e relativi test
-- se i test hanno esito positivo e ci si trova su master github actions gestisce anche le release. Il plug-in è stato da noi configurato in modo da rimuovere il processo di release ed introducendo nuovi controlli come la copertura minima di [Scoverage](#scoverage).  
+- se i test hanno esito positivo e ci si trova su master github actions gestisce anche le release. Il plug-in è stato da noi configurato in modo da rimuovere il processo di release e introducendo nuovi controlli come la copertura minima di [Scoverage](#scoverage).  
 
   ```scala
   // a publish job is not desired  
