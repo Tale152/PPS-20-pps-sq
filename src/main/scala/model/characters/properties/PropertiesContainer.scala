@@ -8,13 +8,20 @@ import model.characters.properties.stats.{Stat, StatModifier}
  */
 sealed trait PropertiesContainer extends Serializable {
 
+  /**
+   * @return the instance of [[Health]] associated with this PropertiesContainer
+   */
   def health: Health
 
+  /**
+   * @return all the [[Stat]] associated with this PropertiesContainer
+   *         (having the same value as the value when the player created his character)
+   */
   def stats: Set[Stat]
 
   /**
    * Returns a stat object by it's statName.
-   *
+   * The returned Stat has the same value as the value when the player created his character
    * @param statName the name of the stat.
    * @return the relative stat.
    */
@@ -28,8 +35,15 @@ sealed trait PropertiesContainer extends Serializable {
    */
   def statModifiers(statName: StatName): List[StatModifier]
 
+  /**
+   * @return all the StatModifier contained in this PropertiesContainer
+   */
   def statModifiers: List[StatModifier]
 
+  /**
+   * Changes the StatModifier that this PropertiesContainer contains
+   * @param statModifierSet the new set of StatModifiers
+   */
   def statModifiers_=(statModifierSet: List[StatModifier]): Unit
 
   /**
@@ -42,12 +56,6 @@ sealed trait PropertiesContainer extends Serializable {
 
 object PropertiesContainer {
 
-  /**
-   * Implementation of PropertiesContainer.
-   *
-   * @param maxPS the number of PS for character's full life.
-   * @param stats the statistics of a specific Character.
-   */
   private class PropertiesContainerImpl(private val maxPS: Int,
                                         val stats: Set[Stat],
                                         var statModifiers: List[StatModifier])
