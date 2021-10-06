@@ -8,8 +8,20 @@ import model.nodes.StoryNode.MutableStoryNode
  * Optionally, the possibility to choose a pathway is dictated by a prerequisite.
  */
 trait Pathway extends Serializable {
+
+  /**
+   * @return a String that describes the choice that will be taken choosing the Pathway
+   */
   def description: String
+
+  /**
+   * @return the [[StoryNode]] where the Pathway leads to
+   */
   def destinationNode: StoryNode
+
+  /**
+   * @return the [[Prerequisite]] (if any) that needs to be satisfied to choose the Pathway
+   */
   def prerequisite: Option[Prerequisite]
 }
 
@@ -32,9 +44,24 @@ object Pathway {
   }
 }
 
+/**
+ * Mutable version of [[Pathway]], where data can be changed.
+ */
 trait MutablePathway extends Pathway {
+
+  /**
+   * A String that describes the choice that will be taken choosing the Pathway.
+   */
   var description: String
+
+  /**
+   * The [[MutableStoryNode]] where the Pathway leads to.
+   */
   var destinationNode: MutableStoryNode
+
+  /**
+   * The [[Prerequisite]] (if any) that needs to be satisfied to choose the Pathway
+   */
   var prerequisite: Option[Prerequisite]
 }
 
