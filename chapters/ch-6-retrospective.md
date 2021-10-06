@@ -110,6 +110,7 @@ Ancora mancavano alcuni controlli finali e la creazione di storie di esempio da 
 Come detto in precedenza, questo non è stato uno sprint tradizionale come tutti quelli fatti finora.  
 
 Abbiamo deciso di elencare su Trello tutte le parti della relazione che non erano ancora complete o che richiedevano una revisione.  
+Abbiamo anche controllato che i diagrammi fossero del tutto fedeli al codice prodotto, verificando quindi che in fase di dettaglio nessuna informazione fosse andata persa.   
 
 Inoltre abbiamo creato un storia che funge da tutorial per l'utente e una storia effettiva per esplorare davvero le potenzialità del software prodotto.  
 La creazione della storia ha messo in luce la necessità di calibrare i calcoli effettuati durante la battaglia, al fine di evitare che solo alcune statistiche del giocatore fossero determinanti per la vittoria.  
