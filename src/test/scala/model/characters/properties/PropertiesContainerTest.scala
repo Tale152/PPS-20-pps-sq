@@ -2,8 +2,7 @@ package model.characters.properties
 
 import mock.MockFactory.CharacterFactory.maxPs
 import mock.MockFactory.{CharacterFactory, StatFactory, StatModifierFactory}
-import model.characters.properties.stats.StatName
-import model.characters.properties.stats.{Stat, StatModifier}
+import model.characters.properties.stats.{DecrementOnApplyStatModifier, Stat, StatModifier, StatName}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
@@ -42,6 +41,12 @@ class PropertiesContainerTest extends FlatTestSpec with SerializableSpec {
 
   it should "return the actual value of a stat with its modifiers applied" in {
     val calculatedValue: Int = 2
+    propContainer.modifiedStat(StatName.Wisdom) shouldEqual StatFactory.wisdomStat(calculatedValue)
+  }
+
+  it should "return one if the actual value would be less than one" in {
+    val calculatedValue: Int = 1
+    propContainer.statModifiers ::= StatModifier(StatName.Wisdom, DecrementOnApplyStatModifier(2))
     propContainer.modifiedStat(StatName.Wisdom) shouldEqual StatFactory.wisdomStat(calculatedValue)
   }
 

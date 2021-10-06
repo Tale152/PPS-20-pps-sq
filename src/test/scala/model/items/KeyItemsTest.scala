@@ -3,7 +3,6 @@ package model.items
 import mock.MockFactory.ItemFactory
 import mock.MockFactory.ItemFactory._
 import model.characters.properties.PropertiesContainer
-import model.items.KeyItem
 import org.scalatest.BeforeAndAfterEach
 import specs.{FlatTestSpec, ItemSpec, SerializableSpec}
 

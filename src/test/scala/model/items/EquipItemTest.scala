@@ -2,7 +2,6 @@ package model.items
 
 import mock.MockFactory.ItemFactory
 import mock.MockFactory.ItemFactory._
-import model.items.{EquipItem, EquipItemType}
 import org.scalatest.BeforeAndAfterEach
 import specs.{FlatTestSpec, ItemSpec, SerializableSpec}
 

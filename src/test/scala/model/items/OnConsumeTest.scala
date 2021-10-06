@@ -2,7 +2,6 @@ package model.items
 
 import mock.MockFactory.CharacterFactory
 import model.characters.Player
-import model.items.{DecrementHealthOnConsume, IncrementHealthOnConsume}
 import specs.{FlatTestSpec, SerializableSpec}
 
 class OnConsumeTest extends FlatTestSpec with SerializableSpec {
