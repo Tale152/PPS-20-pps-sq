@@ -306,6 +306,19 @@ L'interfaccia mette a disposizione metodi utili per reperire informazioni come:
 
 ## 4.5 - Scelte Rilevanti View
 
+Per quanto riguarda la view abbiamo adottato un approccio incrementale nel corso dei vari sprint, limitandoci in una prima fase ad una console che restituisse in output informazioni sugli spostamenti tra i vari nodi, successivamente trasformata in una GUI in java Swing che permettesse di interagire con il fulcro dell'applicativo cioè la navigazione dei vari nodi che compongono la trama. 
+Da questo scheletro iniziale abbiamo ampliato la gui inserendo tutte le interfacce necessarie per integrare funzioni implementate successivamente del gioco, per farlo abbiamo creato un set di pannelli ed elementi grafici personalizzati altamente riusati in ogni schermata contenuti nel package view.util.
+
+Il core della view è dato dall'oggetto Frame che contiene appunto il frame principale, all'interno del quale vengono renderizzati i vari pannelli che compongono la view, andando così a formare un'architettura modulare. All'interno di questo oggetto vengono incapsulate tutte le proprietà che il frame dovrà rispettare, estetiche e funzionali.
+
+Il package della view è diviso in sotto-packages contenenti ognuno una view principale e tutti i pannelli da essa utilizzati (contenuti in un apposito package view.<nomeView>.panels). Di seguito illustreremo i principali.
+
+## 4.5.1 - Menu principale
+
+## 4.5.2 - Schermate di gioco
+
+## 4.5.3 - Schermate dell'editor
+
 ## 4.6 - Pattern di progettazione
 
 ### 4.6.1 - Model View Controller (MVC)
