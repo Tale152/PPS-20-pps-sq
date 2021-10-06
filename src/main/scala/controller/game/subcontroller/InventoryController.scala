@@ -63,7 +63,8 @@ object InventoryController {
 
     override def use(item: Item)(target: Character): Unit = {
       item.use(storyModel.player)(target)
-      updateView()
+      //allows the player to use only a single item during a battle
+      if (currentlyInBattle()) gameMasterController.executeOperation(OperationType.BattleOperation) else updateView()
     }
 
     override def discard(item: Item): Unit = {
