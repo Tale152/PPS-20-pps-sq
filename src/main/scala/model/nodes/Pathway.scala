@@ -7,7 +7,7 @@ import model.nodes.StoryNode.MutableStoryNode
  * navigate the story nodes.
  * Optionally, the possibility to choose a pathway is dictated by a prerequisite.
  */
-trait Pathway extends Serializable {
+sealed trait Pathway extends Serializable {
 
   /**
    * @return a String that describes the choice that will be taken choosing the Pathway
@@ -47,7 +47,7 @@ object Pathway {
 /**
  * Mutable version of [[Pathway]], where data can be changed.
  */
-trait MutablePathway extends Pathway {
+sealed trait MutablePathway extends Pathway {
 
   /**
    * A String that describes the choice that will be taken choosing the Pathway.
