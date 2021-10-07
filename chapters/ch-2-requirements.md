@@ -17,7 +17,7 @@ L'applicazione dovrà disporre delle seguenti caratteristiche:
 ## 2.2 - Requisiti utente
 I requisiti utente esprimono i bisogni degli utenti e descrivono quali sono le azioni che l’utente deve poter effettuare interagendo con il sistema.  
 
-Al fine di esprimere in maniera concisa tali requisiti sono stati impiegati le User stories e i Casi d'uso.
+Al fine di esprimere in maniera concisa tali requisiti sono stati impiegati le __User stories__ e i __Casi d'uso__.
 
 ### 2.2.1 - User stories
 Le user stories sono delle specifiche informali, scritte dal punto di vista dell'utente finale, che descrivono ad alto livello le funzionalità che il sistema dovrà possedere.
@@ -90,7 +90,9 @@ Il diagramma UML dei casi d'uso è visto dal "lato gaming", cioè vuole esprimer
   <p align="center">Diagramma dei casi d'uso - lato gaming</p>
 </div>
 
-Un aspetto di grande importanza nella progettazione del sistema è sicuramente la possibilità di aggiungere potenzialmente un numero illimitato di storie; il sistema riuscirà ad interpretare queste ultime e farà navigare l'utente all'interno di esse. È dunque fondamentale che l'utente possa aggiungere nuove storie (reperendole da fonti esterne o creandone di nuove attraverso l'editor) e navigare tra esse scegliendo quale giocare.
+Un aspetto di grande importanza nella progettazione del sistema è sicuramente la possibilità di aggiungere potenzialmente un numero illimitato di storie; il sistema riuscirà ad interpretare queste ultime e farà navigare l'utente all'interno di esse.  
+
+È dunque fondamentale che l'utente possa aggiungere nuove storie (reperendole da fonti esterne o creandone di nuove attraverso l'editor) e navigare tra esse scegliendo quale giocare.
 
 ## 2.3 - Requisiti funzionali
 I requisiti funzionali riguardano le funzionalità che il sistema deve mettere a disposizione all'utente. Per la loro definizione è necessario basarsi sui requisiti utente estratti in precedenza.  
