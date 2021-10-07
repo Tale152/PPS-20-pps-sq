@@ -68,11 +68,6 @@ object StoryNode {
    */
   sealed trait MutableStoryNode extends StoryNode {
     /**
-     * The story node ID.
-     */
-    val id: Int
-
-    /**
      * The story node narrative.
      */
     var narrative: String
