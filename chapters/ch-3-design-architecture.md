@@ -2,7 +2,6 @@
 Questo capitolo punta a descrivere il design architetturale del sistema ad alto livello, per poi riprendere una vista ancora più dettagliata nel capitolo 4.  
 
 ## 3.1 - Architettura complessiva
-
 <div align="center">
     <img src="https://images2.imgbox.com/b2/c1/oq4wqOwC_o.png" alt="Vista ad alto livello StoryNodes e Pathways">
     <p align="center">Architettura complessiva ad alto livello</p>
@@ -13,7 +12,6 @@ L'architettura del sistema segue il pattern MVC, con Controller multipli (ognuno
 ## 3.2 - Descrizione di pattern architetturali utilizzati
 
 ### 3.2.1 - Pattern Model View Controller (MVC)
-
 Model-View-Controller è un pattern architetturale in grado di separare la logica di presentazione dei dati (di cui si occupa la view) dalla logica di business (di cui si occupano model e controller), utilizzando un'architettura multi-tier (basata quindi sui tre livelli da cui prende il nome).
 
 - Model: si occupa di catturare i comportamenti di sistema in termini di dominio del problema; al suo interno pertanto sono definiti dati e logica dell'applicativo.
@@ -24,7 +22,7 @@ Model-View-Controller è un pattern architetturale in grado di separare la logic
 Ad alto livello possiamo inquadrare ogni storia come un grafo contenente nodi (**StoryNode**) interconnessi da archi (**Pathway**) unidirezionali.  
 Il giocatore si muoverà nella storia spostandosi tra i vari StoryNode scegliendo quali Pathway intraprendere.
 
-Ogni StoryNode conterrà al suo interno una *narrative*, identificabile come lo sviluppo testuale della storia che il giocatore potrà leggere; ogni nodo inoltre potrebbe contenere:
+Ogni StoryNode conterrà al suo interno una *narrative*, identificabile come lo sviluppo testuale della storia che il giocatore potrà leggere; ogni nodo inoltre *<u>potrebbe</u>* contenere:
 - un nemico da affrontare;
 - degli eventi da sviluppare;
 - dei Pathway da esplorare per continuare la storia.
@@ -42,14 +40,14 @@ La struttura appena descritta verrà referenziata da uno **StoryModel**, nel qua
 - un riferimento allo StoryNode corrente;
 - un riferimento agli StoryNode visitati precedentemente di modo che sia ricostruibile uno storico.  
 
-Affinchè la struttura di una storia sia ritenuta valida, è stato imposto un vincolo per cui non possano essere presenti cicli all'interno di una storia; uno StoryNode potrà quindi essere visitato una sola volta (non esisteranno strade successive che torneranno nuovamente al nodo già visitato).
+Affinchè la struttura di una storia sia ritenuta valida, è stato imposto un vincolo per cui non possano essere presenti cicli all'interno di una storia; uno StoryNode potrà quindi essere visitato una sola volta (non esisteranno strade successive che torneranno nuovamente ad un nodo già visitato).
 
 <div align="center">
     <img src="https://images2.imgbox.com/54/66/WePb9Out_o.png" alt="Vista ad alto livello StoryModel">
     <p align="center">Vista ad alto livello StoryModel</p>
 </div>
 
-Segue diagramma delle classi ad alto livello del model (una vista più approfondità di tale diagramma verrà affrontata nel capitolo 4).
+Segue diagramma delle classi *ad alto livello* del model (una vista più approfondità di tale diagramma verrà affrontata nel capitolo 4).
 
 <div align="center">
     <img src="https://images2.imgbox.com/29/51/kKkzPT1V_o.png" alt="Diagramma classi Model ad alto livello">
@@ -57,8 +55,8 @@ Segue diagramma delle classi ad alto livello del model (una vista più approfond
 </div>
 
 ### 3.2.3 - Controller
+All'interno del sistema sono presenti più controller; ognuno di essi è associato ad una differente View mentre, per quanto riguarda il Model, le classi da manipolare sono le stesse in comune tra tutti i controller. L'effettivo controllo viene acquisito da un diverso controller dipendentemente dai servizi richiesti in un dato momento.  
 
-All'interno del sistema sono presenti più controller; ognuno di essi è associato ad una differente View mentre, per quanto riguarda il Model, le classi da manipolare sono le stesse in comune tra tutti i controller. L'effettivo controllo viene acquisito da un diverso controller dipendentemente dai servizi necessari in un dato momento.  
 Durante l'esecuzione del programma, il primo controller a prendere la parola è l'__ApplicationControllerSingleton__; la scelta di utilizzare un singleton deriva dal fatto che esisterà sempre una sola e unica istanza di tale controller in quanto esso si trova sulla cima della gerarchia di tutti i controller.
 
 <div align="center">
@@ -70,9 +68,9 @@ Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intrapre
 
 - __Selezione di una storia__  
   L'utente seleziona, attraverso il menu principale, una storia che intende giocare. Dipendentemente dalla presenza o meno di un salvataggio collegato alla storia selezionata, il flusso di controllo si divide in due diramazioni:
-    - *Nuova partita*: questa scelta sarà sempre disponibile, indipendentemente dalla presenza di un salvataggio.  
-    Il controllo viene inizialmente passato al PlayerConfigurationController che, insieme alla View collegata, permette all'utente di creare il proprio personaggio.  
-    Tramite l'input fornito dall'utente viene creato un Player che, insieme alla struttura di StoryNode (recuperata dall'ApplicationControllerSingleton), viene utilizzato per creare uno StoryModel, passando il controllo al GameMasterController.
+    - *Nuova partita*: questa scelta sarà sempre disponibile, indipendentemente dalla presenza o meno di un salvataggio.  
+    Il controllo viene inizialmente passato al **PlayerConfigurationController** che, insieme alla View collegata, permette all'utente di creare il proprio personaggio.  
+    Tramite l'input fornito dall'utente viene creato un Player che, insieme alla struttura di StoryNode (recuperata dall'ApplicationControllerSingleton), viene utilizzato per creare uno StoryModel, passando il controllo al **GameMasterController**.
     <div align="center">
         <img src="https://images2.imgbox.com/da/c3/RgRPV8vL_o.png" alt="Diagramma di sequenza - nuova partita">
         <p align="center">Diagramma di sequenza - nuova partita</p>
@@ -80,14 +78,14 @@ Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intrapre
 
     - *Continua partita*: differentemente dalla precedente, questa opzione sarà disponibile solo in presenza di un salvataggio.  
     In questo caso l'utente non avrà necessità di creare un nuovo personaggio in quanto esso sarà già stato creato in una sessione di gioco precedente.  
-    L'ApplicationControllerSingleton dunque reperirà la storia e il salvataggio annesso ricreando lo StoryModel e riportando il giocatore nella stessa situazione in cui egli aveva salvato il proprio progresso; lo StoryModel ricostruito verrà dunque utilizzato dal GameMasterController per continuare il gioco.
+    L'ApplicationControllerSingleton dunque reperirà la storia e il salvataggio annesso, ricreando lo StoryModel e riportando il giocatore nella stessa situazione in cui egli aveva salvato il proprio progresso; lo StoryModel ricostruito verrà dunque utilizzato dal GameMasterController per continuare il gioco.
       <div align="center">
           <img src="https://images2.imgbox.com/73/3f/X6GPoddK_o.png" alt="Diagramma di sequenza - continua partita">
           <p align="center">Diagramma di sequenza - continua partita</p>
       </div>
 
   Entrambi i flussi di esecuzione condurranno quindi al GameMasterController, così da poter permettere all'utente di giocare.  
-  Il GameMasterController dispone di molteplici SubController; ognuno dei quali utilizza il GameMasterController come "ponte" richiamando il metodo executeOperation e specificando quale altro SubController desidera passare il controllo.  
+  Il GameMasterController dispone di molteplici **SubController**; ognuno dei quali utilizza il GameMasterController come "ponte" richiamando il metodo *executeOperation* e specificando quale altro SubController desidera passare il controllo.  
   Quando il GameMasterController riceverà una richiesta di esecuzione di un'operazione, reperirà il SubController specificato e garantirà ad esso il controllo.
     <div align="center">
         <img src="https://images2.imgbox.com/17/b7/4LOzH674_o.png" alt="Diagramma di sequenza - esecuzione di una partita">
@@ -100,7 +98,7 @@ Partendo dunque dall'ApplicationController, il flusso d'esecuzione può intrapre
   Vi sono in questo caso un solo Controller e una sola View; per l'effettiva manipolazione dei dati, una volta che l'utente avrà selezionato l'operazione che intende compiere, la View creerà dei form attraverso il componente FormBuilder da noi implementato al fine di permettere all'utente di inserire dell'input.
 
 ### 3.2.4 - View
-L'organizzazione del lato View è molto semplice: esiste un'unica interfaccia (chiamata per l'appunto View) che vincola le sue implementazioni concrete a implementare il metodo render.  
+L'organizzazione del lato View è molto semplice: esiste un'unica interfaccia (chiamata per l'appunto **View**) che vincola le sue implementazioni concrete a implementare il metodo *render*.  
 
 Ogni View lavorerà in concomitanza con un'implementazione concreta di Controller.  
 Quando verrà chiamato il metodo execute su un Controller, quest'ultimo richiamerà il metodo render della View concreta associata.
@@ -111,10 +109,12 @@ Quando verrà chiamato il metodo execute su un Controller, quest'ultimo richiame
 </div>
 
 ## 3.3 - Scelte tecnologiche cruciali ai fini architetturali
+
 ### 3.3.1 - Tecnologie scartate
 In questa sezione verranno illustrate alcune tecnologie che in fase di analisi sono state prese in considerazione e successivamente abbandonate. Seguono descrizioni e motivazioni.
+
 ### 3.3.2 - Modello ad attori (Akka)
-Durante la progettazione della parte dei Controller sono state riscontrate alcune similarità tra il modello proposto (quello finale, già illustrato precedentemente) e il [modello ad attori](https://doc.akka.io/docs/akka/current/typed/actors.html#:~:text=com%2Fakka%2Fakka-,Akka%20Actors,correct%20concurrent%20and%20parallel%20systems).
+Durante la progettazione della parte dei Controller, sono state riscontrate alcune similarità tra il modello proposto (quello finale, già illustrato precedentemente) e il [modello ad attori](https://doc.akka.io/docs/akka/current/typed/actors.html#:~:text=com%2Fakka%2Fakka-,Akka%20Actors,correct%20concurrent%20and%20parallel%20systems).
 Per quanto riguarda la fase di gioco infatti, nel modello proposto un Controller principale (_GameMasterController_) si occupa di creare i sub controller e funge da loro coordinatore.
 I controller erano quindi inizialmente stati pensati in modo differente. Modificando sensibilmente la struttura del pattern MVC si puntava a far diventare i Controller degli Attori.
 
@@ -129,7 +129,7 @@ Alcuni benefici di questa modellazione:
 - Un'eventuale estensione del gioco nel distribuito sarebbe probabilmente più facilmente sviluppabile.
 - È possibile avere molta più varietà sui contenuti che i controller possono mandarsi tra loro; molto utile nel caso in cui i controller abbiano bisogno di coordinarsi tra loro e prendere decisioni in funzione dello stato degli altri.
 > **_Un esempio_** :  
-durante una battaglia è possibile utilizzare oggetti all'interno dell'inventario. Esistono quindi due controller, _InventoryController_ e _BattleController_ che dialogano tra loro. Grazie al modello ad attori _BattleController_ potrebbe capire se è stato utilizzato uno strumento o no in base al tipo o al contenuto di un messaggio inviat da _InventoryController_.
+durante una battaglia è possibile utilizzare oggetti all'interno dell'inventario. Esistono quindi due controller, _InventoryController_ e _BattleController_ che dialogano tra loro. Grazie al modello ad attori, _BattleController_ potrebbe capire se è stato utilizzato uno strumento o no in base al tipo o al contenuto di un messaggio inviato da _InventoryController_.
 
 Nelle fasi iniziali del progetto sono stati realizzati alcuni prototipi dell'applicazione aventi questa struttura e sono stati riscontrate le seguenti criticità:
 - Trasformare i Controller in attori significherebbe trasformare anche le View in attori, facendo venire ancora meno la struttura del pattern MVC.
@@ -137,7 +137,7 @@ Nelle fasi iniziali del progetto sono stati realizzati alcuni prototipi dell'app
 - La natura dell'applicazione non richiede mai che più di un attore esegua il suo comportamento in contemporanea ad altri.
 - Il modello a scambio di messaggi pecca in performance: inviare messaggi è generalmente un'operazione più lenta rispetto alla chiamata di metodo.
 
-A seguito di questa analisi è stato unimamente deciso di non utilizzare il framework Akka e di seguire il pattern MVC.
+A seguito di questa analisi è stato deciso di non utilizzare il framework Akka e di seguire il pattern MVC.
 
 ### 3.3.3 - Serializzazione e deserializzazione tramite librerie json
 Le specifiche del progetto richiedono il salvataggio di alcune informazioni su dei supporti di memorizzazione, presumibilmente file.  
