@@ -305,53 +305,64 @@ L'interfaccia mette a disposizione metodi utili per reperire informazioni come:
  Le modalità sono illustrate nella sezione dedicata all'[utilizzo del paradigma logico](#utilizzo-del-paradigma-logico)
 
 ## 4.5 - Scelte Rilevanti View
+<div align="center">
+<img src="https://images2.imgbox.com/1b/70/I3PKo1qj_o.png" alt="Diagramma delle classi - View">
+<p align="center">Diagramma delle classi - View</p>
+</div>
 
-Per quanto riguarda la view abbiamo adottato un approccio incrementale nel corso dei vari sprint, limitandoci in una prima fase ad una console che restituisse in output informazioni sugli spostamenti tra i vari nodi, successivamente trasformata in una GUI in java Swing che permettesse di interagire con il fulcro dell'applicativo cioè la navigazione dei vari nodi che compongono la trama.
-Da questo scheletro iniziale abbiamo ampliato la gui inserendo tutte le interfacce necessarie per integrare funzioni implementate successivamente del gioco, per farlo abbiamo creato un set di pannelli ed elementi grafici personalizzati altamente riusati in ogni schermata contenuti nel package view.util.
+Per quanto riguarda la view abbiamo adottato un approccio incrementale nel corso dei vari sprint, limitandoci in una prima fase ad una console che restituisse in output informazioni sugli spostamenti tra i vari nodi, successivamente trasformata in una GUI in java Swing che permettesse di interagire con il fulcro dell'applicativo cioè la navigazione dei vari nodi che compongono la trama.  
+Da questo scheletro iniziale abbiamo ampliato la gui inserendo tutte le interfacce necessarie per integrare funzioni implementate successivamente del gioco, per farlo abbiamo creato un set di pannelli ed elementi grafici personalizzati spesso riusati in ogni schermata contenuti nel package view.util.
 
-Il core della view è dato dall'oggetto Frame che contiene appunto il frame principale, all'interno del quale vengono renderizzati i vari pannelli che compongono la view, andando così a formare un'architettura modulare.
+Il core della view è dato dall'oggetto __Frame__, singleton che contiene appunto il frame principale all'interno del quale vengono renderizzati i vari pannelli che compongono la view, formando così un'architettura modulare.  
 All'interno di questo oggetto vengono incapsulate tutte le proprietà che il frame dovrà rispettare, estetiche e funzionali.
 
-Il trait di più alto livello che definisce le varie schermate è View e contiene un metodo "render" che si occupa appunto di renderizzare gli elementi grafici della view in questione.
-Per astratte dalla scelta implementativa che prevede l'utilizzo di java.swing abbiamo poi predisposto una classe astratta AbstractView che estendesse View e SqSwingPanel, pannello creato ad hoc per ScalaQuest basato su JPanel. In questa classe definiamo le operazioni effettuate dal metodo render.
+L'interfaccia di più alto livello che definisce le varie schermate è __View__ il quale contiene il metodo _render_ che si occupa appunto di renderizzare gli elementi grafici della view in questione.  
+Per astrarre dalla scelta implementativa che prevede l'utilizzo di Swing, abbiamo poi predisposto una classe astratta __AbstractView__ che estendesse View e SqSwingPanel, pannello creato ad hoc per ScalaQuest basato su JPanel.
 
-Il package della view è diviso in sotto-packages contenenti ognuno una view principale che estende AbstractView (pertanto assume il comportamento di un pannello custom) ed è a sua volta composta da altri pannelli, contenuti in un apposito package view.nomeSchermata.panels. Di seguito illustreremo i principali.
+In questa classe, sfruttando il pattern __template method__, definiamo le operazioni comuni effettuate dal metodo render, richiedendo che solamente il metodo _populateView_ venga reimplementato nelle classi che estendono AbstractView.
+
+Il package della view è diviso in sotto-packages contenenti ognuno una view principale che estende AbstractView (pertanto assume il comportamento di un pannello custom) che, a sua volta, è composta da altri pannelli, contenuti in un apposito package view.nomeSchermata.panels. Di seguito illustreremo i principali.
 
 ## 4.5.1 - Menu principale
-
-l'entry point per l'utente una volta avviato l'applicativo è il menu, il cui compito principale è quello di mostrare l'elenco di storie disponibili seguite da un tutorial. Le operazioni che l'utente può svolgere da questa prima schermata sono:
-- avvio di una avventura
+L'entry point per l'utente una volta avviato l'applicativo è il menu (__MainMenuView__), il cui compito principale è quello di mostrare l'elenco di storie disponibili seguite da un tutorial. Le operazioni che l'utente può svolgere da questa prima schermata sono:
+- avvio di un'avventura
 - aggiunta di una nuova avventura esterna
-- cancellazione di una avventura già presente
+- cancellazione di un'avventura già presente
 - accesso all'editor
 - silenziare/desilenziare l'audio di sistema
 - uscire dall'applicativo
 
-L'unico metodo esposto dal menù principale è quello che permette di aggiungervi storie, esso pertanto estenderà DeserializationView, una interfaccia che a sua volta estende AbstractView ma gestisce la eccezioni sulla errata serializzazione delle storie, dovute a obsolescenza dei file che le contengono o formattazione errata.
+L'unico metodo esposto dal menù principale è quello che permette di aggiungervi storie, esso pertanto estenderà _DeserializationView_, una interfaccia che a sua volta estende AbstractView ma gestisce la eccezioni sulla errata serializzazione delle storie, dovute a obsolescenza dei file che le contengono o formattazione errata.
 
-La schermata che viene mostrata in seguito alla scelta di una storia senza salvataggi permette all'utente di impostare le sue statistiche iniziali ed inserire il nome del protagonista. 
+La schermata che viene mostrata in seguito alla scelta di una storia senza salvataggi (__PlayerConfigurationView__) permette all'utente di impostare le sue statistiche iniziali ed inserire il nome del protagonista.  
 Per un utilizzo più agevole dei vari layout abbiamo predisposto delle classi astratte contenute in SqSwingPanel che specifichino a priori il layout assegnato al pannello che si va a creare ed utilizzare.
 
 ## 4.5.2 - StoryView e schermate di gioco
+Una volta avviato il gioco viene mostrata la __StoryView__, composta da diversi pannelli, il pannello dei controlli (in alto) permette all'utente di:
+- monitorare i suoi progressi di gioco (__HistoryView__)
+- controllare le sue statistiche (__PlayerInfoView__)
+- accedere all'inventario (__InventoryView__)
+- salvare i progressi di gioco (__ProgressSaverView__)
+- attivare o disattivare l'audio di gioco
+- uscire dal gioco
 
-Una volta avviato il gioco viene mostrata la schermata presente in figura, composta da diversi pannelli, il pannello dei controlli (in alto) permette all'utente di:
-- monitorare i suoi progressi di gioco (History)
-- controllare le sue statistiche in tempo reale (Status)
-- accedere all'inventario (Inventory)
-- salvare i progressi di gioco (save progress)
-- attivare o disattivare l'audio di gioco (Mute/UnMute)
-- uscire dal gioco (Quit)
+Al centro della schermata vi è un pannello che mostra la trama del nodo narrativo corrente, su cui è posta l'attenzione dell'utente, mentre sul fondo abbiamo posto i comandi relativi al path che l'utente sceglierà di percorrere.  
+La ricezione di un evento è gestita dalla view mostrando degli appositi dialog personalizzati, contenuti nel package _view.scalaQuestSwingComponent.dialog_, che estendono la classe astratta __SqAbstractSwingDialog__.
 
-Al centro della schermata c'è un pannello che mostra la trama del nodo narrativo corrente, su cui è posta l'attenzione dell'utente, mentre sul fondo abbiamo posto i comandi relativi al path che l'utente sceglierà di percorrere. 
-La ricezione di un evento è gestita dalla view mostrando degli appositi dialog personalizzati, contenuti nel package view.scalaQuestSwingComponent.dialog, che estendono la classe astratta SqAbstractSwingDialog.
+Nel caso di una battaglia, verrà richiamata la __BattleView__.
 
-Da questa schermata tramite eventi come l'avvento di una battaglia o interazioni da parte dell'utente è possibile accedere a tutte le altre view di gioco.
+## 4.5.3 - Editor
+La schermata dell'editor a cui si può accedere dal menu principale si divide in due finestre distinte:
+- quella principale (__EditorView__) mostra all'utente varie opzioni per la creazione di nuove storie o la modifica di storie già esistenti, grazie ad un pannello scrollabile (riutilizzato anche nella view di gioco) al centro della schermata che contiene tutte le opzioni disponibili; 
+- la seconda schemata mostra graficamente all'utente la struttura della storia che si sta creando o precedentemente caricata, in modo da fornirgli un aiuto visivo per la creazione di nuove avventure (questa è stata realizzata con il supporto della libreria esterna _GraphStream_).
 
-## 4.5.3 - Schermate dell'editor
+Per agevolare la creazione di interfacce grafiche connesse ai pulsanti per permettere all'utente di manipolare la struttura di una storia, è stata creata la classe __Form__; attraverso tale classe, in combinazione con __FormBuilder__ (che, come suggerito dal nome, utilizza il pattern builder), è possibile creare in qualche secondo form di input relativamente complessi.
 
-La schermata dell'editor a cui si può accedere dal menu principale si divide in due schermate distinte, quella principale mostra all'utente varie opzioni per la creazione di nuove storie o la modifica di storie già esistenti, grazie ad un pannello scrollabile (riutilizzato anche nella view di gioco) che ritroviamo al centro della schermata. 
-La seconda schemata mostra graficamente all'utente la struttura della storia che si sta creando o precedentemente caricata, in modo da fornirgli un aiuto visivo per la creazione di nuove avventure.
-Per agevolare la creazione di interfacce connesse ai pulsanti per permettere all'utente di creare la struttura di una storia abbiamo predisposto un package view.form, contenente un formBuilder la cui funzione è quella di aggiungere elementi comuni a più schermate all'interno di un'apposita form (che estende AbstractView).
+__PathwayDetailsView__ e __StoryNodeDetailsView__ sono invece view di supporto dedicate a mostrare dettagli rispettivamente di uno specifico Pathway o di uno specifico StoryNode. 
+
+## 4.5.4 - Explorer
+Attraverso l'editor, usando il tasto _info_, è possibile accedere all'Explorer (__ExplorerView__), realizzato in Prolog. Attraverso questa funzionalità sarà possibile effettuare molteplici operazioni di esplorazione della storia.  
+L'interfaccia grafica è molto simile a quella dell'editor, esponendo una serie verticale di bottoni che permettono di accedere alle varie funzionalità offerte; ognuna di queste, similmente all'editor, richiamerà dei form generati dinamicamente tramite il FormBuilder.
 
 ## 4.6 - Pattern di progettazione
 
