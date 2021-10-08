@@ -12,34 +12,39 @@ import javax.swing.BoxLayout
 
 /**
  * A sub-view of the EditorView. Used to display info about a Pathway.
- * @param originNode the StoryNode that originates the Pathway
- * @param pathway the Pathway to display info about
- * @param editorController the EditorController instance
  */
-case class PathwayDetailsView(private val originNode: StoryNode,
-                              private val pathway: Pathway,
-                              private val editorController: EditorController) extends AbstractView{
+sealed trait PathwayDetailsView extends AbstractView
 
-  this.setLayout(new BorderLayout())
-  private val centerPanel = new SqSwingBoxPanel(BoxLayout.Y_AXIS){}
+object PathwayDetailsView {
 
-  override def populateView(): Unit = {
-    centerPanel.add(SqSwingTextArea(
-      "Origin node: " + originNode.id + "\nDestination node: " + pathway.destinationNode.id +
-      "\nDescription:\n" + pathway.description +
-      "\nHas prerequisite: " + pathway.prerequisite.nonEmpty
-    ))
-    if(pathway.prerequisite.nonEmpty){
-      pathway.prerequisite.get match {
-        case statPrerequisite: StatPrerequisite => centerPanel.add(
-          SqSwingTextArea("Prerequisite on stat: " + statPrerequisite.statName + " " + statPrerequisite.value)
-        )
-        case itemPrerequisite: ItemPrerequisite => centerPanel.add(
-          SqSwingTextArea("Prerequisite on key item: " + itemPrerequisite.item.name)
-        )
+  private case class PathwayDetailsViewImpl(private val originNode: StoryNode,
+                                private val pathway: Pathway,
+                                private val editorController: EditorController) extends PathwayDetailsView{
+
+    this.setLayout(new BorderLayout())
+    private val centerPanel = new SqSwingBoxPanel(BoxLayout.Y_AXIS){}
+
+    override def populateView(): Unit = {
+      centerPanel.add(SqSwingTextArea(
+        "Origin node: " + originNode.id + "\nDestination node: " + pathway.destinationNode.id +
+          "\nDescription:\n" + pathway.description +
+          "\nHas prerequisite: " + pathway.prerequisite.nonEmpty
+      ))
+      if(pathway.prerequisite.nonEmpty){
+        pathway.prerequisite.get match {
+          case statPrerequisite: StatPrerequisite => centerPanel.add(
+            SqSwingTextArea("Prerequisite on stat: " + statPrerequisite.statName + " " + statPrerequisite.value)
+          )
+          case itemPrerequisite: ItemPrerequisite => centerPanel.add(
+            SqSwingTextArea("Prerequisite on key item: " + itemPrerequisite.item.name)
+          )
+        }
       }
+      this.add(Scrollable(centerPanel))
+      this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => editorController.execute())))), BorderLayout.SOUTH)
     }
-    this.add(Scrollable(centerPanel))
-    this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => editorController.execute())))), BorderLayout.SOUTH)
   }
+
+  def apply(originNode: StoryNode, pathway: Pathway, editorController: EditorController): PathwayDetailsView =
+    PathwayDetailsViewImpl(originNode, pathway, editorController)
 }
