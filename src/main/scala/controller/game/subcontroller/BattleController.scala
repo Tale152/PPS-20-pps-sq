@@ -179,8 +179,11 @@ object BattleController {
 
     private def escapeCondition: Boolean = {
       val enemy: Enemy = storyModel.currentStoryNode.enemy.get
-      Random.nextInt(escapeChance - (storyModel.player.properties.modifiedStat(StatName.Intelligence).value -
-        enemy.properties.modifiedStat(StatName.Dexterity).value)) == 0
+      val escapeBaseValue: Int = escapeChance - (
+        storyModel.player.properties.modifiedStat(StatName.Intelligence).value -
+          enemy.properties.modifiedStat(StatName.Dexterity).value)
+
+      Random.nextInt(if (escapeBaseValue > 0) escapeBaseValue else 1) == 0
     }
 
     private def escapeFailed(): Unit = {
