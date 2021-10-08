@@ -12,93 +12,99 @@ import view.util.scalaQuestSwingComponents.{SqSwingBoxPanel, SqSwingTextArea}
 import java.awt.BorderLayout
 import javax.swing.BoxLayout
 
+sealed trait StoryNodeDetailsView extends AbstractView
+
 /**
  * A sub-view of the EditorView. Used to display info about a StoryNode.
- * @param storyNode the StoryNode to display info about
- * @param editorController the EditorController instance
  */
-case class StoryNodeDetailsView(private val storyNode: StoryNode, private val editorController: EditorController)
-  extends AbstractView {
+object StoryNodeDetailsView {
+  private case class StoryNodeDetailsViewImpl(private val storyNode: StoryNode,
+                                              private val editorController: EditorController)
+    extends StoryNodeDetailsView {
 
-  this.setLayout(new BorderLayout())
-  private val centerPanel = new SqSwingBoxPanel(BoxLayout.Y_AXIS) {}
+    this.setLayout(new BorderLayout())
+    private val centerPanel = new SqSwingBoxPanel(BoxLayout.Y_AXIS) {}
 
-  override def populateView(): Unit = {
-    centerPanel.add(SqSwingTextArea(
-      "ID: " + storyNode.id +
-        "\n\nNarrative:\n" + storyNode.narrative +
-        "\n\nNumber of nodes reaching this node: " +
-        editorController.pathwaysControls.getAllStartNodes(storyNode.id).size +
-        "\nNumber of nodes reached by this node: " + storyNode.pathways.size
-    ))
-    if (storyNode.enemy.nonEmpty) {
-      centerPanel.add(SqSwingTextArea(enemyString(storyNode.enemy.get)))
-    }
-    if (storyNode.events.nonEmpty) {
-      var str = "Events:\n"
-      storyNode.events.foreach {
-        case statEvent: StatEvent => str = str + "\n" + statEventString(statEvent) + "\n"
-        case itemEvent: ItemEvent => str = str + "\n" + itemEventString(itemEvent) + "\n"
+    override def populateView(): Unit = {
+      centerPanel.add(SqSwingTextArea(
+        "ID: " + storyNode.id +
+          "\n\nNarrative:\n" + storyNode.narrative +
+          "\n\nNumber of nodes reaching this node: " +
+          editorController.pathwaysControls.getAllStartNodes(storyNode.id).size +
+          "\nNumber of nodes reached by this node: " + storyNode.pathways.size
+      ))
+      if (storyNode.enemy.nonEmpty) {
+        centerPanel.add(SqSwingTextArea(enemyString(storyNode.enemy.get)))
       }
-      centerPanel.add(SqSwingTextArea(str))
+      if (storyNode.events.nonEmpty) {
+        var str = "Events:\n"
+        storyNode.events.foreach {
+          case statEvent: StatEvent => str = str + "\n" + statEventString(statEvent) + "\n"
+          case itemEvent: ItemEvent => str = str + "\n" + itemEventString(itemEvent) + "\n"
+        }
+        centerPanel.add(SqSwingTextArea(str))
+      }
+      this.add(Scrollable(centerPanel), BorderLayout.CENTER)
+      this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => editorController.execute())))), BorderLayout.SOUTH)
     }
-    this.add(Scrollable(centerPanel), BorderLayout.CENTER)
-    this.add(ControlsPanel(List(("q", ("[Q] Quit", _ => editorController.execute())))), BorderLayout.SOUTH)
+
+    private def enemyString(enemy: Enemy): String = {
+      "Enemy: " + enemy.name +
+        "\nHealth: " + enemy.maxPS +
+        "\nCharisma: " + enemy.properties.stat(Charisma).value +
+        "\nConstitution: " + enemy.properties.stat(Constitution).value +
+        "\nDexterity: " + enemy.properties.stat(Dexterity).value +
+        "\nIntelligence: " + enemy.properties.stat(Intelligence).value +
+        "\nStrength: " + enemy.properties.stat(Strength).value +
+        "\nWisdom: " + enemy.properties.stat(Wisdom).value
+    }
+
+    private def itemEventString(itemEvent: ItemEvent): String = itemEvent.item match {
+      case keyItem: KeyItem => keyItemEventString(keyItem, itemEvent)
+      case equipItem: EquipItem => equipItemEventString(equipItem, itemEvent)
+      case consumableItem: ConsumableItem => consumableItemEventString(consumableItem, itemEvent)
+      case item: Item => item.toString
+    }
+
+    private def itemTypeString(item: Item): String = item match {
+      case _: KeyItem => "Key Item"
+      case _: EquipItem => "Equip Item"
+      case _: ConsumableItem => "Consumable Item"
+      case item: Item => item.toString
+    }
+
+    private def itemEventString(item: Item, itemEvent: ItemEvent, additionalItemText: String = ""): String = {
+      itemTypeString(item) + ":" +
+        "\nName:\n" + item.name +
+        "\nDescription:\n" + item.description +
+        additionalItemText +
+        "\nNarrative upon finding the item:\n" + itemEvent.description
+    }
+
+    private def keyItemEventString(keyItem: KeyItem, itemEvent: ItemEvent): String =
+      itemEventString(keyItem, itemEvent)
+
+    private def equipItemEventString(equipItem: EquipItem, itemEvent: ItemEvent): String = {
+      val equipItemAdditionalText = "\nType: " + equipItem.equipItemType.toString +
+        "\nCharisma: " + equipItem.statModifiers.filter(m => m.statName == Charisma).head.onApply(0) +
+        "\nConstitution: " + equipItem.statModifiers.filter(m => m.statName == Constitution).head.onApply(0) +
+        "\nDexterity: " + equipItem.statModifiers.filter(m => m.statName == Dexterity).head.onApply(0) +
+        "\nIntelligence: " + equipItem.statModifiers.filter(m => m.statName == Intelligence).head.onApply(0) +
+        "\nStrength: " + equipItem.statModifiers.filter(m => m.statName == Strength).head.onApply(0) +
+        "\nWisdom: " + equipItem.statModifiers.filter(m => m.statName == Wisdom).head.onApply(0)
+      itemEventString(equipItem, itemEvent, equipItemAdditionalText)
+    }
+
+    private def consumableItemEventString(consumableItem: ConsumableItem, itemEvent: ItemEvent): String =
+      itemEventString(consumableItem, itemEvent)
+
+    private def statEventString(statEvent: StatEvent): String =
+      "Stat modifier:" +
+        "\nEffect: " + statEvent.statModifier.statName.toString + " " + statEvent.statModifier.onApply(0) +
+        "\nDescription:\n" + statEvent.description
+
   }
 
-  private def enemyString(enemy: Enemy): String = {
-    "Enemy: " + enemy.name +
-      "\nHealth: " + enemy.maxPS +
-      "\nCharisma: " + enemy.properties.stat(Charisma).value +
-      "\nConstitution: " + enemy.properties.stat(Constitution).value +
-      "\nDexterity: " + enemy.properties.stat(Dexterity).value +
-      "\nIntelligence: " + enemy.properties.stat(Intelligence).value +
-      "\nStrength: " + enemy.properties.stat(Strength).value +
-      "\nWisdom: " + enemy.properties.stat(Wisdom).value
-  }
-
-  private def itemEventString(itemEvent: ItemEvent): String = itemEvent.item match {
-    case keyItem: KeyItem => keyItemEventString(keyItem, itemEvent)
-    case equipItem: EquipItem => equipItemEventString(equipItem, itemEvent)
-    case consumableItem: ConsumableItem => consumableItemEventString(consumableItem, itemEvent)
-    case item: Item => item.toString
-  }
-
-  private def itemTypeString(item: Item): String = item match {
-    case _: KeyItem => "Key Item"
-    case _: EquipItem => "Equip Item"
-    case _: ConsumableItem => "Consumable Item"
-    case item: Item => item.toString
-  }
-
-  private def itemEventString(item: Item, itemEvent: ItemEvent, additionalItemText: String = ""): String = {
-    itemTypeString(item) + ":" +
-      "\nName:\n" + item.name +
-      "\nDescription:\n" + item.description +
-      additionalItemText +
-      "\nNarrative upon finding the item:\n" + itemEvent.description
-  }
-
-  private def keyItemEventString(keyItem: KeyItem, itemEvent: ItemEvent): String =
-    itemEventString(keyItem, itemEvent)
-
-  private def equipItemEventString(equipItem: EquipItem, itemEvent: ItemEvent): String = {
-    val equipItemAdditionalText = "\nType: " + equipItem.equipItemType.toString +
-      "\nCharisma: " + equipItem.statModifiers.filter(m => m.statName == Charisma).head.onApply(0) +
-      "\nConstitution: " + equipItem.statModifiers.filter(m => m.statName == Constitution).head.onApply(0) +
-      "\nDexterity: " + equipItem.statModifiers.filter(m => m.statName == Dexterity).head.onApply(0) +
-      "\nIntelligence: " + equipItem.statModifiers.filter(m => m.statName == Intelligence).head.onApply(0) +
-      "\nStrength: " + equipItem.statModifiers.filter(m => m.statName == Strength).head.onApply(0) +
-      "\nWisdom: " + equipItem.statModifiers.filter(m => m.statName == Wisdom).head.onApply(0)
-    itemEventString(equipItem, itemEvent, equipItemAdditionalText)
-  }
-
-  private def consumableItemEventString(consumableItem: ConsumableItem, itemEvent: ItemEvent): String =
-    itemEventString(consumableItem, itemEvent)
-
-  private def statEventString(statEvent: StatEvent): String =
-    "Stat modifier:" +
-      "\nEffect: " + statEvent.statModifier.statName.toString + " " + statEvent.statModifier.onApply(0) +
-      "\nDescription:\n" + statEvent.description
-
+  def apply(storyNode: StoryNode, editorController: EditorController): StoryNodeDetailsView =
+    StoryNodeDetailsViewImpl(storyNode, editorController)
 }
