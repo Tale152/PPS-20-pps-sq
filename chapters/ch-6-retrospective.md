@@ -122,11 +122,20 @@ Alla conclusione di questo sprint tutto era finito, non erano rimasti task e tut
 Nel complesso al termine di questo sprint siamo stati molto soddisfatti.
 
 ## 6.2 - Conclusioni
-### 6.2.1 - Breve sintesi
+### 6.2.1 - Considerazioni finali
+
+Lo svolgimento di questo progetto ci ha permesso di cimentarci in un approccio mai seguito prima: il lavoro infatti è stato organizzato seguendo gli standard definiti dal framework Scrum e utilizzando la metodologia *agile*.  
+Questo ha permesso ai membri del gruppo di stabilire delle tempistiche ben precise sulle consegne dei task, evitando il più possibile ritardi. Per questa ragione, al termine degli Sprint non ci siamo trovati con lavoro arretrato, nonostante siano state aggiunte alcune feature non previste inizialmente.  
+
+Ci siamo concentrati molto sul cercare di fare una buona analisi del dominio applicativo e progettazione, per far sì che la documentazione prodotta potesse evolversi con il progetto.  
+
+Il gruppo ha avuto un riscontro positivo nell'approfondimento del paradigma funzionale e del paradigma logico, che ci ha anche permesso rifattorizzare il codice in modo più consapevole successivamente.  
+
+Per concludere riteniamo che il progetto sia stato svolto con successo e, attraverso di esso abbiamo avuto modo di mettere in pratica ciò che è stato insegnato nel corso.
+
 
 ### 6.2.2 - Sviluppi futuri
-Il gruppo evidenzia i seguenti aspetti per poter aggiungere ulteriori funzionalità al
-sistema realizzato:
+Il gruppo evidenzia i seguenti aspetti per poter aggiungere ulteriori funzionalità al sistema realizzato:
 
 - Estensione dell'applicazione ad un sistema multiplayer (locale o online).
 - Estesione alle possibilità di aggiungere storie
@@ -141,4 +150,6 @@ sistema realizzato:
   * consentire all'utente di effettaure operazioni direttamente sul grafo renderizzato.
 - Estensione del sistema di musica:
   * permettere all'utente che crea la storia di scegliere anche la musica da riprodurre in certi nodi o in determinate situazioni.
-- Miglioramento dell'estetica e della user experience in generale.
+- Miglioramento dell'estetica e della user experience in generale.  
+
+---
