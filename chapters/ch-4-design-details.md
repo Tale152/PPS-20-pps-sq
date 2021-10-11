@@ -324,6 +324,11 @@ In questa classe, sfruttando il pattern __template method__, definiamo le operaz
 Il package della view è diviso in sotto-packages contenenti ognuno una view principale che estende AbstractView (pertanto assume il comportamento di un pannello custom) che, a sua volta, è composta da altri pannelli, contenuti in un apposito package view.nomeSchermata.panels. Di seguito illustreremo i principali.
 
 ## 4.5.1 - Menu principale
+<div align="center">
+<img src="https://images2.imgbox.com/e3/17/1GSYjyW7_o.png" alt="Diagramma delle classi - Sezione MainMenuView">
+<p align="center">Diagramma delle classi - Sezione MainMenuView</p>
+</div>
+
 L'entry point per l'utente una volta avviato l'applicativo è il menu (__MainMenuView__), il cui compito principale è quello di mostrare l'elenco di storie disponibili seguite da un tutorial. Le operazioni che l'utente può svolgere da questa prima schermata sono:
 - avvio di un'avventura
 - aggiunta di una nuova avventura esterna
@@ -338,6 +343,12 @@ La schermata che viene mostrata in seguito alla scelta di una storia senza salva
 Per un utilizzo più agevole dei vari layout abbiamo predisposto delle classi astratte contenute in SqSwingPanel che specifichino a priori il layout assegnato al pannello che si va a creare ed utilizzare.
 
 ## 4.5.2 - StoryView e schermate di gioco
+
+<div align="center">
+<img src="https://images2.imgbox.com/6d/aa/8D9VO5X4_o.png" alt="Diagramma delle classi - Sezione StoryView">
+<p align="center">Diagramma delle classi - Sezione StoryView</p>
+</div>
+
 Una volta avviato il gioco viene mostrata la __StoryView__, composta da diversi pannelli, il pannello dei controlli (in alto) permette all'utente di:
 - monitorare i suoi progressi di gioco (__HistoryView__)
 - controllare le sue statistiche (__PlayerInfoView__)
@@ -351,7 +362,13 @@ La ricezione di un evento è gestita dalla view mostrando degli appositi dialog 
 
 Nel caso di una battaglia, verrà richiamata la __BattleView__.
 
-## 4.5.3 - Editor
+## 4.5.3 - EditorView
+
+<div align="center">
+<img src="https://images2.imgbox.com/82/6c/TjTukeUV_o.png" alt="Diagramma delle classi - Sezione EditorView">
+<p align="center">Diagramma delle classi - Sezione EditorView</p>
+</div>
+
 La schermata dell'editor a cui si può accedere dal menu principale si divide in due finestre distinte:
 - quella principale (__EditorView__) mostra all'utente varie opzioni per la creazione di nuove storie o la modifica di storie già esistenti, grazie ad un pannello scrollabile (riutilizzato anche nella view di gioco) al centro della schermata che contiene tutte le opzioni disponibili; 
 - la seconda schemata mostra graficamente all'utente la struttura della storia che si sta creando o precedentemente caricata, in modo da fornirgli un aiuto visivo per la creazione di nuove avventure (questa è stata realizzata con il supporto della libreria esterna _GraphStream_).
@@ -360,9 +377,15 @@ Per agevolare la creazione di interfacce grafiche connesse ai pulsanti per perme
 
 __PathwayDetailsView__ e __StoryNodeDetailsView__ sono invece view di supporto dedicate a mostrare dettagli rispettivamente di uno specifico Pathway o di uno specifico StoryNode. 
 
-## 4.5.4 - Explorer
-Attraverso l'editor, usando il tasto _info_, è possibile accedere all'Explorer (__ExplorerView__), realizzato in Prolog. Attraverso questa funzionalità sarà possibile effettuare molteplici operazioni di esplorazione della storia.  
-L'interfaccia grafica è molto simile a quella dell'editor, esponendo una serie verticale di bottoni che permettono di accedere alle varie funzionalità offerte; ognuna di queste, similmente all'editor, richiamerà dei form generati dinamicamente tramite il FormBuilder.
+## 4.5.4 - ExplorerView
+
+<div align="center">
+<img src="https://images2.imgbox.com/0f/70/naMOHfBl_o.png" alt="Diagramma delle classi - Sezione ExplorerView">
+<p align="center">Diagramma delle classi - Sezione ExplorerView</p>
+</div>
+
+Attraverso l'editor, usando il tasto _info_, è possibile accedere all'Explorer (__ExplorerView__). Attraverso questa funzionalità sarà possibile effettuare molteplici operazioni di esplorazione della storia.  
+L'interfaccia grafica è molto simile a quella dell'editor, esponendo una serie verticale di bottoni che permettono di accedere alle varie funzionalità offerte; alcune di queste, similmente all'editor, richiameranno dei form generati dinamicamente tramite il FormBuilder.
 
 ## 4.6 - Pattern di progettazione
 
